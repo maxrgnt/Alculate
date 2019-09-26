@@ -25,6 +25,7 @@
 		66AF5881233C149B00502EEA /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5880233C149B00502EEA /* Input.swift */; };
 		66AF5884233C1ECF00502EEA /* InputNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5883233C1ECF00502EEA /* InputNavigation.swift */; };
 		66AF5886233C252A00502EEA /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5885233C252A00502EEA /* AppNavigation.swift */; };
+		66CDFCFA233D75F600267670 /* AlculateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* AlculateData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		66AF5880233C149B00502EEA /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		66AF5883233C1ECF00502EEA /* InputNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNavigation.swift; sourceTree = "<group>"; };
 		66AF5885233C252A00502EEA /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
+		66CDFCF9233D75F600267670 /* AlculateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlculateData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 		66AF587B233C140700502EEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				66CDFCF9233D75F600267670 /* AlculateData.swift */,
 				66AF587E233C148300502EEA /* Extensions.swift */,
 			);
 			path = Model;
@@ -347,6 +350,7 @@
 				66AF5846233A33E900502EEA /* ContentView.swift in Sources */,
 				66AF5874233A898600502EEA /* Header.swift in Sources */,
 				66AF5886233C252A00502EEA /* AppNavigation.swift in Sources */,
+				66CDFCFA233D75F600267670 /* AlculateData.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,
 				66AF5884233C1ECF00502EEA /* InputNavigation.swift in Sources */,

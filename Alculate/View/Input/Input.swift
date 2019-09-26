@@ -107,7 +107,7 @@ class Input: UIView, UITextFieldDelegate {
         let fieldText = fields[level].titleLabel!.text!
         let inputDefault = defaults[level]
         if sender.tag == 0 {
-            resetInput()
+            resetAndExit()
         }
         // moving forward and input != default || moving backward and not at beginning
         else if sender.tag == 1 && fieldText != inputDefault || sender.tag == -1 && level != 0 {
@@ -119,7 +119,6 @@ class Input: UIView, UITextFieldDelegate {
             if newLevel >= 0 && newLevel <= 4 {
                 // calculate constant to move inputView up or down based on level
                 let newConstant = UI.Sizing.inputTop - (UI.Sizing.inputTextHeight * CGFloat(newLevel))
-                print("tag: \(sender.tag) newLevel: \(level) newConstant: \(round(newConstant))")
                 shiftInput(by: newConstant, toLevel: newLevel)
             }
         }
@@ -143,8 +142,11 @@ class Input: UIView, UITextFieldDelegate {
         }
         // if fourth level (doesn't exist, after price) exit
         if newLevel == 4 {
-            resetInput()
             /* SAVE ANSWERS */
+            AlculateData.saveNewAlcohol(ofType: "beer", named: output[0], withABVof: Double(output[1])!)
+            /* UPDATE ALC LIST IF NEW */
+            // Reset input view
+            resetAndExit()
             return
         }
         // if made it this far, update the level
@@ -160,7 +162,7 @@ class Input: UIView, UITextFieldDelegate {
         layoutIfNeeded()
     }
         
-    func resetInput() {
+    func resetAndExit() {
         // reset to NAME
         level = 0
         inputTop.constant = 0
@@ -174,7 +176,6 @@ class Input: UIView, UITextFieldDelegate {
         // reset field labels
         for i in 0..<fields.count {
             fields[i].setTitle(defaults[i], for: .normal)
-            print("resetting: ",fields[i].titleLabel!.text!)
         }
     }
     

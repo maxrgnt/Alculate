@@ -47,12 +47,14 @@ class ViewController: UIViewController {
         //
         userInput.build()
           
-        clearTestData()
+        //clearTestData()
+        AlculateData.loadAlcoholData()
         handleInit()
         
     }
     
     func clearTestData(){
+        AlculateData.deleteCoreDataFor(entity: "Alcohol")
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, InputDelegate {
 
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
@@ -43,10 +43,13 @@ class ViewController: UIViewController {
         header.build()
         //
         appNavigation.build()
-        appNavigation.middle.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        appNavigation.beer.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        appNavigation.liquor.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        appNavigation.wine.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         //
         userInput.build()
-          
+        self.userInput.inputDelegate = self
+        
         //clearTestData()
         AlculateData.loadAlcoholData()
         handleInit()
@@ -95,11 +98,19 @@ class ViewController: UIViewController {
     }
 
     @objc func navigateApp(sender: UIButton) {
-        if sender.tag == 0 {
+        if sender.tag >= 20 {
+            let types = ["BEER","LIQUOR","WINE"]
+            userInput.type.text = types[sender.tag-20]
+            userInput.backgroundColor = UI.Color.alcoholTypes[sender.tag-20]
             let inputTop = -(UI.Sizing.keyboard+(UI.Sizing.headerHeight*2)+UI.Sizing.userInputRadius)
             userInput.inputTop.constant = inputTop
             userInput.textField.becomeFirstResponder()
         }
+    }
+    
+    func displayAlert(alert : UIAlertController) {
+        print("6")
+        present(alert, animated: true, completion: nil)
     }
         
 }

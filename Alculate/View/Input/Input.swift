@@ -10,10 +10,13 @@ import UIKit
 
 class Input: UIView, UITextFieldDelegate {
     
+    var inputDelegate : InputDelegate!
+    
     var inputTop = NSLayoutConstraint()
     //
     let textField = UITextField()
     //
+    let type = UILabel()
     let name = UIButton()
     let suggestion = UIButton()
     let abv = UIButton()
@@ -52,6 +55,11 @@ class Input: UIView, UITextFieldDelegate {
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         //
+        type.translatesAutoresizingMaskIntoConstraints = false
+        type.textColor = .white
+        type.textAlignment = .center
+        addSubview(type)
+        //
         let buttons = [name,abv,size,price]
         for i in 0..<buttons.count {
             buttons[i].translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +91,10 @@ class Input: UIView, UITextFieldDelegate {
             heightAnchor.constraint(equalToConstant: UI.Sizing.userInputHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             inputTop,
+            type.topAnchor.constraint(equalTo: topAnchor),
+            type.centerXAnchor.constraint(equalTo: centerXAnchor),
+            type.heightAnchor.constraint(equalToConstant: UI.Sizing.userInputRadius),
+            type.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
             nameTop,
             suggestionHeight,
             suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
@@ -143,10 +155,9 @@ class Input: UIView, UITextFieldDelegate {
         // if fourth level (doesn't exist, after price) exit
         if newLevel == 4 {
             /* SAVE ANSWERS */
-            AlculateData.saveNewAlcohol(ofType: "beer", named: output[0], withABVof: Double(output[1])!)
+            
             /* UPDATE ALC LIST IF NEW */
-            // Reset input view
-            resetAndExit()
+            saveAndExit()
             return
         }
         // if made it this far, update the level
@@ -160,6 +171,25 @@ class Input: UIView, UITextFieldDelegate {
         // layout changes made to constants
         /* ANIMATE */
         layoutIfNeeded()
+    }
+    
+    func saveAndExit() {
+        let name = output[0]
+        let savedAbv = AlculateData.alcoholData[type.text!]![name]!
+        let abv = output[1]
+        if savedAbv != abv {
+            let title = "Reset \(name)'s ABV?"
+            //let message = "\nfrom \(savedAbv)% to \(abv)%?"
+            let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+            changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
+                AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                self.resetAndExit()
+            }))
+            changeAbv.addAction(UIAlertAction(title: "Use \(savedAbv)%", style: .default, handler: { action in
+                self.resetAndExit()
+            }))
+            self.inputDelegate.displayAlert(alert: changeAbv)
+        }
     }
         
     func resetAndExit() {
@@ -181,6 +211,13 @@ class Input: UIView, UITextFieldDelegate {
     
     // MARK: - Functions (Suggestion)
     @objc func useSuggestion() {
+        if let namesByType = AlculateData.alcoholData[type.text!] {
+            if let abvByName = namesByType[name.titleLabel!.text!] {
+                output[0] = name.titleLabel!.text!
+                output[1] = abvByName
+                abv.setTitle(output[1], for: .normal)
+            }
+        }
         // hide suggestion bar
         suggestionHeight.constant = 0
         suggestion.setTitle("", for: .normal)
@@ -205,18 +242,6 @@ class Input: UIView, UITextFieldDelegate {
         
     @objc func textFieldDidChange(_ textField: UITextField) {
         // if NAME
-        if level == 0 {
-            let inputWithSuggestion = UI.Sizing.inputTop - (UI.Sizing.inputTextHeight)
-            // if suggestion not presented, present suggestion
-            if inputTop.constant != inputWithSuggestion {
-                inputTop.constant = inputWithSuggestion
-                suggestionHeight.constant = UI.Sizing.inputTextHeight
-                layoutIfNeeded()
-            }
-            // update suggestion with new text
-            let newSuggestion = "Use '\(textField.text!)'?"
-            suggestion.setTitle(newSuggestion, for: .normal)
-        }
         // update with textField text
         fields[level].setTitle(textField.text!, for: .normal)
         // if textfield gets reset to "" set to default
@@ -227,11 +252,33 @@ class Input: UIView, UITextFieldDelegate {
                 hideSuggestion()
             }
         }
-        
+        if level == 0 {
+            if let namesByType = AlculateData.alcoholData[type.text!] {
+                // if suggestion exists and not presented, present suggestion
+                if namesByType[name.titleLabel!.text!] != nil {
+                    inputTop.constant = UI.Sizing.inputTop - (UI.Sizing.inputTextHeight)
+                    suggestionHeight.constant = UI.Sizing.inputTextHeight
+                    layoutIfNeeded()
+                    // update suggestion with new text
+                    let newSuggestion = "Use '\(name.titleLabel!.text!)'?"
+                    suggestion.setTitle(newSuggestion, for: .normal)
+                }
+                // hide suggestion
+                else {
+                    hideSuggestion()
+                }
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+protocol InputDelegate {
+    // called when user taps subview/delete button
+    //   or, you could call it from a gesture handler, etc.
+    func displayAlert(alert: UIAlertController)
 }

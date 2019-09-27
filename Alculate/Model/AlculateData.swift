@@ -15,10 +15,17 @@ struct AlculateData {
     
     var alcohols: [Alcohol] = []
     static var matrix = [String: [String]]()
-    static var alcoholData = [String: (String, Double)]() {
+    static var alcoholData = [String: [String: String]]() {
         didSet {
             // get all alcohol names out of alcohol data
-            let alcoholNames = Array(alcoholData.keys)
+            var alcoholNames = [String]()
+            for type in ["BEER","LIQUOR","WINE"] {
+                if let namesByType = alcoholData[type]?.keys {
+                    for name in namesByType {
+                        alcoholNames.append(name)
+                    }
+                }
+            }
             // set headers to empty
             var headers: [String] = []
             // go through every alcohol in list of alcohol names
@@ -139,14 +146,13 @@ struct AlculateData {
         for alcohol in alcohols {
             let name = alcohol.name!
             let type = alcohol.type!
-            let abv = alcohol.abv
-            //print("name: \(name)")
-            AlculateData.alcoholData[name] = (type, abv)
+            let abv = alcohol.abv!
+            AlculateData.alcoholData[type] = [name: abv]
         }
         print("AlculateData:\n",AlculateData.alcoholData)
     }
     
-    static func saveNewAlcohol(ofType type: String, named name: String, withABVof abv: Double) {
+    static func saveNewAlcohol(ofType type: String, named name: String, withABVof abv: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext

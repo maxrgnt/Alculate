@@ -67,6 +67,7 @@ struct UI {
 //        static let red = UIColor(displayP3Red: 197/255, green: 40/255, blue: 61/255, alpha: 1.0)
         static let softWhite = UIColor(displayP3Red: 189/255, green: 213/255, blue: 234/255, alpha: 1.0)
 //        static let green = UIColor(displayP3Red: 124/255, green: 255/255, blue: 203/255, alpha: 1.0)
+        static let alcoholTypes = [UIColor.lightGray, UIColor.gray, UIColor.darkGray]
     }
     
     static func printUI() {

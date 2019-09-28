@@ -32,7 +32,6 @@ struct UI {
         //
         static let tableViewHeight = height*(tableViewRatio)
         //
-        static var keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
                 inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)

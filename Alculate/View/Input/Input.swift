@@ -36,6 +36,8 @@ class Input: UIView, UITextFieldDelegate {
     let inputNavigation = InputNavigation()
     //
     var output = ["NAME","ABV","SIZE","PRICE"]
+    //
+    var useThisSuggestion = ""
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -175,20 +177,26 @@ class Input: UIView, UITextFieldDelegate {
     
     func saveAndExit() {
         let name = output[0]
-        let savedAbv = AlculateData.alcoholData[type.text!]![name]!
         let abv = output[1]
-        if savedAbv != abv {
-            let title = "Reset \(name)'s ABV?"
-            //let message = "\nfrom \(savedAbv)% to \(abv)%?"
-            let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-            changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
-                AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
-                self.resetAndExit()
-            }))
-            changeAbv.addAction(UIAlertAction(title: "Use \(savedAbv)%", style: .default, handler: { action in
-                self.resetAndExit()
-            }))
-            self.inputDelegate.displayAlert(alert: changeAbv)
+        if let savedAbv = AlculateData.alcoholData[type.text!]![name] {
+            if savedAbv != abv {
+                let title = "Reset \(name)'s ABV?"
+                //let message = "\nfrom \(savedAbv)% to \(abv)%?"
+                let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+                changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
+                    AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    self.resetAndExit()
+                }))
+                changeAbv.addAction(UIAlertAction(title: "Use \(savedAbv)%", style: .default, handler: { action in
+                    self.resetAndExit()
+                }))
+                self.inputDelegate.displayAlert(alert: changeAbv)
+            }
+        }
+        else {
+            AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+            self.inputDelegate.reloadTable()
+            self.resetAndExit()
         }
     }
         
@@ -212,11 +220,10 @@ class Input: UIView, UITextFieldDelegate {
     // MARK: - Functions (Suggestion)
     @objc func useSuggestion() {
         if let namesByType = AlculateData.alcoholData[type.text!] {
-            if let abvByName = namesByType[name.titleLabel!.text!] {
-                output[0] = name.titleLabel!.text!
-                output[1] = abvByName
-                abv.setTitle(output[1], for: .normal)
-            }
+            output[0] = useThisSuggestion
+            output[1] = namesByType[useThisSuggestion]!
+            name.setTitle(useThisSuggestion, for: .normal)
+            abv.setTitle(output[1], for: .normal)
         }
         // hide suggestion bar
         suggestionHeight.constant = 0
@@ -253,20 +260,26 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         if level == 0 {
-            if let namesByType = AlculateData.alcoholData[type.text!] {
-                // if suggestion exists and not presented, present suggestion
-                if namesByType[name.titleLabel!.text!] != nil {
-                    inputTop.constant = UI.Sizing.inputTop - (UI.Sizing.inputTextHeight)
-                    suggestionHeight.constant = UI.Sizing.inputTextHeight
-                    layoutIfNeeded()
-                    // update suggestion with new text
-                    let newSuggestion = "Use '\(name.titleLabel!.text!)'?"
-                    suggestion.setTitle(newSuggestion, for: .normal)
+            let textLower = textField.text!.lowercased()
+            var arrNames: [String] = []
+            if let tempDict = AlculateData.alcoholData[type.text!] {
+                for key in tempDict.keys {
+                    arrNames.append(key.lowercased())
                 }
-                // hide suggestion
-                else {
-                    hideSuggestion()
-                }
+            }
+            let filtered = arrNames.filter({ $0.contains(textLower) })
+            if !filtered.isEmpty {
+                inputTop.constant = UI.Sizing.inputTop - (UI.Sizing.inputTextHeight)
+                suggestionHeight.constant = UI.Sizing.inputTextHeight
+                layoutIfNeeded()
+                // update suggestion with new text
+                useThisSuggestion = filtered[0].capitalizingFirstLetter()
+                let newSuggestion = "Use '\(filtered[0].capitalizingFirstLetter())'?"
+                suggestion.setTitle(newSuggestion, for: .normal)
+            }
+            // hide suggestion
+            else {
+                hideSuggestion()
             }
         }
     }
@@ -279,6 +292,6 @@ class Input: UIView, UITextFieldDelegate {
 
 protocol InputDelegate {
     // called when user taps subview/delete button
-    //   or, you could call it from a gesture handler, etc.
     func displayAlert(alert: UIAlertController)
+    func reloadTable()
 }

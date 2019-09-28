@@ -46,14 +46,15 @@ class ViewController: UIViewController, InputDelegate {
         appNavigation.beer.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         appNavigation.liquor.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         appNavigation.wine.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        appNavigation.right.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         //
         userInput.build()
         self.userInput.inputDelegate = self
+        //
+        tableOne.build()
         
         //clearTestData()
-        AlculateData.loadAlcoholData()
         handleInit()
-        
     }
     
     func clearTestData(){
@@ -77,9 +78,11 @@ class ViewController: UIViewController, InputDelegate {
         print("hasLaunchedBefore: \(hasLaunched)")
         if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
             // onboarding
+            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
         }
         else {
             // normal run
+            AlculateData.loadAlcoholData()
         }
     }
     
@@ -87,11 +90,10 @@ class ViewController: UIViewController, InputDelegate {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             // keyboard is set with approximate height prior to running (using ratio of keyboard to screen height)
             // if the keyboard has not been set, the exact height is found once keyboard is shown
-            if !UI.Sizing.keyboardSet {
+            if !UserDefaults.standard.bool(forKey: "keyboardSet") {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 UI.Sizing.keyboard = keyboardRectangle.height
                 UserDefaults.standard.set(keyboardRectangle.height, forKey: "keyboard")
-                UI.Sizing.keyboardSet = true
                 UserDefaults.standard.set(true, forKey: "keyboardSet")
             }
         }
@@ -106,11 +108,16 @@ class ViewController: UIViewController, InputDelegate {
             userInput.inputTop.constant = inputTop
             userInput.textField.becomeFirstResponder()
         }
+        if sender.tag == 2 {
+            tableOne.animateLeadingAnchor(constant: 0)
+        }
     }
     
     func displayAlert(alert : UIAlertController) {
-        print("6")
         present(alert, animated: true, completion: nil)
     }
-        
+            
+    func reloadTable() {
+        tableOne.reloadData()
+    }
 }

@@ -10,6 +10,8 @@ import UIKit
 
 class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
+    var tableOneLeading: NSLayoutConstraint!
+    
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
@@ -18,16 +20,20 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     func build() {
         // Miscelaneous view settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .darkGray
+        backgroundColor = .gray
         register(TableOneCell.self, forCellReuseIdentifier: "TableOneCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        // Initialize pan gesture recognizer to dismiss view
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
+        addGestureRecognizer(pan)
         // Set constraints not related to superview (ViewController)
+        tableOneLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
+            tableOneLeading,
+            widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewHeight),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height + UI.Sizing.headerHeight)
             ])
@@ -41,11 +47,11 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
 //    }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return ["MAX"]
+        return AlculateData.headers
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return AlculateData.headers.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -54,15 +60,20 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableOneCell = tableView.dequeueReusableCell(withIdentifier: "TableOneCell") as! TableOneCell
+        let headerLetter = AlculateData.headers[indexPath.section]
+        let nameList = AlculateData.matrix[headerLetter]
+        let name = nameList![indexPath.row]
+        let abv = AlculateData.alcoholData["BEER"]![name]!
+        cell.cellLabel.text = "\(name) - \(abv)%"
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return AlculateData.matrix[AlculateData.headers[section]]!.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.headerHeight*3
+        return UI.Sizing.headerHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -89,6 +100,34 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         // pass
     }
 
+    @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self)
+        // Allow movement of contact card back/forth when not fully visible
+        tableOneLeading.constant += translation.x
+        // If contact card is fully visible, don't allow movement further left
+        if tableOneLeading.constant < 0 {
+            tableOneLeading.constant = 0
+        }
+        // Set recognizer to start new drag gesture in future
+        sender.setTranslation(CGPoint.zero, in: self)
+        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
+        if sender.state == UIGestureRecognizer.State.ended {
+            // Auto-scroll left (in frame)
+            var constant: CGFloat = 0.0
+            // Auto-scroll right (out of frame)
+            if tableOneLeading.constant > UI.Sizing.width/4 {
+                constant = UI.Sizing.width
+            }
+            // Animate to end-point
+            animateLeadingAnchor(constant: constant)
+        }
+    }
+    
+    func animateLeadingAnchor(constant: CGFloat) {
+        tableOneLeading.constant = constant
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

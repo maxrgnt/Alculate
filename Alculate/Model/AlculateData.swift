@@ -14,6 +14,9 @@ struct AlculateData {
     var myInfo = [[String]]()
     
     var alcohols: [Alcohol] = []
+    // set headers to empty
+    static var headers: [String] = []
+    //
     static var matrix = [String: [String]]()
     static var alcoholData = [String: [String: String]]() {
         didSet {
@@ -26,8 +29,6 @@ struct AlculateData {
                     }
                 }
             }
-            // set headers to empty
-            var headers: [String] = []
             // go through every alcohol in list of alcohol names
             for alcohol in alcoholNames {
                 let firstLetterLastName = String(alcohol.prefix(1))
@@ -163,6 +164,7 @@ struct AlculateData {
         alcohol.setValue(abv, forKeyPath: "abv")
         do {
             try managedContext.save()
+            loadAlcoholData()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

@@ -18,19 +18,18 @@ class TableOneCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: "TableOneCell")
         // Miscelaneous view settings
         selectionStyle = .none
-        backgroundColor = .lightGray
+        backgroundColor = .gray
         // View object settings
         addSubview(cellLabel)
         cellLabel.translatesAutoresizingMaskIntoConstraints = false
         cellLabel.textColor = UI.Color.softWhite
         cellLabel.textAlignment = .left
         cellLabel.font = UI.Font.headerFont
-        cellLabel.text = "Test"
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
-            cellLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
-            cellLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*2),
-            cellLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            cellLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
+            cellLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
+            cellLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
             cellLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }

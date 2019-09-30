@@ -23,7 +23,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
     var liquorList = TableTwo()
     var wineList = TableTwo()
     var appNavigation = AppNavigation()
-    var tableOne = TableOne()
+    var masterList = MasterList()
     var userInput = Input()
     
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
-        for subview in [header, topLine, subLine, beerList, liquorList, wineList, appNavigation, tableOne, userInput] {
+        for subview in [header, topLine, subLine, beerList, liquorList, wineList, appNavigation, masterList, userInput] {
             view.addSubview(subview)
         }
         
@@ -73,7 +73,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         userInput.build()
         self.userInput.inputDelegate = self
         //
-        tableOne.build()
+        masterList.build()
         
         //clearTestData()
         handleInit()
@@ -144,7 +144,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         }
         else if sender.tag == 2 {
             resetAddButton()
-            tableOne.animateLeadingAnchor(constant: 0)
+            masterList.animateLeadingAnchor(constant: 0)
         }
     }
     
@@ -167,7 +167,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
             
     func reloadTable(table: String) {
         if table == "masterList" {
-            tableOne.reloadData()
+            masterList.tableOne.reloadData()
         }
         else if table == "beerList" {
             resetDeleteButton()

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol InputDelegate {
+    // called when user taps subview/delete button
+    func displayAlert(alert: UIAlertController)
+    func reloadTable(table: String)
+}
+
 class Input: UIView, UITextFieldDelegate {
     
     var inputDelegate : InputDelegate!
@@ -304,10 +310,4 @@ class Input: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-protocol InputDelegate {
-    // called when user taps subview/delete button
-    func displayAlert(alert: UIAlertController)
-    func reloadTable(table: String)
 }

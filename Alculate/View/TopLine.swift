@@ -11,7 +11,7 @@ import UIKit
 class TopLine: UIView {
          
     // Objects
-    let appName = UILabel()
+    let bestAlcohol = UILabel()
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -25,23 +25,21 @@ class TopLine: UIView {
         backgroundColor = .darkGray
         clipsToBounds = true
         // Object settings
-        addSubview(appName)
-        appName.translatesAutoresizingMaskIntoConstraints = false
-        appName.textColor = UI.Color.softWhite
-        appName.font = UI.Font.headerFont
-        appName.textAlignment = .center
-        appName.text = "TopLine"
-
+        addSubview(bestAlcohol)
+        bestAlcohol.translatesAutoresizingMaskIntoConstraints = false
+        bestAlcohol.textColor = .black
+        bestAlcohol.font = UI.Font.headerFont
+        bestAlcohol.textAlignment = .center
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height+UI.Sizing.headerHeight),
-            appName.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
-            appName.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-            appName.centerXAnchor.constraint(equalTo: centerXAnchor),
-            appName.centerYAnchor.constraint(equalTo: centerYAnchor)
+            bestAlcohol.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
+            bestAlcohol.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
+            bestAlcohol.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bestAlcohol.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }
 

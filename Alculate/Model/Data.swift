@@ -207,6 +207,25 @@ struct Data {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
+
+    static func deleteMaster(wName name: String, wABV abv: String, wType type: String) {
+        // if name exists, this will overwrite that name
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Alcohol")
+        let p1 = NSPredicate(format: "%K == %@", "name", name)
+        let p2 = NSPredicate(format: "%K == %@", "abv", abv)
+        let p3 = NSPredicate(format: "%K == %@", "type", type)
+        deleteFetch.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2, p3])
+        deleteFetch.fetchLimit = 1
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        do {
+            try managedContext.execute(deleteRequest)
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
     
     static func deleteFromList(_ list: String, wName name: String, wABV abv: String, wSize size: String, wPrice price: String) {
         // if name exists, this will overwrite that name

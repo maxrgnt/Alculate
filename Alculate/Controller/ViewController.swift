@@ -9,8 +9,8 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
-
+class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate {
+        
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
     static var trailingAnchor: NSLayoutXAxisAnchor!
@@ -74,6 +74,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         self.userInput.inputDelegate = self
         //
         masterList.build()
+        self.masterList.tableOne.tableOneDelegate = self
         
         //clearTestData()
         handleInit()
@@ -107,6 +108,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
             for list in ["MasterList","BeerList","LiquorList","WineList"] {
                 Data.loadList(for: list)
             }
+            alculate()
         }
     }
     
@@ -166,23 +168,54 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
     }
             
     func reloadTable(table: String) {
+        print("reload")
         if table == "masterList" {
             masterList.tableOne.reloadData()
         }
-        else if table == "beerList" {
+        else {
+            if table == "beerList" {
+                beerList.reloadData()
+            }
+            else if table == "liquorList" {
+                liquorList.reloadData()
+            }
+            else if table == "wineList" {
+                wineList.reloadData()
+            }
             resetDeleteButton()
             resetAddButton()
-            beerList.reloadData()
+            alculate()
         }
-        else if table == "liquorList" {
-            resetDeleteButton()
-            resetAddButton()
-            liquorList.reloadData()
+    }
+
+    func alculate() {
+        var bestAlcohol = (name: "", alc: "0.0")
+        var bestBeer = (name: "", alc: "0.0")
+        var bestLiquor = (name: "", alc: "0.0")
+        var bestWine = (name: "", alc: "0.0")
+        for alc in Data.beerList {
+            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestBeer.alc)! {
+                bestBeer = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            }
         }
-        else if table == "wineList" {
-            resetDeleteButton()
-            resetAddButton() 
-            wineList.reloadData()
+        for alc in Data.liquorList {
+            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestLiquor.alc)! {
+                bestLiquor = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            }
         }
+        for alc in Data.wineList {
+            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestWine.alc)! {
+                bestWine = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            }
+        }
+        for alc in [bestBeer, bestLiquor, bestWine] {
+            if Double(alc.alc)! > Double(bestAlcohol.alc)! {
+                bestAlcohol = (name: alc.name, alc: alc.alc)
+            }
+        }
+        subLine.bestBeer.text = "\(bestBeer.name): \(bestBeer.alc) alc"
+        subLine.bestLiquor.text = "\(bestLiquor.name): \(bestLiquor.alc) alc"
+        subLine.bestWine.text = "\(bestWine.name): \(bestWine.alc) alc"
+        topLine.bestAlcohol.text = "\(bestAlcohol.name): \(bestAlcohol.alc) alc"
     }
 }

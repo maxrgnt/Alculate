@@ -8,8 +8,16 @@
 
 import UIKit
 
-class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
-        
+protocol TableOneDelegate {
+    // called when user taps subview/delete button
+    func displayAlert(alert: UIAlertController)
+    func reloadTable(table: String)
+}
+
+class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TableOneCellDelegate {
+         
+    var tableOneDelegate : TableOneDelegate!
+
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
@@ -49,6 +57,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableOneCell = tableView.dequeueReusableCell(withIdentifier: "TableOneCell") as! TableOneCell
+        cell.delegate = self
         let headerLetter = Data.headers[indexPath.section]
         let nameList = Data.matrix[headerLetter]
         let name = nameList![indexPath.row]
@@ -88,6 +97,31 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     
     func resetHeader() {
         // pass
+    }
+    
+    func remove(cell: TableOneCell) {
+        print("remove")
+        let indexPath = self.indexPath(for: cell)
+        let headerLetter = Data.headers[indexPath!.section]
+        let nameList = Data.matrix[headerLetter]
+        let name = nameList![indexPath!.row]
+        let abv = Data.masterList[name]!.abv
+        let type = Data.masterList[name]!.type
+        //present alerts for confirmation of wallet removal
+        let alert = UIAlertController(title: "Remove Alcohol", message: "Are you sure you want to delete this alcohol?", preferredStyle: .alert)
+        //removal is confirmed
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+            Data.deleteMaster(wName: name, wABV: abv, wType: type)
+            if Data.masterList[name]! == (type: type, abv: abv) {
+                Data.masterList[name] = nil
+            }
+            print(Data.masterList)
+            self.tableOneDelegate.reloadTable(table: "masterList")
+        }))
+        //add the cancel action
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        //present the alert
+        self.tableOneDelegate.displayAlert(alert: alert)
     }
     
     required init?(coder aDecoder: NSCoder) {

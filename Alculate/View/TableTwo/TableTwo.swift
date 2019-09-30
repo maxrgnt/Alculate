@@ -11,6 +11,10 @@ import UIKit
 
 class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
+    var tableTwoDelegate : TableTwoDelegate!
+
+    var willDelete = false
+    
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
@@ -53,7 +57,11 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // pass
+        if willDelete {
+            let info = Data.beerList[indexPath.row]
+            Data.deleteFromList("BeerList", wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+            self.tableTwoDelegate.reloadTable(table: "beerList")
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -80,4 +88,10 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+protocol TableTwoDelegate {
+    // called when user taps subview/delete button
+    func displayAlert(alert: UIAlertController)
+    func reloadTable(table: String)
 }

@@ -145,6 +145,7 @@ struct Data {
             }
         }
         else if list == "BeerList" {
+            Data.beerList = []
             let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "BeerList")
             let objects = try! managedContext.fetch(fetch) as! [BeerList]
             for obj in objects {
@@ -170,7 +171,7 @@ struct Data {
         }
     }
     
-    static func saveToList(for list: String, wName name: String, wABV abv: String, wSize size: String, wPrice price: String) {
+    static func saveToList(_ list: String, wName name: String, wABV abv: String, wSize size: String, wPrice price: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -182,6 +183,27 @@ struct Data {
         listToUpdate.setValue(size, forKeyPath: "size")
         listToUpdate.setValue(price, forKeyPath: "price")
         do {
+            try managedContext.save()
+            loadList(for: list)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    static func deleteFromList(_ list: String, wName name: String, wABV abv: String, wSize size: String, wPrice price: String) {
+        // if name exists, this will overwrite that name
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: list)
+        let p1 = NSPredicate(format: "%K == %@", "name", name)
+        let p2 = NSPredicate(format: "%K == %@", "abv", abv)
+        let p3 = NSPredicate(format: "%K == %@", "size", size)
+        let p4 = NSPredicate(format: "%K == %@", "price", price)
+        deleteFetch.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [p1, p2, p3, p4])
+        deleteFetch.fetchLimit = 1
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        do {
+            try managedContext.execute(deleteRequest)
             try managedContext.save()
             loadList(for: list)
         } catch let error as NSError {

@@ -36,7 +36,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         NSLayoutConstraint.activate([
             tableOneLeading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight*2)-(UI.Sizing.statusBar.height*2)),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height + UI.Sizing.headerHeight)
             ])
     }

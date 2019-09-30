@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, InputDelegate {
+class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
 
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
@@ -50,8 +50,10 @@ class ViewController: UIViewController, InputDelegate {
         subLine.build()
         //
         tableTwo.build()
+        self.tableTwo.tableTwoDelegate = self
         //
         appNavigation.build()
+        appNavigation.left.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         appNavigation.beer.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         appNavigation.liquor.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         appNavigation.wine.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
@@ -118,8 +120,23 @@ class ViewController: UIViewController, InputDelegate {
             userInput.inputTop.constant = inputTop
             userInput.textField.becomeFirstResponder()
         }
-        if sender.tag == 2 {
+        else if sender.tag == 0 {
+            resetAddButton()
+            sender.setTitle("O", for: .normal)
+            if tableTwo.willDelete {
+                sender.setTitle("X", for: .normal)
+            }
+            tableTwo.willDelete = !tableTwo.willDelete
+        }
+        else if sender.tag == 2 {
+            resetAddButton()
             tableOne.animateLeadingAnchor(constant: 0)
+        }
+    }
+    
+    func resetAddButton() {
+        if appNavigation.selectingType {
+            appNavigation.presentAlcoholTypes()
         }
     }
     
@@ -132,6 +149,10 @@ class ViewController: UIViewController, InputDelegate {
             tableOne.reloadData()
         }
         else if table == "beerList" {
+            if tableTwo.willDelete {
+                tableTwo.willDelete = false
+                appNavigation.left.setTitle("X", for: .normal)
+            }
             tableTwo.reloadData()
         }
     }

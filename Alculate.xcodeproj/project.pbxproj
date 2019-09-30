@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		665A6A4E23423FFC002E5761 /* TopLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A4D23423FFC002E5761 /* TopLine.swift */; };
+		665A6A502342408B002E5761 /* SubLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A4F2342408B002E5761 /* SubLine.swift */; };
+		665A6A532342424D002E5761 /* TableTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A522342424D002E5761 /* TableTwo.swift */; };
+		665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A5423424376002E5761 /* TableTwoCell.swift */; };
 		66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF583E233A33E900502EEA /* AppDelegate.swift */; };
 		66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5840233A33E900502EEA /* SceneDelegate.swift */; };
 		66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */; };
@@ -25,7 +29,7 @@
 		66AF5881233C149B00502EEA /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5880233C149B00502EEA /* Input.swift */; };
 		66AF5884233C1ECF00502EEA /* InputNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5883233C1ECF00502EEA /* InputNavigation.swift */; };
 		66AF5886233C252A00502EEA /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5885233C252A00502EEA /* AppNavigation.swift */; };
-		66CDFCFA233D75F600267670 /* AlculateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* AlculateData.swift */; };
+		66CDFCFA233D75F600267670 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		665A6A4D23423FFC002E5761 /* TopLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLine.swift; sourceTree = "<group>"; };
+		665A6A4F2342408B002E5761 /* SubLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLine.swift; sourceTree = "<group>"; };
+		665A6A522342424D002E5761 /* TableTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwo.swift; sourceTree = "<group>"; };
+		665A6A5423424376002E5761 /* TableTwoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwoCell.swift; sourceTree = "<group>"; };
 		66AF583B233A33E900502EEA /* Alculate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alculate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AF583E233A33E900502EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66AF5840233A33E900502EEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +78,7 @@
 		66AF5880233C149B00502EEA /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		66AF5883233C1ECF00502EEA /* InputNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNavigation.swift; sourceTree = "<group>"; };
 		66AF5885233C252A00502EEA /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
-		66CDFCF9233D75F600267670 /* AlculateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlculateData.swift; sourceTree = "<group>"; };
+		66CDFCF9233D75F600267670 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +106,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		665A6A512342422F002E5761 /* TableTwo */ = {
+			isa = PBXGroup;
+			children = (
+				665A6A522342424D002E5761 /* TableTwo.swift */,
+				665A6A5423424376002E5761 /* TableTwoCell.swift */,
+			);
+			path = TableTwo;
+			sourceTree = "<group>";
+		};
 		66AF5832233A33E900502EEA = {
 			isa = PBXGroup;
 			children = (
@@ -166,7 +183,7 @@
 		66AF587B233C140700502EEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				66CDFCF9233D75F600267670 /* AlculateData.swift */,
+				66CDFCF9233D75F600267670 /* Data.swift */,
 				66AF587E233C148300502EEA /* Extensions.swift */,
 			);
 			path = Model;
@@ -176,9 +193,12 @@
 			isa = PBXGroup;
 			children = (
 				66AF5873233A898600502EEA /* Header.swift */,
+				665A6A4D23423FFC002E5761 /* TopLine.swift */,
+				665A6A4F2342408B002E5761 /* SubLine.swift */,
 				66AF5885233C252A00502EEA /* AppNavigation.swift */,
 				66AF5887233C253200502EEA /* Input */,
 				66AF5882233C1EA500502EEA /* TableOne */,
+				665A6A512342422F002E5761 /* TableTwo */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -341,16 +361,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				66AF5872233A4DD500502EEA /* ViewController.swift in Sources */,
+				665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */,
 				66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */,
 				66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */,
 				66AF5881233C149B00502EEA /* Input.swift in Sources */,
 				66AF5878233A916800502EEA /* TableOne.swift in Sources */,
 				66AF587A233A92B700502EEA /* TableOneCell.swift in Sources */,
 				66AF587F233C148300502EEA /* Extensions.swift in Sources */,
+				665A6A532342424D002E5761 /* TableTwo.swift in Sources */,
+				665A6A4E23423FFC002E5761 /* TopLine.swift in Sources */,
 				66AF5846233A33E900502EEA /* ContentView.swift in Sources */,
 				66AF5874233A898600502EEA /* Header.swift in Sources */,
+				665A6A502342408B002E5761 /* SubLine.swift in Sources */,
 				66AF5886233C252A00502EEA /* AppNavigation.swift in Sources */,
-				66CDFCFA233D75F600267670 /* AlculateData.swift in Sources */,
+				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,
 				66AF5884233C1ECF00502EEA /* InputNavigation.swift in Sources */,

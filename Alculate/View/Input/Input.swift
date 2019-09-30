@@ -178,14 +178,15 @@ class Input: UIView, UITextFieldDelegate {
     func saveAndExit() {
         let name = output[0]
         let abv = output[1]
-        if let info = AlculateData.alcoholData[name] {
+        if let info = Data.masterList[name] {
             let savedAbv = info.abv
             if savedAbv != abv {
                 let title = "Reset \(name)'s ABV?"
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
-                    AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    Data.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    self.inputDelegate.reloadTable(table: "masterList")
                     self.resetAndExit()
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Use \(savedAbv)%", style: .default, handler: { action in
@@ -195,9 +196,17 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         else {
-            AlculateData.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
-            self.inputDelegate.reloadTable()
-            self.resetAndExit()
+            Data.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+            self.inputDelegate.reloadTable(table: "masterList")
+        }
+        updateTableTwo()
+        self.resetAndExit()
+    }
+    
+    func updateTableTwo() {
+        if type.text! == "BEER" {
+            Data.saveToBeerList(named: output[0], withABVof: output[1], andSizeOf: output[2], andPriceOf: output[3])
+            self.inputDelegate.reloadTable(table: "beerList")
         }
     }
         
@@ -221,7 +230,7 @@ class Input: UIView, UITextFieldDelegate {
     // MARK: - Functions (Suggestion)
     @objc func useSuggestion() {
         output[0] = useThisSuggestion
-        output[1] = AlculateData.alcoholData[useThisSuggestion]!.abv
+        output[1] = Data.masterList[useThisSuggestion]!.abv
         name.setTitle(useThisSuggestion, for: .normal)
         abv.setTitle(output[1], for: .normal)
         // hide suggestion bar
@@ -261,8 +270,8 @@ class Input: UIView, UITextFieldDelegate {
         if level == 0 {
             let textLower = textField.text!.lowercased()
             var arrNames: [String] = []
-            for key in AlculateData.alcoholData.keys {
-                if type.text! == AlculateData.alcoholData[key]!.type {
+            for key in Data.masterList.keys {
+                if type.text! == Data.masterList[key]!.type {
                     arrNames.append(key.lowercased())
                 }
             }
@@ -292,5 +301,5 @@ class Input: UIView, UITextFieldDelegate {
 protocol InputDelegate {
     // called when user taps subview/delete button
     func displayAlert(alert: UIAlertController)
-    func reloadTable()
+    func reloadTable(table: String)
 }

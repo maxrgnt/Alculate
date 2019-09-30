@@ -36,7 +36,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         NSLayoutConstraint.activate([
             tableOneLeading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewHeight),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight*2)-(UI.Sizing.statusBar.height*2)),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height + UI.Sizing.headerHeight)
             ])
     }
@@ -49,11 +49,11 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
 //    }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return AlculateData.headers
+        return Data.headers
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return AlculateData.headers.count
+        return Data.headers.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -62,17 +62,17 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableOneCell = tableView.dequeueReusableCell(withIdentifier: "TableOneCell") as! TableOneCell
-        let headerLetter = AlculateData.headers[indexPath.section]
-        let nameList = AlculateData.matrix[headerLetter]
+        let headerLetter = Data.headers[indexPath.section]
+        let nameList = Data.matrix[headerLetter]
         let name = nameList![indexPath.row]
-        let abv = AlculateData.alcoholData[name]!.abv
-        let type = AlculateData.alcoholData[name]!.type
+        let abv = Data.masterList[name]!.abv
+        let type = Data.masterList[name]!.type
         cell.cellLabel.text = "\(name): \(abv)% [\(type)]"
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AlculateData.matrix[AlculateData.headers[section]]!.count
+        return Data.matrix[Data.headers[section]]!.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

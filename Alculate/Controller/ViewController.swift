@@ -17,6 +17,9 @@ class ViewController: UIViewController, InputDelegate {
     static var bottomAnchor: NSLayoutYAxisAnchor!
 
     var header = Header()
+    var topLine = TopLine()
+    var subLine = SubLine()
+    var tableTwo = TableTwo()
     var appNavigation = AppNavigation()
     var tableOne = TableOne()
     var userInput = Input()
@@ -36,11 +39,17 @@ class ViewController: UIViewController, InputDelegate {
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
-        for subview in [header, appNavigation, tableOne, userInput] {
+        for subview in [header, topLine, subLine, tableTwo, appNavigation, tableOne, userInput] {
             view.addSubview(subview)
         }
         
         header.build()
+        //
+        topLine.build()
+        //
+        subLine.build()
+        //
+        tableTwo.build()
         //
         appNavigation.build()
         appNavigation.beer.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
@@ -58,7 +67,7 @@ class ViewController: UIViewController, InputDelegate {
     }
     
     func clearTestData(){
-        AlculateData.deleteCoreDataFor(entity: "Alcohol")
+        Data.deleteCoreDataFor(entity: "Alcohol")
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
@@ -82,7 +91,8 @@ class ViewController: UIViewController, InputDelegate {
         }
         else {
             // normal run
-            AlculateData.loadAlcoholData()
+            Data.loadAlcoholData()
+            Data.loadBeerList()
         }
     }
     
@@ -117,7 +127,12 @@ class ViewController: UIViewController, InputDelegate {
         present(alert, animated: true, completion: nil)
     }
             
-    func reloadTable() {
-        tableOne.reloadData()
+    func reloadTable(table: String) {
+        if table == "masterList" {
+            tableOne.reloadData()
+        }
+        else if table == "beerList" {
+            tableTwo.reloadData()
+        }
     }
 }

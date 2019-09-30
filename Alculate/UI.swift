@@ -12,7 +12,9 @@ struct UI {
     
     // main size ratios
     static let headerRatio: CGFloat = 0.07
-    static let tableViewRatio: CGFloat = 0.93 // 0.84
+    static let topLineRatio: CGFloat = 0.1225
+    static let subLineRatio: CGFloat = 0.105
+    static let tableViewRatio: CGFloat = (1-(headerRatio*2)-topLineRatio-subLineRatio) // 0.84
     static let userInputRatio: CGFloat = 0.75 // 0.84
     static let adBannerRatio: CGFloat = 0.0 // 0.09
     
@@ -28,9 +30,12 @@ struct UI {
         static let objectPadding = statusBar.height/2
         static let widthObjectPadding = width-statusBar.height
         //
-        static let headerHeight = height*(headerRatio)
+        static let headerHeight = height*headerRatio
         //
-        static let tableViewHeight = height*(tableViewRatio)
+        static let topLineHeight = height*topLineRatio
+        static let subLineHeight = height*subLineRatio
+        //
+        static let tableViewHeight = height*(tableViewRatio)-statusBar.height
         //
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
@@ -54,6 +59,7 @@ struct UI {
         static let normalFont = "Avenir"
         static let lightFont = "Avenir-Light"
         static let headerFont = UIFont(name: lightFont, size: 30)
+        static let cellFont = UIFont(name: normalFont, size: 14)
     }
     
     // colors

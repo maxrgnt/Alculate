@@ -19,7 +19,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
     var header = Header()
     var topLine = TopLine()
     var subLine = SubLine()
-    var tableTwo = TableTwo()
+    var beerList = TableTwo()
+    var liquorList = TableTwo()
+    var wineList = TableTwo()
     var appNavigation = AppNavigation()
     var tableOne = TableOne()
     var userInput = Input()
@@ -39,7 +41,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
-        for subview in [header, topLine, subLine, tableTwo, appNavigation, tableOne, userInput] {
+        for subview in [header, topLine, subLine, beerList, liquorList, wineList, appNavigation, tableOne, userInput] {
             view.addSubview(subview)
         }
         
@@ -49,8 +51,17 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         //
         subLine.build()
         //
-        tableTwo.build()
-        self.tableTwo.tableTwoDelegate = self
+        beerList.build(forType: "BEER")
+        self.beerList.tableTwoDelegate = self
+        beerList.tableTwoLeading.constant = 0
+        //
+        liquorList.build(forType: "LIQUOR")
+        self.liquorList.tableTwoDelegate = self
+        liquorList.tableTwoLeading.constant = UI.Sizing.width*(1/3)
+        //
+        wineList.build(forType: "WINE")
+        self.wineList.tableTwoDelegate = self
+        wineList.tableTwoLeading.constant = UI.Sizing.width*(2/3)
         //
         appNavigation.build()
         appNavigation.left.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
@@ -93,8 +104,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         }
         else {
             // normal run
-            Data.loadList(for: "MasterList")
-            Data.loadList(for: "BeerList")
+            for list in ["MasterList","BeerList","LiquorList","WineList"] {
+                Data.loadList(for: list)
+            }
         }
     }
     
@@ -123,10 +135,12 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         else if sender.tag == 0 {
             resetAddButton()
             sender.setTitle("O", for: .normal)
-            if tableTwo.willDelete {
+            if beerList.willDelete {
                 sender.setTitle("X", for: .normal)
             }
-            tableTwo.willDelete = !tableTwo.willDelete
+            beerList.willDelete = !beerList.willDelete
+            liquorList.willDelete = !liquorList.willDelete
+            wineList.willDelete = !wineList.willDelete
         }
         else if sender.tag == 2 {
             resetAddButton()
@@ -140,6 +154,13 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
         }
     }
     
+    func resetDeleteButton() {
+        beerList.willDelete = false
+        liquorList.willDelete = false
+        wineList.willDelete = false
+        appNavigation.left.setTitle("X", for: .normal)
+    }
+    
     func displayAlert(alert : UIAlertController) {
         present(alert, animated: true, completion: nil)
     }
@@ -149,11 +170,19 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate {
             tableOne.reloadData()
         }
         else if table == "beerList" {
-            if tableTwo.willDelete {
-                tableTwo.willDelete = false
-                appNavigation.left.setTitle("X", for: .normal)
-            }
-            tableTwo.reloadData()
+            resetDeleteButton()
+            resetAddButton()
+            beerList.reloadData()
+        }
+        else if table == "liquorList" {
+            resetDeleteButton()
+            resetAddButton()
+            liquorList.reloadData()
+        }
+        else if table == "wineList" {
+            resetDeleteButton()
+            resetAddButton() 
+            wineList.reloadData()
         }
     }
 }

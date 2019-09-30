@@ -12,6 +12,8 @@ import CoreData
 struct Data {
     
     static var beerList = [(name: String, abv: String, size: String, price: String)]()
+    static var liquorList = [(name: String, abv: String, size: String, price: String)]()
+    static var wineList = [(name: String, abv: String, size: String, price: String)]()
     
     var alcohols: [Alcohol] = []
     // set headers to empty
@@ -150,6 +152,22 @@ struct Data {
             let objects = try! managedContext.fetch(fetch) as! [BeerList]
             for obj in objects {
                 Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+            }
+        }
+        else if list == "LiquorList" {
+            Data.liquorList = []
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LiquorList")
+            let objects = try! managedContext.fetch(fetch) as! [LiquorList]
+            for obj in objects {
+                Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+            }
+        }
+        else if list == "WineList" {
+            Data.wineList = []
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WineList")
+            let objects = try! managedContext.fetch(fetch) as! [WineList]
+            for obj in objects {
+                Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
             }
         }
     }

@@ -208,6 +208,14 @@ class Input: UIView, UITextFieldDelegate {
             Data.saveToList("BeerList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
             self.inputDelegate.reloadTable(table: "beerList")
         }
+        if type.text! == "LIQUOR" {
+            Data.saveToList("LiquorList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+            self.inputDelegate.reloadTable(table: "liquorList")
+        }
+        if type.text! == "WINE" {
+            Data.saveToList("WineList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+            self.inputDelegate.reloadTable(table: "wineList")
+        }
     }
         
     func resetAndExit() {

@@ -60,7 +60,7 @@ class AppNavigation: UIView {
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*2+UI.Sizing.objectPadding),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.statusBar.height),
             left.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),

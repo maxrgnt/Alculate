@@ -33,9 +33,14 @@ struct UI {
         static let headerHeight = height*headerRatio
         //
         static let topLineHeight = height*topLineRatio
+        static let topLineTop = statusBar.height + headerHeight
         static let subLineHeight = height*subLineRatio
+        static let subLineTop = topLineTop + topLineHeight
+        //
+        static let appNavigationHeight = (headerHeight*2)+objectPadding
         //
         static let tableViewHeight = height*(tableViewRatio)-statusBar.height
+        static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
         //
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {

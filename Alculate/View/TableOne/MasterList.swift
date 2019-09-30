@@ -37,7 +37,7 @@ class MasterList: UIView {
             masterListLeading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height + UI.Sizing.headerHeight),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
             tableOne.widthAnchor.constraint(equalTo: widthAnchor),
             tableOne.heightAnchor.constraint(equalTo: heightAnchor),
             tableOne.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -35,7 +35,7 @@ class TopLine: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height+UI.Sizing.headerHeight),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
             bestAlcohol.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
             bestAlcohol.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
             bestAlcohol.centerXAnchor.constraint(equalTo: centerXAnchor),

@@ -39,7 +39,7 @@ class SubLine: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.subLineHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height+UI.Sizing.headerHeight+UI.Sizing.topLineHeight),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.subLineTop),
             bestBeer.leadingAnchor.constraint(equalTo: leadingAnchor),
             bestLiquor.centerXAnchor.constraint(equalTo: centerXAnchor),
             bestWine.trailingAnchor.constraint(equalTo: trailingAnchor)

@@ -81,7 +81,10 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
     
     func clearTestData(){
-        Data.deleteCoreDataFor(entity: "Alcohol")
+        Data.deleteCoreDataFor(entity: Data.masterListID)
+        Data.deleteCoreDataFor(entity: Data.beerListID)
+        Data.deleteCoreDataFor(entity: Data.liquorListID)
+        Data.deleteCoreDataFor(entity: Data.wineListID)
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
@@ -105,7 +108,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         }
         else {
             // normal run
-            for list in ["MasterList","BeerList","LiquorList","WineList"] {
+            for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
             alculate()
@@ -168,18 +171,17 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
             
     func reloadTable(table: String) {
-        print("reload")
-        if table == "masterList" {
+        if table == Data.masterListID {
             masterList.tableOne.reloadData()
         }
         else {
-            if table == "beerList" {
+            if table == Data.beerListID {
                 beerList.reloadData()
             }
-            else if table == "liquorList" {
+            else if table == Data.liquorListID {
                 liquorList.reloadData()
             }
-            else if table == "wineList" {
+            else if table == Data.wineListID {
                 wineList.reloadData()
             }
             resetDeleteButton()

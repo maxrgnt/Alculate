@@ -108,7 +108,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
         //present alerts for confirmation of wallet removal
-        let alert = UIAlertController(title: "Remove Alcohol", message: "Are you sure you want to delete this alcohol?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Remove Saved ABV", message: "Are you sure you want to delete \(name)?", preferredStyle: .alert)
         //removal is confirmed
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
             Data.deleteMaster(wName: name, wABV: abv, wType: type)
@@ -116,7 +116,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
                 Data.masterList[name] = nil
             }
             print(Data.masterList)
-            self.tableOneDelegate.reloadTable(table: "masterList")
+            self.tableOneDelegate.reloadTable(table: Data.masterListID)
         }))
         //add the cancel action
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

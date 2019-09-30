@@ -10,14 +10,18 @@ import UIKit
 import CoreData
 
 struct Data {
-    
-    static var beerList = [(name: String, abv: String, size: String, price: String)]()
-    static var liquorList = [(name: String, abv: String, size: String, price: String)]()
-    static var wineList = [(name: String, abv: String, size: String, price: String)]()
-    
-    var alcohols: [Alcohol] = []
-    // set headers to empty
+    // IDs that match CoreData entity that are used throughout app
+    static var masterListID = "Alcohol"
+    static var beerListID = "BeerList"
+    static var liquorListID = "LiquorList"
+    static var wineListID = "WineList"
+    // each list represents a column on main page
+    static var beerList: [(name: String, abv: String, size: String, price: String)] = []
+    static var liquorList: [(name: String, abv: String, size: String, price: String)] = []
+    static var wineList: [(name: String, abv: String, size: String, price: String)] = []
+    // set headers to empty to iterate over letters and append into
     static var headers: [String] = []
+    // matrix is dictionary of header letters and drinks that start with that letter
     static var matrix = [String: [String]]()
 //    static var alcoholData = ["type": String(), "name": String(), "abv": String()] {
     static var masterList = [String: (type: String, abv: String)]() {
@@ -73,106 +77,43 @@ struct Data {
 //        }
 //        catch {print("Saving Core Data Failed: \(error)")}
 //    }
-
-//    func createWallet(for user: String, coins: [String]) {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
-//        fetchRequest.predicate = NSPredicate(format: "%K BEGINSWITH[cd] %@", "name", user)
-//        do {
-//            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
-//            if results?.count != 0 {
-//                //print("results: \(results![0])")
-//                let person = results![0]
-//                let definedCoin = NSEntityDescription.entity(forEntityName: "Coin", in: managedContext)!
-//                let coin1 = NSManagedObject(entity: definedCoin, insertInto: managedContext)
-//                coin1.setValue(coins[0], forKey: "symbol")
-//                coin1.setValue(coins[1], forKey: "walletID")
-//                coin1.setValue(person, forKey: "person")
-//            }
-//        }
-//        catch {print("Fetch Failed: \(error)")}
-//        do {
-//            try managedContext.save()
-//        }
-//        catch {print("Saving Core Data Failed: \(error)")}
-//    }
-    
-//    func deleteContact(user name: String) {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
-//        deleteFetch.fetchLimit = 1
-//        deleteFetch.predicate = NSPredicate(format: "%K == %@", "name", name)
-//        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-//        do {
-//            try managedContext.execute(deleteRequest)
-//            try managedContext.save()
-//        } catch {
-//            print ("There was an error")
-//        }
-//    }
-    
-//    func deleteWallet(user name: String, symbol: String) {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
-//        fetchRequest.predicate = NSPredicate(format: "%K BEGINSWITH[cd] %@", "name", name)
-//        do {
-//            let results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
-//            if results?.count != 0 {
-//                let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Coin")
-//                deleteFetch.fetchLimit = 1
-//                deleteFetch.predicate = NSPredicate(format: "%K == %@", "symbol", symbol)
-//                let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-//                do {
-//                    try managedContext.execute(deleteRequest)
-//                    try managedContext.save()
-//                } catch {
-//                    print ("There was an error")
-//                }
-//            }
-//        }
-//        catch {print("Fetch Failed: \(error)")}
-//    }
-    
-    static func loadList(for list: String) {
+            
+    static func loadList(for entity: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
-        if list == "MasterList" {
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Alcohol")
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        if entity == "Alcohol" {
             let objects = try! managedContext.fetch(fetch) as! [Alcohol]
             for obj in objects {
                 Data.masterList[obj.name!] = (type: obj.type!, abv: obj.abv!)
             }
         }
-        else if list == "BeerList" {
-            Data.beerList = []
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "BeerList")
-            let objects = try! managedContext.fetch(fetch) as! [BeerList]
-            for obj in objects {
-                Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+        else {
+            if entity == Data.beerListID {
+                Data.beerList = []
+                let objects = try! managedContext.fetch(fetch) as! [BeerList]
+                for obj in objects {
+                    Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+                }
             }
-        }
-        else if list == "LiquorList" {
-            Data.liquorList = []
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LiquorList")
-            let objects = try! managedContext.fetch(fetch) as! [LiquorList]
-            for obj in objects {
-                Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+            else if entity == Data.liquorListID {
+                Data.liquorList = []
+                let objects = try! managedContext.fetch(fetch) as! [LiquorList]
+                for obj in objects {
+                    Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+                }
             }
-        }
-        else if list == "WineList" {
-            Data.wineList = []
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WineList")
-            let objects = try! managedContext.fetch(fetch) as! [WineList]
-            for obj in objects {
-                Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+            else if entity == Data.wineListID {
+                Data.wineList = []
+                let objects = try! managedContext.fetch(fetch) as! [WineList]
+                for obj in objects {
+                    Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+                }
             }
         }
     }
     
-    static func saveNewMaster(ofType type: String, named name: String, withABVof abv: String) {
+    static func saveToMaster(ofType type: String, named name: String, withABVof abv: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -183,7 +124,7 @@ struct Data {
         alcohol.setValue(abv, forKeyPath: "abv")
         do {
             try managedContext.save()
-            Data.loadList(for: "MasterList")
+            Data.loadList(for: "Alcohol")
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

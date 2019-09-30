@@ -47,7 +47,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             tableTwoLeading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
             heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewHeight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height+UI.Sizing.headerHeight+UI.Sizing.topLineHeight+UI.Sizing.subLineHeight)
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.tableViewTop)
             ])
     }
         
@@ -95,22 +95,19 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if willDelete {
             if alcoholType == "BEER" {
-                print("delete beer")
                 let info = Data.beerList[indexPath.row]
-                Data.deleteFromList("BeerList", wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: "beerList")
+                Data.deleteFromList(Data.beerListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+                self.tableTwoDelegate.reloadTable(table: Data.beerListID)
             }
             else if alcoholType == "LIQUOR" {
-                print("delete liquor")
                 let info = Data.liquorList[indexPath.row]
-                Data.deleteFromList("LiquorList", wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: "liquorList")
+                Data.deleteFromList(Data.liquorListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+                self.tableTwoDelegate.reloadTable(table: Data.liquorListID)
             }
             else if alcoholType == "WINE" {
-                print("delete wine")
                 let info = Data.wineList[indexPath.row]
-                Data.deleteFromList("WineList", wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: "wineList")
+                Data.deleteFromList(Data.wineListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+                self.tableTwoDelegate.reloadTable(table: Data.wineListID)
             }
         }
     }

@@ -191,8 +191,8 @@ class Input: UIView, UITextFieldDelegate {
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
-                    Data.saveNewMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
-                    self.inputDelegate.reloadTable(table: "masterList")
+                    Data.saveToMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    self.inputDelegate.reloadTable(table: Data.masterListID)
                     self.resetAndExit()
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Use \(savedAbv)%", style: .default, handler: { action in
@@ -202,8 +202,8 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         else {
-            Data.saveNewMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
-            self.inputDelegate.reloadTable(table: "masterList")
+            Data.saveToMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+            self.inputDelegate.reloadTable(table: Data.masterListID)
         }
         updateTableTwo()
         self.resetAndExit()
@@ -211,16 +211,16 @@ class Input: UIView, UITextFieldDelegate {
     
     func updateTableTwo() {
         if type.text! == "BEER" {
-            Data.saveToList("BeerList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: "beerList")
+            Data.saveToList(Data.beerListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+            self.inputDelegate.reloadTable(table: Data.beerListID)
         }
         if type.text! == "LIQUOR" {
-            Data.saveToList("LiquorList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: "liquorList")
+            Data.saveToList(Data.liquorListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+            self.inputDelegate.reloadTable(table: Data.liquorListID)
         }
         if type.text! == "WINE" {
-            Data.saveToList("WineList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: "wineList")
+            Data.saveToList(Data.wineListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+            self.inputDelegate.reloadTable(table: Data.wineListID)
         }
     }
         

@@ -91,8 +91,8 @@ class ViewController: UIViewController, InputDelegate {
         }
         else {
             // normal run
-            Data.loadAlcoholData()
-            Data.loadBeerList()
+            Data.loadList(for: "MasterList")
+            Data.loadList(for: "BeerList")
         }
     }
     

@@ -134,37 +134,26 @@ struct Data {
 //        catch {print("Fetch Failed: \(error)")}
 //    }
     
-    static func loadAlcoholData() {
+    static func loadList(for list: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Alcohol")
-        let alcohols = try! managedContext.fetch(fetch) as! [Alcohol]
-        for alcohol in alcohols {
-            let name = alcohol.name!
-            let type = alcohol.type!
-            let abv = alcohol.abv!
-            Data.masterList[name] = (type: type, abv: abv)
+        if list == "MasterList" {
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Alcohol")
+            let objects = try! managedContext.fetch(fetch) as! [Alcohol]
+            for obj in objects {
+                Data.masterList[obj.name!] = (type: obj.type!, abv: obj.abv!)
+            }
         }
-        print("AlculateData:\n",Data.masterList)
+        else if list == "BeerList" {
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "BeerList")
+            let objects = try! managedContext.fetch(fetch) as! [BeerList]
+            for obj in objects {
+                Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+            }
+        }
     }
     
-    static func loadBeerList() {
-        Data.beerList = []
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "BeerList")
-        let beers = try! managedContext.fetch(fetch) as! [BeerList]
-        for beer in beers {
-            let name = beer.name!
-            let abv = beer.abv!
-            let size = beer.size!
-            let price = beer.price!
-            Data.beerList.append((name: name, abv: abv, size: size, price: price))
-        }
-        print("BeerList:\n",Data.beerList)
-    }
-    
-    static func saveNewAlcohol(ofType type: String, named name: String, withABVof abv: String) {
+    static func saveNewMaster(ofType type: String, named name: String, withABVof abv: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -175,25 +164,26 @@ struct Data {
         alcohol.setValue(abv, forKeyPath: "abv")
         do {
             try managedContext.save()
-            loadAlcoholData()
+            Data.loadList(for: "MasterList")
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
-    static func saveToBeerList(named name: String, withABVof abv: String, andSizeOf size: String, andPriceOf price: String) {
+    static func saveToList(for list: String, wName name: String, wABV abv: String, wSize size: String, wPrice price: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "BeerList", in: managedContext)!
-        let beerList = NSManagedObject(entity: entity, insertInto: managedContext)
-        beerList.setValue(name, forKeyPath: "name")
-        beerList.setValue(abv, forKeyPath: "abv")
-        beerList.setValue(size, forKeyPath: "size")
-        beerList.setValue(price, forKeyPath: "price")
+        var entity: NSEntityDescription!
+        entity = NSEntityDescription.entity(forEntityName: list, in: managedContext)!
+        let listToUpdate = NSManagedObject(entity: entity, insertInto: managedContext)
+        listToUpdate.setValue(name, forKeyPath: "name")
+        listToUpdate.setValue(abv, forKeyPath: "abv")
+        listToUpdate.setValue(size, forKeyPath: "size")
+        listToUpdate.setValue(price, forKeyPath: "price")
         do {
             try managedContext.save()
-            loadBeerList()
+            loadList(for: list)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

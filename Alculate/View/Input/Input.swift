@@ -185,7 +185,7 @@ class Input: UIView, UITextFieldDelegate {
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
-                    Data.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    Data.saveNewMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
                     self.inputDelegate.reloadTable(table: "masterList")
                     self.resetAndExit()
                 }))
@@ -196,7 +196,7 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         else {
-            Data.saveNewAlcohol(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+            Data.saveNewMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
             self.inputDelegate.reloadTable(table: "masterList")
         }
         updateTableTwo()
@@ -205,7 +205,7 @@ class Input: UIView, UITextFieldDelegate {
     
     func updateTableTwo() {
         if type.text! == "BEER" {
-            Data.saveToBeerList(named: output[0], withABVof: output[1], andSizeOf: output[2], andPriceOf: output[3])
+            Data.saveToList(for: "BeerList", wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
             self.inputDelegate.reloadTable(table: "beerList")
         }
     }

@@ -22,7 +22,7 @@ class TableOneCell: UITableViewCell {
         // View object settings
         addSubview(cellLabel)
         cellLabel.translatesAutoresizingMaskIntoConstraints = false
-        cellLabel.textColor = UI.Color.softWhite
+        cellLabel.textColor = .black
         cellLabel.textAlignment = .left
         cellLabel.font = UI.Font.headerFont
         // MARK: - NSLayoutConstraints

@@ -178,7 +178,8 @@ class Input: UIView, UITextFieldDelegate {
     func saveAndExit() {
         let name = output[0]
         let abv = output[1]
-        if let savedAbv = AlculateData.alcoholData[type.text!]![name] {
+        if let info = AlculateData.alcoholData[name] {
+            let savedAbv = info.abv
             if savedAbv != abv {
                 let title = "Reset \(name)'s ABV?"
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
@@ -219,12 +220,10 @@ class Input: UIView, UITextFieldDelegate {
     
     // MARK: - Functions (Suggestion)
     @objc func useSuggestion() {
-        if let namesByType = AlculateData.alcoholData[type.text!] {
-            output[0] = useThisSuggestion
-            output[1] = namesByType[useThisSuggestion]!
-            name.setTitle(useThisSuggestion, for: .normal)
-            abv.setTitle(output[1], for: .normal)
-        }
+        output[0] = useThisSuggestion
+        output[1] = AlculateData.alcoholData[useThisSuggestion]!.abv
+        name.setTitle(useThisSuggestion, for: .normal)
+        abv.setTitle(output[1], for: .normal)
         // hide suggestion bar
         suggestionHeight.constant = 0
         suggestion.setTitle("", for: .normal)
@@ -262,8 +261,8 @@ class Input: UIView, UITextFieldDelegate {
         if level == 0 {
             let textLower = textField.text!.lowercased()
             var arrNames: [String] = []
-            if let tempDict = AlculateData.alcoholData[type.text!] {
-                for key in tempDict.keys {
+            for key in AlculateData.alcoholData.keys {
+                if type.text! == AlculateData.alcoholData[key]!.type {
                     arrNames.append(key.lowercased())
                 }
             }

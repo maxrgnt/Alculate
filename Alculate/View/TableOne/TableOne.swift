@@ -26,6 +26,8 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        sectionIndexColor = UIColor.black
+        sectionIndexBackgroundColor = UIColor.clear
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
@@ -63,8 +65,9 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let headerLetter = AlculateData.headers[indexPath.section]
         let nameList = AlculateData.matrix[headerLetter]
         let name = nameList![indexPath.row]
-        let abv = AlculateData.alcoholData["BEER"]![name]!
-        cell.cellLabel.text = "\(name) - \(abv)%"
+        let abv = AlculateData.alcoholData[name]!.abv
+        let type = AlculateData.alcoholData[name]!.type
+        cell.cellLabel.text = "\(name): \(abv)% [\(type)]"
         return cell
     }
     

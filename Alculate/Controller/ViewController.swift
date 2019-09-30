@@ -191,33 +191,51 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
 
     func alculate() {
-        var bestAlcohol = (name: "", alc: "0.0")
-        var bestBeer = (name: "", alc: "0.0")
-        var bestLiquor = (name: "", alc: "0.0")
-        var bestWine = (name: "", alc: "0.0")
+        var bestAlcohol = (name: "", alc: "1000.0")
+        var bestBeer = (name: "", alc: "1000.0")
+        var bestLiquor = (name: "", alc: "1000.0")
+        var bestWine = (name: "", alc: "1000.0")
         for alc in Data.beerList {
-            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestBeer.alc)! {
-                bestBeer = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
+            if tryBest < Double(bestBeer.alc)! {
+                bestBeer = (name: alc.name, alc: String(format: "%.2f", tryBest))
             }
         }
         for alc in Data.liquorList {
-            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestLiquor.alc)! {
-                bestLiquor = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
+            if tryBest < Double(bestLiquor.alc)! {
+                bestLiquor = (name: alc.name, alc: String(format: "%.2f", tryBest))
             }
         }
         for alc in Data.wineList {
-            if Double(alc.abv)!*Double(alc.size)!*0.01 > Double(bestWine.alc)! {
-                bestWine = (name: alc.name, alc: String(format: "%.2f", Double(alc.abv)!*Double(alc.size)!*0.01))
+            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
+            if tryBest < Double(bestWine.alc)! {
+                bestWine = (name: alc.name, alc: String(format: "%.2f", tryBest))
             }
         }
         for alc in [bestBeer, bestLiquor, bestWine] {
-            if Double(alc.alc)! > Double(bestAlcohol.alc)! {
+            if Double(alc.alc)! < Double(bestAlcohol.alc)! {
                 bestAlcohol = (name: alc.name, alc: alc.alc)
             }
         }
-        subLine.bestBeer.text = "\(bestBeer.name): \(bestBeer.alc) alc"
-        subLine.bestLiquor.text = "\(bestLiquor.name): \(bestLiquor.alc) alc"
-        subLine.bestWine.text = "\(bestWine.name): \(bestWine.alc) alc"
-        topLine.bestAlcohol.text = "\(bestAlcohol.name): \(bestAlcohol.alc) alc"
+        subLine.bestBeer.text = "\(bestBeer.name): \(bestBeer.alc) $/drink"
+        subLine.bestLiquor.text = "\(bestLiquor.name): \(bestLiquor.alc) $/drink"
+        subLine.bestWine.text = "\(bestWine.name): \(bestWine.alc) $/drink"
+        topLine.bestAlcohol.text = "\(bestAlcohol.name): \(bestAlcohol.alc) $/drink"
     }
+    
+    func findBest(for alc: (abv: String, size: String, price: String)) -> Double {
+        let abvDouble = Double(alc.abv)!*0.01
+        let sizeDouble = Double(alc.size)!
+        let priceDouble: Double
+        if alc.price != "" {
+            priceDouble = Double(alc.price)!
+        }
+        else {
+            priceDouble = 1.0
+        }
+        print(abvDouble,sizeDouble,0.6,(abvDouble*sizeDouble)/0.6,priceDouble)
+        return priceDouble/((abvDouble*sizeDouble)/0.6)
+    }
+    
 }

@@ -67,9 +67,10 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             cell.backgroundColor = .darkGray
         }
         cell.name.text = "\(info.name)"
-        cell.size.text = "\(info.size) oz."
-        let totalAlc = Double(info.abv)!*Double(info.size)!*0.01
-        cell.totalAlcohol.text = String(format: "%.2f", totalAlc)+" alc"
+        let price = String(format: "%.2f", Double(info.price)!)
+        cell.size.text = "\(info.size) oz. | $\(price)"
+        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
+        cell.totalAlcohol.text = String(format: "%.2f", alcPerDollar)+" $/drink"
         return cell
     }
     

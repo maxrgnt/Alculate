@@ -218,10 +218,16 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 bestAlcohol = (name: alc.name, alc: alc.alc)
             }
         }
-        subLine.bestBeer.text = "\(bestBeer.name): \(bestBeer.alc) $/drink"
-        subLine.bestLiquor.text = "\(bestLiquor.name): \(bestLiquor.alc) $/drink"
-        subLine.bestWine.text = "\(bestWine.name): \(bestWine.alc) $/drink"
-        topLine.bestAlcohol.text = "\(bestAlcohol.name): \(bestAlcohol.alc) $/drink"
+//        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
+//        let cost = "$"+String(format: "%.2f", alcPerDollar)
+//        cell.avg.text = cost+" | "+String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+        subLine.bestBeerName.text = bestBeer.name
+        subLine.bestLiquorName.text = bestLiquor.name
+        subLine.bestWineName.text = bestWine.name
+        subLine.bestBeerStat.text = "$"+bestBeer.alc+" | 2.0x"
+        subLine.bestLiquorStat.text = "$"+bestLiquor.alc+" | 2.0x"
+        subLine.bestWineStat.text = "$"+bestWine.alc+" | 2.0x"
+        topLine.bestAlcohol.text = bestAlcohol.name
     }
     
     func findBest(for alc: (abv: String, size: String, price: String)) -> Double {

@@ -15,7 +15,6 @@ class TableTwoCell: UITableViewCell {
     
     let name = UILabel()
     let size = UILabel()
-    let cost = UILabel()
     let perDrink = UILabel()
     let avg = UILabel()
     
@@ -28,10 +27,11 @@ class TableTwoCell: UITableViewCell {
         addSubview(cellObject)
         cellObject.translatesAutoresizingMaskIntoConstraints = false
         cellObject.backgroundColor = .clear
-        cellObject.layer.borderWidth = UI.Sizing.tableViewWidth*(1/30)
+        cellObject.layer.borderWidth = UI.Sizing.cellObjectBorder
         cellObject.layer.borderColor = UIColor.black.cgColor
+        cellObject.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: UI.Sizing.cellObjectRadius)
         // View object settings
-        for label in [name, size, cost, perDrink, avg] {
+        for label in [name, size, perDrink, avg] {
             cellObject.addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textColor = .black
@@ -40,36 +40,31 @@ class TableTwoCell: UITableViewCell {
         }
         size.alpha = 0.7
         name.font = UI.Font.cellHeaderFont
-        cost.font = UI.Font.cellHeaderFont
         avg.font = UI.Font.cellHeaderFont
         perDrink.text = "per avg drink"
         perDrink.alpha = 0.7
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
-            cellObject.widthAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth-UI.Sizing.objectPadding),
+            cellObject.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth),
             cellObject.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth*(4/5)),
             cellObject.centerXAnchor.constraint(equalTo: centerXAnchor),
-            cellObject.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.tableViewWidth*(1/20)),
-            name.widthAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth-UI.Sizing.objectPadding),
+            cellObject.centerYAnchor.constraint(equalTo: centerYAnchor),
+            name.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
             name.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
-            name.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor),
-            name.topAnchor.constraint(equalTo: cellObject.topAnchor),
-            size.widthAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth-UI.Sizing.objectPadding),
+            name.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
+            name.topAnchor.constraint(equalTo: cellObject.topAnchor, constant: UI.Sizing.cellObjectBorder),
+            size.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder*2),
             size.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
-            size.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor),
+            size.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
             size.topAnchor.constraint(equalTo: name.bottomAnchor),
-            cost.widthAnchor.constraint(equalToConstant: (UI.Sizing.tableViewWidth-UI.Sizing.objectPadding)/2),
-            cost.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
-            cost.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor),
-            cost.topAnchor.constraint(equalTo: size.bottomAnchor),
-            perDrink.widthAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth-UI.Sizing.objectPadding),
-            perDrink.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
-            perDrink.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor),
-            perDrink.topAnchor.constraint(equalTo: cost.bottomAnchor),
-            avg.widthAnchor.constraint(equalToConstant: (UI.Sizing.tableViewWidth-UI.Sizing.objectPadding)/2),
+            avg.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
             avg.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
-            avg.trailingAnchor.constraint(equalTo: cellObject.trailingAnchor),
-            avg.topAnchor.constraint(equalTo: size.bottomAnchor)
+            avg.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
+            avg.topAnchor.constraint(equalTo: size.bottomAnchor),
+            perDrink.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
+            perDrink.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
+            perDrink.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
+            perDrink.topAnchor.constraint(equalTo: avg.bottomAnchor)
             ])
     }
     

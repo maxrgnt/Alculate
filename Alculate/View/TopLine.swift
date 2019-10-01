@@ -22,7 +22,7 @@ class TopLine: UIView {
         // MARK: - View/Object Settings
         // View settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .darkGray
+        backgroundColor = .gray
         clipsToBounds = true
         // Object settings
         addSubview(bestAlcohol)

@@ -47,6 +47,10 @@ struct UI {
         // Table view sizing
         static let tableViewHeight = height*(tableViewRatio)-statusBar.height
         static let tableViewWidth = width/3
+        static let cellObjectRadius = tableViewWidth/10
+        static let cellObjectBorder = tableViewWidth/40
+        static let cellObjectWidth = UI.Sizing.tableViewWidth-UI.Sizing.objectPadding+cellObjectBorder
+        static let tableRowHeight = tableViewWidth*(4/5)+cellObjectBorder*2
         static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
         // user input sizing
         static let userInputHeight = height*(userInputRatio)

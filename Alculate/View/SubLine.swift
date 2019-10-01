@@ -11,9 +11,12 @@ import UIKit
 class SubLine: UIView {
          
     // Objects
-    let bestBeer = UILabel()
-    let bestLiquor = UILabel()
-    let bestWine = UILabel()
+    let bestBeerName = UILabel()
+    let bestLiquorName = UILabel()
+    let bestWineName = UILabel()
+    let bestBeerStat = UILabel()
+    let bestLiquorStat = UILabel()
+    let bestWineStat = UILabel()
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -27,7 +30,18 @@ class SubLine: UIView {
         backgroundColor = .gray
         clipsToBounds = true
         // Object settings
-        for label in [bestBeer, bestLiquor, bestWine] {
+        for label in [bestBeerName, bestLiquorName, bestWineName] {
+            addSubview(label)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.textColor = .black
+            label.font = UI.Font.cellHeaderFont
+            label.textAlignment = .center
+        }
+        bestBeerName.backgroundColor = .lightGray
+        bestBeerStat.backgroundColor = .lightGray
+        bestWineName.backgroundColor = .darkGray
+        bestWineStat.backgroundColor = .darkGray
+        for label in [bestBeerStat, bestLiquorStat, bestWineStat] {
             addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textColor = .black
@@ -40,15 +54,25 @@ class SubLine: UIView {
             heightAnchor.constraint(equalToConstant: UI.Sizing.subLineHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.subLineTop),
-            bestBeer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bestLiquor.centerXAnchor.constraint(equalTo: centerXAnchor),
-            bestWine.trailingAnchor.constraint(equalTo: trailingAnchor)
+            bestBeerName.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bestLiquorName.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bestWineName.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bestBeerStat.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bestLiquorStat.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bestWineStat.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-        for label in [bestBeer, bestLiquor, bestWine] {
+        for label in [bestBeerName, bestLiquorName, bestWineName] {
             NSLayoutConstraint.activate([
                 label.widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
-                label.heightAnchor.constraint(equalToConstant: UI.Sizing.subLineHeight),
-                label.centerYAnchor.constraint(equalTo: centerYAnchor)
+                label.heightAnchor.constraint(equalToConstant: UI.Sizing.subLineHeight/2),
+                label.topAnchor.constraint(equalTo: topAnchor)
+            ])
+        }
+        for label in [bestBeerStat, bestLiquorStat, bestWineStat] {
+            NSLayoutConstraint.activate([
+                label.widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
+                label.heightAnchor.constraint(equalToConstant: UI.Sizing.subLineHeight/2),
+                label.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
         }
     }

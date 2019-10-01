@@ -40,8 +40,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         delegate = self
         dataSource = self
         tableHeaderView = nil
-        separatorStyle = .singleLine
-        separatorColor = .black
+        separatorStyle = .none
         // Set constraints not related to superview (ViewController)
         tableTwoLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
         NSLayoutConstraint.activate([
@@ -71,8 +70,8 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let price = String(format: "%.2f", Double(info.price)!)
         cell.size.text = "\(info.size) oz. | $\(price)"
         let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
-        cell.cost.text = "$"+String(format: "%.2f", alcPerDollar)
-        cell.avg.text = String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+        let cost = "$"+String(format: "%.2f", alcPerDollar)
+        cell.avg.text = cost+" | "+String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
         return cell
     }
     
@@ -92,7 +91,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.tableViewWidth*(4/5)
+        return UI.Sizing.tableRowHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

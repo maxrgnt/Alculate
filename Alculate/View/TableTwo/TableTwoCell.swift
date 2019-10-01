@@ -46,9 +46,9 @@ class TableTwoCell: UITableViewCell {
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
             cellObject.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth),
-            cellObject.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth*(4/5)),
+            cellObject.heightAnchor.constraint(equalToConstant: UI.Sizing.cellObjectHeight),
             cellObject.centerXAnchor.constraint(equalTo: centerXAnchor),
-            cellObject.centerYAnchor.constraint(equalTo: centerYAnchor),
+            cellObject.bottomAnchor.constraint(equalTo: bottomAnchor),
             name.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
             name.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
             name.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),

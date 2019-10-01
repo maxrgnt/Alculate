@@ -41,6 +41,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.tableViewRadius)
         // Set constraints not related to superview (ViewController)
         tableTwoLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
         NSLayoutConstraint.activate([
@@ -68,11 +69,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
         if indexPath.row == 0 {
             cell.cellObject.backgroundColor = .white
-            cell.cellObject.alpha = 0.7
-        }
-        else {
-            cell.cellObject.backgroundColor = .white
-            cell.cellObject.alpha = 0.5
+            cell.cellObject.alpha = 0.6
         }
         cell.name.text = "\(info.name)"
         let price = String(format: "%.2f", Double(info.price)!)

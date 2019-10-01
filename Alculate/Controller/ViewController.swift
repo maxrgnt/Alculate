@@ -216,6 +216,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 }
             }
             topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
+            view.backgroundColor = .gray
         }
         // if all lists are empty, dont alculate
         else {

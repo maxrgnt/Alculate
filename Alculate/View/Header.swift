@@ -22,12 +22,12 @@ class Header: UIView {
         // MARK: - View/Object Settings
         // View settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .black
+        backgroundColor = .clear
         clipsToBounds = true
         // Object settings
         addSubview(appName)
         appName.translatesAutoresizingMaskIntoConstraints = false
-        appName.textColor = UI.Color.softWhite
+        appName.textColor = .black
         appName.font = UI.Font.headerFont
         appName.textAlignment = .center
         appName.text = "Alculate"

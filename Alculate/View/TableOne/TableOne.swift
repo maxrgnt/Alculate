@@ -26,13 +26,13 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     func build() {
         // Miscelaneous view settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .gray
+        backgroundColor = .black
         register(TableOneCell.self, forCellReuseIdentifier: "TableOneCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
-        sectionIndexColor = UIColor.black
+        sectionIndexColor = UIColor.white
         sectionIndexBackgroundColor = UIColor.clear
     }
     

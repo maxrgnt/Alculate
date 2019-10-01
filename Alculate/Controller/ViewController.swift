@@ -218,11 +218,8 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 }
             }
             topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
-            let newColor = UI.Color.alcoholTypes[bestAlcohol.ind]
-            topLine.backgroundColor = newColor
-            let lay = appNavigation.layer.sublayers![0] as! CAGradientLayer
-            lay.colors![0] = /*[*/newColor.withAlphaComponent(0.0).cgColor//,newColor.withAlphaComponent(1.0).cgColor]
-            view.backgroundColor = newColor
+            topLine.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
+            view.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
         }
         // if all lists are empty, dont alculate
         else {

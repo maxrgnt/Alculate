@@ -87,17 +87,15 @@ class AppNavigation: UIView {
             ])
         }
         //
-        let gradientLayer = CAGradientLayer()
-//        gradientLayer.colors = [UIColor.darkGray.withAlphaComponent(1.0).cgColor,
-//                                UIColor.darkGray.withAlphaComponent(0.0).cgColor]
-//        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
-//        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
-        gradientLayer.frame = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: UI.Sizing.width, height: UI.Sizing.appNavigationHeight))
-        gradientLayer.colors = [UIColor.gray.withAlphaComponent(0.0).cgColor,
-                                //gradientColor.withAlphaComponent(0.6).cgColor,
-                                UIColor.black.cgColor]
-        gradientLayer.locations = [0.0,0.55]//(UI.Sizing.appNavigationGradient as NSNumber?)!,1.0]
-        self.layer.insertSublayer(gradientLayer, at: 0)
+        let gradientLayer1 = CAGradientLayer()
+        let gradientLayer2 = CAGradientLayer()
+        let gradientLayer3 = CAGradientLayer()
+        for (index, gl) in [gradientLayer1,gradientLayer2,gradientLayer3].enumerated() {
+            gl.frame = CGRect(origin: CGPoint(x: UI.Sizing.width/3*CGFloat(index),y: 0), size: CGSize(width: UI.Sizing.width/3, height: UI.Sizing.appNavigationHeight))
+            gl.colors = [UI.Color.alcoholTypes[index].withAlphaComponent(0.0).cgColor, UIColor.black.cgColor]
+            gl.locations = [0.0,0.55]//(UI.Sizing.appNavigationGradient as NSNumber?)!,1.0]
+            self.layer.insertSublayer(gl, at: 0)
+        }
     }
     
     @objc func presentAlcoholTypes() {

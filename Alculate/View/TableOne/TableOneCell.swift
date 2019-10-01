@@ -25,11 +25,11 @@ class TableOneCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: "TableOneCell")
         // Miscelaneous view settings
         selectionStyle = .none
-        backgroundColor = .gray
+        backgroundColor = .black
         // View object settings
         addSubview(cellLabel)
         cellLabel.translatesAutoresizingMaskIntoConstraints = false
-        cellLabel.textColor = .black
+        cellLabel.textColor = .white
         cellLabel.textAlignment = .left
         cellLabel.font = UI.Font.headerFont
         //
@@ -37,7 +37,7 @@ class TableOneCell: UITableViewCell {
         remove.translatesAutoresizingMaskIntoConstraints = false
         remove.titleLabel?.font = UI.Font.headerFont
         remove.setTitle("X", for: .normal)
-        remove.setTitleColor(.black, for: .normal)
+        remove.setTitleColor(.white, for: .normal)
         remove.addTarget(self, action: #selector(removeAlc), for: .touchUpInside)
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([

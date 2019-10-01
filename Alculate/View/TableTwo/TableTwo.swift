@@ -40,7 +40,8 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         delegate = self
         dataSource = self
         tableHeaderView = nil
-        separatorStyle = .none
+        separatorStyle = .singleLine
+        separatorColor = .black
         // Set constraints not related to superview (ViewController)
         tableTwoLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
         NSLayoutConstraint.activate([

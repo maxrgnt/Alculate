@@ -100,7 +100,6 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
     
     func remove(cell: TableOneCell) {
-        print("remove")
         let indexPath = self.indexPath(for: cell)
         let headerLetter = Data.headers[indexPath!.section]
         let nameList = Data.matrix[headerLetter]

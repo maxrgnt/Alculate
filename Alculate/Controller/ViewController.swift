@@ -234,7 +234,6 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         else {
             priceDouble = 1.0
         }
-        print(abvDouble,sizeDouble,0.6,(abvDouble*sizeDouble)/0.6,priceDouble)
         return priceDouble/((abvDouble*sizeDouble)/0.6)
     }
     

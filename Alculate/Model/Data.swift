@@ -95,6 +95,11 @@ struct Data {
                 for obj in objects {
                     Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
+                Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
+                    let calc1 = ((Double(drink1.abv)!*Double(drink1.size)!)/0.6)
+                    let calc2 = ((Double(drink2.abv)!*Double(drink2.size)!)/0.6)
+                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
+                }
             }
             else if entity == Data.liquorListID {
                 Data.liquorList = []
@@ -102,12 +107,22 @@ struct Data {
                 for obj in objects {
                     Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
+                Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
+                    let calc1 = ((Double(drink1.abv)!*Double(drink1.size)!)/0.6)
+                    let calc2 = ((Double(drink2.abv)!*Double(drink2.size)!)/0.6)
+                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
+                }
             }
             else if entity == Data.wineListID {
                 Data.wineList = []
                 let objects = try! managedContext.fetch(fetch) as! [WineList]
                 for obj in objects {
                     Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
+                }
+                Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
+                    let calc1 = ((Double(drink1.abv)!*Double(drink1.size)!)/0.6)
+                    let calc2 = ((Double(drink2.abv)!*Double(drink2.size)!)/0.6)
+                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
                 }
             }
         }

@@ -18,7 +18,6 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
 
     var header = Header()
     var topLine = TopLine()
-    var subLine = SubLine()
     var beerList = TableTwo()
     var liquorList = TableTwo()
     var wineList = TableTwo()
@@ -41,15 +40,13 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
-        for subview in [header, topLine, subLine, beerList, liquorList, wineList, appNavigation, masterList, userInput] {
+        for subview in [header, topLine, beerList, liquorList, wineList, appNavigation, masterList, userInput] {
             view.addSubview(subview)
         }
         
         header.build()
         //
         topLine.build()
-        //
-        subLine.build()
         //
         beerList.build(forType: "BEER")
         self.beerList.tableTwoDelegate = self
@@ -191,43 +188,39 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
 
     func alculate() {
-        var bestAlcohol = (name: "", alc: "1000.0")
-        var bestBeer = (name: "", alc: "1000.0")
-        var bestLiquor = (name: "", alc: "1000.0")
-        var bestWine = (name: "", alc: "1000.0")
-        for alc in Data.beerList {
-            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
-            if tryBest < Double(bestBeer.alc)! {
-                bestBeer = (name: alc.name, alc: String(format: "%.2f", tryBest))
+        // create framework of top item from first list
+        var info: (name: String, abv: String, size: String, price: String)!
+        // create framework of array of lists that are not empty
+        var lists: [(name: String, abv: String, size: String, price: String)]! = []
+        // create framework of best alcohol of top items from each list
+        var bestAlcohol: (name: String, alc: String, avg: String)!
+        // iterate through each type list to see if empty
+        for listPiece in [Data.beerList,Data.liquorList,Data.wineList] {
+            // if the list is not empty, add the top item to lists to be compared (already sorted)
+            if !listPiece.isEmpty {
+                lists.append(listPiece[0])
             }
         }
-        for alc in Data.liquorList {
-            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
-            if tryBest < Double(bestLiquor.alc)! {
-                bestLiquor = (name: alc.name, alc: String(format: "%.2f", tryBest))
+        // if list of top item from each type has items, compare those against themselves
+        if !lists.isEmpty {
+            info = lists[0]
+            bestAlcohol = (name: info.name,
+                           alc: String(findBest(for: (abv: info.abv, size: info.size, price: info.price))),
+                           avg: String((Double(info.abv)!*Double(info.size)!*0.01/0.6)))
+            for listPiece in lists {
+                let tryBest = findBest(for: (abv: listPiece.abv, size: listPiece.size, price: listPiece.price))
+                if tryBest < Double(bestAlcohol.alc)! {
+                    bestAlcohol = (name: listPiece.name,
+                                   alc: String(format: "%.2f", tryBest),
+                                   avg: String(format: "%.1f", (Double(listPiece.abv)!*Double(listPiece.size)!*0.01/0.6)))
+                }
             }
+            topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
         }
-        for alc in Data.wineList {
-            let tryBest = findBest(for: (abv: alc.abv, size: alc.size, price: alc.price))
-            if tryBest < Double(bestWine.alc)! {
-                bestWine = (name: alc.name, alc: String(format: "%.2f", tryBest))
-            }
+        // if all lists are empty, dont alculate
+        else {
+            topLine.bestAlcohol.text = "EMPTY!"
         }
-        for alc in [bestBeer, bestLiquor, bestWine] {
-            if Double(alc.alc)! < Double(bestAlcohol.alc)! {
-                bestAlcohol = (name: alc.name, alc: alc.alc)
-            }
-        }
-//        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
-//        let cost = "$"+String(format: "%.2f", alcPerDollar)
-//        cell.avg.text = cost+" | "+String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
-        subLine.bestBeerName.text = bestBeer.name
-        subLine.bestLiquorName.text = bestLiquor.name
-        subLine.bestWineName.text = bestWine.name
-        subLine.bestBeerStat.text = "$"+bestBeer.alc+" | 2.0x"
-        subLine.bestLiquorStat.text = "$"+bestLiquor.alc+" | 2.0x"
-        subLine.bestWineStat.text = "$"+bestWine.alc+" | 2.0x"
-        topLine.bestAlcohol.text = bestAlcohol.name
     }
     
     func findBest(for alc: (abv: String, size: String, price: String)) -> Double {

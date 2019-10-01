@@ -13,8 +13,7 @@ struct UI {
     // main size ratios
     static let headerRatio: CGFloat = 0.07
     static let topLineRatio: CGFloat = 0.1225
-    static let subLineRatio: CGFloat = 0.105
-    static let tableViewRatio: CGFloat = (1-(headerRatio*2)-topLineRatio-subLineRatio) // 0.84
+    static let tableViewRatio: CGFloat = (1-(headerRatio*2)-topLineRatio) // 0.84
     static let userInputRatio: CGFloat = 0.75 // 0.84
     
     struct Sizing {
@@ -38,9 +37,6 @@ struct UI {
         // Top line sizing
         static let topLineHeight = height*topLineRatio
         static let topLineTop = statusBar.height + headerHeight
-        // Sub line sizing
-        static let subLineHeight = height*subLineRatio
-        static let subLineTop = topLineTop + topLineHeight
         // App nav sizing
         static let appNavigationHeight = (headerHeight*2)+objectPadding+statusBar.height
         static let appNavigationGradient = headerHeight/appNavigationHeight
@@ -51,7 +47,7 @@ struct UI {
         static let cellObjectBorder = tableViewWidth/40
         static let cellObjectWidth = UI.Sizing.tableViewWidth-UI.Sizing.objectPadding+cellObjectBorder
         static let tableRowHeight = tableViewWidth*(4/5)+cellObjectBorder*2
-        static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
+        static let tableViewTop = statusBar.height+headerHeight+topLineHeight
         // user input sizing
         static let userInputHeight = height*(userInputRatio)
         static let userInputRadius = width/10

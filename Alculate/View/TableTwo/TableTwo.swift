@@ -66,6 +66,9 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             info = Data.wineList[indexPath.row]
             cell.backgroundColor = .darkGray
         }
+        if indexPath.row == 0 {
+            cell.cellObject.backgroundColor = .white
+        }
         cell.name.text = "\(info.name)"
         let price = String(format: "%.2f", Double(info.price)!)
         cell.size.text = "\(info.size) oz. | $\(price)"

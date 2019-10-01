@@ -46,6 +46,7 @@ struct UI {
         static let appNavigationGradient = headerHeight/appNavigationHeight
         // Table view sizing
         static let tableViewHeight = height*(tableViewRatio)-statusBar.height
+        static let tableViewWidth = width/3
         static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
         // user input sizing
         static let userInputHeight = height*(userInputRatio)
@@ -57,10 +58,10 @@ struct UI {
 
     // fonts
     struct Font {
-        static let normalFont = "Avenir"
-        static let lightFont = "Avenir-Light"
-        static let headerFont = UIFont(name: lightFont, size: 30)
-        static let cellFont = UIFont(name: normalFont, size: 14)
+        //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
+        static let headerFont = UIFont.systemFont(ofSize: 30)
+        static let cellHeaderFont = UIFont.systemFont(ofSize: 18)
+        static let cellStubFont = UIFont.systemFont(ofSize: 14)
     }
     
     // colors

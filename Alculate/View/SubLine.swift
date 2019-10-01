@@ -31,7 +31,7 @@ class SubLine: UIView {
             addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textColor = .black
-            label.font = UI.Font.cellFont
+            label.font = UI.Font.cellHeaderFont
             label.textAlignment = .center
         }
         // MARK: - NSLayoutConstraints

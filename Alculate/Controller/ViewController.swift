@@ -191,32 +191,38 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         // create framework of top item from first list
         var info: (name: String, abv: String, size: String, price: String)!
         // create framework of array of lists that are not empty
-        var lists: [(name: String, abv: String, size: String, price: String)]! = []
+        var lists: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]! = []
         // create framework of best alcohol of top items from each list
-        var bestAlcohol: (name: String, alc: String, avg: String)!
+        var bestAlcohol: (name: String, alc: String, avg: String, ind: Int)!
         // iterate through each type list to see if empty
-        for listPiece in [Data.beerList,Data.liquorList,Data.wineList] {
+        for (index, listPiece) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
             // if the list is not empty, add the top item to lists to be compared (already sorted)
             if !listPiece.isEmpty {
-                lists.append(listPiece[0])
+                lists.append((arr: listPiece[0], ind: index))
             }
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
-            info = lists[0]
+            info = lists[0].arr
             bestAlcohol = (name: info.name,
-                           alc: String(findBest(for: (abv: info.abv, size: info.size, price: info.price))),
-                           avg: String((Double(info.abv)!*Double(info.size)!*0.01/0.6)))
+                           alc: String(format: "%.2f", findBest(for: (abv: info.abv, size: info.size, price: info.price))),
+                           avg: String(format: "%.1f", (Double(info.abv)!*Double(info.size)!*0.01/0.6)),
+                           ind: lists[0].ind)
             for listPiece in lists {
-                let tryBest = findBest(for: (abv: listPiece.abv, size: listPiece.size, price: listPiece.price))
+                let tryBest = findBest(for: (abv: listPiece.arr.abv, size: listPiece.arr.size, price: listPiece.arr.price))
                 if tryBest < Double(bestAlcohol.alc)! {
-                    bestAlcohol = (name: listPiece.name,
+                    bestAlcohol = (name: listPiece.arr.name,
                                    alc: String(format: "%.2f", tryBest),
-                                   avg: String(format: "%.1f", (Double(listPiece.abv)!*Double(listPiece.size)!*0.01/0.6)))
+                                   avg: String(format: "%.1f", (Double(listPiece.arr.abv)!*Double(listPiece.arr.size)!*0.01/0.6)),
+                                   ind: listPiece.ind)
                 }
             }
             topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
-            view.backgroundColor = .gray
+            let newColor = UI.Color.alcoholTypes[bestAlcohol.ind]
+            topLine.backgroundColor = newColor
+            let lay = appNavigation.layer.sublayers![0] as! CAGradientLayer
+            lay.colors![0] = /*[*/newColor.withAlphaComponent(0.0).cgColor//,newColor.withAlphaComponent(1.0).cgColor]
+            view.backgroundColor = newColor
         }
         // if all lists are empty, dont alculate
         else {

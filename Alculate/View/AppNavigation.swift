@@ -45,7 +45,7 @@ class AppNavigation: UIView {
             buttons[i].setTitle(buttonText[i], for: .normal)
             addSubview(buttons[i])
             buttons[i].tag = i
-            buttons[i].backgroundColor = .darkGray
+            buttons[i].backgroundColor = .clear
         }
         let alcButtons = [beer, liquor, wine]
         let alcButtonText = ["B", "L", "W"]
@@ -93,10 +93,10 @@ class AppNavigation: UIView {
 //        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
 //        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.frame = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: UI.Sizing.width, height: UI.Sizing.appNavigationHeight))
-        let gradientColor = UIColor.darkGray
-        gradientLayer.colors = [gradientColor.withAlphaComponent(0.0).cgColor,
-                                gradientColor.withAlphaComponent(1.0).cgColor]
-        gradientLayer.locations = [0.0,(UI.Sizing.appNavigationGradient as NSNumber?)!]
+        gradientLayer.colors = [UIColor.gray.withAlphaComponent(0.0).cgColor,
+                                //gradientColor.withAlphaComponent(0.6).cgColor,
+                                UIColor.black.cgColor]
+        gradientLayer.locations = [0.0,0.55]//(UI.Sizing.appNavigationGradient as NSNumber?)!,1.0]
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
     

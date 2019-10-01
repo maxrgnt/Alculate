@@ -41,7 +41,7 @@ struct UI {
         static let appNavigationHeight = (headerHeight*2)+objectPadding+statusBar.height
         static let appNavigationGradient = headerHeight/appNavigationHeight
         // Table view sizing
-        static let tableViewHeight = height*(tableViewRatio)-statusBar.height
+        static let tableViewHeight = height-headerHeight-topLineHeight //*(tableViewRatio)-statusBar.height
         static let tableViewWidth = width/3
         static let cellObjectRadius = tableViewWidth/10
         static let cellObjectBorder = tableViewWidth/40

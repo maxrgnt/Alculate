@@ -68,6 +68,11 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
         if indexPath.row == 0 {
             cell.cellObject.backgroundColor = .white
+            cell.cellObject.alpha = 0.7
+        }
+        else {
+            cell.cellObject.backgroundColor = .white
+            cell.cellObject.alpha = 0.5
         }
         cell.name.text = "\(info.name)"
         let price = String(format: "%.2f", Double(info.price)!)

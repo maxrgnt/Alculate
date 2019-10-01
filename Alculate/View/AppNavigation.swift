@@ -31,10 +31,12 @@ class AppNavigation: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         clipsToBounds = true
+        //
+
         // Object settings
-        left.contentHorizontalAlignment = .left
+        left.contentHorizontalAlignment = .center
         middle.contentHorizontalAlignment = .center
-        right.contentHorizontalAlignment = .right
+        right.contentHorizontalAlignment = .center
         middle.addTarget(self, action: #selector(presentAlcoholTypes), for: .touchUpInside)
         let buttons = [left, middle, right]
         let buttonText = ["X", "+", "//"]
@@ -62,19 +64,19 @@ class AppNavigation: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.statusBar.height),
-            left.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            bottomAnchor.constraint(equalTo: ViewController.bottomAnchor),
+            left.leadingAnchor.constraint(equalTo: leadingAnchor),
             middle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            right.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            right.trailingAnchor.constraint(equalTo: trailingAnchor),
             liquor.centerXAnchor.constraint(equalTo: middle.centerXAnchor),
             beer.trailingAnchor.constraint(equalTo: liquor.leadingAnchor, constant: -UI.Sizing.objectPadding),
             wine.leadingAnchor.constraint(equalTo: liquor.trailingAnchor, constant: UI.Sizing.objectPadding)
             ])
         for i in 0..<buttons.count {
             NSLayoutConstraint.activate([
-                buttons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/3),
+                buttons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
                 buttons[i].heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-                buttons[i].bottomAnchor.constraint(equalTo: bottomAnchor)
+                buttons[i].bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height)
             ])
         }
         for i in 0..<alcButtons.count {
@@ -84,6 +86,18 @@ class AppNavigation: UIView {
                 alcButtons[i].bottomAnchor.constraint(equalTo: middle.topAnchor, constant: -UI.Sizing.objectPadding)
             ])
         }
+        //
+        let gradientLayer = CAGradientLayer()
+//        gradientLayer.colors = [UIColor.darkGray.withAlphaComponent(1.0).cgColor,
+//                                UIColor.darkGray.withAlphaComponent(0.0).cgColor]
+//        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
+//        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.frame = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: UI.Sizing.width, height: UI.Sizing.appNavigationHeight))
+        let gradientColor = UIColor.darkGray
+        gradientLayer.colors = [gradientColor.withAlphaComponent(0.0).cgColor,
+                                gradientColor.withAlphaComponent(1.0).cgColor]
+        gradientLayer.locations = [0.0,(UI.Sizing.appNavigationGradient as NSNumber?)!]
+        self.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     @objc func presentAlcoholTypes() {

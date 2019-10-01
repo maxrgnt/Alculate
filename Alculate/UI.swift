@@ -16,32 +16,16 @@ struct UI {
     static let subLineRatio: CGFloat = 0.105
     static let tableViewRatio: CGFloat = (1-(headerRatio*2)-topLineRatio-subLineRatio) // 0.84
     static let userInputRatio: CGFloat = 0.75 // 0.84
-    static let adBannerRatio: CGFloat = 0.0 // 0.09
     
-    // key screen dimensions
     struct Sizing {
-        //
+        // key screen dimensions
         static let bounds = UIScreen.main.bounds
         static let height = bounds.height - statusBar.height
         static let width = bounds.width
-        //
         static let keyWindow = UIApplication.shared.windows[0]
         static let statusBar = keyWindow.windowScene!.statusBarManager!.statusBarFrame
         static let objectPadding = statusBar.height/2
         static let widthObjectPadding = width-statusBar.height
-        //
-        static let headerHeight = height*headerRatio
-        //
-        static let topLineHeight = height*topLineRatio
-        static let topLineTop = statusBar.height + headerHeight
-        static let subLineHeight = height*subLineRatio
-        static let subLineTop = topLineTop + topLineHeight
-        //
-        static let appNavigationHeight = (headerHeight*2)+objectPadding
-        //
-        static let tableViewHeight = height*(tableViewRatio)-statusBar.height
-        static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
-        //
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
                 inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
@@ -49,14 +33,26 @@ struct UI {
                 InputNavigation.bottom.constant = -keyboard
             }
         }
-        //
+        // Header sizing
+        static let headerHeight = height*headerRatio
+        // Top line sizing
+        static let topLineHeight = height*topLineRatio
+        static let topLineTop = statusBar.height + headerHeight
+        // Sub line sizing
+        static let subLineHeight = height*subLineRatio
+        static let subLineTop = topLineTop + topLineHeight
+        // App nav sizing
+        static let appNavigationHeight = (headerHeight*2)+objectPadding+statusBar.height
+        static let appNavigationGradient = headerHeight/appNavigationHeight
+        // Table view sizing
+        static let tableViewHeight = height*(tableViewRatio)-statusBar.height
+        static let tableViewTop = statusBar.height+headerHeight+topLineHeight+subLineHeight
+        // user input sizing
         static let userInputHeight = height*(userInputRatio)
         static let userInputRadius = width/10
         static let inputTextHeight = height*(headerRatio)
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
         static var inputBottom = inputTop-(inputTextHeight*3)
-        //
-
     }
 
     // fonts
@@ -83,10 +79,8 @@ struct UI {
     static func printUI() {
         //Color definitions
         // The website https://coolors.co/ is a cool tool to find colors that maintain a consistent scheme
-        // Adjust a color it starts you with to match the RGB values above, lock it, hit space bar and watch the suggested matches autopopulate
- 
-        print("AlculateUI | screenHeight: \(Sizing.height), screenWidth: \(Sizing.width)")
-        print("statusBar (x, y, width, height): ",UI.Sizing.statusBar)
+        // Adjust a color it starts you with to match the RGB values above,
+        // lock it, hit space bar and watch the suggested matches autopopulate
     }
 
 }

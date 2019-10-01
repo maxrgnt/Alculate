@@ -172,14 +172,18 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             masterList.tableOne.reloadData()
         }
         else {
+            let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             if table == Data.beerListID {
-                beerList.reloadData()
+                //beerList.reloadData()
+                beerList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.liquorListID {
-                liquorList.reloadData()
+                //liquorList.reloadData()
+                liquorList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.wineListID {
-                wineList.reloadData()
+                //wineList.reloadData()
+                wineList.reloadSections(sections as IndexSet, with: .automatic)
             }
             resetDeleteButton()
             resetAddButton()

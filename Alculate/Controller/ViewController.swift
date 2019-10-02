@@ -156,11 +156,13 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         }
     }
     
-    func bringBackAppNav() {
-        appNavigation.appNavBottom.constant = 0
-        UIView.animate(withDuration: 0.2, animations: {
-            self.view.layoutIfNeeded()
-        })
+    func updateAppNavBottom(by percent: CGFloat, animate: Bool) {
+        appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight*(1-percent)
+        if animate {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
     func resetAddButton() {

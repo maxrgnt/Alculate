@@ -12,7 +12,7 @@ protocol MasterListDelegate {
     // called when user taps subview/delete button
 //    func displayAlert(alert: UIAlertController)
     func closeUndo()
-    func bringBackAppNav()
+    func updateAppNavBottom(by: CGFloat, animate: Bool)
 }
 
 class MasterList: UIView {
@@ -60,6 +60,7 @@ class MasterList: UIView {
             tableOne.widthAnchor.constraint(equalTo: widthAnchor),
             tableOne.heightAnchor.constraint(equalTo: heightAnchor),
             tableOne.leadingAnchor.constraint(equalTo: leadingAnchor),
+            //tableOne.layoutMarginsGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableOne.topAnchor.constraint(equalTo: topAnchor)
             ])        
     }
@@ -72,22 +73,33 @@ class MasterList: UIView {
     
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
+        tableOne.isMoving = true
+        tableOne.reloadSectionIndexTitles()
         // Allow movement of contact card back/forth when not fully visible
         masterListLeading.constant += translation.x
         // If contact card is fully visible, don't allow movement further left
         if masterListLeading.constant < 0 {
             masterListLeading.constant = 0
         }
+        var percent = masterListLeading.constant/UI.Sizing.width
+        var shouldAnimate = false
+        if percent >= 1.0 {
+            percent = 1.0
+            shouldAnimate = true
+        }
+        self.masterListDelegate.updateAppNavBottom(by: percent, animate: shouldAnimate)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
         if sender.state == UIGestureRecognizer.State.ended {
+            tableOne.isMoving = false
+            tableOne.reloadSectionIndexTitles()
             // Auto-scroll left (in frame)
-            var constant: CGFloat = 0.0
+            let constant: CGFloat = UI.Sizing.width // 0.0
             // Auto-scroll right (out of frame)
-            if masterListLeading.constant > UI.Sizing.width/4 {
-                constant = UI.Sizing.width
-            }
+            //if masterListLeading.constant > UI.Sizing.width/4 {
+            //    constant = UI.Sizing.width
+            //}
             // Animate to end-point
             animateLeadingAnchor(constant: constant)
         }
@@ -96,7 +108,7 @@ class MasterList: UIView {
     func animateLeadingAnchor(constant: CGFloat) {
         if constant == UI.Sizing.width {
             self.masterListDelegate.closeUndo()
-            self.masterListDelegate.bringBackAppNav()
+            self.masterListDelegate.updateAppNavBottom(by: 1, animate: true)
         }
         masterListLeading.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})

@@ -19,6 +19,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
          
     var tableOneDelegate : TableOneDelegate!
     var toBeDeleted: [(name: String, abv: String, type: String)] = []
+    var isMoving = false
     
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
@@ -47,7 +48,12 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
 //    }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return Data.headers
+        if isMoving {
+            return nil
+        }
+        else {
+            return Data.headers
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

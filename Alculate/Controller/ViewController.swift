@@ -263,14 +263,15 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 }
             }
             header.appName.textColor = .black
-            topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
+            topLine.name.text = bestAlcohol.name
+            topLine.stat.text = "$"+bestAlcohol.alc //bestAlcohol.avg
             topLine.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
             view.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
         }
         // if all lists are empty, dont alculate
         else {
             header.appName.textColor = .white
-            topLine.bestAlcohol.text = "EMPTY!"
+            topLine.name.text = "EMPTY!"
             topLine.backgroundColor = .black
             view.backgroundColor = .black
         }

@@ -38,7 +38,7 @@ struct UI {
         static let topLineHeight = height*topLineRatio
         static let topLineTop = statusBar.height + headerHeight
         // App nav sizing
-        static let appNavigationHeight = (headerHeight*2)+objectPadding+statusBar.height
+        static let appNavigationHeight = (UI.Sizing.width/3)+objectPadding+statusBar.height
         static let appNavigationGradient = headerHeight/appNavigationHeight
         // Table view sizing
         static let tableViewHeight = height-headerHeight-topLineHeight //*(tableViewRatio)-statusBar.height

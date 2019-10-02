@@ -11,6 +11,8 @@ import UIKit
 class AppNavigation: UIView {
          
     var appNavBottom = NSLayoutConstraint()
+    var middleWidth = NSLayoutConstraint()
+    var middleHeight = NSLayoutConstraint()
 
     // Objects
     let left = UIButton()
@@ -45,10 +47,14 @@ class AppNavigation: UIView {
         for i in 0..<buttons.count {
             buttons[i].translatesAutoresizingMaskIntoConstraints = false
             buttons[i].setTitle(buttonText[i], for: .normal)
+            buttons[i].setTitleColor(.black, for: .normal)
             addSubview(buttons[i])
             buttons[i].tag = i
-            buttons[i].backgroundColor = .clear
+            buttons[i].backgroundColor = .white
         }
+        left.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.width/12)
+        middle.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.width/8)
+        right.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.width/12)
         let alcButtons = [beer, liquor, wine]
         let alcButtonText = ["B", "L", "W"]
         for i in 0..<alcButtons.count {
@@ -59,33 +65,39 @@ class AppNavigation: UIView {
             alcButtons[i].setTitle(alcButtonText[i], for: .normal)
             addSubview(alcButtons[i])
             alcButtons[i].tag = 20+i
-            alcButtons[i].backgroundColor = UI.Color.alcoholTypes[i]
+            alcButtons[i].setTitleColor(.black, for: .normal)
+            alcButtons[i].backgroundColor = .white //UI.Color.alcoholTypes[i]
+            alcButtons[i].roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.width/12)
         }
         // MARK: - NSLayoutConstraints
         appNavBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
+        middleWidth = middle.widthAnchor.constraint(equalToConstant: UI.Sizing.width/4)
+        middleHeight = middle.heightAnchor.constraint(equalToConstant: UI.Sizing.width/4)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             appNavBottom,
-            left.leadingAnchor.constraint(equalTo: leadingAnchor),
+            left.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
             middle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            right.trailingAnchor.constraint(equalTo: trailingAnchor),
+            right.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
             liquor.centerXAnchor.constraint(equalTo: middle.centerXAnchor),
             beer.trailingAnchor.constraint(equalTo: liquor.leadingAnchor, constant: -UI.Sizing.objectPadding),
-            wine.leadingAnchor.constraint(equalTo: liquor.trailingAnchor, constant: UI.Sizing.objectPadding)
-            ])
-        for i in 0..<buttons.count {
-            NSLayoutConstraint.activate([
-                buttons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
-                buttons[i].heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-                buttons[i].bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height)
-            ])
-        }
+            wine.leadingAnchor.constraint(equalTo: liquor.trailingAnchor, constant: UI.Sizing.objectPadding),
+            left.widthAnchor.constraint(equalToConstant: UI.Sizing.width/6),
+            left.heightAnchor.constraint(equalToConstant: UI.Sizing.width/6),
+            left.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height),
+            middleWidth,
+            middleHeight,
+            middle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height),
+            right.widthAnchor.constraint(equalToConstant: UI.Sizing.width/6),
+            right.heightAnchor.constraint(equalToConstant: UI.Sizing.width/6),
+            right.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height)
+        ])
         for i in 0..<alcButtons.count {
             NSLayoutConstraint.activate([
-                alcButtons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-                alcButtons[i].heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
+                alcButtons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.width/6),
+                alcButtons[i].heightAnchor.constraint(equalToConstant: UI.Sizing.width/6),
                 alcButtons[i].bottomAnchor.constraint(equalTo: middle.topAnchor, constant: -UI.Sizing.objectPadding)
             ])
         }
@@ -106,12 +118,22 @@ class AppNavigation: UIView {
             button.isHidden = true
         }
         middle.setTitle("+", for: .normal)
+        middleWidth.constant = UI.Sizing.width/4
+        middleHeight.constant = UI.Sizing.width/4
+        var tempRadius = UI.Sizing.width/8
         if !selectingType {
             for button in [beer,liquor,wine] {
                 button.isHidden = false
             }
             middle.setTitle("-", for: .normal)
+            middleWidth.constant = UI.Sizing.width/6
+            middleHeight.constant = UI.Sizing.width/6
+            tempRadius = UI.Sizing.width/12
         }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.middle.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: tempRadius)
+            self.layoutIfNeeded()
+        })
         selectingType = !selectingType
     }
 

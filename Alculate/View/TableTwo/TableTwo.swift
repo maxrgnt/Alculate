@@ -69,7 +69,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
         if indexPath.row == 0 {
             cell.cellObject.backgroundColor = .white
-            cell.cellObject.alpha = 0.6
+            //cell.cellObject.alpha = 0.6
         }
         else {
             cell.cellObject.backgroundColor = .clear

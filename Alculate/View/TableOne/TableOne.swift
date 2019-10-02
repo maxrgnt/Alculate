@@ -33,7 +33,8 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         delegate = self
         dataSource = self
         tableHeaderView = nil
-        separatorStyle = .none
+        separatorStyle = .singleLine
+        separatorColor = .gray
         sectionIndexColor = UIColor.white
         sectionIndexBackgroundColor = UIColor.clear
     }
@@ -65,7 +66,8 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let name = nameList![indexPath.row]
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
-        cell.cellLabel.text = "\(name): \(abv)% [\(type)]"
+        cell.header.text = name
+        cell.stub.text = "\(type) - \(abv)%"
         return cell
     }
     
@@ -109,6 +111,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
         toBeDeleted.append((name: name, abv: abv, type: type))
+        Data.isEditable = true // false
         if Data.masterList[name]! == (type: type, abv: abv) {
             Data.masterList[name] = nil
         }

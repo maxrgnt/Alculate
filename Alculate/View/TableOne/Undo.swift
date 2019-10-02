@@ -13,9 +13,7 @@ class Undo: UIView {
     // Objects
     let confirm = UIButton()
     let close = UIButton()
-    
-    var undoBottom = NSLayoutConstraint()
-    
+        
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -41,12 +39,7 @@ class Undo: UIView {
         confirm.contentHorizontalAlignment = .center
         close.contentHorizontalAlignment = .right
         // MARK: - NSLayoutConstraints
-        undoBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.appNavigationHeight*(2/3))
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            undoBottom,
             confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding-UI.Sizing.appNavigationHeight*(4/3)*(2/3)),
             confirm.centerXAnchor.constraint(equalTo: centerXAnchor),
             confirm.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)*(2/3)),

@@ -8,13 +8,22 @@
 
 import UIKit
 
+protocol MasterListDelegate {
+    // called when user taps subview/delete button
+//    func displayAlert(alert: UIAlertController)
+    func closeUndo()
+}
+
 class MasterList: UIView {
-         
+             
+    var masterListDelegate : MasterListDelegate!
+
     // Objects
     var tableOne = TableOne()
     var undo = Undo()
     var masterListLeading: NSLayoutConstraint!
-    
+    var undoBottom = NSLayoutConstraint()
+
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -37,11 +46,16 @@ class MasterList: UIView {
         undo.build()
         // MARK: - NSLayoutConstraints
         masterListLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
+        undoBottom = undo.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.appNavigationHeight*(2/3))
         NSLayoutConstraint.activate([
             masterListLeading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
+            undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
+            undo.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),
+            undo.leadingAnchor.constraint(equalTo: leadingAnchor),
+            undoBottom,
             tableOne.widthAnchor.constraint(equalTo: widthAnchor),
             tableOne.heightAnchor.constraint(equalTo: heightAnchor),
             tableOne.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -51,7 +65,7 @@ class MasterList: UIView {
     
     func minimizeUndo() {
         tableOne.toBeDeleted = []
-        undo.undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
+        undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
         layoutIfNeeded()
     }
     
@@ -79,6 +93,9 @@ class MasterList: UIView {
     }
     
     func animateLeadingAnchor(constant: CGFloat) {
+        if constant == 0.0 {
+            self.masterListDelegate.closeUndo()
+        }
         masterListLeading.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})
     }

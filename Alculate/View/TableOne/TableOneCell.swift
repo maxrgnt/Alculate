@@ -17,7 +17,8 @@ class TableOneCell: UITableViewCell {
     /*weak*/ var delegate: TableOneCellDelegate?
 
     // Objects
-    let cellLabel = UILabel()
+    let header = UILabel()
+    let stub = UILabel()
     let remove = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -27,24 +28,34 @@ class TableOneCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .black
         // View object settings
-        addSubview(cellLabel)
-        cellLabel.translatesAutoresizingMaskIntoConstraints = false
-        cellLabel.textColor = .white
-        cellLabel.textAlignment = .left
-        cellLabel.font = UI.Font.headerFont
+        addSubview(header)
+        header.translatesAutoresizingMaskIntoConstraints = false
+        header.textColor = .white
+        header.textAlignment = .left
+        header.font = UI.Font.cellHeaderFont
+        addSubview(stub)
+        stub.translatesAutoresizingMaskIntoConstraints = false
+        stub.textColor = .lightGray
+        stub.alpha = 0.7
+        stub.textAlignment = .left
+        stub.font = UI.Font.cellStubFont
         //
         addSubview(remove)
         remove.translatesAutoresizingMaskIntoConstraints = false
-        remove.titleLabel?.font = UI.Font.headerFont
+        remove.titleLabel?.font = UI.Font.cellHeaderFont
         remove.setTitle("X", for: .normal)
         remove.setTitleColor(.white, for: .normal)
         remove.addTarget(self, action: #selector(removeAlc), for: .touchUpInside)
         // MARK: - NSLayoutConstraints
         NSLayoutConstraint.activate([
-            cellLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding-UI.Sizing.headerHeight),
-            cellLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-            cellLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            cellLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            header.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding-UI.Sizing.headerHeight),
+            header.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*2/3),
+            header.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            header.topAnchor.constraint(equalTo: topAnchor),
+            stub.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding-UI.Sizing.headerHeight),
+            stub.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight/3),
+            stub.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            stub.bottomAnchor.constraint(equalTo: bottomAnchor),
             remove.centerYAnchor.constraint(equalTo: centerYAnchor),
             remove.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             remove.widthAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),

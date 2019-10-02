@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate {
+class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate {
  
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
@@ -71,6 +71,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         self.userInput.inputDelegate = self
         //
         masterList.build()
+        self.masterList.masterListDelegate = self
         self.masterList.tableOne.tableOneDelegate = self
         masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
         masterList.undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
@@ -169,12 +170,14 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
      
     func offerUndo() {
-        masterList.undo.undoBottom.constant = 0
-        masterList.undo.confirm.setTitle("Undo delete (\(masterList.tableOne.toBeDeleted.count))?", for: .normal)
+        masterList.undoBottom.constant = 0
+        masterList.undo.confirm.setTitle("Undo delete [ \(masterList.tableOne.toBeDeleted.count) ] ?", for: .normal)
     }
     
     @objc func closeUndo() {
         for info in masterList.tableOne.toBeDeleted {
+            Data.isEditable = true
+            Data.masterList = Data.masterList
             Data.deleteMaster(wName: info.name, wABV: info.abv, wType: info.type)
         }
         masterList.minimizeUndo()
@@ -185,8 +188,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             for info in masterList.tableOne.toBeDeleted {
                 Data.masterList[info.name] = (type: info.type, abv: info.abv)
             }
-            let sections = NSIndexSet(indexesIn: NSMakeRange(0,Data.headers.count))
-            masterList.tableOne.reloadSections(sections as IndexSet, with: .automatic)
+            //let sections = NSIndexSet(indexesIn: NSMakeRange(0,masterList.tableOne.numberOfSections))
+            //masterList.tableOne.reloadSections(sections as IndexSet, with: .automatic)
+            masterList.tableOne.reloadData()
         }
         masterList.minimizeUndo()
     }

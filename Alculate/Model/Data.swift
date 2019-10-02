@@ -24,33 +24,39 @@ struct Data {
     // matrix is dictionary of header letters and drinks that start with that letter
     static var matrix = [String: [String]]()
 //    static var alcoholData = ["type": String(), "name": String(), "abv": String()] {
+    static var isEditable = true
     static var masterList = [String: (type: String, abv: String)]() {
         didSet {
-            // get all alcohol names out of alcohol data
-            let alcoholNames = masterList.keys
-            // go through every alcohol in list of alcohol names if it isnt empty
-            if !alcoholNames.isEmpty {
-                for alcohol in alcoholNames {
-                    let firstLetterLastName = String(alcohol.prefix(1))
-                    // if first letter does not exist in headers, add it
-                    if !headers.contains(firstLetterLastName) {
-                        headers.append(firstLetterLastName)
+            if isEditable {
+                // reset headers/matrix for when items get deleted, they are appended below, doesnt reflect delete
+                headers = []
+                matrix = [String: [String]]()
+                // get all alcohol names out of alcohol data
+                let alcoholNames = masterList.keys
+                // go through every alcohol in list of alcohol names if it isnt empty
+                if !alcoholNames.isEmpty {
+                    for alcohol in alcoholNames {
+                        let firstLetterLastName = String(alcohol.prefix(1))
+                        // if first letter does not exist in headers, add it
+                        if !headers.contains(firstLetterLastName) {
+                            headers.append(firstLetterLastName)
+                        }
                     }
-                }
-                // sort headers
-                headers = headers.sorted()
-                // set keys of matrix dictionary to first letters of alcohol names that exist
-                for header in headers {
-                    matrix[header] = []
-                }
-                // add each alcohol name to first letter list in matrix
-                for alcohol in alcoholNames {
-                    let firstLetterLastName = String(alcohol.prefix(1))
-                    matrix[firstLetterLastName]!.append(alcohol)
-                }
-                // sort each letter list in matrix alphabetically
-                for header in Array(matrix.keys) {
-                    matrix[header] = matrix[header]!.sorted()
+                    // sort headers
+                    headers = headers.sorted()
+                    // set keys of matrix dictionary to first letters of alcohol names that exist
+                    for header in headers {
+                        matrix[header] = []
+                    }
+                    // add each alcohol name to first letter list in matrix
+                    for alcohol in alcoholNames {
+                        let firstLetterLastName = String(alcohol.prefix(1))
+                        matrix[firstLetterLastName]!.append(alcohol)
+                    }
+                    // sort each letter list in matrix alphabetically
+                    for header in Array(matrix.keys) {
+                        matrix[header] = matrix[header]!.sorted()
+                    }
                 }
             }
         }

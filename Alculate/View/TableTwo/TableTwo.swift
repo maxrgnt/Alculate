@@ -71,6 +71,9 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             cell.cellObject.backgroundColor = .white
             cell.cellObject.alpha = 0.6
         }
+        else {
+            cell.cellObject.backgroundColor = .clear
+        }
         cell.name.text = "\(info.name)"
         let price = String(format: "%.2f", Double(info.price)!)
         cell.size.text = "\(info.size) oz. | $\(price)"

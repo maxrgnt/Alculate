@@ -149,7 +149,18 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         else if sender.tag == 2 {
             resetAddButton()
             masterList.animateLeadingAnchor(constant: 0)
+            appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
         }
+    }
+    
+    func bringBackAppNav() {
+        appNavigation.appNavBottom.constant = 0
+        UIView.animate(withDuration: 0.2, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
     
     func resetAddButton() {

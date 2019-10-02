@@ -10,6 +10,8 @@ import UIKit
 
 class AppNavigation: UIView {
          
+    var appNavBottom = NSLayoutConstraint()
+
     // Objects
     let left = UIButton()
     let middle = UIButton()
@@ -60,11 +62,12 @@ class AppNavigation: UIView {
             alcButtons[i].backgroundColor = UI.Color.alcoholTypes[i]
         }
         // MARK: - NSLayoutConstraints
+        appNavBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            bottomAnchor.constraint(equalTo: ViewController.bottomAnchor),
+            appNavBottom,
             left.leadingAnchor.constraint(equalTo: leadingAnchor),
             middle.centerXAnchor.constraint(equalTo: centerXAnchor),
             right.trailingAnchor.constraint(equalTo: trailingAnchor),

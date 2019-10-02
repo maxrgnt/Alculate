@@ -12,6 +12,7 @@ protocol MasterListDelegate {
     // called when user taps subview/delete button
 //    func displayAlert(alert: UIAlertController)
     func closeUndo()
+    func bringBackAppNav()
 }
 
 class MasterList: UIView {
@@ -93,8 +94,9 @@ class MasterList: UIView {
     }
     
     func animateLeadingAnchor(constant: CGFloat) {
-        if constant == 0.0 {
+        if constant == UI.Sizing.width {
             self.masterListDelegate.closeUndo()
+            self.masterListDelegate.bringBackAppNav()
         }
         masterListLeading.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})

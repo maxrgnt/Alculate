@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate {
-        
+ 
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
     static var trailingAnchor: NSLayoutXAxisAnchor!
@@ -72,7 +72,8 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         //
         masterList.build()
         self.masterList.tableOne.tableOneDelegate = self
-        
+        masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
+        masterList.undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
         //clearTestData()
         handleInit()
     }
@@ -166,7 +167,30 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     func displayAlert(alert : UIAlertController) {
         present(alert, animated: true, completion: nil)
     }
-            
+     
+    func offerUndo() {
+        masterList.undo.undoBottom.constant = 0
+        masterList.undo.confirm.setTitle("Undo delete (\(masterList.tableOne.toBeDeleted.count))?", for: .normal)
+    }
+    
+    @objc func closeUndo() {
+        for info in masterList.tableOne.toBeDeleted {
+            Data.deleteMaster(wName: info.name, wABV: info.abv, wType: info.type)
+        }
+        masterList.minimizeUndo()
+    }
+    
+    @objc func confirmUndo() {
+        if !masterList.tableOne.toBeDeleted.isEmpty {
+            for info in masterList.tableOne.toBeDeleted {
+                Data.masterList[info.name] = (type: info.type, abv: info.abv)
+            }
+            let sections = NSIndexSet(indexesIn: NSMakeRange(0,Data.headers.count))
+            masterList.tableOne.reloadSections(sections as IndexSet, with: .automatic)
+        }
+        masterList.minimizeUndo()
+    }
+    
     func reloadTable(table: String) {
         if table == Data.masterListID {
             masterList.tableOne.reloadData()
@@ -221,13 +245,17 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                                    ind: listPiece.ind)
                 }
             }
+            header.appName.textColor = .black
             topLine.bestAlcohol.text = bestAlcohol.name+" | $"+bestAlcohol.alc+" | "+bestAlcohol.avg+"x"
             topLine.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
             view.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
         }
         // if all lists are empty, dont alculate
         else {
+            header.appName.textColor = .white
             topLine.bestAlcohol.text = "EMPTY!"
+            topLine.backgroundColor = .black
+            view.backgroundColor = .black
         }
     }
     

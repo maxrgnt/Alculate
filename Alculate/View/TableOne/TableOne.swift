@@ -10,14 +10,16 @@ import UIKit
 
 protocol TableOneDelegate {
     // called when user taps subview/delete button
-    func displayAlert(alert: UIAlertController)
+//    func displayAlert(alert: UIAlertController)
+    func offerUndo()
     func reloadTable(table: String)
 }
 
 class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TableOneCellDelegate {
          
     var tableOneDelegate : TableOneDelegate!
-
+    var toBeDeleted: [(name: String, abv: String, type: String)] = []
+    
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
@@ -106,21 +108,27 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let name = nameList![indexPath!.row]
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
-        //present alerts for confirmation of wallet removal
-        let alert = UIAlertController(title: "Remove Saved ABV", message: "Are you sure you want to delete \(name)?", preferredStyle: .alert)
-        //removal is confirmed
-        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
-            Data.deleteMaster(wName: name, wABV: abv, wType: type)
-            if Data.masterList[name]! == (type: type, abv: abv) {
-                Data.masterList[name] = nil
-            }
-            print(Data.masterList)
-            self.tableOneDelegate.reloadTable(table: Data.masterListID)
-        }))
-        //add the cancel action
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        //present the alert
-        self.tableOneDelegate.displayAlert(alert: alert)
+        toBeDeleted.append((name: name, abv: abv, type: type))
+        if Data.masterList[name]! == (type: type, abv: abv) {
+            Data.masterList[name] = nil
+        }
+        self.tableOneDelegate.reloadTable(table: Data.masterListID)
+        self.tableOneDelegate.offerUndo()
+//        //present alerts for confirmation of wallet removal
+//        let alert = UIAlertController(title: "Remove Saved ABV", message: "Are you sure you want to delete \(name)?", preferredStyle: .alert)
+//        //removal is confirmed
+//        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+//            Data.deleteMaster(wName: name, wABV: abv, wType: type)
+//            if Data.masterList[name]! == (type: type, abv: abv) {
+//                Data.masterList[name] = nil
+//            }
+//            print(Data.masterList)
+//            self.tableOneDelegate.reloadTable(table: Data.masterListID)
+//        }))
+//        //add the cancel action
+//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        //present the alert
+//        self.tableOneDelegate.displayAlert(alert: alert)
     }
     
     required init?(coder aDecoder: NSCoder) {

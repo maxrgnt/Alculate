@@ -12,6 +12,7 @@ class MasterList: UIView {
          
     // Objects
     var tableOne = TableOne()
+    var undo = Undo()
     var masterListLeading: NSLayoutConstraint!
     
     init() {
@@ -31,6 +32,9 @@ class MasterList: UIView {
         //
         addSubview(tableOne)
         tableOne.build()
+        //
+        addSubview(undo)
+        undo.build()
         // MARK: - NSLayoutConstraints
         masterListLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
         NSLayoutConstraint.activate([
@@ -44,7 +48,13 @@ class MasterList: UIView {
             tableOne.topAnchor.constraint(equalTo: topAnchor)
             ])        
     }
-
+    
+    func minimizeUndo() {
+        tableOne.toBeDeleted = []
+        undo.undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
+        layoutIfNeeded()
+    }
+    
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
         // Allow movement of contact card back/forth when not fully visible

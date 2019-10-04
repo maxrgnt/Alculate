@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol TableTwoCellDelegate: AnyObject {
+    func remove(cell: TableTwoCell)
+}
+
 class TableTwoCell: UITableViewCell {
   
+    /*weak*/ var delegate: TableTwoCellDelegate?
+
     // Objects
     let cellObject = UIView()
     
+    var type = ""
     let name = UILabel()
     let size = UILabel()
     let perDrink = UILabel()
@@ -24,12 +31,15 @@ class TableTwoCell: UITableViewCell {
         // Miscelaneous view settings
         selectionStyle = .none
         backgroundColor = .lightGray
+        //
         addSubview(cellObject)
         cellObject.translatesAutoresizingMaskIntoConstraints = false
         cellObject.backgroundColor = .clear
         cellObject.layer.borderWidth = UI.Sizing.cellObjectBorder
         cellObject.layer.borderColor = UIColor.black.cgColor
         cellObject.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: UI.Sizing.cellObjectRadius)
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
+        cellObject.addGestureRecognizer(longPressRecognizer)
         // View object settings
         for label in [name, size, perDrink, avg] {
             cellObject.addSubview(label)
@@ -66,6 +76,11 @@ class TableTwoCell: UITableViewCell {
             perDrink.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
             perDrink.topAnchor.constraint(equalTo: avg.bottomAnchor)
             ])
+    }
+    
+    @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
+        cellObject.backgroundColor = .red
+        delegate?.remove(cell: self)
     }
     
     required init?(coder aDecoder: NSCoder) {

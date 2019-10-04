@@ -1,5 +1,5 @@
 //
-//  TableOneCel.swift
+//  TableOneCell.swift
 //  Alculate
 //
 //  Created by Max Sergent on 9/24/19.

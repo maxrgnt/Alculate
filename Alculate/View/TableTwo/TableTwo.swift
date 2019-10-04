@@ -9,9 +9,17 @@
 import Foundation
 import UIKit
 
-class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
-    
+protocol TableTwoDelegate {
+    // called when user taps subview/delete button
+    func displayAlert(alert: UIAlertController)
+    func reloadTable(table: String)
+}
+
+class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TableTwoCellDelegate {
+        
     var tableTwoDelegate : TableTwoDelegate!
+
+    var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
 
     var willDelete = false
     var alcoholType = ""
@@ -54,7 +62,9 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableTwoCell = tableView.dequeueReusableCell(withIdentifier: "TableTwoCell") as! TableTwoCell
+        cell.delegate = self
         var info = (name: "", abv: "", size: "", price: "")
+        cell.type = alcoholType
         if alcoholType == "BEER" {
             info = Data.beerList[indexPath.row]
             cell.backgroundColor = .lightGray
@@ -122,6 +132,32 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
     }
 
+    func remove(cell: TableTwoCell) {
+        let indexPath = self.indexPath(for: cell)
+        var info = (name: "", abv: "", size: "", price: "")
+        if alcoholType == "BEER" {
+            info = Data.beerList[indexPath!.row]
+        }
+        else if alcoholType == "LIQUOR" {
+            info = Data.liquorList[indexPath!.row]
+        }
+        else if alcoholType == "WINE" {
+            info = Data.wineList[indexPath!.row]
+        }
+        toBeDeleted.append((name: info.name, abv: info.abv, size: info.size, price: info.price))
+        if alcoholType == "BEER" {
+            Data.beerList.remove(at: indexPath!.row)
+        }
+        else if alcoholType == "LIQUOR" {
+            Data.liquorList.remove(at: indexPath!.row)
+        }
+        else if alcoholType == "WINE" {
+            Data.wineList.remove(at: indexPath!.row)
+        }
+        self.tableTwoDelegate.reloadTable(table: Data.masterListID)
+//        self.tableTwoDelegate.offerUndo()
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // pass
     }
@@ -148,8 +184,3 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     
 }
 
-protocol TableTwoDelegate {
-    // called when user taps subview/delete button
-    func displayAlert(alert: UIAlertController)
-    func reloadTable(table: String)
-}

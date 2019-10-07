@@ -13,6 +13,12 @@ class AppNavigation: UIView {
     var appNavBottom = NSLayoutConstraint()
     var middleWidth = NSLayoutConstraint()
     var middleHeight = NSLayoutConstraint()
+    
+    var beerTrailing = NSLayoutConstraint()
+    var wineLeading = NSLayoutConstraint()
+    var beerTop = NSLayoutConstraint()
+    var liquorTop = NSLayoutConstraint()
+    var wineTop = NSLayoutConstraint()
 
     // Objects
     let left = UIButton()
@@ -72,6 +78,11 @@ class AppNavigation: UIView {
         appNavBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
         middleWidth = middle.widthAnchor.constraint(equalToConstant: UI.Sizing.width/4)
         middleHeight = middle.heightAnchor.constraint(equalToConstant: UI.Sizing.width/4)
+        beerTrailing = beer.trailingAnchor.constraint(equalTo: liquor.leadingAnchor)
+        wineLeading = wine.leadingAnchor.constraint(equalTo: liquor.trailingAnchor)
+        beerTop = beer.topAnchor.constraint(equalTo: middle.topAnchor)
+        liquorTop = liquor.topAnchor.constraint(equalTo: middle.topAnchor)
+        wineTop = wine.topAnchor.constraint(equalTo: middle.topAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight),
@@ -81,8 +92,11 @@ class AppNavigation: UIView {
             middle.centerXAnchor.constraint(equalTo: centerXAnchor),
             right.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
             liquor.centerXAnchor.constraint(equalTo: middle.centerXAnchor),
-            beer.trailingAnchor.constraint(equalTo: liquor.leadingAnchor, constant: -UI.Sizing.objectPadding),
-            wine.leadingAnchor.constraint(equalTo: liquor.trailingAnchor, constant: UI.Sizing.objectPadding),
+            beerTrailing,
+            wineLeading,
+            beerTop,
+            liquorTop,
+            wineTop,
             left.widthAnchor.constraint(equalToConstant: UI.Sizing.width/6),
             left.heightAnchor.constraint(equalToConstant: UI.Sizing.width/6),
             left.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.statusBar.height),
@@ -97,7 +111,6 @@ class AppNavigation: UIView {
             NSLayoutConstraint.activate([
                 alcButtons[i].widthAnchor.constraint(equalToConstant: UI.Sizing.width/6),
                 alcButtons[i].heightAnchor.constraint(equalToConstant: UI.Sizing.width/6),
-                alcButtons[i].bottomAnchor.constraint(equalTo: middle.topAnchor, constant: -UI.Sizing.objectPadding)
             ])
         }
         //
@@ -113,27 +126,49 @@ class AppNavigation: UIView {
     }
     
     @objc func presentAlcoholTypes() {
-        for button in [beer,liquor,wine] {
-            button.isHidden = true
-        }
-        middle.setTitle("+", for: .normal)
-        middleWidth.constant = UI.Sizing.width/4
-        middleHeight.constant = UI.Sizing.width/4
         var tempRadius = UI.Sizing.width/8
         if !selectingType {
-            for button in [beer,liquor,wine] {
-                button.isHidden = false
-            }
-            middle.setTitle("-", for: .normal)
-            middleWidth.constant = UI.Sizing.width/6
-            middleHeight.constant = UI.Sizing.width/6
             tempRadius = UI.Sizing.width/12
+            showAlcoholTypes(true)
+        }
+        else {
+            showAlcoholTypes(false)
         }
         UIView.animate(withDuration: 0.2, animations: {
             self.middle.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: tempRadius)
             self.layoutIfNeeded()
         })
         selectingType = !selectingType
+    }
+    
+    func showAlcoholTypes(_ shouldShow:Bool) {
+        if shouldShow {
+            for button in [beer,liquor,wine] {
+                button.isHidden = false
+            }
+            middle.setTitle("-", for: .normal)
+            middleWidth.constant = UI.Sizing.width/6
+            middleHeight.constant = UI.Sizing.width/6
+            beerTop.constant = -UI.Sizing.width/6-UI.Sizing.objectPadding
+            liquorTop.constant = -UI.Sizing.width/6-UI.Sizing.objectPadding
+            wineTop.constant = -UI.Sizing.width/6-UI.Sizing.objectPadding
+            beerTrailing.constant = -UI.Sizing.objectPadding
+            wineLeading.constant = UI.Sizing.objectPadding
+        }
+        else {
+            for button in [beer,liquor,wine] {
+                button.isHidden = true
+            }
+            middle.setTitle("+", for: .normal)
+            middleWidth.constant = UI.Sizing.width/4
+            middleHeight.constant = UI.Sizing.width/4
+            beerTop.constant = 0
+            liquorTop.constant = 0
+            wineTop.constant = 0
+            beerTrailing.constant = 0
+            wineLeading.constant = 0
+        }
+        
     }
 
     required init?(coder aDecoder: NSCoder) {

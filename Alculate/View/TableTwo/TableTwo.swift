@@ -54,8 +54,12 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
-        layer.borderWidth = UI.Sizing.cellObjectBorder/2
-        layer.borderColor = UIColor.black.cgColor
+        showsVerticalScrollIndicator = false
+//        self.addTopBorder(with: UI.Color.alculatePurpleDark, andWidth: CGFloat(UI.Sizing.cellObjectBorder))
+//        self.addLeftBorder(with: UI.Color.alculatePurpleDark, andWidth: CGFloat(UI.Sizing.cellObjectBorder/2))
+//        self.addRightBorder(with: UI.Color.alculatePurpleDark, andWidth: CGFloat(UI.Sizing.cellObjectBorder/2))
+        layer.borderWidth = UI.Sizing.cellObjectBorder/3
+        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
         //separatorColor = .black
         estimatedRowHeight = 0
         estimatedSectionFooterHeight = 0
@@ -109,7 +113,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             cell.cellObject.backgroundColor = UI.Color.alcoholTypes[2]
         }
         if indexPath.row == 0 {
-            cell.cellObject.backgroundColor = UI.Color.softWhite
+//            cell.cellObject.backgroundColor = UI.Color.softWhite
             //cell.cellObject.alpha = 0.6
         }
         cell.name.text = "\(info.name.capitalizingFirstLetter())"

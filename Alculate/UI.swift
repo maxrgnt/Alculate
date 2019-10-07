@@ -44,7 +44,7 @@ struct UI {
         static let tableViewHeight = height-headerHeight-topLineHeight //*(tableViewRatio)-statusBar.height
         static let tableViewWidth = width/3
         static let cellObjectRadius = tableViewWidth/10
-        static let cellObjectBorder = tableViewWidth/40
+        static let cellObjectBorder = tableViewWidth/50
         static let cellObjectWidth = tableViewWidth-objectPadding+cellObjectBorder
         static let bogus2 = CGFloat((2.0/5.0)+(1.0/3.0))+CGFloat(1.0/4.0)+CGFloat(1.0/10.0)
         static let cellObjectHeight = tableViewWidth*(bogus2)+cellObjectBorder
@@ -75,10 +75,11 @@ struct UI {
 //        static let wine = UIColor(displayP3Red: 232/255, green: 63/255, blue: 111/255, alpha: 1.0)
         static let alculatePurpleDark = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
         static let alculatePurpleLite = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
-        static let beer = UIColor(displayP3Red: 227/255, green: 181/255, blue: 5/255, alpha: 1.0)
-        static let liquor = UIColor(displayP3Red: 38/255, green: 196/255, blue: 133/255, alpha: 1.0)
-        static let wine = UIColor(displayP3Red: 139/255, green: 38/255, blue: 53/255, alpha: 1.0)
-        static let softWhite = UIColor(displayP3Red: 189/255, green: 213/255, blue: 234/255, alpha: 1.0)
+        static let beer = UIColor(displayP3Red: 172/255, green: 135/255, blue: 59/255, alpha: 1.0)
+        static let liquor = UIColor(displayP3Red: 47/255, green: 121/255, blue: 123/255, alpha: 1.0)
+        static let wine = UIColor(displayP3Red: 120/255, green: 11/255, blue: 56/255, alpha: 1.0)
+        static let softWhite = UIColor(displayP3Red: 197/255, green: 255/255, blue: 253/255, alpha: 1.0)
+//        static let softWhite = UIColor(displayP3Red: 189/255, green: 213/255, blue: 234/255, alpha: 1.0)
 //        static let green = UIColor(displayP3Red: 124/255, green: 255/255, blue: 203/255, alpha: 1.0)
         static let alcoholTypes = [beer, liquor, wine, alculatePurpleLite]
     }

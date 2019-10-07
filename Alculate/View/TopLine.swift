@@ -29,13 +29,13 @@ class TopLine: UIView {
         // Object settings
         for obj in [bestPriceName,bestCountName] {
             addSubview(obj)
-            obj.textColor = .darkGray
+            obj.textColor = UI.Color.softWhite
             obj.font = UI.Font.headerFont
             obj.textAlignment = .center
         }
         for obj in [bestPriceStat,bestCountStat] {
             addSubview(obj)
-            obj.textColor = .gray
+            obj.textColor = UI.Color.softWhite
             obj.font = UI.Font.headerFont
             obj.textAlignment = .center
         }

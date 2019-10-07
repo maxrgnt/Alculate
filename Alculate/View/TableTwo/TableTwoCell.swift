@@ -46,7 +46,7 @@ class TableTwoCell: UITableViewCell {
         cellObject.clipsToBounds = false
         cellObject.translatesAutoresizingMaskIntoConstraints = false
         cellObject.layer.borderWidth = UI.Sizing.cellObjectBorder
-        cellObject.layer.borderColor = UIColor.black.cgColor
+        cellObject.layer.borderColor = UI.Color.alculatePurpleDark.cgColor
         cellObject.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: UI.Sizing.cellObjectRadius)
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         cellObject.addGestureRecognizer(longPressRecognizer)
@@ -56,7 +56,7 @@ class TableTwoCell: UITableViewCell {
         for label in [name, size, otherStat, sortedStat, otherLabel, sortedLabel] {
             cellObject.addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = .black
+            label.textColor = UI.Color.softWhite
             label.textAlignment = .left
             label.font = UI.Font.cellStubFont
         }

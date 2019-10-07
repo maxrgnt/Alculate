@@ -161,21 +161,23 @@ class TableTwoCell: UITableViewCell {
     
     func nukeAllAnimations(restart: Bool) {
         continueAnimating = false
-        cellObjectWidth.constant = UI.Sizing.cellObjectWidth
-        cellObjectHeight.constant = UI.Sizing.cellObjectHeight
-        UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
-            , animations: ({
-                self.delete.alpha = 0.0
-                self.layoutIfNeeded()
-                self.cellObject.transform = .identity
-                self.delete.transform = .identity
-            }), completion: { (completed) in
-                self.subviews.forEach({$0.layer.removeAllAnimations()})
-                self.layer.removeAllAnimations()
-                if restart {
-                    self.beginDeleteAnimation()
-                }
-            })
+        if cellObjectWidth.constant != UI.Sizing.cellObjectWidth && cellObjectHeight.constant != UI.Sizing.cellObjectHeight {
+            cellObjectWidth.constant = UI.Sizing.cellObjectWidth
+            cellObjectHeight.constant = UI.Sizing.cellObjectHeight
+            UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
+                , animations: ({
+                    self.delete.alpha = 0.0
+                    self.layoutIfNeeded()
+                    self.cellObject.transform = .identity
+                    self.delete.transform = .identity
+                }), completion: { (completed) in
+                    self.subviews.forEach({$0.layer.removeAllAnimations()})
+                    self.layer.removeAllAnimations()
+                    if restart {
+                        self.beginDeleteAnimation()
+                    }
+                })
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

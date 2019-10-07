@@ -39,7 +39,6 @@ class MasterList: UIView {
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
-        //
         // Blur object settings
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -54,18 +53,18 @@ class MasterList: UIView {
             blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20)
             ])
         // Vibrancy object settings
-//        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
-//        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-//        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
-//        blurEffectView.contentView.addSubview(vibrancyView)
-//        NSLayoutConstraint.activate([
-//            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
-//            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
-//            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
-//            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
-//            ])
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
+        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.contentView.addSubview(vibrancyView)
+        NSLayoutConstraint.activate([
+            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
+            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
+            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
+            ])
         // View object settings
-        blurEffectView.contentView.addSubview(tableOne)
+        vibrancyView.contentView.addSubview(tableOne)
         //addSubview(tableOne)
         tableOne.build()
         //

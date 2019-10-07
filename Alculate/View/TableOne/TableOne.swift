@@ -29,7 +29,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     func build() {
         // Miscelaneous view settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UI.Color.alculatePurpleLite
+        backgroundColor = .clear//UI.Color.alculatePurpleLite
         register(TableOneCell.self, forCellReuseIdentifier: "TableOneCell")
         delegate = self
         dataSource = self

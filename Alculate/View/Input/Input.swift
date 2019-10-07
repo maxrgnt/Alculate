@@ -58,7 +58,7 @@ class Input: UIView, UITextFieldDelegate {
         clipsToBounds = true
         roundCorners(corners: [.topLeft, .topRight], radius: UI.Sizing.userInputRadius)
         layer.borderWidth = UI.Sizing.cellObjectBorder*2
-        layer.borderColor = UIColor.black.cgColor
+        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
         // Object settings
         addSubview(textField)
         textField.delegate = self
@@ -66,7 +66,7 @@ class Input: UIView, UITextFieldDelegate {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         //
         type.translatesAutoresizingMaskIntoConstraints = false
-        type.textColor = .black
+        type.textColor = UI.Color.softWhite
         type.textAlignment = .center
         addSubview(type)
         //
@@ -74,7 +74,7 @@ class Input: UIView, UITextFieldDelegate {
         for i in 0..<buttons.count {
             buttons[i].translatesAutoresizingMaskIntoConstraints = false
             buttons[i].setTitle(defaults[i], for: .normal)
-            buttons[i].setTitleColor(.black, for: .normal)
+            buttons[i].setTitleColor(UI.Color.softWhite, for: .normal)
             buttons[i].contentHorizontalAlignment = .left
             addSubview(buttons[i])
             buttons[i].tag = i
@@ -82,7 +82,7 @@ class Input: UIView, UITextFieldDelegate {
         }
         let buttons2 = [oz,ml]
         for i in 0..<buttons2.count {
-            buttons2[i].setTitleColor(.black, for: .normal)
+            buttons2[i].setTitleColor(UI.Color.softWhite, for: .normal)
             buttons2[i].translatesAutoresizingMaskIntoConstraints = false
             buttons2[i].contentHorizontalAlignment = .center
             buttons2[i].addTarget(self, action: #selector(changeSizeUnit(_:)), for: .touchUpInside)
@@ -254,9 +254,15 @@ class Input: UIView, UITextFieldDelegate {
     }
     
     func updateTableTwo() {
+        var noMatches = true
         if type.text! == "BEER" {
             for info in Data.beerList {
-                if [info.name, info.abv, info.size, info.price] != output {
+                print([info.name, info.abv, info.size, info.price],output)
+                if [info.name.lowercased(), info.abv, info.size, info.price] == output {
+                    print("false")
+                    noMatches = false
+                }
+                if noMatches {
                     Data.saveToList(Data.beerListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
                     self.inputDelegate.reloadTable(table: Data.beerListID)
                 }
@@ -264,7 +270,10 @@ class Input: UIView, UITextFieldDelegate {
         }
         if type.text! == "LIQUOR" {
             for info in Data.liquorList {
-                if [info.name, info.abv, info.size, info.price] != output {
+                if [info.name, info.abv, info.size, info.price] == output {
+                    noMatches = false
+                }
+                if noMatches {
                     Data.saveToList(Data.liquorListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
                     self.inputDelegate.reloadTable(table: Data.liquorListID)
                 }
@@ -272,7 +281,10 @@ class Input: UIView, UITextFieldDelegate {
         }
         if type.text! == "WINE" {
             for info in Data.wineList {
-                if [info.name, info.abv, info.size, info.price] != output {
+                if [info.name, info.abv, info.size, info.price] == output {
+                    noMatches = false
+                }
+                if noMatches {
                     Data.saveToList(Data.wineListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
                     self.inputDelegate.reloadTable(table: Data.wineListID)
                 }
@@ -302,7 +314,7 @@ class Input: UIView, UITextFieldDelegate {
         output[0] = useThisSuggestion
         let unformatted = Double(Data.masterList[useThisSuggestion]!.abv)!
         output[1] = String(format: "%.1f", unformatted)
-        name.setTitle(useThisSuggestion, for: .normal)
+        name.setTitle(useThisSuggestion.capitalizingFirstLetter(), for: .normal)
         abv.setTitle(output[1]+"%", for: .normal)
         // hide suggestion bar
         suggestionHeight.constant = 0

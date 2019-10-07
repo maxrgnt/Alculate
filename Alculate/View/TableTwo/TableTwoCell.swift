@@ -161,7 +161,7 @@ class TableTwoCell: UITableViewCell {
     
     func nukeAllAnimations(restart: Bool) {
         continueAnimating = false
-        if cellObjectWidth.constant != UI.Sizing.cellObjectWidth && cellObjectHeight.constant != UI.Sizing.cellObjectHeight {
+        if (cellObjectWidth.constant != UI.Sizing.cellObjectWidth && cellObjectHeight.constant != UI.Sizing.cellObjectHeight) || restart == true {
             cellObjectWidth.constant = UI.Sizing.cellObjectWidth
             cellObjectHeight.constant = UI.Sizing.cellObjectHeight
             UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat

@@ -68,15 +68,18 @@ struct UI {
     
     // colors
     struct Color {
-//        static let mainBlue = UIColor(displayP3Red: 30/255, green: 80/255, blue: 205/255, alpha: 1.0)
-//        static let darkerBlue = UIColor(displayP3Red: 0/255, green: 58/255, blue: 177/255, alpha: 1.0)
-//        static let darkestBlue = UIColor(displayP3Red: 16/255, green: 29/255, blue: 66/255, alpha: 1.0)
-//        static let coinWhite = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-//        static let removeContactText = UIColor(displayP3Red: 225/255, green: 111/255, blue: 124/255, alpha: 1.0)
-//        static let red = UIColor(displayP3Red: 197/255, green: 40/255, blue: 61/255, alpha: 1.0)
+//        static let alculatePurple = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+//        static let beer = UIColor(displayP3Red: 255/255, green: 180/255, blue: 0/255, alpha: 1.0)
+//        static let liquor = UIColor(displayP3Red: 38/255, green: 196/255, blue: 133/255, alpha: 1.0)
+//        static let wine = UIColor(displayP3Red: 232/255, green: 63/255, blue: 111/255, alpha: 1.0)
+        static let alculatePurpleDark = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
+        static let alculatePurpleLite = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+        static let beer = UIColor(displayP3Red: 227/255, green: 181/255, blue: 5/255, alpha: 1.0)
+        static let liquor = UIColor(displayP3Red: 38/255, green: 196/255, blue: 133/255, alpha: 1.0)
+        static let wine = UIColor(displayP3Red: 139/255, green: 38/255, blue: 53/255, alpha: 1.0)
         static let softWhite = UIColor(displayP3Red: 189/255, green: 213/255, blue: 234/255, alpha: 1.0)
 //        static let green = UIColor(displayP3Red: 124/255, green: 255/255, blue: 203/255, alpha: 1.0)
-        static let alcoholTypes = [UIColor.lightGray, UIColor.gray, UIColor.darkGray]
+        static let alcoholTypes = [beer, liquor, wine, alculatePurpleLite]
     }
     
     static func printUI() {

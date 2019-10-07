@@ -13,6 +13,8 @@ class Header: UIView {
     // Objects
     let appName = UILabel()
     
+    static var gl = CAGradientLayer()
+    
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -21,11 +23,10 @@ class Header: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = .clear
         clipsToBounds = true
         // Object settings
         addSubview(appName)
-        appName.textColor = .black
+        appName.textColor = UI.Color.softWhite
         appName.font = UI.Font.headerFont
         appName.textAlignment = .center
         appName.text = "Alculate"
@@ -43,6 +44,13 @@ class Header: UIView {
             appName.centerXAnchor.constraint(equalTo: centerXAnchor),
             appName.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+        
+        Header.gl.frame = CGRect(origin: CGPoint(x: 0,y: 0), size: CGSize(width: UI.Sizing.width, height: UI.Sizing.headerHeight))
+        Header.gl.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                            UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
+                            UI.Color.alculatePurpleLite.withAlphaComponent(0.0).cgColor]
+        Header.gl.locations = [0,0.9,1.0]
+        self.layer.insertSublayer(Header.gl, at: 0)
     }
 
     required init?(coder aDecoder: NSCoder) {

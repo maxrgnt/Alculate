@@ -40,7 +40,33 @@ class MasterList: UIView {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
         //
-        addSubview(tableOne)
+        // Blur object settings
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        //blurEffectView.frame = layer.bounds
+        //blurEffectView.autorecointactsUIMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
+        addSubview(blurEffectView)
+        NSLayoutConstraint.activate([
+            blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
+            blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0), // without constant, off slightly? don't know why
+            blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -20),
+            blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20)
+            ])
+        // Vibrancy object settings
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
+        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.contentView.addSubview(vibrancyView)
+        NSLayoutConstraint.activate([
+            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
+            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
+            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
+            ])
+        // View object settings
+        vibrancyView.contentView.addSubview(tableOne)
+        //addSubview(tableOne)
         tableOne.build()
         //
         addSubview(undo)
@@ -59,10 +85,12 @@ class MasterList: UIView {
             undoBottom,
             tableOne.widthAnchor.constraint(equalTo: widthAnchor),
             tableOne.heightAnchor.constraint(equalTo: heightAnchor),
-            tableOne.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableOne.centerXAnchor.constraint(equalTo: vibrancyView.centerXAnchor),
             //tableOne.layoutMarginsGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableOne.topAnchor.constraint(equalTo: topAnchor)
-            ])        
+            ])
+        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
+
     }
     
     func minimizeUndo() {

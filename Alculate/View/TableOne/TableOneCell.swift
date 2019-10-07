@@ -26,7 +26,7 @@ class TableOneCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: "TableOneCell")
         // Miscelaneous view settings
         selectionStyle = .none
-        backgroundColor = .black
+        backgroundColor = .clear
         // View object settings
         addSubview(header)
         header.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class TableOneCell: UITableViewCell {
         header.font = UI.Font.cellHeaderFont
         addSubview(stub)
         stub.translatesAutoresizingMaskIntoConstraints = false
-        stub.textColor = .lightGray
+        stub.textColor = .white
         stub.alpha = 0.7
         stub.textAlignment = .left
         stub.font = UI.Font.cellStubFont

@@ -31,5 +31,11 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+    
+    func removeInvalidNameCharacters() -> String {
+        let badHombres = ":,;!@#$%^&*()_-=+[{]}|<>./?" // 1234567890
+        let invalidSet = CharacterSet.init(charactersIn: badHombres)
+        return self.trimmingCharacters(in: invalidSet).trimmingCharacters(in: .newlines)
+    }
 }
 

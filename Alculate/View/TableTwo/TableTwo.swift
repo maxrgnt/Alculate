@@ -13,7 +13,7 @@ protocol TableTwoDelegate {
     // called when user taps subview/delete button
     func displayAlert(alert: UIAlertController)
     func reloadTable(table: String)
-    func makeDeletable(_ deletable: Bool, lists: String)
+    func makeDeletable(_ paramDeletable: Bool, lists: String)
 }
 
 class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TableTwoCellDelegate {
@@ -21,7 +21,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     var tableTwoDelegate : TableTwoDelegate!
     var alculateType = "price"
     
-    var deletable = false
+    var varDeletable = false
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
 
     var willDelete = false
@@ -41,19 +41,21 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         // Miscelaneous view settings
         translatesAutoresizingMaskIntoConstraints = false
         if alcoholType == "BEER" {
-            backgroundColor = .lightGray
+            backgroundColor = UI.Color.alculatePurpleLite
         }
         else if alcoholType == "LIQUOR" {
-           backgroundColor = .gray
+            backgroundColor = UI.Color.alculatePurpleLite
         }
         else if alcoholType == "WINE" {
-           backgroundColor = .darkGray
+            backgroundColor = UI.Color.alculatePurpleLite
         }
         register(TableTwoCell.self, forCellReuseIdentifier: "TableTwoCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        layer.borderWidth = UI.Sizing.cellObjectBorder/2
+        layer.borderColor = UIColor.black.cgColor
         //separatorColor = .black
         estimatedRowHeight = 0
         estimatedSectionFooterHeight = 0
@@ -68,21 +70,17 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.tableViewTop)
             ])
         // 2.
-        let header = UIView()
-        header.backgroundColor = backgroundColor
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width/3, height: UI.Sizing.headerHeight*(1/2)))
+        header.backgroundColor = .clear
         let headerLabel = UILabel()
         header.addSubview(headerLabel)
         headerLabel.font = UI.Font.cellHeaderFont
-        headerLabel.textColor = .black
+        headerLabel.textColor = UI.Color.softWhite
         headerLabel.textAlignment = .center
         headerLabel.text = alcoholType
         tableHeaderView = header
         // 3.
-        header.translatesAutoresizingMaskIntoConstraints = false
-        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        header.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        header.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        header.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*(1/2)).isActive = true
+//        header.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor).isActive = true
         headerLabel.widthAnchor.constraint(equalTo: header.widthAnchor).isActive = true
@@ -100,44 +98,39 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         cell.type = alcoholType
         if alcoholType == "BEER" {
             info = Data.beerList[indexPath.row]
-            cell.backgroundColor = .lightGray
+            cell.cellObject.backgroundColor = UI.Color.alcoholTypes[0]
         }
         else if alcoholType == "LIQUOR" {
             info = Data.liquorList[indexPath.row]
-            cell.backgroundColor = .gray
+            cell.cellObject.backgroundColor = UI.Color.alcoholTypes[1]
         }
         else if alcoholType == "WINE" {
             info = Data.wineList[indexPath.row]
-            cell.backgroundColor = .darkGray
+            cell.cellObject.backgroundColor = UI.Color.alcoholTypes[2]
         }
         if indexPath.row == 0 {
-            cell.cellObject.backgroundColor = .white
+            cell.cellObject.backgroundColor = UI.Color.softWhite
             //cell.cellObject.alpha = 0.6
-        }
-        else {
-            cell.cellObject.backgroundColor = .clear
         }
         cell.name.text = "\(info.name)"
         let price = String(format: "%.2f", Double(info.price)!)
-        cell.size.text = "\(info.size) oz. | $\(price)"
-        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
+        let sizeUnit = info.size.dropFirst(info.size.count-2)
+        cell.size.text = "\(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
+        var correctedSize = Double(info.size.dropLast(2))!
+        if sizeUnit == "ml" {
+            correctedSize = correctedSize/29.5735296875
+        }
+        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*correctedSize*0.01/0.6)
         let cost = "$"+String(format: "%.2f", alcPerDollar)
         if alculateType == "price" {
-            cell.sortedStat.text = cost
-            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+            cell.sortedStat.text = cost+"/shot"
+            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))+" shots"
         }
         else {
-            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
-            cell.otherStat.text = cost
+            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))+" shots"
+            cell.otherStat.text = cost+"/shot"
         }
-        
-        if deletable {
-            cell.nukeAllAnimations()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Change `2.0` to the desired number of seconds.
-               // Code you want to be delayed
-                cell.beginDeleteAnimation()
-            }
-        }
+        cell.nukeAllAnimations(restart: varDeletable)
         return cell
     }
     
@@ -165,12 +158,12 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
 
     func cellWillDelete(cell: TableTwoCell) {
-        deletable = true
+        varDeletable = true
         self.tableTwoDelegate.makeDeletable(true, lists: "all")
     }
     
     func stopDelete(cell: TableTwoCell) {
-        deletable = false
+        varDeletable = false
         self.tableTwoDelegate.makeDeletable(false, lists: "all")
     }
     

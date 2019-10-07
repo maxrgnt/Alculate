@@ -38,12 +38,11 @@ class TableTwoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: "TableTwoCell")
         // Miscelaneous view settings
         selectionStyle = .none
-        backgroundColor = .lightGray
+        backgroundColor = .clear
         //
         addSubview(cellObject)
         cellObject.clipsToBounds = false
         cellObject.translatesAutoresizingMaskIntoConstraints = false
-        cellObject.backgroundColor = .clear
         cellObject.layer.borderWidth = UI.Sizing.cellObjectBorder
         cellObject.layer.borderColor = UIColor.black.cgColor
         cellObject.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: UI.Sizing.cellObjectRadius)
@@ -69,7 +68,7 @@ class TableTwoCell: UITableViewCell {
         delete.translatesAutoresizingMaskIntoConstraints = false
         delete.backgroundColor = .red
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(.white, for: .normal)
+        delete.setTitleColor(UI.Color.softWhite, for: .normal)
         delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.cellObjectWidth/8)
         // MARK: - NSLayoutConstraints
@@ -142,23 +141,30 @@ class TableTwoCell: UITableViewCell {
                 if self.continueAnimating == true {
                     self.rotateTo(frac: -frac)
                 }
+                else {
+                    print("stop animating")
+                }
             }
         )
     }
     
-    func nukeAllAnimations() {
+    func nukeAllAnimations(restart: Bool) {
+        continueAnimating = false
         cellObjectWidth.constant = UI.Sizing.cellObjectWidth
         cellObjectHeight.constant = UI.Sizing.cellObjectHeight
         UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
-        , animations: ({
-            self.delete.alpha = 0.0
-            self.layoutIfNeeded()
-            self.cellObject.transform = .identity
-            self.delete.transform = .identity
-        }))
-        continueAnimating = false
-        self.subviews.forEach({$0.layer.removeAllAnimations()})
-        self.layer.removeAllAnimations()
+            , animations: ({
+                self.delete.alpha = 0.0
+                self.layoutIfNeeded()
+                self.cellObject.transform = .identity
+                self.delete.transform = .identity
+            }), completion: { (completed) in
+                self.subviews.forEach({$0.layer.removeAllAnimations()})
+                self.layer.removeAllAnimations()
+                if restart {
+                    self.beginDeleteAnimation()
+                }
+            })
     }
     
     required init?(coder aDecoder: NSCoder) {

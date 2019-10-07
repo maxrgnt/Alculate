@@ -38,6 +38,7 @@ class Input: UIView, UITextFieldDelegate {
     //
     var level: Int = 0
     let defaults = ["NAME","ABV","SIZE","PRICE"]
+    var inputUnit = "oz"
     //
     let inputNavigation = InputNavigation()
     //
@@ -54,9 +55,10 @@ class Input: UIView, UITextFieldDelegate {
         // MARK: - View/Object Settings
         // View settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .lightGray
         clipsToBounds = true
         roundCorners(corners: [.topLeft, .topRight], radius: UI.Sizing.userInputRadius)
+        layer.borderWidth = UI.Sizing.cellObjectBorder*2
+        layer.borderColor = UIColor.black.cgColor
         // Object settings
         addSubview(textField)
         textField.delegate = self
@@ -64,7 +66,7 @@ class Input: UIView, UITextFieldDelegate {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         //
         type.translatesAutoresizingMaskIntoConstraints = false
-        type.textColor = .white
+        type.textColor = .black
         type.textAlignment = .center
         addSubview(type)
         //
@@ -72,17 +74,30 @@ class Input: UIView, UITextFieldDelegate {
         for i in 0..<buttons.count {
             buttons[i].translatesAutoresizingMaskIntoConstraints = false
             buttons[i].setTitle(defaults[i], for: .normal)
+            buttons[i].setTitleColor(.black, for: .normal)
             buttons[i].contentHorizontalAlignment = .left
             addSubview(buttons[i])
             buttons[i].tag = i
             fields.append(buttons[i])
         }
+        let buttons2 = [oz,ml]
+        for i in 0..<buttons2.count {
+            buttons2[i].setTitleColor(.black, for: .normal)
+            buttons2[i].translatesAutoresizingMaskIntoConstraints = false
+            buttons2[i].contentHorizontalAlignment = .center
+            buttons2[i].addTarget(self, action: #selector(changeSizeUnit(_:)), for: .touchUpInside)
+            addSubview(buttons2[i])
+            buttons2[i].tag = i
+        }
+        oz.setTitle("oz", for: .normal)
+        ml.setTitle("ml", for: .normal)
+        ml.alpha = 0.5
         //
+        addSubview(suggestion)
         suggestion.translatesAutoresizingMaskIntoConstraints = false
         suggestion.contentHorizontalAlignment = .right
         suggestion.setTitle("Use 'NAME'?", for: .normal)
         suggestion.addTarget(self, action: #selector(useSuggestion), for: .touchUpInside)
-        addSubview(suggestion)
         //
         addSubview(inputNavigation)
         inputNavigation.build()
@@ -110,6 +125,14 @@ class Input: UIView, UITextFieldDelegate {
             suggestion.topAnchor.constraint(equalTo: name.bottomAnchor),
             abv.topAnchor.constraint(equalTo: suggestion.bottomAnchor),
             size.topAnchor.constraint(equalTo: abv.bottomAnchor),
+            ml.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/5),
+            ml.heightAnchor.constraint(equalToConstant: UI.Sizing.inputTextHeight),
+            ml.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            ml.centerYAnchor.constraint(equalTo: size.centerYAnchor),
+            oz.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/5),
+            oz.heightAnchor.constraint(equalToConstant: UI.Sizing.inputTextHeight),
+            oz.trailingAnchor.constraint(equalTo: ml.leadingAnchor, constant: -UI.Sizing.objectPadding),
+            oz.centerYAnchor.constraint(equalTo: size.centerYAnchor),
             price.topAnchor.constraint(equalTo: size.bottomAnchor),
             textField.bottomAnchor.constraint(equalTo: topAnchor)
             ])
@@ -131,10 +154,21 @@ class Input: UIView, UITextFieldDelegate {
         }
         // moving forward and input != default || moving backward and not at beginning
         else if sender.tag == 1 && fieldText != inputDefault || sender.tag == -1 && level != 0 {
-            // set output for level as field input before shifting level
-            output[level] = fields[level].titleLabel!.text!
             // calculate new level
             let newLevel = level+sender.tag
+            // set output for level as field input before shifting level
+            if level == 1 && sender.tag == 1 {
+                output[level] = String(fields[level].titleLabel!.text!.dropLast())
+            }
+            else if level == 2 && sender.tag == 1 {
+                output[level] = fields[level].titleLabel!.text!+inputUnit
+            }
+            else if level == 3 && sender.tag == 1  {
+                output[level] = String(fields[level].titleLabel!.text!.dropFirst())
+            }
+            else {
+                output[level] = fields[level].titleLabel!.text!
+            }
             // if newLevel not before beginning or after end, move on
             if newLevel >= 0 && newLevel <= 4 {
                 // calculate constant to move inputView up or down based on level
@@ -146,7 +180,7 @@ class Input: UIView, UITextFieldDelegate {
     
     func shiftInput(by newConstant: CGFloat, toLevel newLevel: Int) {
         // set keyboard for number entry
-        textField.keyboardType = .decimalPad
+        textField.keyboardType = .numberPad
         // if first level (name) then set keyboard for text entry
         if newLevel == 0 {
             textField.keyboardType = .default
@@ -163,13 +197,23 @@ class Input: UIView, UITextFieldDelegate {
         // if fourth level (doesn't exist, after price) exit
         if newLevel == 4 {
             /* SAVE ANSWERS */
-            
+            fields[0].alpha = 1.0
+            changeSizeUnit(oz)
             /* UPDATE ALC LIST IF NEW */
             saveAndExit()
             return
         }
         // if made it this far, update the level
         level = newLevel
+        // make all other labels less bright
+        for i in 0..<fields.count {
+            if i == level {
+                fields[i].alpha = 1.0
+            }
+            else {
+                fields[i].alpha = 0.5
+            }
+        }
         // update constraint to move input view
         inputTop.constant = newConstant
         // update field for new level
@@ -182,7 +226,7 @@ class Input: UIView, UITextFieldDelegate {
     }
     
     func saveAndExit() {
-        let name = output[0]
+        let name = output[0].lowercased()
         let abv = output[1]
         if let info = Data.masterList[name] {
             let savedAbv = info.abv
@@ -191,7 +235,7 @@ class Input: UIView, UITextFieldDelegate {
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .destructive, handler: { action in
-                    Data.saveToMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+                    Data.saveToMaster(ofType: self.type.text!, named: name, withABVof: abv)
                     self.inputDelegate.reloadTable(table: Data.masterListID)
                     self.resetAndExit()
                 }))
@@ -202,7 +246,7 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         else {
-            Data.saveToMaster(ofType: self.type.text!, named: self.output[0], withABVof: self.output[1])
+            Data.saveToMaster(ofType: self.type.text!, named: name, withABVof: abv)
             self.inputDelegate.reloadTable(table: Data.masterListID)
         }
         updateTableTwo()
@@ -244,9 +288,10 @@ class Input: UIView, UITextFieldDelegate {
     // MARK: - Functions (Suggestion)
     @objc func useSuggestion() {
         output[0] = useThisSuggestion
-        output[1] = Data.masterList[useThisSuggestion]!.abv
+        let unformatted = Double(Data.masterList[useThisSuggestion]!.abv)!
+        output[1] = String(format: "%.1f", unformatted)
         name.setTitle(useThisSuggestion, for: .normal)
-        abv.setTitle(output[1], for: .normal)
+        abv.setTitle(output[1]+"%", for: .normal)
         // hide suggestion bar
         suggestionHeight.constant = 0
         suggestion.setTitle("", for: .normal)
@@ -282,11 +327,14 @@ class Input: UIView, UITextFieldDelegate {
             }
         }
         if level == 0 {
+            textField.text = textField.text?.removeInvalidNameCharacters()
+            fields[level].setTitle(textField.text!, for: .normal)
             let textLower = textField.text!.lowercased()
             var arrNames: [String] = []
+            print(textLower, Data.masterList.keys)
             for key in Data.masterList.keys {
                 if type.text! == Data.masterList[key]!.type {
-                    arrNames.append(key.lowercased())
+                    arrNames.append(key)
                 }
             }
             let filtered = arrNames.filter({ $0.contains(textLower) })
@@ -295,7 +343,7 @@ class Input: UIView, UITextFieldDelegate {
                 suggestionHeight.constant = UI.Sizing.inputTextHeight
                 layoutIfNeeded()
                 // update suggestion with new text
-                useThisSuggestion = filtered[0].capitalizingFirstLetter()
+                useThisSuggestion = filtered[0].lowercased()
                 let newSuggestion = "Use '\(filtered[0].capitalizingFirstLetter())'?"
                 suggestion.setTitle(newSuggestion, for: .normal)
             }
@@ -303,6 +351,43 @@ class Input: UIView, UITextFieldDelegate {
             else {
                 hideSuggestion()
             }
+        }
+        if level == 1 && textField.text != "" {
+            var unformatted = Double(textField.text!)!/10
+            if unformatted > 100 {
+                unformatted = 100
+            }
+            fields[level].setTitle(String(format: "%.1f", unformatted)+"%", for: .normal)
+        }
+        if level == 2 && textField.text != "" {
+            var unformatted = Double(textField.text!)!/10
+            if unformatted > 10000 {
+                unformatted = 10000
+            }
+            fields[level].setTitle(String(format: "%.1f", unformatted), for: .normal)
+        }
+        if level == 3 && textField.text != "" {
+            var unformatted = Double(textField.text!)!/100
+            if unformatted > 10000 {
+                unformatted = 10000
+            }
+            fields[level].setTitle("$"+String(format: "%.2f", unformatted), for: .normal)
+        }
+        if textField.text == "" {
+            fields[level].setTitle(defaults[level], for: .normal)
+        }
+    }
+    
+    @objc func changeSizeUnit(_ sender: UIButton) {
+        if sender.tag == 0 {
+            oz.alpha = 1.0
+            ml.alpha = 0.5
+            inputUnit = "oz"
+        }
+        else if sender.tag == 1 {
+            oz.alpha = 0.5
+            ml.alpha = 1.0
+            inputUnit = "ml"
         }
     }
 

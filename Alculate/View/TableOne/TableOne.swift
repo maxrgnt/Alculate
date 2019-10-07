@@ -29,14 +29,14 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     func build() {
         // Miscelaneous view settings
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .black
+        backgroundColor = UI.Color.alculatePurpleLite
         register(TableOneCell.self, forCellReuseIdentifier: "TableOneCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .singleLine
         separatorColor = .gray
-        sectionIndexColor = UIColor.white
+        sectionIndexColor = UI.Color.softWhite
         sectionIndexBackgroundColor = UIColor.clear
     }
     
@@ -69,7 +69,7 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         cell.delegate = self
         let headerLetter = Data.headers[indexPath.section]
         let nameList = Data.matrix[headerLetter]
-        let name = nameList![indexPath.row]
+        let name = nameList![indexPath.row].capitalizingFirstLetter()
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
         cell.header.text = name
@@ -123,21 +123,6 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         }
         self.tableOneDelegate.reloadTable(table: Data.masterListID)
         self.tableOneDelegate.offerUndo()
-//        //present alerts for confirmation of wallet removal
-//        let alert = UIAlertController(title: "Remove Saved ABV", message: "Are you sure you want to delete \(name)?", preferredStyle: .alert)
-//        //removal is confirmed
-//        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
-//            Data.deleteMaster(wName: name, wABV: abv, wType: type)
-//            if Data.masterList[name]! == (type: type, abv: abv) {
-//                Data.masterList[name] = nil
-//            }
-//            print(Data.masterList)
-//            self.tableOneDelegate.reloadTable(table: Data.masterListID)
-//        }))
-//        //add the cancel action
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        //present the alert
-//        self.tableOneDelegate.displayAlert(alert: alert)
     }
     
     required init?(coder aDecoder: NSCoder) {

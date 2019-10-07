@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6620AA51234B935F002275B3 /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620AA50234B935F002275B3 /* StatusBar.swift */; };
 		665A6A4E23423FFC002E5761 /* TopLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A4D23423FFC002E5761 /* TopLine.swift */; };
 		665A6A532342424D002E5761 /* TableTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A522342424D002E5761 /* TableTwo.swift */; };
 		665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A5423424376002E5761 /* TableTwoCell.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6620AA50234B935F002275B3 /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
 		665A6A4D23423FFC002E5761 /* TopLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLine.swift; sourceTree = "<group>"; };
 		665A6A522342424D002E5761 /* TableTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwo.swift; sourceTree = "<group>"; };
 		665A6A5423424376002E5761 /* TableTwoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwoCell.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		66AF587C233C141200502EEA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6620AA50234B935F002275B3 /* StatusBar.swift */,
 				66AF5873233A898600502EEA /* Header.swift */,
 				665A6A4D23423FFC002E5761 /* TopLine.swift */,
 				66AF5885233C252A00502EEA /* AppNavigation.swift */,
@@ -378,6 +381,7 @@
 				66AF5874233A898600502EEA /* Header.swift in Sources */,
 				665A6A5723427D49002E5761 /* MasterList.swift in Sources */,
 				66AF5886233C252A00502EEA /* AppNavigation.swift in Sources */,
+				6620AA51234B935F002275B3 /* StatusBar.swift in Sources */,
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,

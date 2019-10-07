@@ -16,6 +16,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     static var trailingAnchor: NSLayoutXAxisAnchor!
     static var bottomAnchor: NSLayoutYAxisAnchor!
 
+    var statusBar = StatusBar()
     var header = Header()
     var topLine = TopLine()
     var beerList = TableTwo()
@@ -24,6 +25,8 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     var appNavigation = AppNavigation()
     var masterList = MasterList()
     var userInput = Input()
+    
+    var bestAlcoholInd: Int = 3
     
     override func viewDidLoad() {
         
@@ -40,7 +43,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
-        for subview in [header, topLine, beerList, liquorList, wineList, appNavigation, masterList, userInput] {
+        for subview in [statusBar, header, topLine, beerList, liquorList, wineList, masterList, appNavigation, userInput] {
             view.addSubview(subview)
         }
         
@@ -75,10 +78,10 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         self.masterList.tableOne.tableOneDelegate = self
         masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
         masterList.undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-               
+            
         //clearTestData()
         handleInit()
-        
+        print(Data.masterList)
     }
     
     func clearTestData(){
@@ -164,20 +167,50 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             }
             appNavigation.left.setTitle("$/%", for: .normal)
             Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
                 }
             reloadTable(table: Data.beerListID)
             Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
                 }
             reloadTable(table: Data.liquorListID)
             Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
                 }
             reloadTable(table: Data.wineListID)
@@ -189,20 +222,50 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             }
             appNavigation.left.setTitle("%/$", for: .normal)
             Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return calc1 > calc2
                 }
             reloadTable(table: Data.beerListID)
             Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return calc1 > calc2
                 }
             reloadTable(table: Data.liquorListID)
             Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
-                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
+                var correctedSize1 = Double(drink1.size.dropLast(2))!
+                if sizeUnit1 == "ml" {
+                    correctedSize1 = correctedSize1/29.5735296875
+                }
+                let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
+                var correctedSize2 = Double(drink2.size.dropLast(2))!
+                if sizeUnit2 == "ml" {
+                    correctedSize2 = correctedSize2/29.5735296875
+                }
+                let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
+                let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
                 return calc1 > calc2
                 }
             reloadTable(table: Data.wineListID)
@@ -212,6 +275,10 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     
     func updateAppNavBottom(by percent: CGFloat, animate: Bool) {
         appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight*(1-percent)
+        if appNavigation.appNavBottom.constant == CGFloat(0.0) {
+            print(bestAlcoholInd)
+            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
+        }
         if animate {
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
@@ -269,17 +336,14 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         else {
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             if table == Data.beerListID {
-                print("reload \(Data.beerListID)")
                 //beerList.reloadData()
                 beerList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.liquorListID {
-                print("reload \(Data.liquorListID)")
                 //liquorList.reloadData()
                 liquorList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.wineListID {
-                print("reload \(Data.wineListID)")
                 //wineList.reloadData()
                 wineList.reloadSections(sections as IndexSet, with: .automatic)
             }
@@ -288,7 +352,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         }
     }
     
-    func makeDeletable(_ deletable: Bool, lists: String) {
+    func makeDeletable(_ paramDeletable: Bool, lists: String) {
         var tables: [UITableView]! = []
         if lists == "all" {
             tables = [beerList,liquorList,wineList]
@@ -303,13 +367,16 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             tables = [wineList]
         }
         for table in tables as! [TableTwo] {
-            table.deletable = deletable
+            table.varDeletable = paramDeletable
             for row in 0..<table.numberOfRows(inSection: 0) {
                 let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! TableTwoCell
-                cell.nukeAllAnimations()
-                if deletable {
-                    cell.beginDeleteAnimation()
-                }
+                cell.nukeAllAnimations(restart: paramDeletable)
+//                if deletable {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Change `2.0` to the desired number of seconds.
+//                       // Code you want to be delayed
+//                        cell.beginDeleteAnimation()
+//                    }
+//                }
             }
         }
     }
@@ -344,51 +411,58 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 }
             }
             bestRatio = (name: info.name,
-                           best: String(format: "%.2f", findBestRatio(for: (abv: info.abv, size: info.size))),
+                           best: String(format: "%.1f", findBestRatio(for: (abv: info.abv, size: info.size))),
                            ind: lists[0].ind)
             for listPiece in lists {
                 let tryBest = findBestRatio(for: (abv: listPiece.arr.abv, size: listPiece.arr.size))
                 if tryBest > Double(bestRatio.best)! {
                     bestRatio = (name: listPiece.arr.name,
-                                   best: String(format: "%.2f", tryBest),
+                                   best: String(format: "%.1f", tryBest),
                                    ind: listPiece.ind)
                 }
             }
-            header.appName.textColor = .black
-            topLine.namePrice.text = bestPrice.name
-            topLine.statPrice.text = "$"+bestPrice.best
-            topLine.nameRatio.text = bestRatio.name
-            topLine.statRatio.text = bestRatio.best+"x"
+            topLine.bestPriceName.text = bestPrice.name
+            topLine.bestPriceStat.text = "$"+bestPrice.best
+            topLine.bestCountName.text = bestRatio.name
+            topLine.bestCountStat.text = bestRatio.best+"x"
             if type == "price" {
-                topLine.nameRatio.alpha = 0.4
-                topLine.statRatio.alpha = 0.4
-                topLine.namePrice.alpha = 1
-                topLine.statPrice.alpha = 1
-                topLine.backgroundColor = UI.Color.alcoholTypes[bestPrice.ind]
-                view.backgroundColor = UI.Color.alcoholTypes[bestPrice.ind]
+                topLine.bestCountName.alpha = 0.4
+                topLine.bestCountStat.alpha = 0.4
+                topLine.bestPriceName.alpha = 1
+                topLine.bestPriceStat.alpha = 1
+                bestAlcoholInd = bestPrice.ind
             }
             else {
-                topLine.namePrice.alpha = 0.4
-                topLine.statPrice.alpha = 0.4
-                topLine.nameRatio.alpha = 1
-                topLine.statRatio.alpha = 1
-                topLine.backgroundColor = UI.Color.alcoholTypes[bestRatio.ind]
-                view.backgroundColor = UI.Color.alcoholTypes[bestRatio.ind]
+                topLine.bestPriceName.alpha = 0.4
+                topLine.bestPriceStat.alpha = 0.4
+                topLine.bestCountName.alpha = 1
+                topLine.bestCountStat.alpha = 1
+                bestAlcoholInd = bestRatio.ind
             }
+            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
+            Header.gl.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                                UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
+                                UI.Color.alcoholTypes[bestAlcoholInd].withAlphaComponent(0.0).cgColor]
         }
         // if all lists are empty, dont alculate
         else {
-            header.appName.textColor = .white
-            topLine.namePrice.text = "EMPTY!"
-            topLine.nameRatio.text = "EMPTY!"
-            topLine.backgroundColor = .black
-            view.backgroundColor = .black
+            topLine.bestPriceName.text = "EMPTY!"
+            topLine.bestCountName.text = "EMPTY!"
+            view.backgroundColor = UI.Color.alculatePurpleLite
+            bestAlcoholInd = 3
+            Header.gl.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                                UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                                UI.Color.alculatePurpleLite.cgColor]
         }
     }
     
     func findBestPrice(for alc: (abv: String, size: String, price: String)) -> Double {
-        let abvDouble = Double(alc.abv)!*0.01
-        let sizeDouble = Double(alc.size)!
+        let abvDouble = Double(alc.abv.dropLast())!*0.01
+        let sizeUnit = alc.size.dropFirst(alc.size.count-2)
+        var correctedSize = Double(alc.size.dropLast(2))!
+        if sizeUnit == "ml" {
+            correctedSize = correctedSize/29.5735296875
+        }
         let priceDouble: Double
         if alc.price != "" {
             priceDouble = Double(alc.price)!
@@ -396,13 +470,17 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         else {
             priceDouble = 1.0
         }
-        return priceDouble/((abvDouble*sizeDouble)/0.6)
+        return priceDouble/((abvDouble*correctedSize)/0.6)
     }
     
     func findBestRatio(for alc: (abv: String, size: String)) -> Double {
-        let abvDouble = Double(alc.abv)!*0.01
-        let sizeDouble = Double(alc.size)!
-        return (abvDouble*sizeDouble)/0.6
+        let abvDouble = Double(alc.abv.dropLast())!*0.01
+        let sizeUnit = alc.size.dropFirst(alc.size.count-2)
+        var correctedSize = Double(alc.size.dropLast(2))!
+        if sizeUnit == "ml" {
+            correctedSize = correctedSize/29.5735296875
+        }
+        return (abvDouble*correctedSize)/0.6
     }
     
 }

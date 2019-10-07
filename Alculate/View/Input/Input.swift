@@ -254,39 +254,27 @@ class Input: UIView, UITextFieldDelegate {
     }
     
     func updateTableTwo() {
+        print("updateTableTwo for: \(type.text!)")
         var noMatches = true
-        if type.text! == "BEER" {
-            for info in Data.beerList {
-                print([info.name, info.abv, info.size, info.price],output)
-                if [info.name.lowercased(), info.abv, info.size, info.price] == output {
-                    print("false")
-                    noMatches = false
+        let types = ["BEER","LIQUOR","WINE"]
+        let newType = types.firstIndex(of: type.text!)
+        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (index, boop) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+            if index == newType {
+                if boop.isEmpty {
+                    Data.saveToList(ids[index], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.inputDelegate.reloadTable(table: ids[index])
                 }
-                if noMatches {
-                    Data.saveToList(Data.beerListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.inputDelegate.reloadTable(table: Data.beerListID)
-                }
-            }
-        }
-        if type.text! == "LIQUOR" {
-            for info in Data.liquorList {
-                if [info.name, info.abv, info.size, info.price] == output {
-                    noMatches = false
-                }
-                if noMatches {
-                    Data.saveToList(Data.liquorListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.inputDelegate.reloadTable(table: Data.liquorListID)
-                }
-            }
-        }
-        if type.text! == "WINE" {
-            for info in Data.wineList {
-                if [info.name, info.abv, info.size, info.price] == output {
-                    noMatches = false
-                }
-                if noMatches {
-                    Data.saveToList(Data.wineListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.inputDelegate.reloadTable(table: Data.wineListID)
+                else {
+                    for info in boop {
+                        if [info.name.lowercased(), info.abv, info.size, info.price] == output {
+                            noMatches = false
+                        }
+                        if noMatches {
+                            Data.saveToList(ids[index], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                            self.inputDelegate.reloadTable(table: ids[index])
+                        }
+                    }
                 }
             }
         }

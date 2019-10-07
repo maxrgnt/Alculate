@@ -54,18 +54,18 @@ class MasterList: UIView {
             blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20)
             ])
         // Vibrancy object settings
-        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
-        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
-        blurEffectView.contentView.addSubview(vibrancyView)
-        NSLayoutConstraint.activate([
-            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
-            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
-            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
-            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
-            ])
+//        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+//        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
+//        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+//        blurEffectView.contentView.addSubview(vibrancyView)
+//        NSLayoutConstraint.activate([
+//            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+//            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
+//            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
+//            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
+//            ])
         // View object settings
-        vibrancyView.contentView.addSubview(tableOne)
+        blurEffectView.contentView.addSubview(tableOne)
         //addSubview(tableOne)
         tableOne.build()
         //
@@ -85,7 +85,7 @@ class MasterList: UIView {
             undoBottom,
             tableOne.widthAnchor.constraint(equalTo: widthAnchor),
             tableOne.heightAnchor.constraint(equalTo: heightAnchor),
-            tableOne.centerXAnchor.constraint(equalTo: vibrancyView.centerXAnchor),
+            tableOne.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
             //tableOne.layoutMarginsGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableOne.topAnchor.constraint(equalTo: topAnchor)
             ])

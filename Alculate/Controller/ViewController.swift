@@ -422,9 +422,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                                    ind: listPiece.ind)
                 }
             }
-            topLine.bestPriceName.text = bestPrice.name
+            topLine.bestPriceName.text = bestPrice.name.capitalizingFirstLetter()
             topLine.bestPriceStat.text = "$"+bestPrice.best
-            topLine.bestCountName.text = bestRatio.name
+            topLine.bestCountName.text = bestRatio.name.capitalizingFirstLetter()
             topLine.bestCountStat.text = bestRatio.best+"x"
             if type == "price" {
                 topLine.bestCountName.alpha = 0.4

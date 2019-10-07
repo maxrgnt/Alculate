@@ -21,18 +21,18 @@ class Header: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         clipsToBounds = true
         // Object settings
         addSubview(appName)
-        appName.translatesAutoresizingMaskIntoConstraints = false
         appName.textColor = .black
         appName.font = UI.Font.headerFont
         appName.textAlignment = .center
         appName.text = "Alculate"
 
         // MARK: - NSLayoutConstraints
+        translatesAutoresizingMaskIntoConstraints = false
+        appName.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),

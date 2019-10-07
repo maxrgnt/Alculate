@@ -11,9 +11,12 @@ import UIKit
 class TopLine: UIView {
     
     // Objects
-    let name = UILabel()
-    let stat = UILabel()
+    let namePrice = UILabel()
+    let statPrice = UILabel()
     
+    let nameRatio = UILabel()
+    let statRatio = UILabel()
+
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -22,35 +25,48 @@ class TopLine: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .gray
         clipsToBounds = true
         // Object settings
-        addSubview(name)
-        name.translatesAutoresizingMaskIntoConstraints = false
-        name.textColor = .black
-        name.font = UI.Font.headerFont
-        name.textAlignment = .center
-        //
-        addSubview(stat)
-        stat.translatesAutoresizingMaskIntoConstraints = false
-        stat.textColor = .black
-        stat.font = UI.Font.headerFont
-        stat.textAlignment = .center
+        for obj in [namePrice,nameRatio] {
+            addSubview(obj)
+            obj.textColor = .black
+            obj.font = UI.Font.headerFont
+            obj.textAlignment = .center
+        }
+        for obj in [statPrice,statRatio] {
+            addSubview(obj)
+            obj.textColor = .black
+            obj.font = UI.Font.headerFont
+            obj.textAlignment = .center
+        }
         // MARK: - NSLayoutConstraints
+        translatesAutoresizingMaskIntoConstraints = false
+        namePrice.translatesAutoresizingMaskIntoConstraints = false
+        nameRatio.translatesAutoresizingMaskIntoConstraints = false
+        statPrice.translatesAutoresizingMaskIntoConstraints = false
+        statRatio.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
-            name.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
-            name.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
-            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            name.topAnchor.constraint(equalTo: topAnchor),
-            stat.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
-            stat.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
-            stat.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            stat.bottomAnchor.constraint(equalTo: bottomAnchor)
+            namePrice.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
+            namePrice.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
+            namePrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            namePrice.topAnchor.constraint(equalTo: topAnchor),
+            statPrice.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
+            statPrice.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
+            statPrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            statPrice.bottomAnchor.constraint(equalTo: bottomAnchor),
+            nameRatio.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
+            nameRatio.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
+            nameRatio.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            nameRatio.topAnchor.constraint(equalTo: topAnchor),
+            statRatio.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
+            statRatio.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/2),
+            statRatio.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            statRatio.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }
 

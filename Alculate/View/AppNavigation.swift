@@ -23,6 +23,7 @@ class AppNavigation: UIView {
     let wine = UIButton()
     //
     var selectingType = false
+    var alculateType = "price"
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -32,18 +33,15 @@ class AppNavigation: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         clipsToBounds = true
-        //
-
         // Object settings
         left.contentHorizontalAlignment = .center
         middle.contentHorizontalAlignment = .center
         right.contentHorizontalAlignment = .center
         middle.addTarget(self, action: #selector(presentAlcoholTypes), for: .touchUpInside)
         let buttons = [left, middle, right]
-        let buttonText = ["X", "+", "//"]
+        let buttonText = ["$/%", "+", "//"]
         for i in 0..<buttons.count {
             buttons[i].translatesAutoresizingMaskIntoConstraints = false
             buttons[i].setTitle(buttonText[i], for: .normal)
@@ -70,6 +68,7 @@ class AppNavigation: UIView {
             alcButtons[i].roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.width/12)
         }
         // MARK: - NSLayoutConstraints
+        translatesAutoresizingMaskIntoConstraints = false
         appNavBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
         middleWidth = middle.widthAnchor.constraint(equalToConstant: UI.Sizing.width/4)
         middleHeight = middle.heightAnchor.constraint(equalToConstant: UI.Sizing.width/4)

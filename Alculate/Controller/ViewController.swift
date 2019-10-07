@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate {
- 
+     
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
     static var trailingAnchor: NSLayoutXAxisAnchor!
@@ -75,8 +75,10 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         self.masterList.tableOne.tableOneDelegate = self
         masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
         masterList.undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+               
         //clearTestData()
         handleInit()
+        
     }
     
     func clearTestData(){
@@ -110,7 +112,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
-            alculate()
+            alculate(for: "price")
         }
     }
     
@@ -128,6 +130,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
 
     @objc func navigateApp(sender: UIButton) {
+        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
             let types = ["BEER","LIQUOR","WINE"]
             userInput.type.text = types[sender.tag-20]
@@ -138,13 +141,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         }
         else if sender.tag == 0 {
             resetAddButton()
-            sender.setTitle("O", for: .normal)
-            if beerList.willDelete {
-                sender.setTitle("X", for: .normal)
-            }
-            beerList.willDelete = !beerList.willDelete
-            liquorList.willDelete = !liquorList.willDelete
-            wineList.willDelete = !wineList.willDelete
+            flipAlculate()
         }
         else if sender.tag == 2 {
             resetAddButton()
@@ -154,6 +151,63 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 self.view.layoutIfNeeded()
             })
         }
+    }
+    
+    func flipAlculate() {
+        makeDeletable(false, lists: "all")
+        let hapticFeedback = UINotificationFeedbackGenerator()
+        hapticFeedback.notificationOccurred(.success)
+        if appNavigation.alculateType == "ratio" {
+            appNavigation.alculateType = "price"
+            for tableTwo in [beerList,liquorList,wineList] {
+                tableTwo.alculateType = "price"
+            }
+            appNavigation.left.setTitle("$/%", for: .normal)
+            Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
+                }
+            reloadTable(table: Data.beerListID)
+            Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
+                }
+            reloadTable(table: Data.liquorListID)
+            Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
+                }
+            reloadTable(table: Data.wineListID)
+        }
+        else {
+            appNavigation.alculateType = "ratio"
+            for tableTwo in [beerList,liquorList,wineList] {
+                tableTwo.alculateType = "ratio"
+            }
+            appNavigation.left.setTitle("%/$", for: .normal)
+            Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return calc1 > calc2
+                }
+            reloadTable(table: Data.beerListID)
+            Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return calc1 > calc2
+                }
+            reloadTable(table: Data.liquorListID)
+            Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
+                let calc1 = (Double(drink1.abv)!*Double(drink1.size)!)/0.6
+                let calc2 = (Double(drink2.abv)!*Double(drink2.size)!)/0.6
+                return calc1 > calc2
+                }
+            reloadTable(table: Data.wineListID)
+        }
+        alculate(for: appNavigation.alculateType)
     }
     
     func updateAppNavBottom(by percent: CGFloat, animate: Bool) {
@@ -215,30 +269,59 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         else {
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             if table == Data.beerListID {
+                print("reload \(Data.beerListID)")
                 //beerList.reloadData()
                 beerList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.liquorListID {
+                print("reload \(Data.liquorListID)")
                 //liquorList.reloadData()
                 liquorList.reloadSections(sections as IndexSet, with: .automatic)
             }
             else if table == Data.wineListID {
+                print("reload \(Data.wineListID)")
                 //wineList.reloadData()
                 wineList.reloadSections(sections as IndexSet, with: .automatic)
             }
-            resetDeleteButton()
             resetAddButton()
-            alculate()
+            alculate(for: appNavigation.alculateType)
+        }
+    }
+    
+    func makeDeletable(_ deletable: Bool, lists: String) {
+        var tables: [UITableView]! = []
+        if lists == "all" {
+            tables = [beerList,liquorList,wineList]
+        }
+        else if lists == Data.beerListID {
+            tables = [beerList]
+        }
+        else if lists == Data.liquorListID {
+            tables = [liquorList]
+        }
+        else if lists == Data.wineListID {
+            tables = [wineList]
+        }
+        for table in tables as! [TableTwo] {
+            table.deletable = deletable
+            for row in 0..<table.numberOfRows(inSection: 0) {
+                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! TableTwoCell
+                cell.nukeAllAnimations()
+                if deletable {
+                    cell.beginDeleteAnimation()
+                }
+            }
         }
     }
 
-    func alculate() {
+    func alculate(for type: String) {
         // create framework of top item from first list
         var info: (name: String, abv: String, size: String, price: String)!
         // create framework of array of lists that are not empty
         var lists: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]! = []
         // create framework of best alcohol of top items from each list
-        var bestAlcohol: (name: String, alc: String, avg: String, ind: Int)!
+        var bestPrice: (name: String, best: String, ind: Int)!
+        var bestRatio: (name: String, best: String, ind: Int)!
         // iterate through each type list to see if empty
         for (index, listPiece) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
             // if the list is not empty, add the top item to lists to be compared (already sorted)
@@ -249,35 +332,61 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
             info = lists[0].arr
-            bestAlcohol = (name: info.name,
-                           alc: String(format: "%.2f", findBest(for: (abv: info.abv, size: info.size, price: info.price))),
-                           avg: String(format: "%.1f", (Double(info.abv)!*Double(info.size)!*0.01/0.6)),
+            bestPrice = (name: info.name,
+                           best: String(format: "%.2f", findBestPrice(for: (abv: info.abv, size: info.size, price: info.price))),
                            ind: lists[0].ind)
             for listPiece in lists {
-                let tryBest = findBest(for: (abv: listPiece.arr.abv, size: listPiece.arr.size, price: listPiece.arr.price))
-                if tryBest < Double(bestAlcohol.alc)! {
-                    bestAlcohol = (name: listPiece.arr.name,
-                                   alc: String(format: "%.2f", tryBest),
-                                   avg: String(format: "%.1f", (Double(listPiece.arr.abv)!*Double(listPiece.arr.size)!*0.01/0.6)),
+                let tryBest = findBestPrice(for: (abv: listPiece.arr.abv, size: listPiece.arr.size, price: listPiece.arr.price))
+                if tryBest < Double(bestPrice.best)! {
+                    bestPrice = (name: listPiece.arr.name,
+                                   best: String(format: "%.2f", tryBest),
+                                   ind: listPiece.ind)
+                }
+            }
+            bestRatio = (name: info.name,
+                           best: String(format: "%.2f", findBestRatio(for: (abv: info.abv, size: info.size))),
+                           ind: lists[0].ind)
+            for listPiece in lists {
+                let tryBest = findBestRatio(for: (abv: listPiece.arr.abv, size: listPiece.arr.size))
+                if tryBest > Double(bestRatio.best)! {
+                    bestRatio = (name: listPiece.arr.name,
+                                   best: String(format: "%.2f", tryBest),
                                    ind: listPiece.ind)
                 }
             }
             header.appName.textColor = .black
-            topLine.name.text = bestAlcohol.name
-            topLine.stat.text = "$"+bestAlcohol.alc //bestAlcohol.avg
-            topLine.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
-            view.backgroundColor = UI.Color.alcoholTypes[bestAlcohol.ind]
+            topLine.namePrice.text = bestPrice.name
+            topLine.statPrice.text = "$"+bestPrice.best
+            topLine.nameRatio.text = bestRatio.name
+            topLine.statRatio.text = bestRatio.best+"x"
+            if type == "price" {
+                topLine.nameRatio.alpha = 0.4
+                topLine.statRatio.alpha = 0.4
+                topLine.namePrice.alpha = 1
+                topLine.statPrice.alpha = 1
+                topLine.backgroundColor = UI.Color.alcoholTypes[bestPrice.ind]
+                view.backgroundColor = UI.Color.alcoholTypes[bestPrice.ind]
+            }
+            else {
+                topLine.namePrice.alpha = 0.4
+                topLine.statPrice.alpha = 0.4
+                topLine.nameRatio.alpha = 1
+                topLine.statRatio.alpha = 1
+                topLine.backgroundColor = UI.Color.alcoholTypes[bestRatio.ind]
+                view.backgroundColor = UI.Color.alcoholTypes[bestRatio.ind]
+            }
         }
         // if all lists are empty, dont alculate
         else {
             header.appName.textColor = .white
-            topLine.name.text = "EMPTY!"
+            topLine.namePrice.text = "EMPTY!"
+            topLine.nameRatio.text = "EMPTY!"
             topLine.backgroundColor = .black
             view.backgroundColor = .black
         }
     }
     
-    func findBest(for alc: (abv: String, size: String, price: String)) -> Double {
+    func findBestPrice(for alc: (abv: String, size: String, price: String)) -> Double {
         let abvDouble = Double(alc.abv)!*0.01
         let sizeDouble = Double(alc.size)!
         let priceDouble: Double
@@ -288,6 +397,12 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             priceDouble = 1.0
         }
         return priceDouble/((abvDouble*sizeDouble)/0.6)
+    }
+    
+    func findBestRatio(for alc: (abv: String, size: String)) -> Double {
+        let abvDouble = Double(alc.abv)!*0.01
+        let sizeDouble = Double(alc.size)!
+        return (abvDouble*sizeDouble)/0.6
     }
     
 }

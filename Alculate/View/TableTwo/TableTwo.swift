@@ -13,16 +13,21 @@ protocol TableTwoDelegate {
     // called when user taps subview/delete button
     func displayAlert(alert: UIAlertController)
     func reloadTable(table: String)
+    func makeDeletable(_ deletable: Bool, lists: String)
 }
 
 class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, TableTwoCellDelegate {
-        
+            
     var tableTwoDelegate : TableTwoDelegate!
-
+    var alculateType = "price"
+    
+    var deletable = false
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
 
     var willDelete = false
     var alcoholType = ""
+    
+    var alcoholTitle = UILabel()
 
     var tableTwoLeading: NSLayoutConstraint!
     
@@ -49,6 +54,10 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        //separatorColor = .black
+        estimatedRowHeight = 0
+        estimatedSectionFooterHeight = 0
+        estimatedSectionHeaderHeight = 0
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.tableViewRadius)
         // Set constraints not related to superview (ViewController)
         tableTwoLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
@@ -58,6 +67,30 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewHeight),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.tableViewTop)
             ])
+        // 2.
+        let header = UIView()
+        header.backgroundColor = backgroundColor
+        let headerLabel = UILabel()
+        header.addSubview(headerLabel)
+        headerLabel.font = UI.Font.cellHeaderFont
+        headerLabel.textColor = .black
+        headerLabel.textAlignment = .center
+        headerLabel.text = alcoholType
+        tableHeaderView = header
+        // 3.
+        header.translatesAutoresizingMaskIntoConstraints = false
+        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        header.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+        header.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        header.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*(1/2)).isActive = true
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor).isActive = true
+        headerLabel.widthAnchor.constraint(equalTo: header.widthAnchor).isActive = true
+        headerLabel.bottomAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+        headerLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*(1/3)).isActive = true
+        // 4.
+        tableHeaderView?.layoutIfNeeded()
+        tableHeaderView = tableHeaderView
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,7 +122,22 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         cell.size.text = "\(info.size) oz. | $\(price)"
         let alcPerDollar = Double(info.price)!/(Double(info.abv)!*Double(info.size)!*0.01/0.6)
         let cost = "$"+String(format: "%.2f", alcPerDollar)
-        cell.avg.text = cost+" | "+String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+        if alculateType == "price" {
+            cell.sortedStat.text = cost
+            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+        }
+        else {
+            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*Double(info.size)!*0.01/0.6))+"x"
+            cell.otherStat.text = cost
+        }
+        
+        if deletable {
+            cell.nukeAllAnimations()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Change `2.0` to the desired number of seconds.
+               // Code you want to be delayed
+                cell.beginDeleteAnimation()
+            }
+        }
         return cell
     }
     
@@ -113,49 +161,37 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if willDelete {
-            if alcoholType == "BEER" {
-                let info = Data.beerList[indexPath.row]
-                Data.deleteFromList(Data.beerListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: Data.beerListID)
-            }
-            else if alcoholType == "LIQUOR" {
-                let info = Data.liquorList[indexPath.row]
-                Data.deleteFromList(Data.liquorListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: Data.liquorListID)
-            }
-            else if alcoholType == "WINE" {
-                let info = Data.wineList[indexPath.row]
-                Data.deleteFromList(Data.wineListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-                self.tableTwoDelegate.reloadTable(table: Data.wineListID)
-            }
-        }
+
     }
 
+    func cellWillDelete(cell: TableTwoCell) {
+        deletable = true
+        self.tableTwoDelegate.makeDeletable(true, lists: "all")
+    }
+    
+    func stopDelete(cell: TableTwoCell) {
+        deletable = false
+        self.tableTwoDelegate.makeDeletable(false, lists: "all")
+    }
+    
     func remove(cell: TableTwoCell) {
         let indexPath = self.indexPath(for: cell)
         var info = (name: "", abv: "", size: "", price: "")
         if alcoholType == "BEER" {
             info = Data.beerList[indexPath!.row]
+            Data.deleteFromList(Data.beerListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+            self.tableTwoDelegate.reloadTable(table: Data.beerListID)
         }
         else if alcoholType == "LIQUOR" {
             info = Data.liquorList[indexPath!.row]
+            Data.deleteFromList(Data.liquorListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+            self.tableTwoDelegate.reloadTable(table: Data.liquorListID)
         }
         else if alcoholType == "WINE" {
             info = Data.wineList[indexPath!.row]
+            Data.deleteFromList(Data.wineListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+            self.tableTwoDelegate.reloadTable(table: Data.wineListID)
         }
-        toBeDeleted.append((name: info.name, abv: info.abv, size: info.size, price: info.price))
-        if alcoholType == "BEER" {
-            Data.beerList.remove(at: indexPath!.row)
-        }
-        else if alcoholType == "LIQUOR" {
-            Data.liquorList.remove(at: indexPath!.row)
-        }
-        else if alcoholType == "WINE" {
-            Data.wineList.remove(at: indexPath!.row)
-        }
-        self.tableTwoDelegate.reloadTable(table: Data.masterListID)
-//        self.tableTwoDelegate.offerUndo()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

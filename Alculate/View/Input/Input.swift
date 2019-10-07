@@ -255,16 +255,28 @@ class Input: UIView, UITextFieldDelegate {
     
     func updateTableTwo() {
         if type.text! == "BEER" {
-            Data.saveToList(Data.beerListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: Data.beerListID)
+            for info in Data.beerList {
+                if [info.name, info.abv, info.size, info.price] != output {
+                    Data.saveToList(Data.beerListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.inputDelegate.reloadTable(table: Data.beerListID)
+                }
+            }
         }
         if type.text! == "LIQUOR" {
-            Data.saveToList(Data.liquorListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: Data.liquorListID)
+            for info in Data.liquorList {
+                if [info.name, info.abv, info.size, info.price] != output {
+                    Data.saveToList(Data.liquorListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.inputDelegate.reloadTable(table: Data.liquorListID)
+                }
+            }
         }
         if type.text! == "WINE" {
-            Data.saveToList(Data.wineListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-            self.inputDelegate.reloadTable(table: Data.wineListID)
+            for info in Data.wineList {
+                if [info.name, info.abv, info.size, info.price] != output {
+                    Data.saveToList(Data.wineListID, wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.inputDelegate.reloadTable(table: Data.wineListID)
+                }
+            }
         }
     }
         

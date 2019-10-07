@@ -69,10 +69,10 @@ class TableOne: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         cell.delegate = self
         let headerLetter = Data.headers[indexPath.section]
         let nameList = Data.matrix[headerLetter]
-        let name = nameList![indexPath.row].capitalizingFirstLetter()
+        let name = nameList![indexPath.row]
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
-        cell.header.text = name
+        cell.header.text = name.capitalizingFirstLetter()
         cell.stub.text = "\(type) - \(abv)%"
         return cell
     }

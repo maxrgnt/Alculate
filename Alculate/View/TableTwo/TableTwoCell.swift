@@ -30,6 +30,8 @@ class TableTwoCell: UITableViewCell {
     let size = UILabel()
     let otherStat = UILabel()
     let sortedStat = UILabel()
+    let sortedLabel = UILabel()
+    let otherLabel = UILabel()
     
     var continueAnimating = false
     
@@ -51,7 +53,7 @@ class TableTwoCell: UITableViewCell {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressed))
         cellObject.addGestureRecognizer(tapRecognizer)
         // View object settings
-        for label in [name, size, otherStat, sortedStat] {
+        for label in [name, size, otherStat, sortedStat, otherLabel, sortedLabel] {
             cellObject.addSubview(label)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textColor = .black
@@ -61,7 +63,8 @@ class TableTwoCell: UITableViewCell {
         size.alpha = 0.7
         name.font = UI.Font.cellHeaderFont
         sortedStat.font = UI.Font.cellHeaderFont
-        otherStat.alpha = 0.7
+        sortedLabel.alpha = 0.7
+        otherLabel.alpha = 0.7
         //
         addSubview(delete)
         delete.alpha = 0.0
@@ -95,10 +98,18 @@ class TableTwoCell: UITableViewCell {
             sortedStat.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
             sortedStat.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
             sortedStat.topAnchor.constraint(equalTo: size.bottomAnchor),
+            sortedLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
+            sortedLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/8),
+            sortedLabel.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
+            sortedLabel.topAnchor.constraint(equalTo: sortedStat.bottomAnchor),
             otherStat.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
             otherStat.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
             otherStat.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            otherStat.topAnchor.constraint(equalTo: sortedStat.bottomAnchor)
+            otherStat.topAnchor.constraint(equalTo: sortedLabel.bottomAnchor),
+            otherLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
+            otherLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/8),
+            otherLabel.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
+            otherLabel.topAnchor.constraint(equalTo: otherStat.bottomAnchor)
             ])
     }
     

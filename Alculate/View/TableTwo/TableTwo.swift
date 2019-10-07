@@ -112,7 +112,7 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
             cell.cellObject.backgroundColor = UI.Color.softWhite
             //cell.cellObject.alpha = 0.6
         }
-        cell.name.text = "\(info.name)"
+        cell.name.text = "\(info.name.capitalizingFirstLetter())"
         let price = String(format: "%.2f", Double(info.price)!)
         let sizeUnit = info.size.dropFirst(info.size.count-2)
         cell.size.text = "\(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
@@ -123,12 +123,16 @@ class TableTwo: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrol
         let alcPerDollar = Double(info.price)!/(Double(info.abv)!*correctedSize*0.01/0.6)
         let cost = "$"+String(format: "%.2f", alcPerDollar)
         if alculateType == "price" {
-            cell.sortedStat.text = cost+"/shot"
-            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))+" shots"
+            cell.sortedStat.text = cost
+            cell.sortedLabel.text = "per shot"
+            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))
+            cell.otherLabel.text = "shots"
         }
         else {
-            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))+" shots"
-            cell.otherStat.text = cost+"/shot"
+            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))
+            cell.sortedLabel.text = "shots"
+            cell.otherStat.text = cost
+            cell.otherLabel.text = "per shot"
         }
         cell.nukeAllAnimations(restart: varDeletable)
         return cell

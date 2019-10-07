@@ -82,6 +82,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
         //clearTestData()
         handleInit()
         print(Data.masterList)
+        print(Data.beerList)
     }
     
     func clearTestData(){

@@ -11,11 +11,13 @@ import UIKit
 class StatusBar: UIView {
     
     init() {
+        // Set view origin (top left of screen)
         let viewOrigin = CGPoint(x: 0, y: 0)
+        // Set view size (height of the status bar)
         let viewSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.statusBar.height)
-        // Initialize views frame prior to setting constraints
+        // Initialize frame of view
         super.init(frame: CGRect(origin: viewOrigin, size: viewSize))
-        //
+        // Set background color you want to mask the status bar as
         backgroundColor = UI.Color.alculatePurpleDark
     }
     

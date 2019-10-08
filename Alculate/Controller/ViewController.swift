@@ -441,7 +441,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 bestAlcoholInd = bestRatio.ind
             }
             view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
-            Header.gl.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
                                 UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
                                 UI.Color.alcoholTypes[bestAlcoholInd].withAlphaComponent(0.0).cgColor]
         }
@@ -451,7 +451,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             topLine.bestCountName.text = "EMPTY!"
             view.backgroundColor = UI.Color.alculatePurpleLite
             bestAlcoholInd = 3
-            Header.gl.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
                                 UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
                                 UI.Color.alculatePurpleLite.cgColor]
         }

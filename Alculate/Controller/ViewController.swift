@@ -31,7 +31,6 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     var beerHeader = ComparisonHeader()
     var liquorHeader = ComparisonHeader()
     var wineHeader = ComparisonHeader()
-    var comparisonContainer = ComparisonContainer()
     
     var bestAlcoholInd: Int = 3
     
@@ -80,16 +79,6 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
 //            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
 //            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
 //        }
-        
-        view.addSubview(comparisonContainer)
-        NSLayoutConstraint.activate([
-            comparisonContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            comparisonContainer.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonContainerWidth),
-            comparisonContainer.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonContainerWidth),
-            comparisonContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-        ])
-        comparisonContainer.build()
-//        comparisonContainer.clipsToBounds = false
         
         header.build()
         //

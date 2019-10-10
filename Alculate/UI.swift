@@ -62,11 +62,12 @@ struct UI {
         static let comparisonTop = statusBar.height+headerHeight+topLineHeight
         static let comparisonTableWidth = width/3
         static let comparisonIconDiameter = (comparisonTableWidth)-(objectPadding*(3/2))
-        static let comparisonContainerWidth = (width-(objectPadding*4))/3
-        static let comparisonRemoveRadius = comparisonContainerWidth/8
-        static let comparisonRemoveDiameter = comparisonContainerWidth/4
-        static let comparionRemoveOffset = comparisonContainerWidth/12
-        static let comparisonContainerRadius = comparisonContainerWidth/10
+        static let containerDiameter = (width-(objectPadding*4))/3
+        static let comparisonRemoveRadius = containerDiameter/8
+        static let comparisonRemoveDiameter = containerDiameter/4
+        static let comparisonRemoveOffset = containerDiameter/12
+        static let comparisonContainerRadius = containerDiameter/10
+        static let comparisonContainerShrunk = UI.Sizing.containerDiameter*0.92
     }
 
     // fonts

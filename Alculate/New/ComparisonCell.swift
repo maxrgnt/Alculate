@@ -8,176 +8,159 @@
 
 import UIKit
 
-//protocol TableTwoCellDelegate: AnyObject {
-//    func cellWillDelete(cell: TableTwoCell)
-//    func stopDelete(cell: TableTwoCell)
-//    func remove(cell: TableTwoCell)
-//}
+// Protocol to communicate with tableview/viewcontroller
+protocol ComparisonCellDelegate: AnyObject {
+    func delegateBeginAnimating(cell: ComparisonCell)
+    func delegateStopAnimating(cell: ComparisonCell)
+    func delegateRemove(cell: ComparisonCell)
+}
 
 class ComparisonCell: UITableViewCell {
   
-//    var delegate: TableTwoCellDelegate?
+    // Delegate object for Protocol above
+    var delegate: ComparisonCellDelegate?
 
-    var cellObjectWidth: NSLayoutConstraint!
-    var cellObjectHeight: NSLayoutConstraint!
+    // Constraints
+    var containerWidth: NSLayoutConstraint!
+    var containerHeight: NSLayoutConstraint!
     
     // Objects
-    let cellObject = UIView()
+    let container = ComparisonContainer()
     let delete = UIButton()
-    
-    var type = ""
-    let name = UILabel()
-    let size = UILabel()
-    let otherStat = UILabel()
-    let sortedStat = UILabel()
-    let sortedLabel = UILabel()
-    let otherLabel = UILabel()
 
+    // Variables
     var continueAnimating = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        // MARK: - View/Object Settings
         // Initialize views frame prior to setting constraints
-        super.init(style: style, reuseIdentifier: "TableTwoCell")
+        super.init(style: style, reuseIdentifier: "ComparisonCell")
         // Miscelaneous view settings
         selectionStyle = .none
         backgroundColor = .clear
         //
-        addSubview(cellObject)
-        cellObject.clipsToBounds = false
-        cellObject.translatesAutoresizingMaskIntoConstraints = false
-        cellObject.layer.borderWidth = UI.Sizing.cellObjectBorder
-        cellObject.layer.borderColor = UI.Color.alculatePurpleDark.cgColor
-        cellObject.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: UI.Sizing.cellObjectRadius)
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
-        cellObject.addGestureRecognizer(longPressRecognizer)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapPressed))
-        cellObject.addGestureRecognizer(tapRecognizer)
-        // View object settings
-        for label in [name, size, otherStat, sortedStat, otherLabel, sortedLabel] {
-            cellObject.addSubview(label)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = UI.Color.softWhite
-            label.textAlignment = .left
-            label.font = UI.Font.cellStubFont
-        }
-        size.alpha = 0.7
-        name.font = UI.Font.cellHeaderFont
-        sortedStat.font = UI.Font.cellHeaderFont
-        sortedLabel.alpha = 0.7
-        otherLabel.alpha = 0.7
+        addSubview(container)
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureActivated))
+        container.addGestureRecognizer(longPressRecognizer)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureActivated))
+        container.addGestureRecognizer(tapRecognizer)
         //
         addSubview(delete)
         delete.alpha = 0.0
-        delete.translatesAutoresizingMaskIntoConstraints = false
         delete.backgroundColor = .red
         delete.setTitle("X", for: .normal)
         delete.setTitleColor(UI.Color.softWhite, for: .normal)
-        delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
-        delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.cellObjectWidth/8)
+        delete.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
+        delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
+        
         // MARK: - NSLayoutConstraints
-        cellObjectWidth = cellObject.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth)
-        cellObjectHeight = cellObject.heightAnchor.constraint(equalToConstant: UI.Sizing.cellObjectHeight)
+        for obj in [container,delete] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        containerWidth = container.widthAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
+        containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
-            cellObjectWidth,
-            cellObjectHeight,
-            cellObject.centerXAnchor.constraint(equalTo: centerXAnchor),
-            cellObject.bottomAnchor.constraint(equalTo: bottomAnchor),
-            delete.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth/4),
-            delete.heightAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth/4),
-            delete.trailingAnchor.constraint(equalTo: cellObject.trailingAnchor, constant: UI.Sizing.cellObjectWidth/12),
-            delete.topAnchor.constraint(equalTo: cellObject.topAnchor, constant: -UI.Sizing.cellObjectWidth/12),
-            name.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
-            name.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
-            name.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            name.topAnchor.constraint(equalTo: cellObject.topAnchor, constant: UI.Sizing.cellObjectBorder),
-            size.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder*2),
-            size.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
-            size.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            size.topAnchor.constraint(equalTo: name.bottomAnchor),
-            sortedStat.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
-            sortedStat.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/5),
-            sortedStat.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            sortedStat.topAnchor.constraint(equalTo: size.bottomAnchor),
-            sortedLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
-            sortedLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/8),
-            sortedLabel.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            sortedLabel.topAnchor.constraint(equalTo: sortedStat.bottomAnchor),
-            otherStat.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
-            otherStat.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/6),
-            otherStat.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            otherStat.topAnchor.constraint(equalTo: sortedLabel.bottomAnchor),
-            otherLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.cellObjectWidth-UI.Sizing.cellObjectBorder),
-            otherLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewWidth/8),
-            otherLabel.leadingAnchor.constraint(equalTo: cellObject.leadingAnchor, constant: UI.Sizing.cellObjectBorder*2),
-            otherLabel.topAnchor.constraint(equalTo: otherStat.bottomAnchor)
+            containerWidth,
+            containerHeight,
+            container.centerXAnchor.constraint(equalTo: centerXAnchor),
+            container.bottomAnchor.constraint(equalTo: bottomAnchor),
+            delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
+            delete.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
+            delete.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: UI.Sizing.comparisonRemoveOffset),
+            delete.topAnchor.constraint(equalTo: container.topAnchor, constant: -UI.Sizing.comparisonRemoveOffset),
             ])
     }
     
-    @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
+    // MARK: - Gesture Recognizers
+    @objc func longPressGestureActivated(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-//            delegate?.cellWillDelete(cell: self)
+            delegate?.delegateBeginAnimating(cell: self)
         }
     }
     
-    @objc func tapPressed(_ sender: UITapGestureRecognizer) {
+    @objc func tapGestureActivated(_ sender: UITapGestureRecognizer) {
         if continueAnimating == true {
-//            delegate?.stopDelete(cell: self)
+            delegate?.delegateStopAnimating(cell: self)
         }
     }
     
-    @objc func remove() {
-//        delegate?.remove(cell: self)
+    @objc func removeButtonPressed() {
+        delegate?.delegateRemove(cell: self)
     }
     
-    func beginDeleteAnimation() {
-        cellObjectWidth.constant = UI.Sizing.cellObjectWidth*0.92
-        cellObjectHeight.constant = UI.Sizing.cellObjectHeight*0.92
-        continueAnimating = true
-        UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
-        , animations: ({
-            self.delete.alpha = 1.0
-            self.layoutIfNeeded()
-        }))
-        rotateTo(frac: 0.05)
-    }
-    
+    // MARK: - Animation Functions
     func rotateTo(frac: Double) {
+        // update view before animating
         self.layoutIfNeeded()
+        // animate to the frac rotation
         UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction] //.repeat
             , animations: ({
-                self.cellObject.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
+                // set rotation as animation
+                self.container.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
                 self.delete.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
+                // update view as animation
                 self.layoutIfNeeded()
             }), completion: { (completed) in
+                // once animation complete, check if should repeat
                 if self.continueAnimating == true {
+                    // if should repeat, rotate to opposite side
                     self.rotateTo(frac: -frac)
                 }
                 else {
-                    print("stop animating")
+                    // if should not repeat, do nothing
                 }
             }
         )
     }
     
-    func nukeAllAnimations(restart: Bool) {
+    func beginAnimating() {
+        // shrink the container to desired size
+        containerWidth.constant = UI.Sizing.comparisonContainerShrunk
+        containerHeight.constant = UI.Sizing.comparisonContainerShrunk
+        // permit animations
+        continueAnimating = true
+        // set starting animation
+        UIView.animate(withDuration: 0.3, delay: 0
+            , animations: ({
+                // hide delete button
+                self.delete.alpha = 1.0
+                // animate shrinking of sizes above
+                self.layoutIfNeeded()
+            }), completion: { (completed) in
+                // begin rotations
+                self.rotateTo(frac: 0.05)
+            }
+        )
+    }
+    
+    func stopAnimating(restartAnimations: Bool) {
+        // stop rotateTo(frac: ) from repeating
         continueAnimating = false
-        if (cellObjectWidth.constant != UI.Sizing.cellObjectWidth && cellObjectHeight.constant != UI.Sizing.cellObjectHeight) || restart == true {
-            cellObjectWidth.constant = UI.Sizing.cellObjectWidth
-            cellObjectHeight.constant = UI.Sizing.cellObjectHeight
-            UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
-                , animations: ({
-                    self.delete.alpha = 0.0
-                    self.layoutIfNeeded()
-                    self.cellObject.transform = .identity
-                    self.delete.transform = .identity
-                }), completion: { (completed) in
-                    self.subviews.forEach({$0.layer.removeAllAnimations()})
-                    self.layer.removeAllAnimations()
-                    if restart {
-                        self.beginDeleteAnimation()
-                    }
-                })
+        //
+        if !restartAnimations {
+            // hide delete button
+            self.delete.alpha = 0.0
+            // reset container sizes
+            containerWidth.constant = UI.Sizing.containerDiameter
+            containerHeight.constant = UI.Sizing.containerDiameter
         }
+        UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
+            , animations: ({
+                // reset rotation animation
+                self.container.transform = .identity
+                self.delete.transform = .identity
+                // reset scaling animation
+                self.layoutIfNeeded()
+            }), completion: { (completed) in
+                // once back to identity, remove all animations to be safe
+                self.subviews.forEach({$0.layer.removeAllAnimations()})
+                self.layer.removeAllAnimations()
+                // if restarting deletes, proceed
+                if restartAnimations {
+                    self.beginAnimating()
+                }
+            }
+        )
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -27,8 +27,10 @@ class ComparisonContainer: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = UI.Color.alculatePurpleDark
         clipsToBounds = false
+        backgroundColor = UI.Color.alculatePurpleLite
+        layer.borderWidth = UI.Sizing.cellObjectBorder
+        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonContainerRadius)
         // Object settings
         for label in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription] {
@@ -52,15 +54,8 @@ class ComparisonContainer: UIView {
         valueDescription.text = "per shot"
         effect.text = "2.1"
         effectDescription.text = "shots"
-        //
-        addSubview(remove)
-        remove.backgroundColor = .red
-        remove.setTitle("X", for: .normal)
-        remove.setTitleColor(UI.Color.softWhite, for: .normal)
-        remove.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
-        
+             
         // MARK: - NSLayoutConstraints
-        translatesAutoresizingMaskIntoConstraints = false
         for obj in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription,remove] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -70,6 +65,7 @@ class ComparisonContainer: UIView {
         let categoryHeight: CGFloat = (1/3)
         // value and effect
         let descriptionHeight: CGFloat = (1/6)
+        //
         let valueWidth: CGFloat = (2/3)
         let effectWidth: CGFloat = (1/3)
         //
@@ -97,11 +93,7 @@ class ComparisonContainer: UIView {
             effectDescription.trailingAnchor.constraint(equalTo: trailingAnchor),
             effectDescription.widthAnchor.constraint(equalTo: effect.widthAnchor),
             effectDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),
-            effectDescription.topAnchor.constraint(equalTo: effect.bottomAnchor),
-            remove.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Sizing.comparionRemoveOffset),
-            remove.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
-            remove.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
-            remove.topAnchor.constraint(equalTo: topAnchor, constant: -UI.Sizing.comparionRemoveOffset)
+            effectDescription.topAnchor.constraint(equalTo: effect.bottomAnchor)
             ])
     }
 

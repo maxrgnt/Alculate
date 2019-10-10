@@ -47,6 +47,14 @@ class TopLinePiece: UIView {
         for obj in [category,drinkName,value,valueDescription,icon] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
+        let categoryHeight = UI.Sizing.topLineHeight/6
+        let drinkNameHeight = UI.Sizing.topLineHeight/3
+        let valueHeight = UI.Sizing.topLineHeight/3
+        let valueDescriptionHeight = UI.Sizing.topLineHeight/6
+        let topLineWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding
+        let valuePiecesWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3
+        let iconDiameter = UI.Sizing.topLineHeight/3
+        //
         if leadingAnchors == 0 {
             NSLayoutConstraint.activate([
                 leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
@@ -68,21 +76,21 @@ class TopLinePiece: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
-            category.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding),
-            category.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/6),
+            category.widthAnchor.constraint(equalToConstant: topLineWidth),
+            category.heightAnchor.constraint(equalToConstant: categoryHeight),
             category.centerXAnchor.constraint(equalTo: centerXAnchor),
             category.topAnchor.constraint(equalTo: topAnchor),
-            drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding),
-            drinkName.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            drinkName.widthAnchor.constraint(equalToConstant: topLineWidth),
+            drinkName.heightAnchor.constraint(equalToConstant: drinkNameHeight),
             drinkName.topAnchor.constraint(equalTo: category.bottomAnchor),
-            value.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3),
-            value.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            value.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
+            value.heightAnchor.constraint(equalToConstant: valueHeight),
             value.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
-            valueDescription.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3),
-            valueDescription.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/6),
+            valueDescription.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
+            valueDescription.heightAnchor.constraint(equalToConstant: valueDescriptionHeight),
             valueDescription.topAnchor.constraint(equalTo: value.bottomAnchor),
-            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
-            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            icon.widthAnchor.constraint(equalToConstant: iconDiameter),
+            icon.heightAnchor.constraint(equalToConstant: iconDiameter),
             icon.bottomAnchor.constraint(equalTo: valueDescription.bottomAnchor)
             ])
     }

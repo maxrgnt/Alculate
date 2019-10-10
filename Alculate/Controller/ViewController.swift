@@ -26,6 +26,12 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     var masterList = MasterList()
     var userInput = Input()
     
+    var valueTopLine = TopLinePiece()
+    var effectiveTopLine = TopLinePiece()
+    var beerHeader = ComparisonHeader()
+    var liquorHeader = ComparisonHeader()
+    var wineHeader = ComparisonHeader()
+    
     var bestAlcoholInd: Int = 3
     
     override func viewDidLoad() {
@@ -36,16 +42,43 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
              selector: #selector(keyboardWillShow),
              name: UIResponder.keyboardWillShowNotification,
              object: nil
+        
         )
+        
+        print(UI.Sizing.width/3-(UI.Sizing.objectPadding*(3/2)))
         
         ViewController.leadingAnchor = view.leadingAnchor
         ViewController.topAnchor = view.topAnchor
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         
+        view.backgroundColor = UI.Color.alculatePurpleDark
+        
         for subview in [statusBar, header, topLine, beerList, liquorList, wineList, masterList, appNavigation, userInput] {
             view.addSubview(subview)
         }
+        
+//        let categories = ["Most Value","Most Effective"]
+//        let drinkNames = ["Coors","Vodka"]
+//        let values = ["$2.00","3.0"]
+//        let valueDescriptions = ["per shot","shots"]
+//        let topLineIcons = ["beer","beer"]
+//        let alignments = [.left,.right] as [NSTextAlignment]
+//        for (i, topLinePiece) in [valueTopLine,effectiveTopLine].enumerated() {
+//            view.addSubview(topLinePiece)
+//            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
+//            topLinePiece.category.text = categories[i]
+//            topLinePiece.drinkName.text = drinkNames[i]
+//            topLinePiece.value.text = values[i]
+//            topLinePiece.valueDescription.text = valueDescriptions[i]
+//        }
+//
+//        let headerIcons = ["beer","liquor","wine"]
+//        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
+//            view.addSubview(comparisonHeader)
+//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+//            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
+//        }
         
         header.build()
         //
@@ -81,8 +114,6 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             
         //clearTestData()
         handleInit()
-        print(Data.masterList)
-        print(Data.beerList)
     }
     
     func clearTestData(){
@@ -440,20 +471,20 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
                 topLine.bestCountStat.alpha = 1
                 bestAlcoholInd = bestRatio.ind
             }
-            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
-            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                                UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
-                                UI.Color.alcoholTypes[bestAlcoholInd].withAlphaComponent(0.0).cgColor]
+//            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
+//            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+//                                UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
+//                                UI.Color.alcoholTypes[bestAlcoholInd].withAlphaComponent(0.0).cgColor]
         }
         // if all lists are empty, dont alculate
         else {
             topLine.bestPriceName.text = "EMPTY!"
             topLine.bestCountName.text = "EMPTY!"
-            view.backgroundColor = UI.Color.alculatePurpleLite
+//            view.backgroundColor = UI.Color.alculatePurpleLite
             bestAlcoholInd = 3
-            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                                UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                                UI.Color.alculatePurpleLite.cgColor]
+//            Header.gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+//                                UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+//                                UI.Color.alculatePurpleLite.cgColor]
         }
     }
     

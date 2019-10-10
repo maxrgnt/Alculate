@@ -1,0 +1,94 @@
+//
+//  TopLinePiece.swift
+//  Alculate
+//
+//  Created by Max Sergent on 10/9/19.
+//  Copyright © 2019 Max Sergent. All rights reserved.
+//
+
+import UIKit
+
+class TopLinePiece: UIView {
+    
+    // Objects
+    let category = UILabel()
+    let drinkName = UILabel()
+    let value = UILabel()
+    let valueDescription = UILabel()
+    let icon = UIImageView()
+
+    init() {
+        // Initialize views frame prior to setting constraints
+        super.init(frame: CGRect.zero)
+    }
+    
+    func build(iconName: String, alignText: NSTextAlignment, leadingAnchors: Int) {
+        // MARK: - View/Object Settings
+        // View settings
+        backgroundColor = UI.Color.alculatePurpleDark
+        clipsToBounds = true
+        // Object settings
+        for label in [category,drinkName,value,valueDescription] {
+            addSubview(label)
+            label.textColor = UI.Color.softWhite
+            label.textAlignment = alignText
+        }
+        category.textAlignment = .center
+        category.font = UI.Font.cellHeaderFont
+        drinkName.font = UI.Font.cellHeaderFont
+        value.font = UI.Font.cellHeaderFont
+        valueDescription.font = UI.Font.cellHeaderFont
+        //
+        addSubview(icon)
+        icon.image = UIImage(named: iconName)
+        
+        // MARK: - NSLayoutConstraints
+        translatesAutoresizingMaskIntoConstraints = false
+        for obj in [category,drinkName,value,valueDescription,icon] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        if leadingAnchors == 0 {
+            NSLayoutConstraint.activate([
+                leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
+                drinkName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+                value.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+                valueDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+                icon.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+        } else if leadingAnchors == 1 {
+            NSLayoutConstraint.activate([
+                trailingAnchor.constraint(equalTo: ViewController.trailingAnchor),
+                drinkName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+                value.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+                valueDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+                icon.leadingAnchor.constraint(equalTo: leadingAnchor)
+            ])
+        }
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
+            category.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding),
+            category.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/6),
+            category.centerXAnchor.constraint(equalTo: centerXAnchor),
+            category.topAnchor.constraint(equalTo: topAnchor),
+            drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding),
+            drinkName.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            drinkName.topAnchor.constraint(equalTo: category.bottomAnchor),
+            value.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3),
+            value.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            value.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
+            valueDescription.widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3),
+            valueDescription.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/6),
+            valueDescription.topAnchor.constraint(equalTo: value.bottomAnchor),
+            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight/3),
+            icon.bottomAnchor.constraint(equalTo: valueDescription.bottomAnchor)
+            ])
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}

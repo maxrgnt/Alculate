@@ -1,17 +1,17 @@
 //
-//  Header.swift
+//  ComparisonHeader.swift
 //  Alculate
 //
-//  Created by Max Sergent on 9/24/19.
+//  Created by Max Sergent on 10/9/19.
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
 import UIKit
 
-class Header: UIView {
+class ComparisonHeader: UIView {
          
     // Objects
-    let appName = UILabel()
+    let icon = UIImageView()
     var gradient = CAGradientLayer()
     
     init() {
@@ -19,16 +19,13 @@ class Header: UIView {
         super.init(frame: CGRect.zero)
     }
     
-    func build() {
+    func build(iconName: String, leadingConstant: CGFloat) {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = true
         // Object settings
-        addSubview(appName)
-        appName.textColor = UI.Color.softWhite
-        appName.font = UI.Font.headerFont
-        appName.textAlignment = .center
-        appName.text = "Alculate"
+        addSubview(icon)
+        icon.image = UIImage(named: iconName)
         
         // MARK: - Gradient Settings
         // Set origin of gradient (top left of screen)
@@ -38,27 +35,27 @@ class Header: UIView {
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
         gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                            UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor,
-                            UI.Color.alculatePurpleLite.withAlphaComponent(0.0).cgColor]
+                           UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                           UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
-        gradient.locations = [0,0.9,1.0]
+        gradient.locations = [0.0,0.5,1.0]
         // Add gradient as bottom layer in sublayer array
         self.layer.insertSublayer(gradient, at: 0)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        appName.translatesAutoresizingMaskIntoConstraints = false
+        icon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             // View constraints
-            widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
+            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: leadingConstant),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonTop),
             // Object constraints
-            appName.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
-            appName.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-            appName.centerXAnchor.constraint(equalTo: centerXAnchor),
-            appName.centerYAnchor.constraint(equalTo: centerYAnchor)
+            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),
+            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),
+            icon.centerXAnchor.constraint(equalTo: centerXAnchor),
+            icon.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }
 

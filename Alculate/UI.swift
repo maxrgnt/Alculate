@@ -36,6 +36,7 @@ struct UI {
         static let headerHeight = height*headerRatio
         // Top line sizing
         static let topLineHeight = height*topLineRatio
+        static let topLinePieceWidth = width/2
         static let topLineTop = statusBar.height + headerHeight
         // App nav sizing
         static let appNavigationHeight = (UI.Sizing.width/3)+objectPadding+statusBar.height
@@ -57,6 +58,10 @@ struct UI {
         static let inputTextHeight = height*(headerRatio)
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
         static var inputBottom = inputTop-(inputTextHeight*3)
+        // Comparison Header
+        static let comparisonTop = statusBar.height+headerHeight+topLineHeight
+        static let comparisonTableWidth = width/3
+        static let comparisonIconDiameter = (comparisonTableWidth)-(objectPadding*(3/2))
     }
 
     // fonts

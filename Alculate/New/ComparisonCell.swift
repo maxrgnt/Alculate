@@ -10,9 +10,8 @@ import UIKit
 
 // Protocol to communicate with tableview/viewcontroller
 protocol ComparisonCellDelegate: AnyObject {
-    func delegateBeginAnimating(cell: ComparisonCell)
-    func delegateStopAnimating(cell: ComparisonCell)
-    func delegateRemove(cell: ComparisonCell)
+    func delegateCell(animate: Bool, forCell: ComparisonCell)
+    func delegateRemove(forCell: ComparisonCell)
 }
 
 class ComparisonCell: UITableViewCell {
@@ -40,9 +39,9 @@ class ComparisonCell: UITableViewCell {
         backgroundColor = .clear
         //
         addSubview(container)
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureActivated))
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressActivated))
         container.addGestureRecognizer(longPressRecognizer)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureActivated))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapActivated))
         container.addGestureRecognizer(tapRecognizer)
         //
         addSubview(delete)
@@ -72,20 +71,21 @@ class ComparisonCell: UITableViewCell {
     }
     
     // MARK: - Gesture Recognizers
-    @objc func longPressGestureActivated(_ sender: UILongPressGestureRecognizer) {
+    @objc func longPressActivated(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            delegate?.delegateBeginAnimating(cell: self)
+            delegate?.delegateCell(animate: true, forCell: self)
         }
     }
     
-    @objc func tapGestureActivated(_ sender: UITapGestureRecognizer) {
+    @objc func tapActivated(_ sender: UITapGestureRecognizer) {
+        // Do I need to check this? Can it just always stop animating when tapped, what is best practice?
         if continueAnimating == true {
-            delegate?.delegateStopAnimating(cell: self)
+            delegate?.delegateCell(animate: false, forCell: self)
         }
     }
     
     @objc func removeButtonPressed() {
-        delegate?.delegateRemove(cell: self)
+        delegate?.delegateRemove(forCell: self)
     }
     
     // MARK: - Animation Functions
@@ -128,7 +128,7 @@ class ComparisonCell: UITableViewCell {
                 self.layoutIfNeeded()
             }), completion: { (completed) in
                 // begin rotations
-                self.rotateTo(frac: 0.05)
+                self.rotateTo(frac: 0.03)
             }
         )
     }

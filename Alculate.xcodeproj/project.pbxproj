@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6620AA51234B935F002275B3 /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620AA50234B935F002275B3 /* StatusBar.swift */; };
 		6620AA53234E7DD7002275B3 /* ComparisonHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620AA52234E7DD7002275B3 /* ComparisonHeader.swift */; };
+		66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66216037234FE50100AB4BB9 /* ComparisonTable.swift */; };
 		665A6A4E23423FFC002E5761 /* TopLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A4D23423FFC002E5761 /* TopLine.swift */; };
 		665A6A532342424D002E5761 /* TableTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A522342424D002E5761 /* TableTwo.swift */; };
 		665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A5423424376002E5761 /* TableTwoCell.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		6620AA50234B935F002275B3 /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
 		6620AA52234E7DD7002275B3 /* ComparisonHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonHeader.swift; sourceTree = "<group>"; };
+		66216037234FE50100AB4BB9 /* ComparisonTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTable.swift; sourceTree = "<group>"; };
 		665A6A4D23423FFC002E5761 /* TopLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLine.swift; sourceTree = "<group>"; };
 		665A6A522342424D002E5761 /* TableTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwo.swift; sourceTree = "<group>"; };
 		665A6A5423424376002E5761 /* TableTwoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwoCell.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				66AF5873233A898600502EEA /* Header.swift */,
 				66C2634D234EAD7D0077332F /* TopLinePiece.swift */,
 				6620AA52234E7DD7002275B3 /* ComparisonHeader.swift */,
+				66216037234FE50100AB4BB9 /* ComparisonTable.swift */,
 				66C26350234F44310077332F /* ComparisonCell.swift */,
 				66C26352234F44CD0077332F /* ComparisonContainer.swift */,
 			);
@@ -408,6 +411,7 @@
 				6620AA53234E7DD7002275B3 /* ComparisonHeader.swift in Sources */,
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
+				66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,
 				66AF5884233C1ECF00502EEA /* InputNavigation.swift in Sources */,
 			);

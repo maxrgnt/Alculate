@@ -74,33 +74,19 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
         cell.delegate = self
 //        cell.type = alcoholType
-//        cell.cellObject.backgroundColor = UI.Color.alcoholTypes[0]
+        // gather info for each cell
         let info = fetchInfo(forRowAt: indexPath)
+        // update labels for each cell
+        cell.setLabels(with: info)
+        // do something for "best" alcohol from each type
         if indexPath.row == 0 {
-//            cell.cellObject.backgroundColor = UI.Color.softWhite
-            //cell.cellObject.alpha = 0.6
+            // pass
         }
-//        cell.name.text = "\(info.name.capitalizingFirstLetter())"
-//        let price = String(format: "%.2f", Double(info.price)!)
-        let sizeUnit = info.size.dropFirst(info.size.count-2)
-//        cell.size.text = "\(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
-        var correctedSize = Double(info.size.dropLast(2))!
-        if sizeUnit == "ml" {
-            correctedSize = correctedSize/29.5735296875
-        }
-        let alcPerDollar = Double(info.price)!/(Double(info.abv)!*correctedSize*0.01/0.6)
-//        let cost = "$"+String(format: "%.2f", alcPerDollar)
-        if alculateType == "price" {
-//            cell.sortedStat.text = cost
-//            cell.sortedLabel.text = "per shot"
-//            cell.otherStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))
-//            cell.otherLabel.text = "shots"
+        if alculateType == "value" {
+            // make value bigger?
         }
         else {
-//            cell.sortedStat.text = String(format: "%.1f",(Double(info.abv)!*correctedSize*0.01/0.6))
-//            cell.sortedLabel.text = "shots"
-//            cell.otherStat.text = cost
-//            cell.otherLabel.text = "per shot"
+            // make effect bigger?
         }
 //        cell.nukeAllAnimations(restart: varDeletable)
         return cell

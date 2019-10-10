@@ -70,6 +70,33 @@ class ComparisonCell: UITableViewCell {
             ])
     }
     
+    func setLabels(with info: (name: String, abv: String, size: String, price: String)) {
+        container.drinkName.text = "\(info.name.capitalizingFirstLetter())"
+        // convert price to $X.00 format
+        let price = String(format: "%.2f", Double(info.price)!)
+        // get the unitForSize by dropping the first part of string
+        // using length of string minus the last two characters (oz or ml) ex. 24ml
+        let unitForSize = info.size.dropFirst(info.size.count-2)
+        // get the size by dropping last two characters (oz or ml) ex. 24ml
+        let size = info.size.dropLast(2)
+        // set info using price and size piece
+        container.drinkInfo.text = "\(info.size.dropLast(2)) \(unitForSize) | $\(price)"
+        var correctedSize = Double(size)!
+        // if unitForSize is ml, need to convert to oz for calculations
+        if unitForSize == "ml" {
+            // convert ml size to ounces using ratio of ml per oz
+            correctedSize = correctedSize/29.5735296875
+        }
+        // calculate the effectiveness
+        let abvAsDecimal = (0.01)*Double(info.abv)!
+        let standardShot = (0.4 /*ABV*/ * 1.5 /*oz*/) // = 0.6
+        let effect = (abvAsDecimal*correctedSize)/standardShot
+        // calculate the value
+        let value = Double(info.price)!/effect
+        container.value.text = "$"+String(format: "%.2f", value)
+        container.effect.text = String(format: "%.2f", effect)
+    }
+    
     // MARK: - Gesture Recognizers
     @objc func longPressActivated(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {

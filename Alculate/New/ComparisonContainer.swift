@@ -48,11 +48,7 @@ class ComparisonContainer: UIView {
         effect.font = UI.Font.cellHeaderFont
         effectDescription.font = UI.Font.cellHeaderFont
         //
-        drinkName.text = "Coors"
-        drinkInfo.text = "4.1% | 12oz | $4.00"
-        value.text = "$2.00"
         valueDescription.text = "per shot"
-        effect.text = "2.1"
         effectDescription.text = "shots"
              
         // MARK: - NSLayoutConstraints

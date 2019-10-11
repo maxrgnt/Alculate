@@ -19,9 +19,6 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
     // Delegate object
     var savedABVTableDelegate : SavedABVTableDelegate!
     
-    // Constraints
-    var savedABVleading: NSLayoutConstraint!
-
     // Variables
     var toBeDeleted: [(name: String, abv: String, type: String)] = []
     var isMoving = false
@@ -44,20 +41,6 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         separatorColor = .gray
         sectionIndexColor = UI.Color.softWhite
         sectionIndexBackgroundColor = UIColor.clear
-        
-        // MARK: - NSLayoutConstraints
-        translatesAutoresizingMaskIntoConstraints = false
-        savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: 0)//UI.Sizing.width)
-        NSLayoutConstraint.activate([
-            savedABVleading,
-            widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVtableHeight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.savedABVtop)
-//            headerLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor),
-//            headerLabel.widthAnchor.constraint(equalTo: header.widthAnchor),
-//            headerLabel.bottomAnchor.constraint(equalTo: header.bottomAnchor),
-//            headerLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight*(1/3))
-            ])
     }
         
     // MARK: - TableView Delegate

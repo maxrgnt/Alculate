@@ -15,24 +15,19 @@ protocol SavedABVDelegate {
 }
 
 class SavedABV: UIView {
-             
-//    let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.savedABVtopLineHeight))
-//    header.backgroundColor = .clear
-//    let headerLabel = UILabel()
-//    header.addSubview(headerLabel)
-//    headerLabel.font = UI.Font.cellHeaderFont
-//    headerLabel.textColor = UI.Color.softWhite
-//    headerLabel.textAlignment = .center
-//    headerLabel.text = "ABVs for saved drink:"
-//    tableHeaderView = header
-    
+                
     var savedABVDelegate : SavedABVDelegate!
 
+    // Constraints
+    var savedABVleading: NSLayoutConstraint!
+    var undoBottom: NSLayoutConstraint!
+    
     // Objects
-    var savedABVtable = SavedABVTable()
+    let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+    let header = UIView()
+    let headerLabel = UILabel()
+    var savedABVTable = SavedABVTable()
     var undo = Undo()
-    var masterListLeading: NSLayoutConstraint!
-    var undoBottom = NSLayoutConstraint()
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -42,63 +37,73 @@ class SavedABV: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .clear
         clipsToBounds = true
+        backgroundColor = .clear
+        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
         // Blur object settings
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        //blurEffectView.frame = layer.bounds
-        //blurEffectView.autorecointactsUIMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
         addSubview(blurEffectView)
-        NSLayoutConstraint.activate([
-            blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
-            blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0), // without constant, off slightly? don't know why
-            blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -20),
-            blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20)
-            ])
         // Vibrancy object settings
-//        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
-//        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-//        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
-//        blurEffectView.contentView.addSubview(vibrancyView)
-//        NSLayoutConstraint.activate([
-//            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
-//            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
-//            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
-//            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
-//            ])
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
+        blurEffectView.contentView.addSubview(vibrancyView)
         // View object settings
-        blurEffectView.contentView.addSubview(savedABVtable)
-        //addSubview(tableOne)
-        savedABVtable.build()
+        for obj in [header,savedABVTable] {
+            blurEffectView.contentView.addSubview(obj)
+            obj.backgroundColor = .clear
+            // addSubview(obj)
+        }
+        savedABVTable.build()
+        //
+        header.addSubview(headerLabel)
+        headerLabel.font = UI.Font.headerFont
+        headerLabel.textColor = UI.Color.softWhite
+        headerLabel.textAlignment = .left
+        headerLabel.text = "ABVs for saved drinks:"
         //
         addSubview(undo)
         undo.build()
+        
         // MARK: - NSLayoutConstraints
-        masterListLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: 0)//UI.Sizing.width)
+        translatesAutoresizingMaskIntoConstraints = false
+        for obj in [blurEffectView,vibrancyView,header,headerLabel,savedABVTable] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: 0)//UI.Sizing.width)
         undoBottom = undo.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.appNavigationHeight*(2/3))
         NSLayoutConstraint.activate([
-            masterListLeading,
+            savedABVleading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
+            blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
+            blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -20),
+            blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20),
+            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
+            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
+            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
             undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             undo.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),
             undo.leadingAnchor.constraint(equalTo: leadingAnchor),
             undoBottom,
-//            tableOne.widthAnchor.constraint(equalTo: widthAnchor),
-//            tableOne.heightAnchor.constraint(equalTo: heightAnchor),
-//            tableOne.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
-            //tableOne.layoutMarginsGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            tableOne.topAnchor.constraint(equalTo: topAnchor)
+            header.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
+            header.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
+            header.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+            header.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheaderHeight),
+            headerLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor),
+            headerLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
+            headerLabel.bottomAnchor.constraint(equalTo: header.bottomAnchor),
+            headerLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheaderHeight),
+            savedABVTable.widthAnchor.constraint(equalTo: widthAnchor),
+            savedABVTable.heightAnchor.constraint(equalTo: heightAnchor),
+            savedABVTable.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
+            savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])
-        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
-
     }
     
     func minimizeUndo() {
@@ -108,21 +113,21 @@ class SavedABV: UIView {
     }
     
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self)
+//        let translation = sender.translation(in: self)
 //        tableOne.isMoving = true
 //        tableOne.reloadSectionIndexTitles()
         // Allow movement of contact card back/forth when not fully visible
-        masterListLeading.constant += translation.x
+//        masterListLeading.constant += translation.x
         // If contact card is fully visible, don't allow movement further left
-        if masterListLeading.constant < 0 {
-            masterListLeading.constant = 0
-        }
-        var percent = masterListLeading.constant/UI.Sizing.width
+//        if masterListLeading.constant < 0 {
+//            masterListLeading.constant = 0
+//        }
+//        var percent = masterListLeading.constant/UI.Sizing.width
 //        var shouldAnimate = false
-        if percent >= 1.0 {
-            percent = 1.0
+//        if percent >= 1.0 {
+//            percent = 1.0
 //            shouldAnimate = true
-        }
+//        }
 //        self.masterListDelegate.updateAppNavBottom(by: percent, animate: shouldAnimate)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
@@ -146,7 +151,7 @@ class SavedABV: UIView {
 //            self.masterListDelegate.closeUndo()
 //            self.masterListDelegate.updateAppNavBottom(by: 1, animate: true)
         }
-        masterListLeading.constant = constant
+//        masterListLeading.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})
     }
     

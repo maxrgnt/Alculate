@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 protocol ComparisonTableDelegate {
-    // called when user taps subview/delete button
-    func displayAlert(alert: UIAlertController)
+    // called when user taps container or delete button
     func reloadTable(table: String)
     func makeDeletable(_ paramDeletable: Bool, lists: String)
 }
@@ -20,9 +19,6 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
 
     // Delegate object
     var ComparisonTableDelegate : ComparisonTableDelegate!
-    
-    // Constraints
-    var tableTwoLeading: NSLayoutConstraint!
 
     // Vairables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
@@ -35,7 +31,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         super.init(frame: frame, style: style)
     }
     
-    func build(forType ID: String) {
+    func build(forType ID: String, withLeading constantParameter: CGFloat) {
         // MARK: - View/Object Settings
         comparisonTableListID = ID
         // Miscelaneous view settings
@@ -55,12 +51,11 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        tableTwoLeading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
         NSLayoutConstraint.activate([
-            tableTwoLeading,
-            widthAnchor.constraint(equalToConstant: UI.Sizing.width/3),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.tableViewHeight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.tableViewTop)
+            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: constantParameter),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableHeight),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonTableTop)
             ])
 //        let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width/3, height: UI.Sizing.headerHeight*(1/2)))
 //        let header = ComparisonHeader()
@@ -73,8 +68,15 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
         cell.delegate = self
+        //
+        let constraints = UI.Sizing.containerConstraints
+        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            if comparisonTableListID == ID {
+                cell.setConstraints(withLeading: constraints[i].lead, withTrailing: constraints[i].trail)
+            }
+        }
         // gather info for each cell
-        let info = fetchInfo(forRowAt: indexPath)
+        let info = listForThisTable()[indexPath.row]
         // update labels for each cell
         cell.setLabels(with: info)
         // do something for "best" alcohol from each type
@@ -82,24 +84,24 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
             // pass
         }
         // I think you need to end animations when reloading table after deleting
-//        cell.nukeAllAnimations(restart: varDeletable)
+        cell.stopAnimating(restartAnimations: false)
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listForTable().count
+        return listForThisTable().count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.tableRowHeight
+        return UI.Sizing.comparisonRowHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // pass
     }
     
-    // MARK: - Data Related Functions
-    func listForTable() -> [(name: String, abv: String, size: String, price: String)] {
+    // MARK: - List Finder Function
+    func listForThisTable() -> [(name: String, abv: String, size: String, price: String)] {
         // create list of each alcoholList
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         // set chosenList object
@@ -114,37 +116,25 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         }
         return thisTablesList
     }
-    
-    func fetchInfo(forRowAt indexPath: IndexPath) -> (name: String, abv: String, size: String, price: String) {
-        return listForTable()[indexPath.row]
-    }
-    
+        
     // MARK: - Comparison Cell Delegate
     func delegateCell(animate: Bool, forCell: ComparisonCell) {
-        //
+        if animate {
+//        varDeletable = true
+//        self.tableTwoDelegate.makeDeletable(true, lists: "all")
+        }
+        else if !animate {
+//        varDeletable = false
+//        self.tableTwoDelegate.makeDeletable(false, lists: "all")
+        }
     }
     
     func delegateRemove(forCell cell: ComparisonCell) {
-        //
+        let indexPath = self.indexPath(for: cell)
+        let info = listForThisTable()[indexPath!.row]
+        Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+//        self.tableTwoDelegate.reloadTable(table: Data.beerListID)
     }
-
-    // MARK: - Comparison Table Delegate
-    func cellWillDelete(cell: TableTwoCell) {
-//        varDeletable = true
-//        self.tableTwoDelegate.makeDeletable(true, lists: "all")
-    }
-    
-    func stopDelete(cell: TableTwoCell) {
-//        varDeletable = false
-//        self.tableTwoDelegate.makeDeletable(false, lists: "all")
-    }
-    
-        func remove(cell: TableTwoCell) {
-            let indexPath = self.indexPath(for: cell)
-            let info = fetchInfo(forRowAt: indexPath!)
-            Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-    //        self.tableTwoDelegate.reloadTable(table: Data.beerListID)
-        }
     
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

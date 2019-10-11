@@ -58,16 +58,29 @@ struct UI {
         static let inputTextHeight = height*(headerRatio)
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
         static var inputBottom = inputTop-(inputTextHeight*3)
+        
+        
         // Comparison Header
-        static let comparisonTop = statusBar.height+headerHeight+topLineHeight
-        static let comparisonTableWidth = width/3
+        static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
         static let comparisonIconDiameter = (comparisonTableWidth)-(objectPadding*(3/2))
-        static let containerDiameter = (width-(objectPadding*4))/3
-        static let comparisonRemoveRadius = containerDiameter/8
-        static let comparisonRemoveDiameter = containerDiameter/4
-        static let comparisonRemoveOffset = containerDiameter/12
+        static let comparisonHeaderHeight = width/3
+        // Comparison Table
+        static let comparisonTableWidth = width/3
+        static let comparisonTableHeight = height-headerHeight-topLineHeight-comparisonHeaderHeight
+        static let comparisonTableTop = comparisonHeaderTop + comparisonHeaderHeight
+        // Comparison Container
+        static var containerConstraints = [(lead: 0.500*objectPadding, trail: -0.250*objectPadding),
+                                           (lead: 0.375*objectPadding, trail: -0.375*objectPadding),
+                                           (lead: 0.250*objectPadding, trail: -0.500*objectPadding)]
+        static let comparisonContainerBorder = comparisonTableWidth/50
+        static let containerDiameter = (width-(objectPadding*2.25))/3+comparisonContainerBorder
+        static let comparisonRowHeight = containerDiameter + objectPadding
         static let comparisonContainerRadius = containerDiameter/10
         static let comparisonContainerShrunk = UI.Sizing.containerDiameter*0.92
+        // Comparison Remove
+        static let comparisonRemoveDiameter = containerDiameter/4
+        static let comparisonRemoveRadius = containerDiameter/8
+        static let comparisonRemoveOffset = containerDiameter/12
     }
 
     // fonts

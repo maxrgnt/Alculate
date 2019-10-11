@@ -47,10 +47,10 @@ class ComparisonHeader: UIView {
         icon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             // View constraints
-            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonHeaderHeight),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonHeaderHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: leadingConstant),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonTop),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonHeaderTop),
             // Object constraints
             icon.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),
             icon.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),

@@ -31,6 +31,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     var beerHeader = ComparisonHeader()
     var liquorHeader = ComparisonHeader()
     var wineHeader = ComparisonHeader()
+    var beerComparison = ComparisonTable()
+    var liquorComparison = ComparisonTable()
+    var wineComparison = ComparisonTable()
     
     var bestAlcoholInd: Int = 3
     
@@ -79,6 +82,13 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
 //            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
 //            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
 //        }
+        
+        let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
+            view.addSubview(comparisonTable)
+            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
+        }
         
         header.build()
         //

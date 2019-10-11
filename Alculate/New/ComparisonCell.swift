@@ -34,11 +34,13 @@ class ComparisonCell: UITableViewCell {
         // MARK: - View/Object Settings
         // Initialize views frame prior to setting constraints
         super.init(style: style, reuseIdentifier: "ComparisonCell")
+        
         // Miscelaneous view settings
         selectionStyle = .none
         backgroundColor = .clear
         //
         addSubview(container)
+        container.build()
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressActivated))
         container.addGestureRecognizer(longPressRecognizer)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapActivated))
@@ -51,7 +53,9 @@ class ComparisonCell: UITableViewCell {
         delete.setTitleColor(UI.Color.softWhite, for: .normal)
         delete.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
-        
+    }
+    
+    func setConstraints(withLeading leadingConstant: CGFloat, withTrailing trailingConstant: CGFloat) {
         // MARK: - NSLayoutConstraints
         for obj in [container,delete] {
             obj.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +64,8 @@ class ComparisonCell: UITableViewCell {
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
             containerWidth,
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant),
             containerHeight,
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -70,6 +76,7 @@ class ComparisonCell: UITableViewCell {
             ])
     }
     
+    // MARK: - Label Setter
     func setLabels(with info: (name: String, abv: String, size: String, price: String)) {
         container.drinkName.text = "\(info.name.capitalizingFirstLetter())"
         // convert price to $X.00 format
@@ -94,7 +101,7 @@ class ComparisonCell: UITableViewCell {
         // calculate the value
         let value = Double(info.price)!/effect
         container.value.text = "$"+String(format: "%.2f", value)
-        container.effect.text = String(format: "%.2f", effect)
+        container.effect.text = String(format: "%.1f", effect)
     }
     
     // MARK: - Gesture Recognizers

@@ -34,6 +34,7 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     var beerComparison = ComparisonTable()
     var liquorComparison = ComparisonTable()
     var wineComparison = ComparisonTable()
+    var savedABV = SavedABV()
     var appNavigator = AppNavigator()
     
     var bestAlcoholInd: Int = 3
@@ -93,6 +94,9 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
 //
 //        view.addSubview(appNavigator)
 //        appNavigator.build()
+        
+        view.addSubview(savedABV)
+        savedABV.build()
         
         header.build()
         //

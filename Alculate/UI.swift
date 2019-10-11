@@ -82,7 +82,18 @@ struct UI {
         static let comparisonRemoveDiameter = containerDiameter/4
         static let comparisonRemoveRadius = containerDiameter/8
         static let comparisonRemoveOffset = containerDiameter/12
-        //
+        // Saved ABV
+        static let savedABVtop = statusBar.height+headerHeight
+        static let savedABVheaderHeight = savedABVrowHeight*(3/2)
+        static let savedABVtableHeight = bounds.height-savedABVtop
+        static let savedABVrowHeight = headerHeight
+        static let savedABVmainWidth = width-headerHeight-objectPadding*(3/2)-savedABVdeleteDiameter
+        static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(2/3)
+        static let savedABVdeleteDiameter = savedABVrowHeight/2
+        static let savedABVdeleteRadius = savedABVdeleteDiameter/2
+        static let savedABVtopLineHeight = savedABVrowHeight*(2/3)
+        static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
+        // App Navigator
         static let appNavigatorHeight = (headerHeight*2.5)
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
     }

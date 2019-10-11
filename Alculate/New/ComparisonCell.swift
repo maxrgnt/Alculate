@@ -51,7 +51,7 @@ class ComparisonCell: UITableViewCell {
         delete.backgroundColor = .red
         delete.setTitle("X", for: .normal)
         delete.setTitleColor(UI.Color.softWhite, for: .normal)
-        delete.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
+        delete.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
     }
     
@@ -117,7 +117,7 @@ class ComparisonCell: UITableViewCell {
         }
     }
     
-    @objc func removeButtonPressed() {
+    @objc func deleteButtonPressed() {
         delegate?.delegateRemove(forCell: self)
     }
     

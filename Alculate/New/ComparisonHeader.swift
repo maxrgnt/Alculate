@@ -23,6 +23,7 @@ class ComparisonHeader: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = true
+        backgroundColor = .clear //UI.Color.alculatePurpleLite
         // Object settings
         addSubview(icon)
         icon.image = UIImage(named: iconName)
@@ -31,7 +32,7 @@ class ComparisonHeader: UIView {
         // Set origin of gradient (top left of screen)
         let gradientOrigin = CGPoint(x: 0,y: 0)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.headerHeight)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.comparisonHeaderHeight)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
         gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
@@ -47,7 +48,7 @@ class ComparisonHeader: UIView {
         icon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             // View constraints
-            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonHeaderHeight),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonHeaderWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonHeaderHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: leadingConstant),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonHeaderTop),
@@ -55,7 +56,7 @@ class ComparisonHeader: UIView {
             icon.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),
             icon.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonIconDiameter),
             icon.centerXAnchor.constraint(equalTo: centerXAnchor),
-            icon.centerYAnchor.constraint(equalTo: centerYAnchor)
+            icon.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }
 

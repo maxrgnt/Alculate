@@ -29,9 +29,9 @@ class ComparisonContainer: UIView {
         // View settings
         clipsToBounds = false
         backgroundColor = UI.Color.alculatePurpleDark
-        layer.borderWidth = UI.Sizing.comparisonContainerBorder
+        layer.borderWidth = UI.Sizing.containerBorder
         layer.borderColor = UI.Color.alculatePurpleDark.cgColor
-        roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonContainerRadius)
+        roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         // Object settings
         for label in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription] {
             addSubview(label)
@@ -65,7 +65,7 @@ class ComparisonContainer: UIView {
         let valueWidth: CGFloat = (2/3)
         let effectWidth: CGFloat = (1/3)
         //
-        let borderOffset = 2*UI.Sizing.comparisonContainerBorder
+        let borderOffset = 2*UI.Sizing.containerBorder
         //
         NSLayoutConstraint.activate([
             drinkName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),

@@ -64,10 +64,9 @@ class ComparisonCell: UITableViewCell {
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
             containerWidth,
-            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+            //container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
             container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant),
             containerHeight,
-            container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
             delete.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
@@ -149,8 +148,8 @@ class ComparisonCell: UITableViewCell {
     
     func beginAnimating() {
         // shrink the container to desired size
-        containerWidth.constant = UI.Sizing.comparisonContainerShrunk
-        containerHeight.constant = UI.Sizing.comparisonContainerShrunk
+        containerWidth.constant = UI.Sizing.containerDeleteSize
+        containerHeight.constant = UI.Sizing.containerDeleteSize
         // permit animations
         continueAnimating = true
         // set starting animation

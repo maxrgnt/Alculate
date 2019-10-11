@@ -47,7 +47,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         estimatedRowHeight = 0
         estimatedSectionFooterHeight = 0
         estimatedSectionHeaderHeight = 0
-        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.tableViewRadius)
+//        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.tableViewRadius)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

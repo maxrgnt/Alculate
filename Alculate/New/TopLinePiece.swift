@@ -53,7 +53,7 @@ class TopLinePiece: UIView {
         let valueDescriptionHeight = UI.Sizing.topLineHeight/6
         let topLineWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding
         let valuePiecesWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3
-        let iconDiameter = UI.Sizing.topLineHeight/3
+        let iconDiameter = UI.Sizing.topLineHeight*(2/5)
         //
         if leadingAnchors == 0 {
             NSLayoutConstraint.activate([
@@ -61,7 +61,7 @@ class TopLinePiece: UIView {
                 drinkName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 value.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 valueDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-                icon.trailingAnchor.constraint(equalTo: trailingAnchor)
+                icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding/2)
             ])
         } else if leadingAnchors == 1 {
             NSLayoutConstraint.activate([
@@ -69,7 +69,7 @@ class TopLinePiece: UIView {
                 drinkName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 value.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 valueDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-                icon.leadingAnchor.constraint(equalTo: leadingAnchor)
+                icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2)
             ])
         }
         NSLayoutConstraint.activate([

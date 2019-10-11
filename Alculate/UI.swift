@@ -62,8 +62,9 @@ struct UI {
         
         // Comparison Header
         static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
-        static let comparisonIconDiameter = (comparisonTableWidth)-(objectPadding*(3/2))
-        static let comparisonHeaderHeight = width/3
+        static let comparisonIconDiameter = ((width/3)-(objectPadding))*(2/3)
+        static let comparisonHeaderHeight = (width/3)*(2/3)
+        static let comparisonHeaderWidth = width/3
         // Comparison Table
         static let comparisonTableWidth = width/3
         static let comparisonTableHeight = height-headerHeight-topLineHeight-comparisonHeaderHeight
@@ -72,15 +73,18 @@ struct UI {
         static var containerConstraints = [(lead: 0.500*objectPadding, trail: -0.250*objectPadding),
                                            (lead: 0.375*objectPadding, trail: -0.375*objectPadding),
                                            (lead: 0.250*objectPadding, trail: -0.500*objectPadding)]
-        static let comparisonContainerBorder = comparisonTableWidth/50
-        static let containerDiameter = (width-(objectPadding*2.25))/3+comparisonContainerBorder
-        static let comparisonRowHeight = containerDiameter + objectPadding
-        static let comparisonContainerRadius = containerDiameter/10
-        static let comparisonContainerShrunk = UI.Sizing.containerDiameter*0.92
+        static let containerBorder = comparisonTableWidth/50
+        static let containerDiameter = (width-(objectPadding*2.25))/3//+containerBorder
+        static let comparisonRowHeight = containerDiameter + objectPadding/2
+        static let containerRadius = containerDiameter/10
+        static let containerDeleteSize = UI.Sizing.containerDiameter*0.92
         // Comparison Remove
         static let comparisonRemoveDiameter = containerDiameter/4
         static let comparisonRemoveRadius = containerDiameter/8
         static let comparisonRemoveOffset = containerDiameter/12
+        //
+        static let appNavigatorHeight = (headerHeight*2.5)
+        static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
     }
 
     // fonts

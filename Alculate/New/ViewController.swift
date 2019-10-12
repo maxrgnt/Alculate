@@ -147,6 +147,8 @@ class ViewController: UIViewController, SavedABVDelegate {
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
+        // Set haptic feedback
+        let hapticFeedback = UINotificationFeedbackGenerator()
 //        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
 //            let types = ["BEER","LIQUOR","WINE"]
@@ -157,9 +159,11 @@ class ViewController: UIViewController, SavedABVDelegate {
 //            userInput.textField.becomeFirstResponder()
         }
         else if sender.tag == 0 {
+            hapticFeedback.notificationOccurred(.warning)
             flipAlculate()
         }
         else if sender.tag == 1 {
+            hapticFeedback.notificationOccurred(.warning)
             savedABV.animateLeadingAnchor(constant: 0)
             appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight
             UIView.animate(withDuration: 0.2, animations: {
@@ -171,9 +175,6 @@ class ViewController: UIViewController, SavedABVDelegate {
     func flipAlculate() {
         // Stop delete animation if animating
         makeDeletable(false, lists: "all")
-        // Set haptic feedback
-        let hapticFeedback = UINotificationFeedbackGenerator()
-        hapticFeedback.notificationOccurred(.warning)
         // Set lists of Data to iterate over
         var lists = [Data.beerList,Data.liquorList,Data.wineList]
         // If sorting by effect, switch to value

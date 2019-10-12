@@ -19,6 +19,7 @@
 		665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A5423424376002E5761 /* TableTwoCell.swift */; };
 		665A6A5723427D49002E5761 /* MasterList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A6A5623427D49002E5761 /* MasterList.swift */; };
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
+		669931B92352623C00021512 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931B82352623C00021512 /* ViewController.swift */; };
 		66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF583E233A33E900502EEA /* AppDelegate.swift */; };
 		66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5840233A33E900502EEA /* SceneDelegate.swift */; };
 		66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */; };
@@ -28,7 +29,7 @@
 		66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */; };
 		66AF5859233A33EC00502EEA /* AlculateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5858233A33EC00502EEA /* AlculateTests.swift */; };
 		66AF5864233A33EC00502EEA /* AlculateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5863233A33EC00502EEA /* AlculateUITests.swift */; };
-		66AF5872233A4DD500502EEA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5871233A4DD500502EEA /* ViewController.swift */; };
+		66AF5872233A4DD500502EEA /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5871233A4DD500502EEA /* ViewController2.swift */; };
 		66AF5874233A898600502EEA /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5873233A898600502EEA /* Header.swift */; };
 		66AF5876233A899A00502EEA /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5875233A899A00502EEA /* UI.swift */; };
 		66AF5878233A916800502EEA /* TableOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5877233A916800502EEA /* TableOne.swift */; };
@@ -73,6 +74,7 @@
 		665A6A5423424376002E5761 /* TableTwoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTwoCell.swift; sourceTree = "<group>"; };
 		665A6A5623427D49002E5761 /* MasterList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterList.swift; sourceTree = "<group>"; };
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
+		669931B82352623C00021512 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		66AF583B233A33E900502EEA /* Alculate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alculate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AF583E233A33E900502EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66AF5840233A33E900502EEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,7 +90,7 @@
 		66AF585F233A33EC00502EEA /* AlculateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlculateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AF5863233A33EC00502EEA /* AlculateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlculateUITests.swift; sourceTree = "<group>"; };
 		66AF5865233A33EC00502EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66AF5871233A4DD500502EEA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		66AF5871233A4DD500502EEA /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		66AF5873233A898600502EEA /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		66AF5875233A899A00502EEA /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		66AF5877233A916800502EEA /* TableOne.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableOne.swift; sourceTree = "<group>"; };
@@ -227,7 +229,7 @@
 		66AF587D233C142200502EEA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				66AF5871233A4DD500502EEA /* ViewController.swift */,
+				66AF5871233A4DD500502EEA /* ViewController2.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -255,6 +257,7 @@
 		66C2634F234EB5690077332F /* New */ = {
 			isa = PBXGroup;
 			children = (
+				669931B82352623C00021512 /* ViewController.swift */,
 				6620AA50234B935F002275B3 /* StatusBar.swift */,
 				66AF5873233A898600502EEA /* Header.swift */,
 				66C2634D234EAD7D0077332F /* TopLinePiece.swift */,
@@ -401,11 +404,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66AF5872233A4DD500502EEA /* ViewController.swift in Sources */,
+				66AF5872233A4DD500502EEA /* ViewController2.swift in Sources */,
 				665A6A5523424376002E5761 /* TableTwoCell.swift in Sources */,
 				66C2634E234EAD7E0077332F /* TopLinePiece.swift in Sources */,
 				660043C32351196400E2A03A /* SavedABV.swift in Sources */,
 				66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */,
+				669931B92352623C00021512 /* ViewController.swift in Sources */,
 				66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */,
 				66AF5881233C149B00502EEA /* Input.swift in Sources */,
 				66C26351234F44310077332F /* ComparisonCell.swift in Sources */,

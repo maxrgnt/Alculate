@@ -11,7 +11,7 @@ import CoreData
 
 // Setting protocol? Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate, SavedABVDelegate {
+class ViewController2: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate, SavedABVDelegate {
     
     func delegateHideUndo() {
         //
@@ -78,41 +78,41 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             view.addSubview(subview)
         }
         
-        let categories = ["Most Value","Most Effective"]
-        let drinkNames = ["Coors","Vodka"]
-        let values = ["$2.00","3.0"]
-        let valueDescriptions = ["per shot","shots"]
-        let topLineIcons = ["beer","beer"]
-        let alignments = [.left,.right] as [NSTextAlignment]
-        for (i, topLinePiece) in [valueTopLine,effectiveTopLine].enumerated() {
-            view.addSubview(topLinePiece)
-            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
-            topLinePiece.category.text = categories[i]
-            topLinePiece.drinkName.text = drinkNames[i]
-            topLinePiece.value.text = values[i]
-            topLinePiece.valueDescription.text = valueDescriptions[i]
-        }
-
-        let headerIcons = ["beer","liquor","wine"]
-        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
-            view.addSubview(comparisonHeader)
-            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
-        }
-
-        let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
-        for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
-            view.addSubview(comparisonTable)
-            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
-        }
-
-        view.addSubview(appNavigator)
-        appNavigator.build()
-        
-        view.addSubview(savedABV)
-        savedABV.build()
-        self.savedABV.savedABVDelegate = self
+//        let categories = ["Most Value","Most Effective"]
+//        let drinkNames = ["Coors","Vodka"]
+//        let values = ["$2.00","3.0"]
+//        let valueDescriptions = ["per shot","shots"]
+//        let topLineIcons = ["beer","beer"]
+//        let alignments = [.left,.right] as [NSTextAlignment]
+//        for (i, topLinePiece) in [valueTopLine,effectiveTopLine].enumerated() {
+//            view.addSubview(topLinePiece)
+//            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
+//            topLinePiece.category.text = categories[i]
+//            topLinePiece.drinkName.text = drinkNames[i]
+//            topLinePiece.value.text = values[i]
+//            topLinePiece.valueDescription.text = valueDescriptions[i]
+//        }
+//
+//        let headerIcons = ["beer","liquor","wine"]
+//        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
+//            view.addSubview(comparisonHeader)
+//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+//            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
+//        }
+//
+//        let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
+//        for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
+//            view.addSubview(comparisonTable)
+//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+//            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
+//        }
+//
+//        view.addSubview(appNavigator)
+//        appNavigator.build()
+//
+//        view.addSubview(savedABV)
+//        savedABV.build()
+//        self.savedABV.savedABVDelegate = self
         
         header.build()
         //

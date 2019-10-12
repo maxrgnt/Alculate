@@ -21,7 +21,7 @@ class AppNavigator: UIView {
     var showSavedABV = UIButton()
     
     // Variables
-    var sortMethod = ""
+    var sortMethod = "value"
     
     init() {
         // Initialize views frame prior to setting constraints

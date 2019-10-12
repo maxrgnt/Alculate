@@ -23,7 +23,6 @@ class SavedABV: UIView {
     var undoBottom: NSLayoutConstraint!
     
     // Objects
-//    let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
     let header = UIView()
     let headerLabel = UILabel()
     var savedABVTable = SavedABVTable()
@@ -63,7 +62,7 @@ class SavedABV: UIView {
         for obj in [header,headerLabel,savedABVTable] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: 0)//UI.Sizing.width)
+        savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
         undoBottom = undo.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.appNavigationHeight*(2/3))
         NSLayoutConstraint.activate([
             savedABVleading,

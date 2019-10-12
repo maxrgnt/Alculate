@@ -23,6 +23,7 @@ class SavedABV: UIView {
     var undoBottom: NSLayoutConstraint!
     
     // Objects
+    var gradient = CAGradientLayer()
     let header = UIView()
     let headerLabel = UILabel()
     var savedABVTable = SavedABVTable()
@@ -57,6 +58,20 @@ class SavedABV: UIView {
         addSubview(undo)
         undo.build()
         
+        // MARK: - Gradient Settings
+        // Set origin of gradient (top left of screen)
+        let gradientOrigin = CGPoint(x: 0,y: 0)
+        // Set frame of gradient (header height, because status bar will be solid color)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
+        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
+        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                           UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
+        // Set locations of where gradient will transition
+        gradient.locations = [0.0,1.0]
+        // Add gradient as bottom layer in sublayer array
+        self.layer.insertSublayer(gradient, at: 0)
+        
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         for obj in [header,headerLabel,savedABVTable] {
@@ -67,7 +82,7 @@ class SavedABV: UIView {
         NSLayoutConstraint.activate([
             savedABVleading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheight),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
             undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             undo.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),

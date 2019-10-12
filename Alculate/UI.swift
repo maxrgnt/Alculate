@@ -83,6 +83,7 @@ struct UI {
         static let comparisonRemoveRadius = containerDiameter/8
         static let comparisonRemoveOffset = containerDiameter/12
         // Saved ABV
+        static let savedABVheight = height-(headerHeight)
         static let savedABVtop = statusBar.height+headerHeight
         static let savedABVheaderHeight = savedABVrowHeight*(3/2)
         static let savedABVtableHeight = bounds.height-savedABVtop

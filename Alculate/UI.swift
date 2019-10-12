@@ -117,9 +117,8 @@ struct UI {
         static let beer = UIColor(displayP3Red: 91/255, green: 140/255, blue: 90/255, alpha: 1.0)
         static let liquor = UIColor(displayP3Red: 0/255, green: 110/255, blue: 144/255, alpha: 1.0)
         static let wine = UIColor(displayP3Red: 144/255, green: 78/255, blue: 85/255, alpha: 1.0)
-        static let softWhite = UIColor(displayP3Red: 197/255, green: 255/255, blue: 253/255, alpha: 1.0)
-//        static let softWhite = UIColor(displayP3Red: 189/255, green: 213/255, blue: 234/255, alpha: 1.0)
-//        static let green = UIColor(displayP3Red: 124/255, green: 255/255, blue: 203/255, alpha: 1.0)
+        static let softWhite = UIColor(displayP3Red: 236/255, green: 229/255, blue: 240/255, alpha: 1.0) // lavender mist
+        //static let softWhite = UIColor(displayP3Red: 230/255, green: 232/255, blue: 230/255, alpha: 1.0) // platinum
         static let alcoholTypes = [beer, liquor, wine, alculatePurpleLite]
     }
     

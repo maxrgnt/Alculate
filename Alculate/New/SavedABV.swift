@@ -10,8 +10,8 @@ import UIKit
 
 protocol SavedABVDelegate {
     // called when user taps subview/delete button
-    func closeUndo()
-    func updateAppNavBottom(by: CGFloat, animate: Bool)
+    func delegateHideUndo()
+    func animateAppNavigator(by: CGFloat, animate: Bool)
 }
 
 class SavedABV: UIView {
@@ -23,7 +23,7 @@ class SavedABV: UIView {
     var undoBottom: NSLayoutConstraint!
     
     // Objects
-    let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+//    let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
     let header = UIView()
     let headerLabel = UILabel()
     var savedABVTable = SavedABVTable()
@@ -38,23 +38,14 @@ class SavedABV: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = true
-        backgroundColor = .clear
+        backgroundColor = UI.Color.alculatePurpleDark
         roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
-        // Blur object settings
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        addSubview(blurEffectView)
-        // Vibrancy object settings
-        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
-        let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-        blurEffectView.contentView.addSubview(vibrancyView)
-        // View object settings
         for obj in [header,savedABVTable] {
-            blurEffectView.contentView.addSubview(obj)
+            addSubview(obj)
             obj.backgroundColor = .clear
-            // addSubview(obj)
         }
         savedABVTable.build()
         //
@@ -69,7 +60,7 @@ class SavedABV: UIView {
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [blurEffectView,vibrancyView,header,headerLabel,savedABVTable] {
+        for obj in [header,headerLabel,savedABVTable] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: 0)//UI.Sizing.width)
@@ -79,21 +70,13 @@ class SavedABV: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.height-(UI.Sizing.headerHeight)),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
-            blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
-            blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-            blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -20),
-            blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 20),
-            vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
-            vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
-            vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
-            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
             undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             undo.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),
             undo.leadingAnchor.constraint(equalTo: leadingAnchor),
             undoBottom,
-            header.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
+            header.centerXAnchor.constraint(equalTo: centerXAnchor),
             header.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            header.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+            header.topAnchor.constraint(equalTo: topAnchor),
             header.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheaderHeight),
             headerLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor),
             headerLabel.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
@@ -101,46 +84,37 @@ class SavedABV: UIView {
             headerLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheaderHeight),
             savedABVTable.widthAnchor.constraint(equalTo: widthAnchor),
             savedABVTable.heightAnchor.constraint(equalTo: heightAnchor),
-            savedABVTable.centerXAnchor.constraint(equalTo: blurEffectView.centerXAnchor),
+            savedABVTable.centerXAnchor.constraint(equalTo: centerXAnchor),
             savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])
     }
     
-    func minimizeUndo() {
-//        tableOne.toBeDeleted = []
+    // MARK: - Animation Functions
+    func hideUndo() {
+        savedABVTable.toBeDeleted = []
         undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
         layoutIfNeeded()
     }
     
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
-//        let translation = sender.translation(in: self)
-//        tableOne.isMoving = true
-//        tableOne.reloadSectionIndexTitles()
+        let translation = sender.translation(in: self)
+        savedABVTable.isMoving = true
+        savedABVTable.reloadSectionIndexTitles()
         // Allow movement of contact card back/forth when not fully visible
-//        masterListLeading.constant += translation.x
+        savedABVleading.constant += translation.x
         // If contact card is fully visible, don't allow movement further left
-//        if masterListLeading.constant < 0 {
-//            masterListLeading.constant = 0
-//        }
-//        var percent = masterListLeading.constant/UI.Sizing.width
-//        var shouldAnimate = false
-//        if percent >= 1.0 {
-//            percent = 1.0
-//            shouldAnimate = true
-//        }
-//        self.masterListDelegate.updateAppNavBottom(by: percent, animate: shouldAnimate)
+        savedABVleading.constant = savedABVleading.constant < 0 ? 0 : savedABVleading.constant
+        let percent = savedABVleading.constant/UI.Sizing.width >= 1 ? 1 : savedABVleading.constant/UI.Sizing.width
+        let booly = percent >= 1 ? true : false
+        self.savedABVDelegate.animateAppNavigator(by: percent, animate: booly)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
         if sender.state == UIGestureRecognizer.State.ended {
-//            tableOne.isMoving = false
-//            tableOne.reloadSectionIndexTitles()
-            // Auto-scroll left (in frame)
-            let constant: CGFloat = UI.Sizing.width // 0.0
-            // Auto-scroll right (out of frame)
-            //if masterListLeading.constant > UI.Sizing.width/4 {
-            //    constant = UI.Sizing.width
-            //}
+            savedABVTable.isMoving = false
+            savedABVTable.reloadSectionIndexTitles()
+            // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
+            let constant = savedABVleading.constant > UI.Sizing.width/4 ? UI.Sizing.width : savedABVleading.constant
             // Animate to end-point
             animateLeadingAnchor(constant: constant)
         }
@@ -148,10 +122,10 @@ class SavedABV: UIView {
     
     func animateLeadingAnchor(constant: CGFloat) {
         if constant == UI.Sizing.width {
-//            self.masterListDelegate.closeUndo()
-//            self.masterListDelegate.updateAppNavBottom(by: 1, animate: true)
+            self.savedABVDelegate.delegateHideUndo()
+            self.savedABVDelegate.animateAppNavigator(by: 1, animate: true)
         }
-//        masterListLeading.constant = constant
+        savedABVleading.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})
     }
     

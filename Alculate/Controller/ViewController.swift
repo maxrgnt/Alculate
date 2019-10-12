@@ -9,8 +9,23 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate {
-     
+// Setting protocol? Don't forget self.OBJECT.DELEGATE = self
+
+class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate, SavedABVDelegate {
+    
+    func delegateHideUndo() {
+        //
+    }
+    
+    func animateAppNavigator(by percent: CGFloat, animate: Bool) {
+        appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight*(1-percent)
+        if animate {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
     static var trailingAnchor: NSLayoutXAxisAnchor!
@@ -63,40 +78,41 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
             view.addSubview(subview)
         }
         
-//        let categories = ["Most Value","Most Effective"]
-//        let drinkNames = ["Coors","Vodka"]
-//        let values = ["$2.00","3.0"]
-//        let valueDescriptions = ["per shot","shots"]
-//        let topLineIcons = ["beer","beer"]
-//        let alignments = [.left,.right] as [NSTextAlignment]
-//        for (i, topLinePiece) in [valueTopLine,effectiveTopLine].enumerated() {
-//            view.addSubview(topLinePiece)
-//            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
-//            topLinePiece.category.text = categories[i]
-//            topLinePiece.drinkName.text = drinkNames[i]
-//            topLinePiece.value.text = values[i]
-//            topLinePiece.valueDescription.text = valueDescriptions[i]
-//        }
-//
-//        let headerIcons = ["beer","liquor","wine"]
-//        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
-//            view.addSubview(comparisonHeader)
-//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-//            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
-//        }
-//
-//        let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
-//        for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
-//            view.addSubview(comparisonTable)
-//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-//            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
-//        }
-//
-//        view.addSubview(appNavigator)
-//        appNavigator.build()
+        let categories = ["Most Value","Most Effective"]
+        let drinkNames = ["Coors","Vodka"]
+        let values = ["$2.00","3.0"]
+        let valueDescriptions = ["per shot","shots"]
+        let topLineIcons = ["beer","beer"]
+        let alignments = [.left,.right] as [NSTextAlignment]
+        for (i, topLinePiece) in [valueTopLine,effectiveTopLine].enumerated() {
+            view.addSubview(topLinePiece)
+            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
+            topLinePiece.category.text = categories[i]
+            topLinePiece.drinkName.text = drinkNames[i]
+            topLinePiece.value.text = values[i]
+            topLinePiece.valueDescription.text = valueDescriptions[i]
+        }
+
+        let headerIcons = ["beer","liquor","wine"]
+        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
+            view.addSubview(comparisonHeader)
+            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
+        }
+
+        let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
+            view.addSubview(comparisonTable)
+            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
+        }
+
+        view.addSubview(appNavigator)
+        appNavigator.build()
         
         view.addSubview(savedABV)
         savedABV.build()
+        self.savedABV.savedABVDelegate = self
         
         header.build()
         //
@@ -324,16 +340,16 @@ class ViewController: UIViewController, InputDelegate, TableTwoDelegate, TableOn
     }
     
     func updateAppNavBottom(by percent: CGFloat, animate: Bool) {
-        appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight*(1-percent)
-        if appNavigation.appNavBottom.constant == CGFloat(0.0) {
-            print(bestAlcoholInd)
-            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
-        }
-        if animate {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
+//        appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight*(1-percent)
+//        if appNavigation.appNavBottom.constant == CGFloat(0.0) {
+//            print(bestAlcoholInd)
+//            view.backgroundColor = UI.Color.alcoholTypes[bestAlcoholInd]
+//        }
+//        if animate {
+//            UIView.animate(withDuration: 0.2, animations: {
+//                self.view.layoutIfNeeded()
+//            })
+//        }
     }
     
     func resetAddButton() {

@@ -113,7 +113,7 @@ class SavedABV: UIView {
             savedABVTable.isMoving = false
             savedABVTable.reloadSectionIndexTitles()
             // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            let constant = savedABVleading.constant > UI.Sizing.width/4 ? UI.Sizing.width : savedABVleading.constant
+            let constant = savedABVleading.constant > UI.Sizing.width/8 ? UI.Sizing.width : 0
             // Animate to end-point
             animateLeadingAnchor(constant: constant)
         }

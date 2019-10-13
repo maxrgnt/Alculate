@@ -223,6 +223,12 @@ class ViewController: UIViewController, SavedABVDelegate {
 //        }
 //        masterList.minimizeUndo()
     }
+    
+    func hideUndo() {
+        savedABV.savedABVTable.toBeDeleted = []
+//        undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
+        savedABV.layoutIfNeeded()
+    }
 
     // MARK: - Alculate Functions
     func alculate() {

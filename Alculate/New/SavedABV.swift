@@ -10,7 +10,6 @@ import UIKit
 
 protocol SavedABVDelegate {
     // called when user taps subview/delete button
-    func delegateHideUndo()
     func animateAppNavigator(by: CGFloat, animate: Bool)
 }
 
@@ -20,14 +19,12 @@ class SavedABV: UIView {
 
     // Constraints
     var savedABVleading: NSLayoutConstraint!
-    var undoBottom: NSLayoutConstraint!
     
     // Objects
     var gradient = CAGradientLayer()
     let header = UIView()
     let headerLabel = UILabel()
     var savedABVTable = SavedABVTable()
-    var undo = Undo()
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -54,9 +51,6 @@ class SavedABV: UIView {
         headerLabel.textColor = UI.Color.softWhite
         headerLabel.textAlignment = .left
         headerLabel.text = "ABVs for saved drinks:"
-        //
-        addSubview(undo)
-        undo.build()
         
         // MARK: - Gradient Settings
         // Set origin of gradient (top left of screen)
@@ -78,16 +72,11 @@ class SavedABV: UIView {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
-        undoBottom = undo.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.appNavigationHeight*(2/3))
         NSLayoutConstraint.activate([
             savedABVleading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheight),
             topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
-            undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            undo.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigationHeight*(2/3)),
-            undo.leadingAnchor.constraint(equalTo: leadingAnchor),
-            undoBottom,
             header.centerXAnchor.constraint(equalTo: centerXAnchor),
             header.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             header.topAnchor.constraint(equalTo: topAnchor),
@@ -104,12 +93,6 @@ class SavedABV: UIView {
     }
     
     // MARK: - Animation Functions
-    func hideUndo() {
-        savedABVTable.toBeDeleted = []
-        undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
-        layoutIfNeeded()
-    }
-    
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
         savedABVTable.isMoving = true
@@ -136,7 +119,6 @@ class SavedABV: UIView {
     
     func animateLeadingAnchor(constant: CGFloat) {
         if constant == UI.Sizing.width {
-            self.savedABVDelegate.delegateHideUndo()
             self.savedABVDelegate.animateAppNavigator(by: 1, animate: true)
         }
         savedABVleading.constant = constant

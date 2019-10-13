@@ -45,7 +45,7 @@ class Undo: UIView {
         for obj in [confirm,cancel] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0) //UI.Sizing.undoHeight),
+        bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.undoHeight)
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),

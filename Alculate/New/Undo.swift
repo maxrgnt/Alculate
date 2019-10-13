@@ -24,10 +24,8 @@ class Undo: UIView {
     
     func build() {
         // MARK: - View/Object Settings
-        // View settings
         clipsToBounds = true
         backgroundColor = UI.Color.alculatePurpleDark
-        // Object settings
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {

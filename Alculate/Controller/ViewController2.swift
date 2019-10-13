@@ -143,7 +143,7 @@ class ViewController2: UIViewController, InputDelegate, TableTwoDelegate, TableO
         masterList.build()
         self.masterList.masterListDelegate = self
         self.masterList.tableOne.tableOneDelegate = self
-        masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
+//        masterList.undo.close.addTarget(self, action: #selector(closeUndo), for: .touchUpInside)
         masterList.undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
             
         //clearTestData()

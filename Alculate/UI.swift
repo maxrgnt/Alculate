@@ -97,6 +97,13 @@ struct UI {
         // App Navigator
         static let appNavigatorHeight = (headerHeight*2.5)
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
+        // Undo
+        static let undoHeight = appNavigatorHeight
+        static let undoCancelDiameter = appNavigatorHeight*(2/3)*(1/3)
+        static let undoCancelRadius = undoCancelDiameter/2
+        static let undoConfirmHeight = appNavigatorHeight*(2/3)*(1/3)
+        static let undoConfirmWidth = widthObjectPadding-undoCancelDiameter
+        
     }
 
     // fonts

@@ -240,7 +240,6 @@
 				665A6A5623427D49002E5761 /* MasterList.swift */,
 				66AF5877233A916800502EEA /* TableOne.swift */,
 				66AF5879233A92B700502EEA /* TableOneCell.swift */,
-				6680A11D2344B773000A884D /* Undo.swift */,
 			);
 			path = TableOne;
 			sourceTree = "<group>";
@@ -269,6 +268,7 @@
 				660043C023510EF800E2A03A /* SavedABVTable.swift */,
 				660043BE23510A2B00E2A03A /* SavedABVCell.swift */,
 				660043BC2350C92700E2A03A /* AppNavigator.swift */,
+				6680A11D2344B773000A884D /* Undo.swift */,
 			);
 			path = New;
 			sourceTree = "<group>";

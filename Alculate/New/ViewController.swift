@@ -32,6 +32,7 @@ class ViewController: UIViewController, SavedABVDelegate {
     var wineComparison = ComparisonTable()
     var savedABV = SavedABV()
     var appNavigator = AppNavigator()
+    var undo = Undo()
     
     override func viewDidLoad() {
         // MARK: - View/Object Settings
@@ -91,7 +92,10 @@ class ViewController: UIViewController, SavedABVDelegate {
         view.addSubview(savedABV)
         savedABV.build()
         self.savedABV.savedABVDelegate = self
-                    
+        
+        view.addSubview(undo)
+        undo.build()
+        
         //clearTestData()
         handleInit()
     }
@@ -149,6 +153,7 @@ class ViewController: UIViewController, SavedABVDelegate {
     @objc func navigateApp(sender: UIButton) {
         // Set haptic feedback
         let hapticFeedback = UINotificationFeedbackGenerator()
+        hapticFeedback.notificationOccurred(.warning)
 //        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
 //            let types = ["BEER","LIQUOR","WINE"]
@@ -159,11 +164,9 @@ class ViewController: UIViewController, SavedABVDelegate {
 //            userInput.textField.becomeFirstResponder()
         }
         else if sender.tag == 0 {
-            hapticFeedback.notificationOccurred(.warning)
             flipAlculate()
         }
         else if sender.tag == 1 {
-            hapticFeedback.notificationOccurred(.warning)
             savedABV.animateLeadingAnchor(constant: 0)
             appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight
             UIView.animate(withDuration: 0.2, animations: {

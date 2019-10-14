@@ -126,7 +126,7 @@ class ComparisonCell: UITableViewCell {
         // update view before animating
         self.layoutIfNeeded()
         // animate to the frac rotation
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction] //.repeat
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .autoreverse, .repeat] //.repeat
             , animations: ({
                 // set rotation as animation
                 self.container.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
@@ -134,14 +134,14 @@ class ComparisonCell: UITableViewCell {
                 // update view as animation
                 self.layoutIfNeeded()
             }), completion: { (completed) in
-                // once animation complete, check if should repeat
-                if self.continueAnimating == true {
-                    // if should repeat, rotate to opposite side
-                    self.rotateTo(frac: -frac)
-                }
-                else {
-                    // if should not repeat, do nothing
-                }
+//                // once animation complete, check if should repeat
+//                if self.continueAnimating == true {
+//                    // if should repeat, rotate to opposite side
+//                    self.rotateTo(frac: -frac)
+//                }
+//                else {
+//                    // if should not repeat, do nothing
+//                }
             }
         )
     }
@@ -151,7 +151,7 @@ class ComparisonCell: UITableViewCell {
         containerWidth.constant = UI.Sizing.containerDeleteSize
         containerHeight.constant = UI.Sizing.containerDeleteSize
         // permit animations
-        continueAnimating = true
+//        continueAnimating = true
         // set starting animation
         UIView.animate(withDuration: 0.3, delay: 0
             , animations: ({
@@ -168,7 +168,7 @@ class ComparisonCell: UITableViewCell {
     
     func stopAnimating(restartAnimations: Bool) {
         // stop rotateTo(frac: ) from repeating
-        continueAnimating = false
+//        continueAnimating = false
         //
         if !restartAnimations {
             // hide delete button

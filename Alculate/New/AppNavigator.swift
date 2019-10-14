@@ -11,7 +11,7 @@ import UIKit
 class AppNavigator: UIView {
          
     // Constraints
-    var navigatorBottom = NSLayoutConstraint()
+    var top = NSLayoutConstraint()
     
     // Objects
     var addBeer = UIButton()
@@ -81,12 +81,12 @@ class AppNavigator: UIView {
         for obj in [sortDifferent,showSavedABV,addBeer,addLiquor,addWine] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        navigatorBottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
+        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.appNavigatorHeight)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight+UI.Sizing.appNavigatorBounceBuffer),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            navigatorBottom,
+            top,
             sortDifferent.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
             showSavedABV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)
         ])
@@ -94,7 +94,7 @@ class AppNavigator: UIView {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
                 button.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight-UI.Sizing.headerHeight),
-                button.bottomAnchor.constraint(equalTo: bottomAnchor)
+                button.topAnchor.constraint(equalTo: addLiquor.bottomAnchor)
             ])
         }
         for (i, button) in [addBeer,addLiquor,addWine].enumerated() {

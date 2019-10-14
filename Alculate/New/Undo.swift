@@ -11,7 +11,7 @@ import UIKit
 class Undo: UIView {
          
     // Constraints
-    var bottom: NSLayoutConstraint!
+    var top: NSLayoutConstraint!
     
     // Objects
     let confirm = UIButton()
@@ -26,6 +26,7 @@ class Undo: UIView {
         // MARK: - View/Object Settings
         clipsToBounds = true
         backgroundColor = UI.Color.alculatePurpleDark
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.undoRadius)
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {
@@ -43,13 +44,13 @@ class Undo: UIView {
         for obj in [confirm,cancel] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.undoHeight)
+        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.undoHeight),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.undoHeight+UI.Sizing.undoBounceBuffer),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            bottom,
+            top,
             // Object constraints
             confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.undoConfirmWidth),
             confirm.centerXAnchor.constraint(equalTo: centerXAnchor),

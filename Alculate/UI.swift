@@ -94,11 +94,15 @@ struct UI {
         static let savedABVdeleteRadius = savedABVdeleteDiameter/2
         static let savedABVtopLineHeight = savedABVrowHeight*(2/3)
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
+        static let savedABVgestureThreshold = UI.Sizing.width/8
         // App Navigator
         static let appNavigatorHeight = (headerHeight*2.5)
+        static let appNavigatorBounceBuffer = objectPadding
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
         // Undo
         static let undoHeight = appNavigatorHeight
+        static let undoBounceBuffer = objectPadding
+        static let undoRadius = undoHeight/10
         static let undoCancelDiameter = appNavigatorHeight*(2/3)*(1/3)
         static let undoCancelRadius = undoCancelDiameter/2
         static let undoConfirmHeight = appNavigatorHeight*(2/3)*(1/3)

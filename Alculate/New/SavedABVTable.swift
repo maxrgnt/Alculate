@@ -10,7 +10,7 @@ import UIKit
 
 protocol SavedABVTableDelegate {
     // called when user taps subview/delete button
-    func offerUndo()
+    func animateUndo(onScreen: Bool)
     func reloadTable(table: String)
 }
 
@@ -88,17 +88,18 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
     
     // MARK: - SavedABV Cell Delegate
     func delegateRemove(cell: SavedABVCell) {
-        let indexPath = self.indexPath(for: cell)
-        let headerLetter = Data.headers[indexPath!.section]
-        let nameList = Data.matrix[headerLetter]
-        let name = nameList![indexPath!.row]
-        let abv = Data.masterList[name]!.abv
-        let type = Data.masterList[name]!.type
-        toBeDeleted.append((name: name, abv: abv, type: type))
-        Data.isEditable = true // false
-        if Data.masterList[name]! == (type: type, abv: abv) {
-            Data.masterList[name] = nil
-        }
+        self.savedABVTableDelegate.animateUndo(onScreen: true)
+//        let indexPath = self.indexPath(for: cell)
+//        let headerLetter = Data.headers[indexPath!.section]
+//        let nameList = Data.matrix[headerLetter]
+//        let name = nameList![indexPath!.row]
+//        let abv = Data.masterList[name]!.abv
+//        let type = Data.masterList[name]!.type
+//        toBeDeleted.append((name: name, abv: abv, type: type))
+//        Data.isEditable = true // false
+//        if Data.masterList[name]! == (type: type, abv: abv) {
+//            Data.masterList[name] = nil
+//        }
 //        self.tableOneDelegate.reloadTable(table: Data.masterListID)
 //        self.tableOneDelegate.offerUndo()
     }

@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -92,10 +92,12 @@ class ViewController: UIViewController, SavedABVDelegate {
         view.addSubview(savedABV)
         savedABV.build()
         self.savedABV.savedABVDelegate = self
+        self.savedABV.savedABVTable.savedABVTableDelegate = self
         
         view.addSubview(undo)
         undo.build()
-        
+        undo.cancel.addTarget(self, action: #selector(animateUndo(onScreen:)), for: .touchUpInside)
+
         //clearTestData()
         handleInit()
     }
@@ -168,7 +170,7 @@ class ViewController: UIViewController, SavedABVDelegate {
         }
         else if sender.tag == 1 {
             savedABV.animateLeadingAnchor(constant: 0)
-            appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight
+            appNavigator.top.constant = 0
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
             })
@@ -211,7 +213,7 @@ class ViewController: UIViewController, SavedABVDelegate {
         alculate()
     }
     
-    // MARK: - Confirm Undo
+    // MARK: - Undo Logic
     @objc func confirmUndo() {
 //        if !masterList.tableOne.toBeDeleted.isEmpty {
 //            for info in masterList.tableOne.toBeDeleted {
@@ -223,14 +225,29 @@ class ViewController: UIViewController, SavedABVDelegate {
 //        }
 //        masterList.minimizeUndo()
     }
-    
-    func hideUndo() {
-        savedABV.savedABVTable.toBeDeleted = []
-//        undoBottom.constant = UI.Sizing.appNavigationHeight*(2/3)
-        savedABV.layoutIfNeeded()
-    }
 
-    // MARK: - Alculate Functions
+    @objc func animateUndo(onScreen: Bool = true) {
+        let constant = (onScreen == false) ? 0 : -UI.Sizing.appNavigatorHeight
+        print(onScreen, constant)
+        undo.top.constant = constant
+        UIView.animate(withDuration: 0.55, delay: 0.0,
+            // 1.0 is smooth, 0.0 is bouncy
+            usingSpringWithDamping: 0.7,
+            // 1.0 corresponds to the total animation distance traversed in one second
+            // distance/seconds, 1.0 = total animation distance traversed in one second
+            initialSpringVelocity: 1.0,
+            options: [.curveEaseInOut],
+            // [autoReverse, curveEaseIn, curveEaseOut, curveEaseInOut, curveLinear]
+            animations: {
+                //Do all animations here
+                self.view.layoutIfNeeded()
+        }, completion: {
+               //Code to run after animating
+                (value: Bool) in
+           })
+    }
+    
+    // MARK: - Alculate Logic
     func alculate() {
         // create framework of array of lists that are not empty
         var lists: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]! = []
@@ -307,16 +324,14 @@ class ViewController: UIViewController, SavedABVDelegate {
 //        masterList.minimizeUndo()
     }
     
-    
-    func delegateHideUndo() {
-        //
-    }
-    
-    func animateAppNavigator(by percent: CGFloat, animate: Bool) {
-        appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight*(1-percent)
+    func animateAppNavigator(by percent: CGFloat, animate: Bool, reset: Bool) {
+        appNavigator.top.constant = -UI.Sizing.appNavigatorHeight*(percent)
+        // remove undo if it is on screen
+        undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight
         if animate {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                           options: [.curveEaseInOut], animations: { //Do all animations here
+                            self.view.layoutIfNeeded()
             })
         }
     }

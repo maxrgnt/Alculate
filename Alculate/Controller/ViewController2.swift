@@ -11,14 +11,14 @@ import CoreData
 
 // Setting protocol? Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController2: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate, SavedABVDelegate {
+class ViewController2: UIViewController, InputDelegate, TableTwoDelegate, TableOneDelegate, MasterListDelegate {
     
     func delegateHideUndo() {
         //
     }
     
     func animateAppNavigator(by percent: CGFloat, animate: Bool) {
-        appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight*(1-percent)
+//        appNavigator.navigatorBottom.constant = UI.Sizing.appNavigatorHeight*(1-percent)
         if animate {
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()

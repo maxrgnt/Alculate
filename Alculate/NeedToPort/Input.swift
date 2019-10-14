@@ -57,8 +57,6 @@ class Input: UIView, UITextFieldDelegate {
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = true
         roundCorners(corners: [.topLeft, .topRight], radius: UI.Sizing.userInputRadius)
-        layer.borderWidth = UI.Sizing.cellObjectBorder*2
-        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
         // Object settings
         addSubview(textField)
         textField.delegate = self

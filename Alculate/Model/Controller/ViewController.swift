@@ -31,6 +31,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var liquorComparison = ComparisonTable()
     var wineComparison = ComparisonTable()
     var savedABV = SavedABV()
+    var textEntry = TextEntry()
     var appNavigator = AppNavigator()
     var undo = Undo()
     
@@ -86,12 +87,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         self.liquorComparison.comparisonTableDelegate = self
         self.wineComparison.comparisonTableDelegate = self
         
-
         view.addSubview(savedABV)
         savedABV.build()
         self.savedABV.savedABVDelegate = self
         self.savedABV.savedABVTable.savedABVTableDelegate = self
-        
+            
         view.addSubview(undo)
         undo.build()
         undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
@@ -103,6 +103,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                     appNavigator.sortDifferent,appNavigator.showSavedABV] {
                         obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
+        
+        view.addSubview(textEntry)
+        textEntry.build()
+        textEntry.navigator.exit.addTarget(self, action: #selector(hideTextEntry), for: .touchUpInside)
 
         //clearTestData()
         handleInit()
@@ -126,9 +130,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         if UserDefaults.standard.bool(forKey: "keyboardSet") {
             let keyboardDouble = UserDefaults.standard.double(forKey: "keyboard")
             UI.Sizing.keyboard = CGFloat(keyboardDouble)
-//            userInput.layoutIfNeeded()
         }
-        // onboarding done
+        // check onboarding
         let hasLaunched = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
         print("hasLaunchedBefore: \(hasLaunched)")
         if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
@@ -165,11 +168,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         hapticFeedback.notificationOccurred(.warning)
 //        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
+            showTextEntry()
 //            let types = ["BEER","LIQUOR","WINE"]
 //            userInput.type.text = types[sender.tag-20]
 //            userInput.backgroundColor = UI.Color.alcoholTypes[sender.tag-20]
-//            let inputTop = -(UI.Sizing.keyboard+(UI.Sizing.headerHeight*2)+UI.Sizing.userInputRadius)
-//            userInput.inputTop.constant = inputTop
 //            userInput.textField.becomeFirstResponder()
         }
         else if sender.tag == 0 {
@@ -182,6 +184,27 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 self.view.layoutIfNeeded()
             })
         }
+    }
+    
+    func showTextEntry() {
+        textEntry.top.constant = UI.Sizing.textEntryTop
+        UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                       options: [.curveEaseInOut], animations: { //Do all animations here
+                        self.view.layoutIfNeeded()
+                        self.textEntry.field.becomeFirstResponder()
+        }, completion: { (value: Bool) in
+            //
+        })
+    }
+    
+    // Have to do as seperate function here because this called by UIButton, no parameters
+    @objc func hideTextEntry() {
+        textEntry.top.constant = 0.0
+        UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                       options: [.curveEaseInOut], animations: { //Do all animations here
+                        self.view.layoutIfNeeded()
+                        self.textEntry.field.resignFirstResponder()
+        })
     }
     
     func flipAlculate() {

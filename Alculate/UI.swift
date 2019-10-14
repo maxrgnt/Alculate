@@ -27,9 +27,8 @@ struct UI {
         static let widthObjectPadding = width-statusBar.height
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
-                inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
-                inputBottom = inputTop-(inputTextHeight*3)
-                InputNavigation.bottom.constant = -keyboard
+                textEntryTop = -(keyboard+(textEntryPieceHeight+textNavigationHeight)+textEntryRadius)
+                TextNavigation.bottom.constant = -keyboard
             }
         }
         // Header sizing
@@ -38,27 +37,11 @@ struct UI {
         static let topLineHeight = height*topLineRatio
         static let topLinePieceWidth = width/2
         static let topLineTop = statusBar.height + headerHeight
-        // App nav sizing
-        static let appNavigationHeight = (UI.Sizing.width/3)+objectPadding+statusBar.height
-        static let appNavigationGradient = headerHeight/appNavigationHeight
-        // Table view sizing
-        static let tableViewHeight = height-headerHeight-topLineHeight //*(tableViewRatio)-statusBar.height
-        static let tableViewWidth = width/3
-        static let cellObjectRadius = tableViewWidth/10
-        static let cellObjectBorder = tableViewWidth/50
-        static let cellObjectWidth = tableViewWidth-objectPadding+cellObjectBorder
-        static let bogus2 = CGFloat((2.0/5.0)+(1.0/3.0))+CGFloat(1.0/4.0)+CGFloat(1.0/10.0)
-        static let cellObjectHeight = tableViewWidth*(bogus2)+cellObjectBorder
-        static let tableRowHeight = tableViewWidth*(bogus2)+objectPadding/2+cellObjectBorder
-        static let tableViewTop = statusBar.height+headerHeight+topLineHeight
-        static let tableViewRadius = tableViewWidth/10
         // user input sizing
         static let userInputHeight = height*(userInputRatio)
         static let userInputRadius = width/10
         static let inputTextHeight = height*(headerRatio)
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
-        static var inputBottom = inputTop-(inputTextHeight*3)
-        
         
         // Comparison Header
         static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
@@ -99,6 +82,14 @@ struct UI {
         static let appNavigatorHeight = (headerHeight*2.5)
         static let appNavigatorBounceBuffer = objectPadding
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
+        // Text Entry
+        static let textEntryHeight = height*(userInputRatio)
+        static let textEntryBounceBuffer = objectPadding
+        static var textEntryTop = -(keyboard+(textEntryPieceHeight*2)+textEntryRadius)
+        static let textEntryPieceHeight = headerHeight
+        static let textEntryRadius = width/10
+        static let textNavigationHeight = headerHeight*(3/4)
+        static let textNavigationWidth = widthObjectPadding
         // Undo
         static let undoHeight = appNavigatorHeight
         static let undoBounceBuffer = objectPadding

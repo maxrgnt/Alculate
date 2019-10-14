@@ -53,10 +53,11 @@ class AppNavigator: UIView {
         bounceBuffer.backgroundColor = UI.Color.alculatePurpleDark
         //
         let alignments: [UIControl.ContentHorizontalAlignment] = [.left, .right]
-        buttonText = ["Order by Value","Show Saved ABVs"]
+        buttonText = ["Order by Value","Saved ABVs"]
         for (i,button) in [sortDifferent,showSavedABV].enumerated() {
             button.tag = i
             addSubview(button)
+            button.alpha = 0.7
             button.backgroundColor = .clear
             button.contentVerticalAlignment = .center
             button.contentHorizontalAlignment = alignments[i]

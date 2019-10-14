@@ -50,7 +50,7 @@ class SavedABV: UIView {
         headerLabel.font = UI.Font.headerFont
         headerLabel.textColor = UI.Color.softWhite
         headerLabel.textAlignment = .left
-        headerLabel.text = "ABVs for saved drinks:"
+        headerLabel.text = "Saved drink ABVs:"
         
         // MARK: - Gradient Settings
         // Set origin of gradient (top left of screen)

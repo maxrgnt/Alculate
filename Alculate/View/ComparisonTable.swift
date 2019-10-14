@@ -18,13 +18,12 @@ protocol ComparisonTableDelegate {
 class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComparisonCellDelegate {
 
     // Delegate object
-    var ComparisonTableDelegate : ComparisonTableDelegate!
+    var comparisonTableDelegate : ComparisonTableDelegate!
 
     // Vairables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
-    var comparisonTableListID = "price"
+    var comparisonTableListID = ""
     var willDelete = false
-    var varDeletable = false
     
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
@@ -119,21 +118,14 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         
     // MARK: - Comparison Cell Delegate
     func delegateCell(animate: Bool, forCell: ComparisonCell) {
-        if animate {
-//        varDeletable = true
-//        self.tableTwoDelegate.makeDeletable(true, lists: "all")
-        }
-        else if !animate {
-//        varDeletable = false
-//        self.tableTwoDelegate.makeDeletable(false, lists: "all")
-        }
+        self.comparisonTableDelegate.makeDeletable(animate, lists: "all")
     }
     
     func delegateRemove(forCell cell: ComparisonCell) {
         let indexPath = self.indexPath(for: cell)
         let info = listForThisTable()[indexPath!.row]
         Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-//        self.tableTwoDelegate.reloadTable(table: Data.beerListID)
+        self.comparisonTableDelegate.reloadTable(table: comparisonTableListID)
     }
     
     // MARK: - ScrollView Delegate

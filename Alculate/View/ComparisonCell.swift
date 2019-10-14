@@ -64,13 +64,13 @@ class ComparisonCell: UITableViewCell {
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
             containerWidth,
-            //container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
-            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant),
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+//            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant),
             containerHeight,
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
             delete.heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
-            delete.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: UI.Sizing.comparisonRemoveOffset),
+            delete.trailingAnchor .constraint(equalTo: container.trailingAnchor , constant: UI.Sizing.comparisonRemoveOffset),
             delete.topAnchor.constraint(equalTo: container.topAnchor, constant: -UI.Sizing.comparisonRemoveOffset),
             ])
     }
@@ -111,10 +111,7 @@ class ComparisonCell: UITableViewCell {
     }
     
     @objc func tapActivated(_ sender: UITapGestureRecognizer) {
-        // Do I need to check this? Can it just always stop animating when tapped, what is best practice?
-        if continueAnimating == true {
-            delegate?.delegateCell(animate: false, forCell: self)
-        }
+        delegate?.delegateCell(animate: false, forCell: self)
     }
     
     @objc func deleteButtonPressed() {
@@ -126,23 +123,14 @@ class ComparisonCell: UITableViewCell {
         // update view before animating
         self.layoutIfNeeded()
         // animate to the frac rotation
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .autoreverse, .repeat] //.repeat
+        UIView.animate(withDuration: 0.2, delay: 0, options: [.allowUserInteraction, .autoreverse, .repeat]
             , animations: ({
                 // set rotation as animation
                 self.container.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
                 self.delete.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi * frac))
                 // update view as animation
                 self.layoutIfNeeded()
-            }), completion: { (completed) in
-//                // once animation complete, check if should repeat
-//                if self.continueAnimating == true {
-//                    // if should repeat, rotate to opposite side
-//                    self.rotateTo(frac: -frac)
-//                }
-//                else {
-//                    // if should not repeat, do nothing
-//                }
-            }
+            })
         )
     }
     
@@ -153,7 +141,7 @@ class ComparisonCell: UITableViewCell {
         // permit animations
 //        continueAnimating = true
         // set starting animation
-        UIView.animate(withDuration: 0.3, delay: 0
+        UIView.animate(withDuration: 0.2, delay: 0
             , animations: ({
                 // hide delete button
                 self.delete.alpha = 1.0
@@ -161,15 +149,12 @@ class ComparisonCell: UITableViewCell {
                 self.layoutIfNeeded()
             }), completion: { (completed) in
                 // begin rotations
-                self.rotateTo(frac: 0.03)
+                self.rotateTo(frac: 0.025)
             }
         )
     }
     
     func stopAnimating(restartAnimations: Bool) {
-        // stop rotateTo(frac: ) from repeating
-//        continueAnimating = false
-        //
         if !restartAnimations {
             // hide delete button
             self.delete.alpha = 0.0

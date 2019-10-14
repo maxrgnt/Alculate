@@ -19,6 +19,7 @@ class AppNavigator: UIView {
     var addWine = UIButton()
     var sortDifferent = UIButton()
     var showSavedABV = UIButton()
+    let bounceBuffer = UILabel()
     
     // Variables
     var sortMethod = "value"
@@ -47,6 +48,9 @@ class AppNavigator: UIView {
             button.setTitleColor(UI.Color.softWhite, for: .normal)
             button.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         }
+        //
+        addSubview(bounceBuffer)
+        bounceBuffer.backgroundColor = UI.Color.alculatePurpleDark
         //
         let alignments: [UIControl.ContentHorizontalAlignment] = [.left, .right]
         buttonText = ["Order by Value","Show Saved ABVs"]
@@ -78,7 +82,7 @@ class AppNavigator: UIView {
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [sortDifferent,showSavedABV,addBeer,addLiquor,addWine] {
+        for obj in [sortDifferent,showSavedABV,addBeer,addLiquor,addWine,bounceBuffer] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.appNavigatorHeight)
@@ -88,7 +92,10 @@ class AppNavigator: UIView {
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
             sortDifferent.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            showSavedABV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)
+            showSavedABV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            bounceBuffer.widthAnchor.constraint(equalTo: widthAnchor),
+            bounceBuffer.heightAnchor.constraint(equalToConstant: UI.Sizing.objectPadding),
+            bounceBuffer.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         for button in [sortDifferent,showSavedABV] {
             NSLayoutConstraint.activate([

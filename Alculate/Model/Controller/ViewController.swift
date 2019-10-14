@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -42,7 +42,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
              selector: #selector(keyboardWillShow),
              name: UIResponder.keyboardWillShowNotification,
              object: nil
-        
         )
         //
         ViewController.leadingAnchor = view.leadingAnchor
@@ -83,11 +82,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
             let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
             comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
         }
-
-        view.addSubview(appNavigator)
-        appNavigator.build()
-        appNavigator.sortDifferent.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        appNavigator.showSavedABV.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        self.beerComparison.comparisonTableDelegate = self
+        self.liquorComparison.comparisonTableDelegate = self
+        self.wineComparison.comparisonTableDelegate = self
+        
 
         view.addSubview(savedABV)
         savedABV.build()
@@ -96,7 +94,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
         
         view.addSubview(undo)
         undo.build()
-        undo.cancel.addTarget(self, action: #selector(animateUndo(onScreen:)), for: .touchUpInside)
+        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
+
+        view.addSubview(appNavigator)
+        appNavigator.build()
+        for obj in [appNavigator.addBeer,appNavigator.addLiquor,appNavigator.addWine,
+                    appNavigator.sortDifferent,appNavigator.showSavedABV] {
+                        obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        }
 
         //clearTestData()
         handleInit()
@@ -153,6 +159,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
+        makeDeletable(false, lists: "all")
         // Set haptic feedback
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.warning)
@@ -215,35 +222,45 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
     
     // MARK: - Undo Logic
     @objc func confirmUndo() {
-//        if !masterList.tableOne.toBeDeleted.isEmpty {
-//            for info in masterList.tableOne.toBeDeleted {
-//                Data.masterList[info.name] = (type: info.type, abv: info.abv)
-//            }
-//            //let sections = NSIndexSet(indexesIn: NSMakeRange(0,masterList.tableOne.numberOfSections))
-//            //masterList.tableOne.reloadSections(sections as IndexSet, with: .automatic)
-//            masterList.tableOne.reloadData()
-//        }
-//        masterList.minimizeUndo()
+        let hapticFeedback = UINotificationFeedbackGenerator()
+        hapticFeedback.notificationOccurred(.success)
+        // if toBeDeleted is not empty
+        if !savedABV.savedABVTable.toBeDeleted.isEmpty {
+            // for every object in toBeDeleted, add it back to the Data master list
+            for info in savedABV.savedABVTable.toBeDeleted {
+                Data.masterList[info.name] = (type: info.type, abv: info.abv)
+            }
+            savedABV.savedABVTable.reloadData()
+        }
+        animateUndo(onScreen: false)
     }
-
+    
+    @objc func cancelUndo() {
+        removeABVfromCoreData()
+        animateUndo(onScreen: false)
+    }
+    
+    func removeABVfromCoreData() {
+        // iterate over every object in the toBeDeleted table
+        for info in savedABV.savedABVTable.toBeDeleted {
+            // make the database editable
+            Data.isEditable = true
+            // update the database to match the list with now deleted values
+            Data.masterList = Data.masterList
+            // delete objects in toBeDeleted from coreData
+            Data.deleteMaster(wName: info.name, wABV: info.abv, wType: info.type)
+        }
+    }
+    
     @objc func animateUndo(onScreen: Bool = true) {
         let constant = (onScreen == false) ? 0 : -UI.Sizing.appNavigatorHeight
-        print(onScreen, constant)
         undo.top.constant = constant
-        UIView.animate(withDuration: 0.55, delay: 0.0,
-            // 1.0 is smooth, 0.0 is bouncy
-            usingSpringWithDamping: 0.7,
-            // 1.0 corresponds to the total animation distance traversed in one second
-            // distance/seconds, 1.0 = total animation distance traversed in one second
-            initialSpringVelocity: 1.0,
-            options: [.curveEaseInOut],
-            // [autoReverse, curveEaseIn, curveEaseOut, curveEaseInOut, curveLinear]
-            animations: {
-                //Do all animations here
-                self.view.layoutIfNeeded()
-        }, completion: {
-               //Code to run after animating
-                (value: Bool) in
+        UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                       options: [.curveEaseInOut],
+                       animations: {
+                        self.view.layoutIfNeeded()
+        }, completion: {(value: Bool) in
+            // pass
            })
     }
     
@@ -315,96 +332,55 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate 
     }
         
     // MARK: - Protocol Delegate Functions
-    @objc func closeUndo() {
-//        for info in masterList.tableOne.toBeDeleted {
-//            Data.isEditable = true
-//            Data.masterList = Data.masterList
-//            Data.deleteMaster(wName: info.name, wABV: info.abv, wType: info.type)
-//        }
-//        masterList.minimizeUndo()
-    }
-    
-    func animateAppNavigator(by percent: CGFloat, animate: Bool, reset: Bool) {
+    func animateAppNavigator(by percent: CGFloat, reset: Bool) {
         appNavigator.top.constant = -UI.Sizing.appNavigatorHeight*(percent)
         // remove undo if it is on screen
-        undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight
-        if animate {
-            UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                           options: [.curveEaseInOut], animations: { //Do all animations here
-                            self.view.layoutIfNeeded()
-            })
+        if undo.top.constant != 0 {
+            undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight
+            if undo.top.constant == -UI.Sizing.undoHeight {
+                removeABVfromCoreData()
+            }
         }
+        UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                       options: [.curveEaseInOut], animations: { //Do all animations here
+                        self.view.layoutIfNeeded()
+        })
     }
     
     func displayAlert(alert : UIAlertController) {
         present(alert, animated: true, completion: nil)
     }
-     
-    func offerUndo() {
-//        masterList.undoBottom.constant = 0
-//        masterList.undo.confirm.setTitle("Undo delete [ \(masterList.tableOne.toBeDeleted.count) ] ?", for: .normal)
-    }
     
     func reloadTable(table: String) {
-//        if table == Data.masterListID {
-//            masterList.tableOne.reloadData()
-//        }
-//        else {
-//            let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-//            if table == Data.beerListID {
-//                //beerList.reloadData()
-//                beerList.reloadSections(sections as IndexSet, with: .automatic)
-//            }
-//            else if table == Data.liquorListID {
-//                //liquorList.reloadData()
-//                liquorList.reloadSections(sections as IndexSet, with: .automatic)
-//            }
-//            else if table == Data.wineListID {
-//                //wineList.reloadData()
-//                wineList.reloadSections(sections as IndexSet, with: .automatic)
-//            }
-//            resetAddButton()
-//            alculate(for: appNavigation.alculateType)
-//        }
-    }
-    
-    func updateAppNavBottom(by percent: CGFloat, animate: Bool) {
-//        appNavigation.appNavBottom.constant = UI.Sizing.appNavigationHeight*(1-percent)
-//        if appNavigation.appNavBottom.constant == CGFloat(0.0) {
-//
-//        }
-//        if animate {
-//            UIView.animate(withDuration: 0.2, animations: {
-//                self.view.layoutIfNeeded()
-//            })
-//        }
+        if table == Data.masterListID {
+            savedABV.savedABVTable.reloadData()
+        }
+        else {
+            let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
+            let tables = [beerComparison,liquorComparison,wineComparison]
+            for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+                if table == ID {
+                    //tables[i].reloadData()
+                    tables[i].reloadSections(sections as IndexSet, with: .automatic)
+                }
+            }
+            alculate()
+        }
     }
     
     func makeDeletable(_ paramDeletable: Bool, lists: String) {
         var tables: [UITableView]! = []
-//        if lists == "all" {
-//            tables = [beerList,liquorList,wineList]
-//        }
-//        else if lists == Data.beerListID {
-//            tables = [beerList]
-//        }
-//        else if lists == Data.liquorListID {
-//            tables = [liquorList]
-//        }
-//        else if lists == Data.wineListID {
-//            tables = [wineList]
-//        }
-        for table in tables as! [TableTwo] {
-            table.varDeletable = paramDeletable
+        let possibleTables = [[beerComparison],[liquorComparison],[wineComparison],
+                              [beerComparison,liquorComparison,wineComparison]]
+        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID,"all"].enumerated() {
+            if lists == ID {
+                tables = possibleTables[i]
+            }
+        }
+        for table in tables as! [ComparisonTable] {
             for row in 0..<table.numberOfRows(inSection: 0) {
-                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! TableTwoCell
-                cell.nukeAllAnimations(restart: paramDeletable)
-//                if deletable {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Change `2.0` to the desired number of seconds.
-//                       // Code you want to be delayed
-//                        cell.beginDeleteAnimation()
-//                    }
-//                }
+                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! ComparisonCell
+                cell.stopAnimating(restartAnimations: paramDeletable)
             }
         }
     }

@@ -71,3 +71,22 @@ extension String {
     }
 }
 
+
+/*
+UIView.animate(withDuration: 0.55, delay: 0.0,
+    // 1.0 is smooth, 0.0 is bouncy
+    usingSpringWithDamping: 0.7,
+    // 1.0 corresponds to the total animation distance traversed in one second
+    // distance/seconds, 1.0 = total animation distance traversed in one second
+    initialSpringVelocity: 1.0,
+    options: [.curveEaseInOut],
+    // [autoReverse, curveEaseIn, curveEaseOut, curveEaseInOut, curveLinear]
+    animations: {
+        //Do all animations here
+        self.view.layoutIfNeeded()
+}, completion: {
+       //Code to run after animating
+        (value: Bool) in
+    }
+)
+*/

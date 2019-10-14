@@ -87,21 +87,21 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
 //    }
     
     // MARK: - SavedABV Cell Delegate
-    func delegateRemove(cell: SavedABVCell) {
+    func remove(cell: SavedABVCell) {
+        let indexPath = self.indexPath(for: cell)
+        let headerLetter = Data.headers[indexPath!.section]
+        let nameList = Data.matrix[headerLetter]
+        let name = nameList![indexPath!.row]
+        let abv = Data.masterList[name]!.abv
+        let type = Data.masterList[name]!.type
+        toBeDeleted.append((name: name, abv: abv, type: type))
+        Data.isEditable = true // false
+        // Checking for specific name / abv / type combo
+        if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
+            Data.masterList[name] = nil
+        }
+        self.savedABVTableDelegate.reloadTable(table: Data.masterListID)
         self.savedABVTableDelegate.animateUndo(onScreen: true)
-//        let indexPath = self.indexPath(for: cell)
-//        let headerLetter = Data.headers[indexPath!.section]
-//        let nameList = Data.matrix[headerLetter]
-//        let name = nameList![indexPath!.row]
-//        let abv = Data.masterList[name]!.abv
-//        let type = Data.masterList[name]!.type
-//        toBeDeleted.append((name: name, abv: abv, type: type))
-//        Data.isEditable = true // false
-//        if Data.masterList[name]! == (type: type, abv: abv) {
-//            Data.masterList[name] = nil
-//        }
-//        self.tableOneDelegate.reloadTable(table: Data.masterListID)
-//        self.tableOneDelegate.offerUndo()
     }
 
     // MARK: - ScrollView Delegate

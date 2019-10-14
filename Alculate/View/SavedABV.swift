@@ -10,7 +10,7 @@ import UIKit
 
 protocol SavedABVDelegate {
     // called when user taps subview/delete button
-    func animateAppNavigator(by: CGFloat, animate: Bool, reset: Bool)
+    func animateAppNavigator(by: CGFloat, reset: Bool)
 }
 
 class SavedABV: UIView {
@@ -102,8 +102,7 @@ class SavedABV: UIView {
         // If contact card is fully visible, don't allow movement further left
         savedABVleading.constant = savedABVleading.constant < 0 ? 0 : savedABVleading.constant
         let percent = savedABVleading.constant/UI.Sizing.width >= 1 ? 1 : savedABVleading.constant/UI.Sizing.width
-        let booly = (percent >= 1) ? true : false
-        self.savedABVDelegate.animateAppNavigator(by: percent, animate: booly, reset: false)
+        self.savedABVDelegate.animateAppNavigator(by: percent, reset: false)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
@@ -111,13 +110,10 @@ class SavedABV: UIView {
             savedABVTable.isMoving = false
             savedABVTable.reloadSectionIndexTitles()
             // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            let constant = savedABVleading.constant > UI.Sizing.savedABVgestureThreshold ? UI.Sizing.width : 0
-            if constant == 0 {
-                self.savedABVDelegate.animateAppNavigator(by: 0, animate: true, reset: true)
-            }
-            else {
-                self.savedABVDelegate.animateAppNavigator(by: 1, animate: true, reset: false)
-            }
+            let constant = (savedABVleading.constant > UI.Sizing.savedABVgestureThreshold) ? UI.Sizing.width : 0
+            let percent: CGFloat = (constant == 0) ? 0 : 1
+            let reset = (constant == 0) ? true : false
+            self.savedABVDelegate.animateAppNavigator(by: percent, reset: reset)
             // Animate to end-point
             animateLeadingAnchor(constant: constant)
         }

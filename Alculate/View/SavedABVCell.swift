@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SavedABVCellDelegate: AnyObject {
-    func delegateRemove(cell: SavedABVCell)
+    func remove(cell: SavedABVCell)
 }
 
 class SavedABVCell: UITableViewCell {
@@ -49,7 +49,7 @@ class SavedABVCell: UITableViewCell {
         delete.setTitleColor(.white, for: .normal)
         delete.backgroundColor = UI.Color.alculatePurpleLite
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
-        delete.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
+        delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
         
         // MARK: - NSLayoutConstraints
         for obj in [icon,drinkName,drinkInfo,delete] {
@@ -87,8 +87,8 @@ class SavedABVCell: UITableViewCell {
         drinkInfo.text = "\(abv)%"
     }
     
-    @objc func deleteButtonPressed(sender: AnyObject) {
-        delegate?.delegateRemove(cell: self)
+    @objc func remove(sender: AnyObject) {
+        delegate?.remove(cell: self)
     }
     
     required init?(coder aDecoder: NSCoder) {

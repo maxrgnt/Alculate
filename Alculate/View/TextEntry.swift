@@ -16,6 +16,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     // Objects
     let field = UITextField()
     let navigator = TextNavigator()
+    let icon = UIImageView()
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -33,7 +34,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         addSubview(field)
         field.delegate = self
         field.autocorrectionType = .no
-        
         // Blur object settings
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -42,14 +42,19 @@ class TextEntry: UIView, UITextFieldDelegate {
         let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
         let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
         blurEffectView.contentView.addSubview(vibrancyView)
-
-        vibrancyView.contentView.addSubview(navigator)
+        //
+        addSubview(navigator)
         navigator.build()
-
+        //
+        addSubview(icon)
+        
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+        for obj in [icon] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         NSLayoutConstraint.activate([
             // View constraints
@@ -64,7 +69,11 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
             vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
-            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor)
+            vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
+            icon.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
+            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+            icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)
             ])
     }
 

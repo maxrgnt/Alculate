@@ -59,7 +59,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let drinkNames = ["Coors","Vodka"]
         let values = ["$2.00","3.0"]
         let valueDescriptions = ["per shot","shots"]
-        let topLineIcons = ["beer","beer"]
+        let topLineIcons = [Data.beerListID,Data.wineListID]
         let alignments = [.left,.right] as [NSTextAlignment]
         for (i, topLinePiece) in [valueTopLine,effectTopLine].enumerated() {
             view.addSubview(topLinePiece)
@@ -70,7 +70,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
 
-        let headerIcons = ["beer","liquor","wine"]
+        let headerIcons = [Data.beerListID,Data.liquorListID,Data.wineListID]
         for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
             view.addSubview(comparisonHeader)
             let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
@@ -168,7 +168,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         hapticFeedback.notificationOccurred(.warning)
 //        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
-            showTextEntry()
+            let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
+            showTextEntry(for: iconNames[sender.tag-20])
 //            let types = ["BEER","LIQUOR","WINE"]
 //            userInput.type.text = types[sender.tag-20]
 //            userInput.backgroundColor = UI.Color.alcoholTypes[sender.tag-20]
@@ -186,7 +187,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
     
-    func showTextEntry() {
+    func showTextEntry(for id: String) {
+        textEntry.icon.image = UIImage(named: id)
         textEntry.top.constant = UI.Sizing.textEntryTop
         TextNavigator.bottom.constant = -UI.Sizing.keyboard
         UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,

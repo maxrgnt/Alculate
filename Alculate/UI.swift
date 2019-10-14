@@ -87,6 +87,7 @@ struct UI {
         static var textEntryTop = -(keyboard+(textEntryPieceHeight*2)+textEntryRadius)
         static let textEntryPieceHeight = headerHeight
         static let textEntryRadius = width/10
+        static let textEntryIconDiameter = ((width/3)-(objectPadding))*(2/3)
         static let textNavigatorHeight = headerHeight*(3/4)
         static let textNavigatorWidth = widthObjectPadding
         // Undo

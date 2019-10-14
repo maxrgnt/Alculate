@@ -32,6 +32,7 @@ class TextNavigator: UIView {
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
+            button.setTitleColor(UI.Color.softWhite, for: .normal)
             button.contentHorizontalAlignment = .left
         }
         

@@ -17,6 +17,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     let field = UITextField()
     let navigator = TextNavigator()
     let icon = UIImageView()
+    let name = UIButton()
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -43,16 +44,22 @@ class TextEntry: UIView, UITextFieldDelegate {
         let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
         blurEffectView.contentView.addSubview(vibrancyView)
         //
-        addSubview(navigator)
+        vibrancyView.contentView.addSubview(navigator)
         navigator.build()
         //
         addSubview(icon)
+        //
+        name.tag = 0
+        addSubview(name)
+        name.setTitle("Name", for: .normal)
+        name.setTitleColor(UI.Color.softWhite, for: .normal)
+        name.contentHorizontalAlignment = .left
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
-        for obj in [icon] {
+        for obj in [icon,name] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
@@ -70,7 +77,11 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
             vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
-            icon.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
+            name.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
+            name.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
+            name.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
+            icon.bottomAnchor.constraint(equalTo: name.bottomAnchor),
             icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
             icon.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
             icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)

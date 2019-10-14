@@ -82,7 +82,13 @@ class SavedABVCell: UITableViewCell {
         let nameFromMemory = drinkNames![indexPath.row]
         let abv = Data.masterList[nameFromMemory]!.abv
         let type = Data.masterList[nameFromMemory]!.type
-        icon.image = UIImage(named: type.lowercased())
+        let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (i, option) in ["BEER","LIQUOR","WINE"].enumerated() {
+            if type == option {
+                icon.image = UIImage(named: iconNames[i])
+                break
+            }
+        }
         drinkName.text = nameFromMemory.capitalizingFirstLetter()
         drinkInfo.text = "\(abv)%"
     }

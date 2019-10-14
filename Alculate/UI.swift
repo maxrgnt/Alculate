@@ -28,7 +28,6 @@ struct UI {
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
                 textEntryTop = -(keyboard+(textEntryPieceHeight+textNavigatorHeight)+textEntryRadius)
-                TextNavigator.bottom.constant = -keyboard
             }
         }
         // Header sizing

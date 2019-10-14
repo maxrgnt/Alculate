@@ -40,7 +40,7 @@ class TextNavigator: UIView {
         for obj in [exit] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.textNavigatorHeight)
+        TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),

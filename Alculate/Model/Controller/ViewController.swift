@@ -201,7 +201,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     // Have to do as seperate function here because this called by UIButton, no parameters
     @objc func hideTextEntry() {
         textEntry.top.constant = 0.0
-        TextNavigator.bottom.constant = UI.Sizing.textNavigationHeight
+        TextNavigator.bottom.constant = UI.Sizing.textNavigatorHeight
         UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut], animations: { //Do all animations here
                         self.view.layoutIfNeeded()

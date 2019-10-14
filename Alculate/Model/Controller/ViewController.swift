@@ -188,23 +188,25 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func showTextEntry() {
         textEntry.top.constant = UI.Sizing.textEntryTop
+        TextNavigator.bottom.constant = -UI.Sizing.keyboard
         UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut], animations: { //Do all animations here
                         self.view.layoutIfNeeded()
-                        self.textEntry.field.becomeFirstResponder()
         }, completion: { (value: Bool) in
             //
         })
+        textEntry.field.becomeFirstResponder()
     }
     
     // Have to do as seperate function here because this called by UIButton, no parameters
     @objc func hideTextEntry() {
         textEntry.top.constant = 0.0
+        TextNavigator.bottom.constant = UI.Sizing.textNavigationHeight
         UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut], animations: { //Do all animations here
                         self.view.layoutIfNeeded()
-                        self.textEntry.field.resignFirstResponder()
         })
+        textEntry.field.resignFirstResponder()
     }
     
     func flipAlculate() {

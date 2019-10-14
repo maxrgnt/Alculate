@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextNavigation: UIView {
+class TextNavigator: UIView {
          
     // Constraints
     static var bottom = NSLayoutConstraint()
@@ -40,15 +40,15 @@ class TextNavigation: UIView {
         for obj in [exit] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        TextNavigation.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.keyboard)
+        TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.textNavigatorHeight)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigationWidth),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigationHeight),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
-            TextNavigation.bottom,
+            TextNavigator.bottom,
             exit.leadingAnchor.constraint(equalTo: leadingAnchor),
-            exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigationWidth/3),
-            exit.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigationHeight),
+            exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/3),
+            exit.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             exit.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }

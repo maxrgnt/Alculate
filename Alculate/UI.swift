@@ -27,8 +27,8 @@ struct UI {
         static let widthObjectPadding = width-statusBar.height
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
-                textEntryTop = -(keyboard+(textEntryPieceHeight+textNavigationHeight)+textEntryRadius)
-                TextNavigation.bottom.constant = -keyboard
+                textEntryTop = -(keyboard+(textEntryPieceHeight+textNavigatorHeight)+textEntryRadius)
+                TextNavigator.bottom.constant = -keyboard
             }
         }
         // Header sizing
@@ -88,8 +88,8 @@ struct UI {
         static var textEntryTop = -(keyboard+(textEntryPieceHeight*2)+textEntryRadius)
         static let textEntryPieceHeight = headerHeight
         static let textEntryRadius = width/10
-        static let textNavigationHeight = headerHeight*(3/4)
-        static let textNavigationWidth = widthObjectPadding
+        static let textNavigatorHeight = headerHeight*(3/4)
+        static let textNavigatorWidth = widthObjectPadding
         // Undo
         static let undoHeight = appNavigatorHeight
         static let undoBounceBuffer = objectPadding

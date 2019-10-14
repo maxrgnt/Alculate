@@ -15,7 +15,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     
     // Objects
     let field = UITextField()
-    let navigator = TextNavigation()
+    let navigator = TextNavigator()
 
     init() {
         // Initialize views frame prior to setting constraints

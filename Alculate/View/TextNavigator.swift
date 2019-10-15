@@ -15,6 +15,8 @@ class TextNavigator: UIView {
     
     // Objects
     let exit = UIButton()
+    let backward = UIButton()
+    let forward = UIButton()
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -26,19 +28,20 @@ class TextNavigator: UIView {
         backgroundColor = .clear
         clipsToBounds = true
         //
-        let titles = ["exit"]
-        for (i, button) in [exit].enumerated() {
+        let titles = ["exit","back","next"]
+        let alignments: [UIControl.ContentHorizontalAlignment] = [.left,.right,.right]
+        for (i, button) in [exit,backward,forward].enumerated() {
             button.tag = i-1
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
             button.setTitleColor(UI.Color.softWhite, for: .normal)
-            button.contentHorizontalAlignment = .left
+            button.contentHorizontalAlignment = alignments[i]
         }
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [exit] {
+        for obj in [exit,forward,backward] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
@@ -50,7 +53,15 @@ class TextNavigator: UIView {
             exit.leadingAnchor.constraint(equalTo: leadingAnchor),
             exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/3),
             exit.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
-            exit.bottomAnchor.constraint(equalTo: bottomAnchor)
+            exit.bottomAnchor.constraint(equalTo: bottomAnchor),
+            forward.trailingAnchor.constraint(equalTo: trailingAnchor),
+            forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
+            forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            forward.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backward.trailingAnchor.constraint(equalTo: forward.leadingAnchor),
+            backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
+            backward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            backward.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }
 

@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -106,7 +106,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
         view.addSubview(textEntry)
         textEntry.build()
-        textEntry.navigator.exit.addTarget(self, action: #selector(hideTextEntry), for: .touchUpInside)
+        self.textEntry.textEntryDelegate = self
 
         //clearTestData()
         handleInit()
@@ -162,18 +162,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
-        makeDeletable(false, lists: "all")
         // Set haptic feedback
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.warning)
-//        makeDeletable(false, lists: "all")
+        //
+        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
             showTextEntry(for: iconNames[sender.tag-20])
-//            let types = ["BEER","LIQUOR","WINE"]
-//            userInput.type.text = types[sender.tag-20]
-//            userInput.backgroundColor = UI.Color.alcoholTypes[sender.tag-20]
-//            userInput.textField.becomeFirstResponder()
         }
         else if sender.tag == 0 {
             flipAlculate()
@@ -210,43 +206,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         })
         textEntry.field.resignFirstResponder()
     }
-    
-    func flipAlculate() {
-        // Stop delete animation if animating
-        makeDeletable(false, lists: "all")
-        // Set lists of Data to iterate over
-        var lists = [Data.beerList,Data.liquorList,Data.wineList]
-        // If sorting by effect, switch to value
-        if appNavigator.sortMethod == "effect" {
-            appNavigator.sortMethod = "value"
-            // for each ID in list below, update the appropriate list (above in lists) by sorting
-            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                    let value1 = calculateValue(for: drink1)
-                    let value2 = calculateValue(for: drink2)
-                    return value1 < value2
-                }
-                reloadTable(table: id)
-            }
-        }
-        else {
-            appNavigator.sortMethod = "effect"
-            // for each ID in list below, update the appropriate list (above in lists) by sorting
-            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                    let effect1 = calculateEffect(for: drink1)
-                    let effect2 = calculateEffect(for: drink2)
-                    return effect1 > effect2
-                }
-                reloadTable(table: id)
-            }
-        }
-        // update button title with new order by
-        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalizingFirstLetter())", for: .normal)
-        // update top line
-        alculate()
-    }
-    
+        
     // MARK: - Undo Logic
     @objc func confirmUndo() {
         let hapticFeedback = UINotificationFeedbackGenerator()
@@ -356,6 +316,43 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         correctedSize = sizeUnit == "ml" ? correctedSize/29.5735296875 : correctedSize
         let price = Double(info.price)! >= 0 ? Double(info.price)! : 1
         return price/(((Double(info.abv)!*0.01)*correctedSize)/0.6)
+    }
+    
+    // MARK: - Flip Alculate
+    func flipAlculate() {
+        // Stop delete animation if animating
+        makeDeletable(false, lists: "all")
+        // Set lists of Data to iterate over
+        var lists = [Data.beerList,Data.liquorList,Data.wineList]
+        // If sorting by effect, switch to value
+        if appNavigator.sortMethod == "effect" {
+            appNavigator.sortMethod = "value"
+            // for each ID in list below, update the appropriate list (above in lists) by sorting
+            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
+                    let value1 = calculateValue(for: drink1)
+                    let value2 = calculateValue(for: drink2)
+                    return value1 < value2
+                }
+                reloadTable(table: id)
+            }
+        }
+        else {
+            appNavigator.sortMethod = "effect"
+            // for each ID in list below, update the appropriate list (above in lists) by sorting
+            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
+                    let effect1 = calculateEffect(for: drink1)
+                    let effect2 = calculateEffect(for: drink2)
+                    return effect1 > effect2
+                }
+                reloadTable(table: id)
+            }
+        }
+        // update button title with new order by
+        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalizingFirstLetter())", for: .normal)
+        // update top line
+        alculate()
     }
         
     // MARK: - Protocol Delegate Functions

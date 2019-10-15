@@ -28,9 +28,10 @@ class TextNavigator: UIView {
         backgroundColor = .clear
         clipsToBounds = true
         //
-        let titles = ["exit","back","next"]
-        let alignments: [UIControl.ContentHorizontalAlignment] = [.left,.right,.right]
-        for (i, button) in [exit,backward,forward].enumerated() {
+        let titles = ["back","exit","next"]
+        let alignments: [UIControl.ContentHorizontalAlignment] = [.right,.left,.right]
+//        let alignments: [UIControl.ContentHorizontalAlignment] = [.center,.center,.center]
+        for (i, button) in [backward,exit,forward].enumerated() {
             button.tag = i-1
             addSubview(button)
             button.backgroundColor = .clear
@@ -51,7 +52,7 @@ class TextNavigator: UIView {
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
             TextNavigator.bottom,
             exit.leadingAnchor.constraint(equalTo: leadingAnchor),
-            exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/3),
+            exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
             exit.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             exit.bottomAnchor.constraint(equalTo: bottomAnchor),
             forward.trailingAnchor.constraint(equalTo: trailingAnchor),

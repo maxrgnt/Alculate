@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol TextEntryDelegate: AnyObject {
+    func hideTextEntry()
+}
+
 class TextEntry: UIView, UITextFieldDelegate {
-        
+ 
+    // Delegate object for Protocol above
+    var textEntryDelegate: TextEntryDelegate?
+
     // Constraints
     var top: NSLayoutConstraint!
     
@@ -46,14 +53,20 @@ class TextEntry: UIView, UITextFieldDelegate {
         //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
+        for button in [navigator.exit,navigator.backward,navigator.forward] {
+            button.addTarget(self, action: #selector(navigateTextEntry), for: .touchUpInside)
+        }
         //
         addSubview(icon)
         //
-        name.tag = 0
-        addSubview(name)
-        name.setTitle("Name", for: .normal)
-        name.setTitleColor(UI.Color.softWhite, for: .normal)
-        name.contentHorizontalAlignment = .left
+        let titles = ["Begin typing Name"]
+        for (i,field) in [name].enumerated() {
+            field.tag = i
+            addSubview(field)
+            field.setTitle(titles[i], for: .normal)
+            field.contentHorizontalAlignment = .left
+            field.setTitleColor(UI.Color.softWhite, for: .normal)
+        }
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
@@ -78,8 +91,8 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
             vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
             name.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
-            name.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-            name.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+            name.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldHeight),
+            name.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldWidth),
             name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
             icon.bottomAnchor.constraint(equalTo: name.bottomAnchor),
             icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
@@ -88,6 +101,25 @@ class TextEntry: UIView, UITextFieldDelegate {
             ])
     }
 
+    @objc func navigateTextEntry(sender: UIButton) {
+        print("c: \(top.constant) top: \(UI.Sizing.textEntryTop) max:\(UI.Sizing.textEntryTopMax) tag: \(sender.tag)")
+        if sender.tag == 0 {
+            self.textEntryDelegate?.hideTextEntry()
+        }
+        else {
+            if (top.constant < UI.Sizing.textEntryTop && sender.tag == -1) {
+                top.constant += CGFloat(-sender.tag)*UI.Sizing.headerHeight
+            }
+            else if (top.constant > UI.Sizing.textEntryTopMax && sender.tag == 1) {
+                top.constant += CGFloat(-sender.tag)*UI.Sizing.headerHeight
+            }
+            UIView.animate(withDuration: 0.45, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
+                           options: [.curveEaseOut], animations: {
+                            self.superview!.layoutIfNeeded()
+            })
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

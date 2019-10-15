@@ -84,7 +84,7 @@ struct UI {
         // Text Entry
         static let textEntryHeight = height*(userInputRatio)
         static let textEntryBounceBuffer = objectPadding
-        static var textEntryTop = -(keyboard+(textEntryFieldHeight*2)+textEntryRadius)
+        static var textEntryTop = -(keyboard+(textEntryFieldHeight*2.75)+textEntryRadius)
         static let textEntryTopMax = textEntryTop-(3*textEntryFieldHeight)
         static let textEntryFieldHeight = headerHeight
         static let textEntryRadius = width/10

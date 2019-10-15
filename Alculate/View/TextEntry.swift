@@ -25,6 +25,9 @@ class TextEntry: UIView, UITextFieldDelegate {
     let navigator = TextNavigator()
     let icon = UIImageView()
     let name = UIButton()
+    
+    // Variables
+    var entryLevel = 0
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -39,9 +42,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.textEntryRadius)
         layer.borderWidth = UI.Sizing.containerBorder*2
         layer.borderColor = UI.Color.alculatePurpleLite.cgColor
-        addSubview(field)
-        field.delegate = self
-        field.autocorrectionType = .no
         // Blur object settings
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -50,11 +50,22 @@ class TextEntry: UIView, UITextFieldDelegate {
         let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
         let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
         blurEffectView.contentView.addSubview(vibrancyView)
+        // Initialize pan gesture recognizer to dismiss view
+        let directions: [UISwipeGestureRecognizer.Direction] = [.up, .down]
+        for direction in directions {
+            let sudheer = UISwipeGestureRecognizer(target: self, action: #selector(reactToSwipe))
+            sudheer.direction = direction
+            addGestureRecognizer(sudheer)
+        }
+        //
+        addSubview(field)
+        field.delegate = self
+        field.autocorrectionType = .no
         //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
         for button in [navigator.exit,navigator.backward,navigator.forward] {
-            button.addTarget(self, action: #selector(navigateTextEntry), for: .touchUpInside)
+            button.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
         }
         //
         addSubview(icon)
@@ -101,22 +112,32 @@ class TextEntry: UIView, UITextFieldDelegate {
             ])
     }
 
-    @objc func navigateTextEntry(sender: UIButton) {
-        print("c: \(top.constant) top: \(UI.Sizing.textEntryTop) max:\(UI.Sizing.textEntryTopMax) tag: \(sender.tag)")
+    @objc func navigateEntryLevel(sender: UIButton) {
         if sender.tag == 0 {
             self.textEntryDelegate?.hideTextEntry()
         }
         else {
-            if (top.constant < UI.Sizing.textEntryTop && sender.tag == -1) {
-                top.constant += CGFloat(-sender.tag)*UI.Sizing.headerHeight
-            }
-            else if (top.constant > UI.Sizing.textEntryTopMax && sender.tag == 1) {
-                top.constant += CGFloat(-sender.tag)*UI.Sizing.headerHeight
-            }
-            UIView.animate(withDuration: 0.45, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
-                           options: [.curveEaseOut], animations: {
-                            self.superview!.layoutIfNeeded()
-            })
+            entryLevel += sender.tag
+            entryLevel = (entryLevel < 0) ? 0 : entryLevel
+            entryLevel = (entryLevel > 3) ? 3 : entryLevel
+            animateTextEntry(toLevel: entryLevel)
+        }
+    }
+    
+    func animateTextEntry(toLevel level: Int) {
+        let adj = (-CGFloat(level)*UI.Sizing.textEntryFieldHeight)+UI.Sizing.textEntryTop
+        top.constant = adj
+        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
+                       options: [.allowUserInteraction,.curveEaseOut], animations: {
+                        self.superview!.layoutIfNeeded()
+        })
+    }
+    
+    @objc func reactToSwipe(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .up {
+//            animateTextEntry(toLevel: 3)
+        } else if sender.direction == .down {
+            navigateEntryLevel(sender: navigator.exit)
         }
     }
     

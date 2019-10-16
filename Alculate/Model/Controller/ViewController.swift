@@ -184,8 +184,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func showTextEntry(for id: String) {
-        textEntry.icon.image = UIImage(named: id)
-        textEntry.top.constant = UI.Sizing.textEntryTop
+        textEntry.inputs.icon.image = UIImage(named: id)
+        textEntry.top.constant = UI.Sizing.textEntryTopFull
         TextNavigator.bottom.constant = -UI.Sizing.keyboard
         UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut], animations: { //Do all animations here

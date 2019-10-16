@@ -23,11 +23,10 @@ class TextEntry: UIView, UITextFieldDelegate {
     // Objects
     let field = UITextField()
     let navigator = TextNavigator()
-    let icon = UIImageView()
-    let name = UIButton()
+    let inputs = TextEntryInputs()
     
     // Variables
-    var entryLevel = 0
+    var inputLevel = 0
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -42,6 +41,10 @@ class TextEntry: UIView, UITextFieldDelegate {
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.textEntryRadius)
         layer.borderWidth = UI.Sizing.containerBorder*2
         layer.borderColor = UI.Color.alculatePurpleLite.cgColor
+        // Required for textView delegates to work
+        addSubview(field)
+        field.delegate = self
+        field.autocorrectionType = .no
         // Blur object settings
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -58,34 +61,17 @@ class TextEntry: UIView, UITextFieldDelegate {
             addGestureRecognizer(sudheer)
         }
         //
-        addSubview(field)
-        field.delegate = self
-        field.autocorrectionType = .no
-        //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
-        for button in [navigator.exit,navigator.backward,navigator.forward] {
-            button.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
-        }
-        //
-        addSubview(icon)
-        //
-        let titles = ["Begin typing Name"]
-        for (i,field) in [name].enumerated() {
-            field.tag = i
-            addSubview(field)
-            field.setTitle(titles[i], for: .normal)
-            field.contentHorizontalAlignment = .left
-            field.setTitleColor(UI.Color.softWhite, for: .normal)
-        }
+        navigator.backward.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
+        navigator.forward.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
+        addSubview(inputs)
+        inputs.build()
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
-        for obj in [icon,name] {
-            obj.translatesAutoresizingMaskIntoConstraints = false
-        }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         NSLayoutConstraint.activate([
             // View constraints
@@ -101,32 +87,22 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor),
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
             vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
-            name.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
-            name.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldHeight),
-            name.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldWidth),
-            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            icon.bottomAnchor.constraint(equalTo: name.bottomAnchor),
-            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
-            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
-            icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)
+            inputs.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
+            inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight+UI.Sizing.textEntryBounceBuffer),
+            inputs.centerXAnchor.constraint(equalTo: centerXAnchor),
+            inputs.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }
 
     @objc func navigateEntryLevel(sender: UIButton) {
-        if sender.tag == 0 {
-            self.textEntryDelegate?.hideTextEntry()
-        }
-        else {
-            entryLevel += sender.tag
-            entryLevel = (entryLevel < 0) ? 0 : entryLevel
-            entryLevel = (entryLevel > 3) ? 3 : entryLevel
-            animateTextEntry(toLevel: entryLevel)
-        }
+        inputLevel += sender.tag
+        inputLevel = (inputLevel < 0) ? 0 : inputLevel
+        inputLevel = (inputLevel > 3) ? 3 : inputLevel
+//            animateTextEntry(toLevel: entryLevel)
     }
     
     func animateTextEntry(toLevel level: Int) {
-        let adj = (-CGFloat(level)*UI.Sizing.textEntryFieldHeight)+UI.Sizing.textEntryTop
-        top.constant = adj
+        top.constant = UI.Sizing.textEntryTopFull
         UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.superview!.layoutIfNeeded()
@@ -137,7 +113,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         if sender.direction == .up {
 //            animateTextEntry(toLevel: 3)
         } else if sender.direction == .down {
-            navigateEntryLevel(sender: navigator.exit)
+            self.textEntryDelegate?.hideTextEntry()
         }
     }
     

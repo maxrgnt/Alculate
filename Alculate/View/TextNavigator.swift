@@ -14,7 +14,6 @@ class TextNavigator: UIView {
     static var bottom = NSLayoutConstraint()
     
     // Objects
-    let exit = UIButton()
     let backward = UIButton()
     let forward = UIButton()
     
@@ -28,10 +27,10 @@ class TextNavigator: UIView {
         backgroundColor = .clear
         clipsToBounds = true
         //
-        let titles = ["back","exit","next"]
-        let alignments: [UIControl.ContentHorizontalAlignment] = [.right,.left,.right]
+        let titles = ["back","next"]
+        let alignments: [UIControl.ContentHorizontalAlignment] = [.right,.right]
 //        let alignments: [UIControl.ContentHorizontalAlignment] = [.center,.center,.center]
-        for (i, button) in [backward,exit,forward].enumerated() {
+        for (i, button) in [backward,forward].enumerated() {
             button.tag = i-1
             addSubview(button)
             button.backgroundColor = .clear
@@ -42,7 +41,7 @@ class TextNavigator: UIView {
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [exit,forward,backward] {
+        for obj in [forward,backward] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
@@ -51,10 +50,6 @@ class TextNavigator: UIView {
             heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
             TextNavigator.bottom,
-            exit.leadingAnchor.constraint(equalTo: leadingAnchor),
-            exit.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
-            exit.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
-            exit.bottomAnchor.constraint(equalTo: bottomAnchor),
             forward.trailingAnchor.constraint(equalTo: trailingAnchor),
             forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
             forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),

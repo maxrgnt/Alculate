@@ -12,11 +12,16 @@ class TextNavigator: UIView {
          
     // Constraints
     static var bottom = NSLayoutConstraint()
+    var forwardBottom = NSLayoutConstraint()
     var backwardBottom = NSLayoutConstraint()
+    var suggestionBottom = NSLayoutConstraint()
+    var doneBottom = NSLayoutConstraint()
     
     // Objects
+    let suggestion = UIButton()
     let backward = UIButton()
     let forward = UIButton()
+    let done = UIButton()
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -28,38 +33,54 @@ class TextNavigator: UIView {
         backgroundColor = .clear
         clipsToBounds = true
         //
-        let titles = ["back","next"]
-        let alignments: [UIControl.ContentHorizontalAlignment] = [.right,.right]
+        let titles = ["back","next","done"]
 //        let alignments: [UIControl.ContentHorizontalAlignment] = [.center,.center,.center]
-        for (i, button) in [backward,forward].enumerated() {
+        for (i, button) in [backward,forward,done].enumerated() {
             button.tag = (i==0) ? -1 : 1
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
             button.setTitleColor(UI.Color.softWhite, for: .normal)
-            button.contentHorizontalAlignment = alignments[i]
+            button.contentHorizontalAlignment = .center //alignments[i]
         }
+        //
+        addSubview(suggestion)
+        suggestion.backgroundColor = .clear
+        suggestion.setTitle("Use 'Coors Light'", for: .normal)
+        suggestion.setTitleColor(UI.Color.softWhite, for: .normal)
+        suggestion.contentHorizontalAlignment = .left
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [forward,backward] {
+        for obj in [suggestion,backward,forward,done] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        forwardBottom = forward.bottomAnchor.constraint(equalTo: bottomAnchor)
         backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
+        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor)
+        doneBottom = done.bottomAnchor.constraint(equalTo: bottomAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
             TextNavigator.bottom,
             forward.trailingAnchor.constraint(equalTo: trailingAnchor),
-            forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
+            forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
-            forward.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backward.trailingAnchor.constraint(equalTo: forward.leadingAnchor),
-            backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
+            forwardBottom,
+            backward.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             backward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
-            backwardBottom
+            backwardBottom,
+            suggestion.leadingAnchor.constraint(equalTo: leadingAnchor),
+            suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldWidth),
+            suggestion.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            suggestionBottom,
+            done.centerXAnchor.constraint(equalTo: centerXAnchor),
+            done.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
+            done.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            doneBottom
             ])
     }
 

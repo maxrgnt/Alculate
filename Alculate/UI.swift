@@ -27,7 +27,8 @@ struct UI {
         static let widthObjectPadding = width-statusBar.height
         static var keyboard: CGFloat = height*0.3532863849765258 {
             didSet {
-                textEntryTopFull = -(keyboard+(4.5*textEntryFieldHeight)+textEntryRadius)
+                textEntryTopFull = -(keyboard+textEntryInputsHeight+textNavigatorHeight)
+                textEntryHeight = keyboard+textEntryInputsHeight+textNavigatorHeight
             }
         }
         // Header sizing
@@ -82,16 +83,17 @@ struct UI {
         static let appNavigatorBounceBuffer = objectPadding
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
         // Text Entry
-        static let textEntryHeight = height*(userInputRatio)
+        static var textEntryHeight = textEntryInputsHeight+textNavigatorHeight+keyboard // height*(userInputRatio)
         static let textEntryBounceBuffer = objectPadding
-        static let textEntryInputsHeight = (4.5*textEntryFieldHeight)
+        static let textEntryInputsHeight = (4*textEntryFieldHeight)+objectPadding
         static var textEntryTopFull = -(keyboard+textEntryInputsHeight)
         static let textEntryTopPartial = -(keyboard+(2.5*textEntryFieldHeight)+textEntryRadius)
         static let textEntryFieldHeight = headerHeight
         static let textEntryRadius = width/10
         static let textEntryIconDiameter = ((width/3)-(objectPadding))*(2/3)*(2/3)
-        static let textNavigatorHeight = headerHeight
+        static let textNavigatorHeight = textEntryFieldHeight
         static let textNavigatorWidth = widthObjectPadding
+        static let textNavigatorButtonWidth = textEntryIconDiameter
         static let textEntryFieldWidth = widthObjectPadding-textEntryIconDiameter
         static let textEntryFieldWidthForSize = textEntryFieldWidth-textEntryIconDiameter
         // Undo

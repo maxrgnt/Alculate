@@ -10,6 +10,9 @@ import UIKit
 
 class TextEntryInputs: UIView {
  
+    // Constraints
+    var suggestionHeight = NSLayoutConstraint()
+    
     // Objects
     let icon = UIImageView()
     let name = UIButton()
@@ -37,10 +40,10 @@ class TextEntryInputs: UIView {
             addSubview(field)
             field.alpha = 0.5
             field.setTitle(titles[i], for: .normal)
+            field.backgroundColor = .clear
             field.contentHorizontalAlignment = (i<3||i>4) ? .left : .center
             field.setTitleColor(UI.Color.softWhite, for: .normal)
         }
-        name.alpha = 1.0
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

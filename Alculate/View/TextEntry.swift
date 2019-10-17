@@ -69,6 +69,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         navigator.build()
         navigator.backward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
+        navigator.done.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         addSubview(inputs)
         inputs.build()
         
@@ -80,7 +81,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight+UI.Sizing.textEntryBounceBuffer),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
             blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -122,11 +123,13 @@ class TextEntry: UIView, UITextFieldDelegate {
         }
         // if at level 0 (name) hide the back button
         navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
+        navigator.suggestionBottom.constant = (level == 0) ? 0 : UI.Sizing.appNavigatorHeight
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz")&&(level == 2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml")&&(level == 2) ? 1.0 : 0.5
         // if at level 3 (price) update the "next" button
-        navigator.forward.setTitle((level==3) ? "finish" : "next", for: .normal)
+        navigator.doneBottom.constant = (level == 3) ? 0 : UI.Sizing.appNavigatorHeight
+        navigator.forwardBottom.constant = (level == 3) ? UI.Sizing.appNavigatorHeight : 0
     }
     
     func setText(forLevel level: Int) {

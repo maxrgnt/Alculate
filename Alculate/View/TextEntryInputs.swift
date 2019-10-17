@@ -9,10 +9,7 @@
 import UIKit
 
 class TextEntryInputs: UIView {
- 
-    // Constraints
-    var suggestionHeight = NSLayoutConstraint()
-    
+
     // Objects
     let icon = UIImageView()
     let name = UIButton()
@@ -36,7 +33,7 @@ class TextEntryInputs: UIView {
         addSubview(icon)
         let titles = ["begin typing a name","abv","size","oz","ml","price"]
         for (i,field) in [name,abv,size,oz,ml,price].enumerated() {
-            field.tag = i
+            field.tag = (i>4) ? i-2 : i
             addSubview(field)
             field.alpha = 0.5
             field.setTitle(titles[i], for: .normal)
@@ -54,8 +51,8 @@ class TextEntryInputs: UIView {
             name.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
             abv.topAnchor.constraint(equalTo: name.bottomAnchor),
             size.topAnchor.constraint(equalTo: abv.bottomAnchor),
-            oz.topAnchor.constraint(equalTo: abv.bottomAnchor),
-            ml.topAnchor.constraint(equalTo: abv.bottomAnchor),
+            oz.topAnchor.constraint(equalTo: size.topAnchor),
+            ml.topAnchor.constraint(equalTo: size.topAnchor),
             price.topAnchor.constraint(equalTo: size.bottomAnchor),
             icon.bottomAnchor.constraint(equalTo: name.bottomAnchor),
             icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),

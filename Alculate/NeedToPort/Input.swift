@@ -83,7 +83,6 @@ class Input: UIView, UITextFieldDelegate {
             buttons2[i].setTitleColor(UI.Color.softWhite, for: .normal)
             buttons2[i].translatesAutoresizingMaskIntoConstraints = false
             buttons2[i].contentHorizontalAlignment = .center
-            buttons2[i].addTarget(self, action: #selector(changeSizeUnit(_:)), for: .touchUpInside)
             addSubview(buttons2[i])
             buttons2[i].tag = i
         }
@@ -196,7 +195,6 @@ class Input: UIView, UITextFieldDelegate {
         if newLevel == 4 {
             /* SAVE ANSWERS */
             fields[0].alpha = 1.0
-            changeSizeUnit(oz)
             /* UPDATE ALC LIST IF NEW */
             saveAndExit()
             return
@@ -385,19 +383,6 @@ class Input: UIView, UITextFieldDelegate {
         }
         if textField.text == "" {
             fields[level].setTitle(defaults[level], for: .normal)
-        }
-    }
-    
-    @objc func changeSizeUnit(_ sender: UIButton) {
-        if sender.tag == 0 {
-            oz.alpha = 1.0
-            ml.alpha = 0.5
-            inputUnit = "oz"
-        }
-        else if sender.tag == 1 {
-            oz.alpha = 0.5
-            ml.alpha = 1.0
-            inputUnit = "ml"
         }
     }
 

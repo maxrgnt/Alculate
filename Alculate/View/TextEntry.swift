@@ -19,6 +19,7 @@ class TextEntry: UIView, UITextFieldDelegate {
 
     // Constraints
     var top: NSLayoutConstraint!
+    var inputsHeight: NSLayoutConstraint!
     
     // Objects
     let field = UITextField()
@@ -26,6 +27,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     let inputs = TextEntryInputs()
     
     // Variables
+    var maxLevel = 0
     var inputLevel = 0
     var defaults = ["begin typing a name","abv","size","price"]
     var output: [String] = []
@@ -57,14 +59,11 @@ class TextEntry: UIView, UITextFieldDelegate {
         let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
         let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
         blurEffectView.contentView.addSubview(vibrancyView)
-        // Initialize pan gesture recognizer to dismiss view
-        let directions: [UISwipeGestureRecognizer.Direction] = [.up, .down]
-        for direction in directions {
-            let sudheer = UISwipeGestureRecognizer(target: self, action: #selector(reactToSwipe))
-            sudheer.direction = direction
-            addGestureRecognizer(sudheer)
-        }
-        let sudheerPan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture))
+        // Initialize gesture recognizer to dismiss view
+        let sudheerSwipe = UISwipeGestureRecognizer(target: self, action: #selector(reactToSwipe))
+        sudheerSwipe.direction = .down
+        addGestureRecognizer(sudheerSwipe)
+        let sudheerPan = UIPanGestureRecognizer(target: self, action: #selector(reactToPan))
         addGestureRecognizer(sudheerPan)
         //
         vibrancyView.contentView.addSubview(navigator)
@@ -73,6 +72,8 @@ class TextEntry: UIView, UITextFieldDelegate {
         navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.done.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         addSubview(inputs)
+        inputs.oz.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
+        inputs.ml.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.build()
         
         // MARK: - NSLayoutConstraints
@@ -81,6 +82,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         TextNavigator.bottom = navigator.bottomAnchor.constraint(equalTo: bottomAnchor)
+        inputsHeight = inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryInputsHeight)
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
@@ -97,7 +99,7 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
             vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
             inputs.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryInputsHeight),
+            inputsHeight,
             inputs.centerXAnchor.constraint(equalTo: centerXAnchor),
             inputs.topAnchor.constraint(equalTo: topAnchor)
             ])
@@ -110,7 +112,12 @@ class TextEntry: UIView, UITextFieldDelegate {
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end, dont move further forward (or finish?)
-        (inputLevel > 3) ? dismiss() : nil
+        (inputLevel > maxLevel) ? dismiss() : nil
+        setComponents(forLevel: inputLevel)
+    }
+    
+    // MARK: - Set Level Components
+    func setComponents(forLevel level: Int) {
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.setAlpha(forLevel: self.inputLevel)
@@ -127,13 +134,13 @@ class TextEntry: UIView, UITextFieldDelegate {
         }
         // if at level 0 (name) hide the back button
         navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
-        navigator.suggestionBottom.constant = (level == 0) ? 0 : UI.Sizing.appNavigatorHeight
+//        navigator.suggestionBottom.constant = (level == 0) ? 0 : UI.Sizing.appNavigatorHeight
         // if at level 2 (size) update the sizeUnits
-        inputs.oz.alpha = (sizeUnit=="oz")&&(level == 2) ? 1.0 : 0.5
-        inputs.ml.alpha = (sizeUnit=="ml")&&(level == 2) ? 1.0 : 0.5
+        inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
         // if at level 3 (price) update the "next" button
-        navigator.doneBottom.constant = (level == 3) ? 0 : UI.Sizing.appNavigatorHeight
-        navigator.forwardBottom.constant = (level == 3) ? UI.Sizing.appNavigatorHeight : 0
+        navigator.doneBottom.constant = (level == maxLevel) ? 0 : UI.Sizing.appNavigatorHeight
+        navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.appNavigatorHeight : 0
     }
     
     func setText(forLevel level: Int) {
@@ -146,41 +153,13 @@ class TextEntry: UIView, UITextFieldDelegate {
         }
     }
     
-//    func animateTextEntry(toLevel level: Int) {
-//        top.constant = UI.Sizing.textEntryTopFull
-//        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
-//                       options: [.allowUserInteraction,.curveEaseOut], animations: {
-//                        self.superview!.layoutIfNeeded()
-//        })
-//    }
-    
-    // MARK: - Dismiss
-    @objc func reactToSwipe(_ sender: UISwipeGestureRecognizer) {
-        if sender.direction == .up {
-//            animateTextEntry(toLevel: 3)
-        } else if sender.direction == .down {
-            dismiss()
-        }
+    @objc func setSizeUnit(sender: UIButton) {
+        sizeUnit = (sender.tag==3) ? "oz" : "ml"
+        inputs.oz.alpha = (sizeUnit=="oz"&&inputLevel==2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit=="ml"&&inputLevel==2) ? 1.0 : 0.5
     }
     
-    @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self)
-        // Allow movement of text entry up/down when not fully visible
-        top.constant += translation.y
-        // If text entry is fully visible, don't allow movement further up
-        top.constant = (top.constant < UI.Sizing.textEntryTop) ? UI.Sizing.textEntryTop : top.constant
-        (top.constant > -UI.Sizing.keyboard) ? dismiss() : nil
-        // Set recognizer to start new drag gesture in future
-        sender.setTranslation(CGPoint.zero, in: self)
-        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
-        if sender.state == UIGestureRecognizer.State.ended {
-            // Auto-scroll up (in frame) if false, Auto-scroll down (out of frame) if true
-            (top.constant > UI.Sizing.textEntryGestureThreshold)
-                ? dismiss()
-                : animateTopAnchor(constant: UI.Sizing.textEntryTop, withKeyboard: false)
-        }
-    }
-    
+    // MARK: - Animate Top Anchor
     func animateTopAnchor(constant: CGFloat, withKeyboard: Bool? = true) {
         // update the text entry top anchor
         top.constant = constant
@@ -204,11 +183,44 @@ class TextEntry: UIView, UITextFieldDelegate {
         })
     }
     
+    // MARK: - Dismiss
+    @objc func reactToSwipe(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .down {
+            dismiss()
+        }
+    }
+    
+    @objc func reactToPan(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self)
+        // Allow movement of text entry up/down when not fully visible
+        top.constant += translation.y
+        // If text entry is fully visible, don't allow movement further up
+        top.constant = (top.constant < UI.Sizing.textEntryTop) ? UI.Sizing.textEntryTop : top.constant
+        (top.constant > -UI.Sizing.keyboard) ? dismiss() : nil
+        // Set recognizer to start new drag gesture in future
+        sender.setTranslation(CGPoint.zero, in: self)
+        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
+        if sender.state == UIGestureRecognizer.State.ended {
+            (top.constant > UI.Sizing.textEntryGestureThreshold)
+                // Auto-scroll down (out of frame) if true
+                ? dismiss()
+                // Auto-scroll up (in frame) if false
+                : animateTopAnchor(constant: UI.Sizing.textEntryTop, withKeyboard: false)
+        }
+    }
+    
     func dismiss() {
+        sizeUnit = "oz"
         inputLevel = 0
-        setAlpha(forLevel: inputLevel)
-        setText(forLevel: inputLevel)
         output = defaults
+        setComponents(forLevel: inputLevel)
+        //
+        field.text = ""
+        field.reloadInputViews()
+        field.keyboardType = .default
+        field.resignFirstResponder()
+        //
+        animateTopAnchor(constant: 0)
         self.textEntryDelegate?.hideTextEntry()
     }
     

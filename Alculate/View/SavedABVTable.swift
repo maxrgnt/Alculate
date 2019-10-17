@@ -12,6 +12,7 @@ protocol SavedABVTableDelegate {
     // called when user taps subview/delete button
     func animateUndo(onScreen: Bool)
     func reloadTable(table: String)
+    func editSavedABV(name: String, abv: String, type: String)
 }
 
 class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SavedABVCellDelegate {
@@ -72,7 +73,12 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // pass
+        let headerLetter = Data.headers[indexPath.section]
+        let nameList = Data.matrix[headerLetter]
+        let name = nameList![indexPath.row]
+        let abv = Data.masterList[name]!.abv
+        let type = Data.masterList[name]!.type
+        self.savedABVTableDelegate.editSavedABV(name: name, abv: abv, type: type)
     }
     
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

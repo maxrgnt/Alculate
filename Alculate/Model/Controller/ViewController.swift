@@ -177,7 +177,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
-            showTextEntry(for: iconNames[sender.tag-20])
+            showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
         }
         else if sender.tag == 0 {
             flipAlculate()
@@ -191,22 +191,35 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
     
-    func showTextEntry(for id: String) {
-        textEntry.setAlpha(forLevel: 0)
-        textEntry.setText(forLevel: 0)
+    func showTextEntry(forType id: String, fullView: Bool) {
+        // reset components for first level (name)
+        textEntry.setComponents(forLevel: 0)
+        // set icon for given type
         textEntry.inputs.icon.image = UIImage(named: id)
+        // set max level
+        textEntry.maxLevel = (fullView==true) ? 3 : 1
+        // show keyboard
         textEntry.field.becomeFirstResponder()
-        textEntry.animateTopAnchor(constant: UI.Sizing.textEntryTop)
+        // hide non-essential pieces if partial
+        for obj in [textEntry.inputs.size,textEntry.inputs.oz,textEntry.inputs.ml,textEntry.inputs.price] {
+            obj.isHidden = (fullView==true) ? false : true
+        }
+        // adjust height of input view to make space for text navigator if partial
+        textEntry.inputsHeight.constant = (fullView==true)
+            ? UI.Sizing.textEntryInputsHeight
+            : UI.Sizing.textEntryInputsHeightPartial
+        // move app navigator up in input view if partial
+        TextNavigator.bottom.constant = (fullView==true)
+            ? -UI.Sizing.keyboard
+            : -UI.Sizing.keyboard-(2*UI.Sizing.textEntryFieldHeight)
+        // set top of text entry to whether full (compare) or partial (savedABV)
+        let topConstant = (fullView==true) ? UI.Sizing.textEntryTop : UI.Sizing.textEntryTopPartial
+        textEntry.animateTopAnchor(constant: topConstant)
     }
     
     // Have to do as seperate function here because this called by UIButton, no parameters
     @objc func hideTextEntry() {
-        textEntry.top.constant = 0.0
-        UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                       options: [.curveEaseInOut], animations: { //Do all animations here
-                        self.view.layoutIfNeeded()
-        })
-        textEntry.field.resignFirstResponder()
+        // handle data here
     }
         
     // MARK: - Undo Logic
@@ -375,6 +388,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func displayAlert(alert : UIAlertController) {
         present(alert, animated: true, completion: nil)
+    }
+    
+    func editSavedABV(name: String, abv: String, type: String) {
+        // use type in future, but saved types dont work right now
+        showTextEntry(forType: Data.liquorListID, fullView: false)
     }
     
     func reloadTable(table: String) {

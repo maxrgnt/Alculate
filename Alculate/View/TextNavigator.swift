@@ -57,7 +57,7 @@ class TextNavigator: UIView {
         }
         forwardBottom = forward.bottomAnchor.constraint(equalTo: bottomAnchor)
         backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
-        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor)
+        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.textNavigatorHeight)
         doneBottom = done.bottomAnchor.constraint(equalTo: bottomAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),

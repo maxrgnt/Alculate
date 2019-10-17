@@ -192,12 +192,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func showTextEntry(forType id: String, fullView: Bool) {
+        // set max level
+        textEntry.maxLevel = (fullView==true) ? 3 : 1
         // reset components for first level (name)
         textEntry.setComponents(forLevel: 0)
         // set icon for given type
         textEntry.inputs.icon.image = UIImage(named: id)
-        // set max level
-        textEntry.maxLevel = (fullView==true) ? 3 : 1
         // show keyboard
         textEntry.field.becomeFirstResponder()
         // hide non-essential pieces if partial

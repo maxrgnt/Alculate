@@ -106,10 +106,10 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end, dont move further forward (or finish?)
         inputLevel = (inputLevel > 3) ? 3 : inputLevel
-        resetInput(forLevel: inputLevel)
+        setInput(forLevel: inputLevel)
     }
     
-    func resetInput(forLevel level: Int) {
+    func setInput(forLevel level: Int) {
         // Iterate over every input option
         for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
             // if the input is the current level, make alpha 1, otherwise 0.5
@@ -137,6 +137,8 @@ class TextEntry: UIView, UITextFieldDelegate {
         if sender.direction == .up {
 //            animateTextEntry(toLevel: 3)
         } else if sender.direction == .down {
+            inputLevel = 0
+            output = defaults
             self.textEntryDelegate?.hideTextEntry()
         }
     }

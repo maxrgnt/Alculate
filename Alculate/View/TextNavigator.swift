@@ -31,7 +31,7 @@ class TextNavigator: UIView {
         let alignments: [UIControl.ContentHorizontalAlignment] = [.right,.right]
 //        let alignments: [UIControl.ContentHorizontalAlignment] = [.center,.center,.center]
         for (i, button) in [backward,forward].enumerated() {
-            button.tag = i-1
+            button.tag = (i==0) ? -1 : 1
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)

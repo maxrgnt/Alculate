@@ -27,10 +27,14 @@ class TextEntry: UIView, UITextFieldDelegate {
     
     // Variables
     var inputLevel = 0
+    var defaults = ["begin typing a name","abv","size","price"]
+    var output: [String] = []
+    var sizeUnit = "oz"
 
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
+        output = defaults
     }
     
     func build() {
@@ -63,8 +67,8 @@ class TextEntry: UIView, UITextFieldDelegate {
         //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
-        navigator.backward.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
-        navigator.forward.addTarget(self, action: #selector(navigateEntryLevel), for: .touchUpInside)
+        navigator.backward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
+        navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         addSubview(inputs)
         inputs.build()
         
@@ -88,27 +92,47 @@ class TextEntry: UIView, UITextFieldDelegate {
             vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
             vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
             inputs.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight+UI.Sizing.textEntryBounceBuffer),
+            inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryInputsHeight),
             inputs.centerXAnchor.constraint(equalTo: centerXAnchor),
-            inputs.centerYAnchor.constraint(equalTo: centerYAnchor)
+            inputs.topAnchor.constraint(equalTo: topAnchor)
             ])
     }
 
-    @objc func navigateEntryLevel(sender: UIButton) {
+    // MARK: - Navigate Input Level
+    @objc func changeInputLevel(sender: UIButton) {
+        // use navigate button tag to update the input level
         inputLevel += sender.tag
+        // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
+        // if at end, dont move further forward (or finish?)
         inputLevel = (inputLevel > 3) ? 3 : inputLevel
-//            animateTextEntry(toLevel: entryLevel)
+        resetInput(forLevel: inputLevel)
     }
     
-    func animateTextEntry(toLevel level: Int) {
-        top.constant = UI.Sizing.textEntryTopFull
-        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
-                       options: [.allowUserInteraction,.curveEaseOut], animations: {
-                        self.superview!.layoutIfNeeded()
-        })
+    func resetInput(forLevel level: Int) {
+        // Iterate over every input option
+        for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
+            // if the input is the current level, make alpha 1, otherwise 0.5
+            input.alpha = (i==level) ? 1.0 : 0.5
+            // make the input text equal to what is saved as output
+            input.setTitle(output[i], for: .normal)
+            // set the textfield to empty unless non-default output has been entered (think back tracking)
+            field.text = (output[i]==defaults[i]) ? "" : output[i]
+        }
+        // if at level 2 (size) update the sizeUnits
+        inputs.oz.alpha = (sizeUnit=="oz")&&(level == 2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit=="ml")&&(level == 2) ? 1.0 : 0.5
     }
     
+//    func animateTextEntry(toLevel level: Int) {
+//        top.constant = UI.Sizing.textEntryTopFull
+//        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3,
+//                       options: [.allowUserInteraction,.curveEaseOut], animations: {
+//                        self.superview!.layoutIfNeeded()
+//        })
+//    }
+    
+    // MARK: - Dismiss
     @objc func reactToSwipe(_ sender: UISwipeGestureRecognizer) {
         if sender.direction == .up {
 //            animateTextEntry(toLevel: 3)

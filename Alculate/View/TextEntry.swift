@@ -169,6 +169,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         top.constant += translation.y
         // If text entry is fully visible, don't allow movement further up
         top.constant = (top.constant < UI.Sizing.textEntryTop) ? UI.Sizing.textEntryTop : top.constant
+        (top.constant > -UI.Sizing.keyboard) ? dismiss() : nil
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture

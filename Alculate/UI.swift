@@ -102,7 +102,7 @@ struct UI {
         static let textNavigatorButtonWidth = textEntryIconDiameter
         static let textEntryFieldWidth = widthObjectPadding-textEntryIconDiameter
         static let textEntryFieldWidthForSize = textEntryFieldWidth-textEntryIconDiameter
-        static let textEntryGestureThreshold = textEntryTop*(8/9)
+        static let textEntryGestureThreshold = textEntryTop*(5/6)
         // Undo
         static let undoHeight = appNavigatorHeight
         static let undoBounceBuffer = objectPadding

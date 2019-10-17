@@ -138,6 +138,7 @@ class TextEntry: UIView, UITextFieldDelegate {
 //            animateTextEntry(toLevel: 3)
         } else if sender.direction == .down {
             inputLevel = 0
+            setInput(forLevel: inputLevel)
             output = defaults
             self.textEntryDelegate?.hideTextEntry()
         }

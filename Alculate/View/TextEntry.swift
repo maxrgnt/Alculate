@@ -105,23 +105,38 @@ class TextEntry: UIView, UITextFieldDelegate {
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end, dont move further forward (or finish?)
-        inputLevel = (inputLevel > 3) ? 3 : inputLevel
-        setInput(forLevel: inputLevel)
+        (inputLevel > 3) ? dismiss() : nil
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
+                       options: [.allowUserInteraction,.curveEaseOut], animations: {
+                        self.setAlpha(forLevel: self.inputLevel)
+                        self.superview!.layoutIfNeeded()
+        })
+        setText(forLevel: inputLevel)
     }
     
-    func setInput(forLevel level: Int) {
+    func setAlpha(forLevel level: Int) {
         // Iterate over every input option
         for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
             // if the input is the current level, make alpha 1, otherwise 0.5
             input.alpha = (i==level) ? 1.0 : 0.5
+        }
+        // if at level 0 (name) hide the back button
+        navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
+        // if at level 2 (size) update the sizeUnits
+        inputs.oz.alpha = (sizeUnit=="oz")&&(level == 2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit=="ml")&&(level == 2) ? 1.0 : 0.5
+        // if at level 3 (price) update the "next" button
+        navigator.forward.setTitle((level==3) ? "finish" : "next", for: .normal)
+    }
+    
+    func setText(forLevel level: Int) {
+        // Iterate over every input option
+        for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
             // make the input text equal to what is saved as output
             input.setTitle(output[i], for: .normal)
             // set the textfield to empty unless non-default output has been entered (think back tracking)
             field.text = (output[i]==defaults[i]) ? "" : output[i]
         }
-        // if at level 2 (size) update the sizeUnits
-        inputs.oz.alpha = (sizeUnit=="oz")&&(level == 2) ? 1.0 : 0.5
-        inputs.ml.alpha = (sizeUnit=="ml")&&(level == 2) ? 1.0 : 0.5
     }
     
 //    func animateTextEntry(toLevel level: Int) {
@@ -137,11 +152,16 @@ class TextEntry: UIView, UITextFieldDelegate {
         if sender.direction == .up {
 //            animateTextEntry(toLevel: 3)
         } else if sender.direction == .down {
-            inputLevel = 0
-            setInput(forLevel: inputLevel)
-            output = defaults
-            self.textEntryDelegate?.hideTextEntry()
+            dismiss()
         }
+    }
+    
+    func dismiss() {
+        inputLevel = 0
+        setAlpha(forLevel: inputLevel)
+        setText(forLevel: inputLevel)
+        output = defaults
+        self.textEntryDelegate?.hideTextEntry()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -12,6 +12,7 @@ class TextNavigator: UIView {
          
     // Constraints
     static var bottom = NSLayoutConstraint()
+    var backwardBottom = NSLayoutConstraint()
     
     // Objects
     let backward = UIButton()
@@ -45,6 +46,7 @@ class TextNavigator: UIView {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
@@ -57,7 +59,7 @@ class TextNavigator: UIView {
             backward.trailingAnchor.constraint(equalTo: forward.leadingAnchor),
             backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth/4),
             backward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
-            backward.bottomAnchor.constraint(equalTo: bottomAnchor)
+            backwardBottom
             ])
     }
 

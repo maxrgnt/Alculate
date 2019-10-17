@@ -184,6 +184,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func showTextEntry(for id: String) {
+        textEntry.setAlpha(forLevel: 0)
+        textEntry.setText(forLevel: 0)
         textEntry.inputs.icon.image = UIImage(named: id)
         textEntry.top.constant = UI.Sizing.textEntryTopFull
         TextNavigator.bottom.constant = -UI.Sizing.keyboard

@@ -90,7 +90,7 @@ struct UI {
         static let textEntryFieldHeight = headerHeight
         static let textEntryRadius = width/10
         static let textEntryIconDiameter = ((width/3)-(objectPadding))*(2/3)*(2/3)
-        static let textNavigatorHeight = headerHeight*(4/5)
+        static let textNavigatorHeight = headerHeight
         static let textNavigatorWidth = widthObjectPadding
         static let textEntryFieldWidth = widthObjectPadding-textEntryIconDiameter
         static let textEntryFieldWidthForSize = textEntryFieldWidth-textEntryIconDiameter

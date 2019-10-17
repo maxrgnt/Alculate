@@ -107,7 +107,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         view.addSubview(textEntry)
         textEntry.build()
         self.textEntry.textEntryDelegate = self
-
+        
         //clearTestData()
         handleInit()
     }
@@ -128,8 +128,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
         print("keyboardSet: \(keyboardSet)")
         if UserDefaults.standard.bool(forKey: "keyboardSet") {
-            let keyboardDouble = UserDefaults.standard.double(forKey: "keyboard")
-            UI.Sizing.keyboard = CGFloat(keyboardDouble)
+            let keyboardHeight = UserDefaults.standard.double(forKey: "keyboard")
+            UI.Sizing.keyboard = CGFloat(keyboardHeight)
+            let keyboardDuration = UserDefaults.standard.double(forKey: "keyboardDuration")
+            UI.Keyboard.duration = keyboardDuration
+            let keyboardCurve = UserDefaults.standard.double(forKey: "keyboardCurve")
+            UI.Keyboard.curve = UInt(keyboardCurve)
         }
         // check onboarding
         let hasLaunched = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
@@ -148,13 +152,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
+        let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             // keyboard is set with approximate height prior to running (using ratio of keyboard to screen height)
             // if the keyboard has not been set, the exact height is found once keyboard is shown
             if !UserDefaults.standard.bool(forKey: "keyboardSet") {
                 let keyboardRectangle = keyboardFrame.cgRectValue
-                UI.Sizing.keyboard = keyboardRectangle.height
                 UserDefaults.standard.set(keyboardRectangle.height, forKey: "keyboard")
+                UI.Sizing.keyboard = keyboardRectangle.height
+                UserDefaults.standard.set(duration, forKey: "keyboardDuration")
+                UI.Keyboard.duration = duration
+                UserDefaults.standard.set(curve, forKey: "keyboardCurve")
+                UI.Keyboard.curve = curve
                 UserDefaults.standard.set(true, forKey: "keyboardSet")
             }
         }
@@ -162,10 +172,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
-        // Set haptic feedback
-        let hapticFeedback = UINotificationFeedbackGenerator()
-        hapticFeedback.notificationOccurred(.warning)
-        //
+//        let hapticFeedback = UINotificationFeedbackGenerator()
+//        hapticFeedback.notificationOccurred(.warning)
         makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
@@ -187,21 +195,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         textEntry.setAlpha(forLevel: 0)
         textEntry.setText(forLevel: 0)
         textEntry.inputs.icon.image = UIImage(named: id)
-        textEntry.top.constant = UI.Sizing.textEntryTopFull
-        TextNavigator.bottom.constant = -UI.Sizing.keyboard
-        UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                       options: [.curveEaseInOut], animations: { //Do all animations here
-                        self.view.layoutIfNeeded()
-        }, completion: { (value: Bool) in
-            //
-        })
         textEntry.field.becomeFirstResponder()
+        textEntry.animateTopAnchor(constant: UI.Sizing.textEntryTop)
     }
     
     // Have to do as seperate function here because this called by UIButton, no parameters
     @objc func hideTextEntry() {
         textEntry.top.constant = 0.0
-        TextNavigator.bottom.constant = UI.Sizing.textNavigatorHeight
         UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut], animations: { //Do all animations here
                         self.view.layoutIfNeeded()

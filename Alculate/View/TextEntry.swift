@@ -64,6 +64,8 @@ class TextEntry: UIView, UITextFieldDelegate {
             sudheer.direction = direction
             addGestureRecognizer(sudheer)
         }
+        let sudheerPan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture))
+        addGestureRecognizer(sudheerPan)
         //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
@@ -78,12 +80,14 @@ class TextEntry: UIView, UITextFieldDelegate {
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        TextNavigator.bottom = navigator.bottomAnchor.constraint(equalTo: bottomAnchor)
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
+            TextNavigator.bottom,
             blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
             blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
             blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -20),
@@ -157,6 +161,46 @@ class TextEntry: UIView, UITextFieldDelegate {
         } else if sender.direction == .down {
             dismiss()
         }
+    }
+    
+    @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self)
+        // Allow movement of text entry up/down when not fully visible
+        top.constant += translation.y
+        // If text entry is fully visible, don't allow movement further up
+        top.constant = (top.constant < UI.Sizing.textEntryTop) ? UI.Sizing.textEntryTop : top.constant
+        // Set recognizer to start new drag gesture in future
+        sender.setTranslation(CGPoint.zero, in: self)
+        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
+        if sender.state == UIGestureRecognizer.State.ended {
+            // Auto-scroll up (in frame) if false, Auto-scroll down (out of frame) if true
+            (top.constant > UI.Sizing.textEntryGestureThreshold)
+                ? dismiss()
+                : animateTopAnchor(constant: UI.Sizing.textEntryTop, withKeyboard: false)
+        }
+    }
+    
+    func animateTopAnchor(constant: CGFloat, withKeyboard: Bool? = true) {
+        // update the text entry top anchor
+        top.constant = constant
+        // if the keyboard duration is nil (on first run) use what was set on iPhone 11
+        var duration = (UI.Keyboard.duration==nil) ? 0.25 : UI.Keyboard.duration
+        // if the keyboard curve is nil (on first run) use what was set on iPhone 11
+        let curve = (UI.Keyboard.curve==nil) ? UInt(7) : UI.Keyboard.curve
+        // if not with keyboard (reseting after partial pan, set with some bounce)
+        duration = (withKeyboard==false) ? 0.55 : duration
+        let damping = (withKeyboard==false) ? CGFloat(0.6) : CGFloat(1.0)
+        let velocity = (withKeyboard==false) ? CGFloat(0.6) : CGFloat(1.0)
+        // animate the view on screen with keyboard
+        UIView.animate(withDuration: duration!, delay: 0.0,
+                       usingSpringWithDamping: damping,
+                       initialSpringVelocity: velocity,
+                       options: UIView.AnimationOptions(rawValue: curve!),
+                       animations: { //Do all animations here
+                        self.superview!.layoutIfNeeded()
+        }, completion: { (value: Bool) in
+            //
+        })
     }
     
     func dismiss() {

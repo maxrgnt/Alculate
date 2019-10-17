@@ -55,7 +55,6 @@ class TextNavigator: UIView {
         for obj in [suggestion,backward,forward,done] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        TextNavigator.bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         forwardBottom = forward.bottomAnchor.constraint(equalTo: bottomAnchor)
         backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
         suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -64,7 +63,6 @@ class TextNavigator: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
-            TextNavigator.bottom,
             forward.trailingAnchor.constraint(equalTo: trailingAnchor),
             forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),

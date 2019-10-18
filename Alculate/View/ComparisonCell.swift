@@ -64,8 +64,8 @@ class ComparisonCell: UITableViewCell {
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
             containerWidth,
-            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
-//            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant),
+            container.centerXAnchor.constraint(equalTo: centerXAnchor, constant: leadingConstant),
+//            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
             containerHeight,
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),
@@ -82,14 +82,14 @@ class ComparisonCell: UITableViewCell {
         let price = String(format: "%.2f", Double(info.price)!)
         // get the unitForSize by dropping the first part of string
         // using length of string minus the last two characters (oz or ml) ex. 24ml
-        let unitForSize = info.size.dropFirst(info.size.count-2)
+        let sizeUnit = info.size.dropFirst(info.size.count-2)
         // get the size by dropping last two characters (oz or ml) ex. 24ml
         let size = info.size.dropLast(2)
         // set info using price and size piece
-        container.drinkInfo.text = "\(info.abv) | \(info.size.dropLast(2)) \(unitForSize) | $\(price)"
+        container.drinkInfo.text = "\(info.abv) | \(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
         var correctedSize = Double(size)!
         // if unitForSize is ml, need to convert to oz for calculations
-        if unitForSize == "ml" {
+        if sizeUnit == "ml" {
             // convert ml size to ounces using ratio of ml per oz
             correctedSize = correctedSize/29.5735296875
         }
@@ -138,8 +138,6 @@ class ComparisonCell: UITableViewCell {
         // shrink the container to desired size
         containerWidth.constant = UI.Sizing.containerDeleteSize
         containerHeight.constant = UI.Sizing.containerDeleteSize
-        // permit animations
-//        continueAnimating = true
         // set starting animation
         UIView.animate(withDuration: 0.2, delay: 0
             , animations: ({

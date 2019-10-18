@@ -51,6 +51,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         addSubview(field)
         field.delegate = self
         field.autocorrectionType = .no
+        field.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         // Blur object settings
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -144,6 +145,8 @@ class TextEntry: UIView, UITextFieldDelegate {
     }
     
     func setText(forLevel level: Int) {
+        field.keyboardType = (level<1) ? .default : .numberPad
+        field.reloadInputViews()
         // Iterate over every input option
         for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
             // make the input text equal to what is saved as output
@@ -158,7 +161,12 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputs.oz.alpha = (sizeUnit=="oz"&&inputLevel==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&inputLevel==2) ? 1.0 : 0.5
     }
-    
+
+    // MARK: - Text Field Did Change
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        inputs.fields[inputLevel].setTitle(field.text!, for: .normal)
+    }
+
     // MARK: - Animate Top Anchor
     func animateTopAnchor(constant: CGFloat, withKeyboard: Bool? = true) {
         // update the text entry top anchor
@@ -216,8 +224,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         setComponents(forLevel: inputLevel)
         //
         field.text = ""
-        field.reloadInputViews()
-        field.keyboardType = .default
         field.resignFirstResponder()
         //
         animateTopAnchor(constant: 0)

@@ -18,6 +18,8 @@ class TextEntryInputs: UIView {
     let oz = UIButton()
     let ml = UIButton()
     let price = UIButton()
+    
+    var fields: [UIButton] = []
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -34,6 +36,7 @@ class TextEntryInputs: UIView {
         let titles = ["begin typing a name","abv","size","oz","ml","price"]
         for (i,field) in [name,abv,size,oz,ml,price].enumerated() {
             field.tag = (i>4) ? i-2 : i
+            (i<3||i>4) ? fields.append(field) : nil
             addSubview(field)
             field.alpha = 0.5
             field.setTitle(titles[i], for: .normal)

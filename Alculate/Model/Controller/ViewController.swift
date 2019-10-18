@@ -191,6 +191,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
     
+    // MARK: - Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool) {
         // set max level
         textEntry.maxLevel = (fullView==true) ? 3 : 1
@@ -217,6 +218,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         textEntry.animateTopAnchor(constant: topConstant)
     }
     
+    // MARK: - Hide Text Entry
     // Have to do as seperate function here because this called by UIButton, no parameters
     @objc func hideTextEntry() {
         // handle data here

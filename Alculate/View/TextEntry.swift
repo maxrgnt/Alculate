@@ -109,17 +109,13 @@ class TextEntry: UIView, UITextFieldDelegate {
     // MARK: - Navigate Input Level
     @objc func changeInputLevel(sender: UIButton) {
         // use navigate button tag to update the input level
-//        let oldInputLevel = inputLevel
         inputLevel += sender.tag
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end, dont move further forward (or finish?)
         (inputLevel > maxLevel) ? dismiss() : nil
-        // update output array
-//        output[oldInputLevel] = inputs.fields[oldInputLevel].titleLabel!.text!
         // set input for new level
         setComponents(forLevel: inputLevel)
-        print(inputLevel,": ",output,": ",field.text!)
     }
     
     // MARK: - Set Level Components

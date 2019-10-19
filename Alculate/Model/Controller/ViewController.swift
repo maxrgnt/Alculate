@@ -147,9 +147,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
-            print("Beer: ",Data.beerList)
-            print("Liquor: ",Data.liquorList)
-            print("Wine: ",Data.wineList)
+            print("Master: ",Data.masterList)
             alculate()
         }
     }
@@ -419,6 +417,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             alculate()
         }
+    }
+    
+    func insertRowFor(table: String) {
+        let tables = [beerComparison,liquorComparison,wineComparison]
+        let lists = [Data.beerList,Data.liquorList,Data.wineList]
+        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            if table == ID {
+                tables[i].beginUpdates()
+                tables[i].insertRows(at: [IndexPath(row: lists[i].count-1, section: 0)], with: .automatic)
+                tables[i].endUpdates()
+            }
+        }
+        alculate()
     }
     
     func makeDeletable(_ paramDeletable: Bool, lists: String) {

@@ -9,8 +9,10 @@
 import UIKit
 
 protocol TextEntryDelegate: AnyObject {
+    func displayAlert(alert: UIAlertController)
     func hideTextEntry()
     func reloadTable(table: String)
+    func insertRowFor(table: String)
 }
 
 class TextEntry: UIView, UITextFieldDelegate {
@@ -116,6 +118,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end finish
         (inputLevel > maxLevel) ? updateComparisonTables() : nil
+        (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
         // set input for new level
         setComponents(forLevel: inputLevel)
@@ -261,30 +264,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         }
     }
     
-    func updateComparisonTables() {
-        var noMatches = true
-        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-        for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
-            if ids[i] == entryID {
-                if dataList.isEmpty {
-                    Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.textEntryDelegate!.reloadTable(table: ids[i])
-                }
-                else {
-                    for info in dataList {
-                        if [info.name.lowercased(), info.abv, info.size, info.price] == output {
-                            noMatches = false
-                        }
-                        if noMatches {
-                            Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                            self.textEntryDelegate!.reloadTable(table: ids[i])
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
     func dismiss() {
         sizeUnit = "oz"
         inputLevel = 0
@@ -296,6 +275,50 @@ class TextEntry: UIView, UITextFieldDelegate {
         //
         animateTopAnchor(constant: 0)
         self.textEntryDelegate?.hideTextEntry()
+    }
+    
+    func updateComparisonTables() {
+        var noMatches = true
+        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+            if ids[i] == entryID {
+                for info in dataList {
+                    if [info.name.lowercased(), info.abv, info.size, info.price] == output {
+                        noMatches = false
+                    }
+                }
+                if noMatches {
+                    Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.textEntryDelegate!.insertRowFor(table: ids[i])
+                }
+            }
+        }
+    }
+    
+    func updateSavedABVTable() {
+        let name = output[0]
+        let abv = output[1]
+        print(self.entryID,name,abv)
+        if let info = Data.masterList[name] {
+            let savedAbv = info.abv
+            if savedAbv != abv {
+                let title = "Reset \(name)'s ABV?"
+                //let message = "\nfrom \(savedAbv)% to \(abv)%?"
+                let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+                changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .default, handler: { action in
+                    Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
+                    self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+                }))
+                changeAbv.addAction(UIAlertAction(title: "Keep \(savedAbv)%", style: .cancel, handler: { action in
+                    //
+                }))
+                self.textEntryDelegate!.displayAlert(alert: changeAbv)
+            }
+        }
+        else {
+            Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
+            self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

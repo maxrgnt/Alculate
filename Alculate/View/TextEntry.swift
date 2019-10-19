@@ -109,12 +109,17 @@ class TextEntry: UIView, UITextFieldDelegate {
     // MARK: - Navigate Input Level
     @objc func changeInputLevel(sender: UIButton) {
         // use navigate button tag to update the input level
+//        let oldInputLevel = inputLevel
         inputLevel += sender.tag
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
         // if at end, dont move further forward (or finish?)
         (inputLevel > maxLevel) ? dismiss() : nil
+        // update output array
+//        output[oldInputLevel] = inputs.fields[oldInputLevel].titleLabel!.text!
+        // set input for new level
         setComponents(forLevel: inputLevel)
+        print(inputLevel,": ",output,": ",field.text!)
     }
     
     // MARK: - Set Level Components
@@ -135,7 +140,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         }
         // if at level 0 (name) hide the back button
         navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
-//        navigator.suggestionBottom.constant = (level == 0) ? 0 : UI.Sizing.appNavigatorHeight
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
@@ -150,9 +154,10 @@ class TextEntry: UIView, UITextFieldDelegate {
         // Iterate over every input option
         for (i,input) in [inputs.name,inputs.abv,inputs.size,inputs.price].enumerated() {
             // make the input text equal to what is saved as output
-            input.setTitle(output[i], for: .normal)
+            let title = (output[i]==defaults[i]) ? defaults[i] : formatOutput(with: output[i], atLevel: i)
+            input.setTitle(title, for: .normal)
             // set the textfield to empty unless non-default output has been entered (think back tracking)
-            field.text = (output[i]==defaults[i]) ? "" : output[i]
+            field.text = ((output[i] != defaults[i]) && (i == 0)) ? output[i] : ""
         }
     }
     
@@ -162,6 +167,21 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputs.ml.alpha = (sizeUnit=="ml"&&inputLevel==2) ? 1.0 : 0.5
     }
 
+    func formatOutput(with changedText: String, atLevel level: Int) -> String {
+        var formattedText = ""
+        // add the % and $ to percent and price
+        (level == 0) ? formattedText = changedText : nil
+        (level == 1) ? formattedText = "\(changedText)%" : nil
+        (level == 2) ? formattedText = changedText : nil
+        (level == 3) ? formattedText = "$\(changedText)" : nil
+        // if any field is nil, replace with defaults
+        (level == 0 && changedText == "") ? formattedText = defaults[level] : nil
+        (level == 1 && changedText == "%") ? formattedText = defaults[level] : nil
+        (level == 2 && changedText == "") ? formattedText = defaults[level] : nil
+        (level == 3 && changedText == "$") ? formattedText = defaults[level] : nil
+        return formattedText
+    }
+    
     // MARK: - Text Field Did Change
     @objc func textFieldDidChange(_ textField: UITextField) {
         // set changed text and unformatted variables that will get altered
@@ -183,16 +203,12 @@ class TextEntry: UIView, UITextFieldDelegate {
             // format it using the formats above
             changedText = String(format: formats[inputLevel-1], unformatted)
         }
-        // add the % and $ to percent and price
-        (inputLevel == 1) ? changedText = "\(changedText)%" : nil
-        (inputLevel == 3) ? changedText = "$\(changedText)" : nil
-        // if any field is nil, replace with defaults
-        (inputLevel == 0 && changedText == "") ? changedText = defaults[inputLevel] : nil
-        (inputLevel == 1 && changedText == "%") ? changedText = defaults[inputLevel] : nil
-        (inputLevel == 2 && changedText == "") ? changedText = defaults[inputLevel] : nil
-        (inputLevel == 3 && changedText == "$") ? changedText = defaults[inputLevel] : nil
+        // set output level to updated text
+        output[inputLevel] = changedText
+        // format the output
+        let formattedText = formatOutput(with: changedText, atLevel: inputLevel)
         // update the field with the new changed text
-        inputs.fields[inputLevel].setTitle(changedText, for: .normal)
+        inputs.fields[inputLevel].setTitle(formattedText, for: .normal)
     }
 
     // MARK: - Animate Top Anchor

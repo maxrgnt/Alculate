@@ -67,7 +67,7 @@ class TextNavigator: UIView {
             forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             forwardBottom,
-            backward.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backward.centerXAnchor.constraint(equalTo: centerXAnchor),
             backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             backward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             backwardBottom,
@@ -75,7 +75,7 @@ class TextNavigator: UIView {
             suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldWidth),
             suggestion.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             suggestionBottom,
-            done.centerXAnchor.constraint(equalTo: centerXAnchor),
+            done.leadingAnchor.constraint(equalTo: leadingAnchor),
             done.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
             done.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
             doneBottom

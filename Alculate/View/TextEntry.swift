@@ -164,7 +164,35 @@ class TextEntry: UIView, UITextFieldDelegate {
 
     // MARK: - Text Field Did Change
     @objc func textFieldDidChange(_ textField: UITextField) {
-        inputs.fields[inputLevel].setTitle(field.text!, for: .normal)
+        // set changed text and unformatted variables that will get altered
+        var changedText = ""
+        var unformatted: Double!
+        // if it is the name, remove invalid characters and update text field
+        if inputLevel == 0 {
+            changedText = (field.text?.removeInvalidNameCharacters())!
+            field.text = changedText
+        }
+        // if not name and the field isnt empty
+        else if textField.text != "" {
+            // list of max vals for percent, size, price
+            let maxVal = [100.0,10000.0,10000.0]
+            // formatting for 100.0% | 12.0 oz | $4.00
+            let formats = ["%.1f","%.1f","%.2f"]
+            // set the unformatted to the max if over, otherwise whatever it is
+            unformatted = (Double(field.text!)!/10 > maxVal[inputLevel-1]) ? maxVal[inputLevel-1] : Double(field.text!)!/10
+            // format it using the formats above
+            changedText = String(format: formats[inputLevel-1], unformatted)
+        }
+        // add the % and $ to percent and price
+        (inputLevel == 1) ? changedText = "\(changedText)%" : nil
+        (inputLevel == 3) ? changedText = "$\(changedText)" : nil
+        // if any field is nil, replace with defaults
+        (inputLevel == 0 && changedText == "") ? changedText = defaults[inputLevel] : nil
+        (inputLevel == 1 && changedText == "%") ? changedText = defaults[inputLevel] : nil
+        (inputLevel == 2 && changedText == "") ? changedText = defaults[inputLevel] : nil
+        (inputLevel == 3 && changedText == "$") ? changedText = defaults[inputLevel] : nil
+        // update the field with the new changed text
+        inputs.fields[inputLevel].setTitle(changedText, for: .normal)
     }
 
     // MARK: - Animate Top Anchor

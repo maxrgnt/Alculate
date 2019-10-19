@@ -147,6 +147,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
+            print("Beer: ",Data.beerList)
+            print("Liquor: ",Data.liquorList)
+            print("Wine: ",Data.wineList)
             alculate()
         }
     }
@@ -193,6 +196,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // MARK: - Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool) {
+        // set entry id
+        textEntry.entryID = id
         // set max level
         textEntry.maxLevel = (fullView==true) ? 3 : 1
         // reset components for first level (name)
@@ -337,39 +342,41 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // MARK: - Flip Alculate
     func flipAlculate() {
-        // Stop delete animation if animating
-        makeDeletable(false, lists: "all")
-        // Set lists of Data to iterate over
-        var lists = [Data.beerList,Data.liquorList,Data.wineList]
-        // If sorting by effect, switch to value
-        if appNavigator.sortMethod == "effect" {
-            appNavigator.sortMethod = "value"
-            // for each ID in list below, update the appropriate list (above in lists) by sorting
-            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                    let value1 = calculateValue(for: drink1)
-                    let value2 = calculateValue(for: drink2)
-                    return value1 < value2
-                }
-                reloadTable(table: id)
-            }
-        }
-        else {
-            appNavigator.sortMethod = "effect"
-            // for each ID in list below, update the appropriate list (above in lists) by sorting
-            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-                lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                    let effect1 = calculateEffect(for: drink1)
-                    let effect2 = calculateEffect(for: drink2)
-                    return effect1 > effect2
-                }
-                reloadTable(table: id)
-            }
-        }
+        // If sorting by effect, switch to value and vice versa
+        (appNavigator.sortMethod == "effect") ? sortByValue() : sortByEffect()
+        appNavigator.sortMethod = (appNavigator.sortMethod == "effect") ? "value" : "effect"
         // update button title with new order by
         appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalizingFirstLetter())", for: .normal)
         // update top line
         alculate()
+    }
+    
+    func sortByValue() {
+        // Set lists of Data to iterate over
+        var lists = [Data.beerList,Data.liquorList,Data.wineList]
+        // for each ID in list below, update the appropriate list (above in lists) by sorting
+        for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
+                let value1 = calculateValue(for: drink1)
+                let value2 = calculateValue(for: drink2)
+                return value1 < value2
+            }
+            reloadTable(table: id)
+        }
+    }
+    
+    func sortByEffect() {
+        // Set lists of Data to iterate over
+        var lists = [Data.beerList,Data.liquorList,Data.wineList]
+        // for each ID in list below, update the appropriate list (above in lists) by sorting
+        for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
+                let effect1 = calculateEffect(for: drink1)
+                let effect2 = calculateEffect(for: drink2)
+                return effect1 > effect2
+            }
+            reloadTable(table: id)
+        }
     }
         
     // MARK: - Protocol Delegate Functions

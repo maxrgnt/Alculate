@@ -71,7 +71,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         let constraints = UI.Sizing.containerConstraints
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if comparisonTableListID == ID {
-                cell.setConstraints(withLeading: constraints[i].lead, withTrailing: constraints[i].trail)
+                cell.containerLeading.constant = constraints[i].lead
             }
         }
         // gather info for each cell
@@ -125,7 +125,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         let indexPath = self.indexPath(for: cell)
         let info = listForThisTable()[indexPath!.row]
         Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-        self.comparisonTableDelegate.reloadTable(table: comparisonTableListID)
+        self.deleteRows(at: [indexPath!], with: .automatic)
     }
     
     // MARK: - ScrollView Delegate

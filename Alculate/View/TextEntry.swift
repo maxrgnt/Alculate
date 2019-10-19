@@ -10,6 +10,7 @@ import UIKit
 
 protocol TextEntryDelegate: AnyObject {
     func hideTextEntry()
+    func reloadTable(table: String)
 }
 
 class TextEntry: UIView, UITextFieldDelegate {
@@ -32,6 +33,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     var defaults = ["begin typing a name","abv","size","price"]
     var output: [String] = []
     var sizeUnit = "oz"
+    var entryID = ""
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -112,7 +114,8 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputLevel += sender.tag
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
-        // if at end, dont move further forward (or finish?)
+        // if at end finish
+        (inputLevel > maxLevel) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
         // set input for new level
         setComponents(forLevel: inputLevel)
@@ -186,6 +189,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         // if it is the name, remove invalid characters and update text field
         if inputLevel == 0 {
             changedText = (field.text?.removeInvalidNameCharacters())!
+            changedText = (changedText==" ") ? "" : changedText
             field.text = changedText
         }
         // if not name and the field isnt empty
@@ -254,6 +258,30 @@ class TextEntry: UIView, UITextFieldDelegate {
                 ? dismiss()
                 // Auto-scroll up (in frame) if false
                 : animateTopAnchor(constant: UI.Sizing.textEntryTop, withKeyboard: false)
+        }
+    }
+    
+    func updateComparisonTables() {
+        var noMatches = true
+        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+        for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+            if ids[i] == entryID {
+                if dataList.isEmpty {
+                    Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.textEntryDelegate!.reloadTable(table: ids[i])
+                }
+                else {
+                    for info in dataList {
+                        if [info.name.lowercased(), info.abv, info.size, info.price] == output {
+                            noMatches = false
+                        }
+                        if noMatches {
+                            Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                            self.textEntryDelegate!.reloadTable(table: ids[i])
+                        }
+                    }
+                }
+            }
         }
     }
     

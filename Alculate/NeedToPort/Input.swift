@@ -251,29 +251,7 @@ class Input: UIView, UITextFieldDelegate {
     
     func updateTableTwo() {
         print("updateTableTwo for: \(type.text!)")
-        var noMatches = true
-        let types = ["BEER","LIQUOR","WINE"]
-        let newType = types.firstIndex(of: type.text!)
-        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-        for (index, boop) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
-            if index == newType {
-                if boop.isEmpty {
-                    Data.saveToList(ids[index], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.inputDelegate.reloadTable(table: ids[index])
-                }
-                else {
-                    for info in boop {
-                        if [info.name.lowercased(), info.abv, info.size, info.price] == output {
-                            noMatches = false
-                        }
-                        if noMatches {
-                            Data.saveToList(ids[index], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
-                            self.inputDelegate.reloadTable(table: ids[index])
-                        }
-                    }
-                }
-            }
-        }
+
     }
         
     func resetAndExit() {

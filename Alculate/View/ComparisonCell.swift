@@ -22,12 +22,14 @@ class ComparisonCell: UITableViewCell {
     // Constraints
     var containerWidth: NSLayoutConstraint!
     var containerHeight: NSLayoutConstraint!
+    var containerLeading: NSLayoutConstraint!
     
     // Objects
     let container = ComparisonContainer()
     let delete = UIButton()
 
     // Variables
+    var needsConstraints = true
     var continueAnimating = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -48,23 +50,22 @@ class ComparisonCell: UITableViewCell {
         //
         addSubview(delete)
         delete.alpha = 0.0
-        delete.backgroundColor = .red
+        delete.backgroundColor = .lightGray
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.softWhite, for: .normal)
+        delete.setTitleColor(UI.Color.alculatePurpleDark, for: .normal)
         delete.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
-    }
     
-    func setConstraints(withLeading leadingConstant: CGFloat, withTrailing trailingConstant: CGFloat) {
         // MARK: - NSLayoutConstraints
         for obj in [container,delete] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         containerWidth = container.widthAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
+        containerLeading = container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0)
         NSLayoutConstraint.activate([
             containerWidth,
-            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+            containerLeading,
             containerHeight,
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),

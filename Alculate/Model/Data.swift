@@ -101,21 +101,6 @@ struct Data {
                 for obj in objects {
                     Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
-                Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-                    let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
-                    var correctedSize1 = Double(drink1.size.dropLast(2))!
-                    if sizeUnit1 == "ml" {
-                        correctedSize1 = correctedSize1/29.5735296875
-                    }
-                    let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
-                    var correctedSize2 = Double(drink2.size.dropLast(2))!
-                    if sizeUnit2 == "ml" {
-                        correctedSize2 = correctedSize2/29.5735296875
-                    }
-                    let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
-                    let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
-                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
-                }
             }
             else if entity == Data.liquorListID {
                 Data.liquorList = []
@@ -123,42 +108,12 @@ struct Data {
                 for obj in objects {
                     Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
-                Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-                    let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
-                    var correctedSize1 = Double(drink1.size.dropLast(2))!
-                    if sizeUnit1 == "ml" {
-                        correctedSize1 = correctedSize1/29.5735296875
-                    }
-                    let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
-                    var correctedSize2 = Double(drink2.size.dropLast(2))!
-                    if sizeUnit2 == "ml" {
-                        correctedSize2 = correctedSize2/29.5735296875
-                    }
-                    let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
-                    let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
-                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
-                }
             }
             else if entity == Data.wineListID {
                 Data.wineList = []
                 let objects = try! managedContext.fetch(fetch) as! [WineList]
                 for obj in objects {
                     Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
-                }
-                Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-                    let sizeUnit1 = drink1.size.dropFirst(drink1.size.count-2)
-                    var correctedSize1 = Double(drink1.size.dropLast(2))!
-                    if sizeUnit1 == "ml" {
-                        correctedSize1 = correctedSize1/29.5735296875
-                    }
-                    let sizeUnit2 = drink2.size.dropFirst(drink2.size.count-2)
-                    var correctedSize2 = Double(drink2.size.dropLast(2))!
-                    if sizeUnit2 == "ml" {
-                        correctedSize2 = correctedSize2/29.5735296875
-                    }
-                    let calc1 = (Double(drink1.abv)!*correctedSize1)/0.6
-                    let calc2 = (Double(drink2.abv)!*correctedSize2)/0.6
-                    return Double(drink1.price)!/calc1 < Double(drink2.price)!/calc2
                 }
             }
         }

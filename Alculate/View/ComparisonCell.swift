@@ -64,8 +64,7 @@ class ComparisonCell: UITableViewCell {
         containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
         NSLayoutConstraint.activate([
             containerWidth,
-            container.centerXAnchor.constraint(equalTo: centerXAnchor, constant: leadingConstant/2),
-//            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
             containerHeight,
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             delete.widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonRemoveDiameter),

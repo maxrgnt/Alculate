@@ -394,6 +394,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func displayAlert(alert : UIAlertController) {
+        textEntry.field.resignFirstResponder()
         present(alert, animated: true, completion: nil)
     }
     

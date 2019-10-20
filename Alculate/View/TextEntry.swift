@@ -128,7 +128,6 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
 
     // MARK: - Navigate Input Level
     @objc func changeInputLevel(sender: UIButton) {
-//        print("\(inputLevel): output[\(output[inputLevel])], text[\(field.text!)]")
         // use navigate button tag to update the input level
         inputLevel += sender.tag
         // if at start, dont move further back
@@ -204,7 +203,6 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func outputNotDefaults() {
         var outputSafe = true
         for i in 0...maxLevel {
-            print(output[i],defaults[i])
             outputSafe = (output[i] == defaults[i]) ? false : true
             if outputSafe == false {
                 break
@@ -240,7 +238,6 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             changedText = String(format: formats[inputLevel-1], unformatted)
         }
         // set output level to updated text
-        print(changedText)
         output[inputLevel] = changedText
         (inputLevel == maxLevel) ? outputNotDefaults() : nil
         // format the output
@@ -343,7 +340,6 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func updateSavedABVTable() {
         let name = output[0]
         let abv = output[1]
-        print(self.entryID,name,abv)
         if let info = Data.masterList[name] {
             let savedAbv = info.abv
             if savedAbv != abv {

@@ -83,10 +83,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
             // pass
         }
         // I think you need to end animations when reloading table after deleting
-//        cell.stopAnimating(restartAnimations: false)
+        cell.stopAnimating(restartAnimations: false)
         return cell
     }
-    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listForThisTable().count
     }

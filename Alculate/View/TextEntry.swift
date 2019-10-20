@@ -15,8 +15,23 @@ protocol TextEntryDelegate: AnyObject {
     func insertRowFor(table: String)
 }
 
-class TextEntry: UIView, UITextFieldDelegate {
- 
+// MARK: - Text Field Stuff
+protocol TextFieldDelegate {
+    func textFieldDidDelete()
+}
+
+class TextEntryField: UITextField {
+    
+    var textFieldDelegate: TextFieldDelegate?
+    override func deleteBackward() {
+       super.deleteBackward()
+       textFieldDelegate?.textFieldDidDelete()
+    }
+    
+}
+
+class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
+    
     // Delegate object for Protocol above
     var textEntryDelegate: TextEntryDelegate?
 
@@ -25,7 +40,7 @@ class TextEntry: UIView, UITextFieldDelegate {
     var inputsHeight: NSLayoutConstraint!
     
     // Objects
-    let field = UITextField()
+    let field = TextEntryField()
     let navigator = TextNavigator()
     let inputs = TextEntryInputs()
     
@@ -54,6 +69,7 @@ class TextEntry: UIView, UITextFieldDelegate {
         // Required for textView delegates to work
         addSubview(field)
         field.delegate = self
+        field.textFieldDelegate = self
         field.autocorrectionType = .no
         field.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         // Blur object settings
@@ -112,10 +128,13 @@ class TextEntry: UIView, UITextFieldDelegate {
 
     // MARK: - Navigate Input Level
     @objc func changeInputLevel(sender: UIButton) {
+//        print("\(inputLevel): output[\(output[inputLevel])], text[\(field.text!)]")
         // use navigate button tag to update the input level
         inputLevel += sender.tag
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
+        // if not at end, hide done
+        outputNotDefaults()
         // if at end finish
         (inputLevel > maxLevel) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
@@ -146,7 +165,6 @@ class TextEntry: UIView, UITextFieldDelegate {
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
         // if at level 3 (price) update the "next" button
-        navigator.doneBottom.constant = (level == maxLevel) ? 0 : UI.Sizing.appNavigatorHeight
         navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.appNavigatorHeight : 0
     }
     
@@ -158,9 +176,9 @@ class TextEntry: UIView, UITextFieldDelegate {
             // make the input text equal to what is saved as output
             let title = (output[i]==defaults[i]) ? defaults[i] : formatOutput(with: output[i], atLevel: i)
             input.setTitle(title, for: .normal)
-            // set the textfield to empty unless non-default output has been entered (think back tracking)
-            field.text = ((output[i] != defaults[i]) && (i == 0)) ? output[i] : ""
         }
+        // set the textfield to empty unless non-default output has been entered (think back tracking)
+        field.text = ((output[level] != defaults[level]) && (level == 0)) ? output[level] : ""
     }
     
     @objc func setSizeUnit(sender: UIButton) {
@@ -177,11 +195,26 @@ class TextEntry: UIView, UITextFieldDelegate {
         (level == 2) ? formattedText = changedText : nil
         (level == 3) ? formattedText = "$\(changedText)" : nil
         // if any field is nil, replace with defaults
-        (level == 0 && changedText == "") ? formattedText = defaults[level] : nil
+        (changedText == "") ? formattedText = defaults[level] : nil
         (level == 1 && changedText == "%") ? formattedText = defaults[level] : nil
-        (level == 2 && changedText == "") ? formattedText = defaults[level] : nil
         (level == 3 && changedText == "$") ? formattedText = defaults[level] : nil
         return formattedText
+    }
+    
+    func outputNotDefaults() {
+        var outputSafe = true
+        for i in 0...maxLevel {
+            print(output[i],defaults[i])
+            outputSafe = (output[i] == defaults[i]) ? false : true
+            if outputSafe == false {
+                break
+            }
+        }
+        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.appNavigatorHeight
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
+                       options: [.allowUserInteraction,.curveEaseOut], animations: {
+                        self.superview!.layoutIfNeeded()
+        })
     }
     
     // MARK: - Text Field Did Change
@@ -207,11 +240,21 @@ class TextEntry: UIView, UITextFieldDelegate {
             changedText = String(format: formats[inputLevel-1], unformatted)
         }
         // set output level to updated text
+        print(changedText)
         output[inputLevel] = changedText
+        (inputLevel == maxLevel) ? outputNotDefaults() : nil
         // format the output
         let formattedText = formatOutput(with: changedText, atLevel: inputLevel)
         // update the field with the new changed text
         inputs.fields[inputLevel].setTitle(formattedText, for: .normal)
+    }
+    
+    func textFieldDidDelete() {
+        if field.text == "" {
+            output[inputLevel] = defaults[inputLevel]
+            inputs.fields[inputLevel].setTitle(defaults[inputLevel], for: .normal)
+        }
+        outputNotDefaults()
     }
 
     // MARK: - Animate Top Anchor
@@ -265,6 +308,8 @@ class TextEntry: UIView, UITextFieldDelegate {
     }
     
     func dismiss() {
+        navigator.doneBottom.constant = UI.Sizing.appNavigatorHeight
+        //
         sizeUnit = "oz"
         inputLevel = 0
         output = defaults

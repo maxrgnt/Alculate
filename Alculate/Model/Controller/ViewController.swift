@@ -429,40 +429,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-        // cant do for loop here over different lists because changing a copy of array not original array
-        if type == Data.beerListID {
-            for i in 0..<Data.beerList.count {
-                if Data.beerList[i].name == name {
-                    let abv = Data.beerList[i].abv
-                    let size = Data.beerList[i].size
-                    let price = Data.beerList[i].price
-                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
-                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
-                    beerComparison.reloadSections(sections as IndexSet, with: .automatic)
-                }
-            }
-        }
-        if type == Data.liquorListID {
-            for i in 0..<Data.liquorList.count {
-                if Data.liquorList[i].name == name {
-                    let abv = Data.liquorList[i].abv
-                    let size = Data.liquorList[i].size
-                    let price = Data.liquorList[i].price
-                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
-                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
-                    liquorComparison.reloadSections(sections as IndexSet, with: .automatic)
-                }
-            }
-        }
-        if type == Data.wineListID {
-            for i in 0..<Data.wineList.count {
-                if Data.wineList[i].name == name {
-                    let abv = Data.wineList[i].abv
-                    let size = Data.wineList[i].size
-                    let price = Data.wineList[i].price
-                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
-                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
-                    wineComparison.reloadSections(sections as IndexSet, with: .automatic)
+        let tables = [beerComparison,liquorComparison,wineComparison]
+        let lists = [Data.beerList,Data.liquorList,Data.wineList]
+        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            if type == ID {
+                for x in 0..<lists[i].count {
+                    if lists[i][x].name == name {
+                        let abv = lists[i][x].abv
+                        let size = lists[i][x].size
+                        let price = lists[i][x].price
+                        Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
+                        Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
+                        tables[i].reloadSections(sections as IndexSet, with: .automatic)
+                    }
                 }
             }
         }

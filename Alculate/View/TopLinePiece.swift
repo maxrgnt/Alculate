@@ -35,12 +35,14 @@ class TopLinePiece: UIView {
         }
         category.textAlignment = .center
         category.font = UI.Font.cellHeaderFont
-        drinkName.font = UI.Font.cellHeaderFont
-        value.font = UI.Font.cellHeaderFont
-        valueDescription.font = UI.Font.cellHeaderFont
+        drinkName.font = UI.Font.cellStubFont
+        value.font = UI.Font.cellStubFont
+        valueDescription.font = UI.Font.cellStubFont2
+        valueDescription.alpha = 0.7
         //
         addSubview(icon)
         icon.image = UIImage(named: iconName)
+        icon.alpha = 0.7
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

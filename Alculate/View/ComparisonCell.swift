@@ -61,7 +61,7 @@ class ComparisonCell: UITableViewCell {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         containerWidth = container.widthAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
-        containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter)
+        containerHeight = container.heightAnchor.constraint(equalToConstant: UI.Sizing.containerHeight)
         containerLeading = container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0)
         NSLayoutConstraint.activate([
             containerWidth,
@@ -137,7 +137,7 @@ class ComparisonCell: UITableViewCell {
     func beginAnimating() {
         // shrink the container to desired size
         containerWidth.constant = UI.Sizing.containerDeleteSize
-        containerHeight.constant = UI.Sizing.containerDeleteSize
+        containerHeight.constant = UI.Sizing.containerDeleteHeight
         // set starting animation
         UIView.animate(withDuration: 0.2, delay: 0
             , animations: ({
@@ -154,14 +154,14 @@ class ComparisonCell: UITableViewCell {
     
     func stopAnimating(restartAnimations: Bool) {
         if !restartAnimations {
-            // hide delete button
-            self.delete.alpha = 0.0
             // reset container sizes
             containerWidth.constant = UI.Sizing.containerDiameter
-            containerHeight.constant = UI.Sizing.containerDiameter
+            containerHeight.constant = UI.Sizing.containerHeight
         }
         UIView.animate(withDuration: 0.3, delay: 0//, options: .repeat
             , animations: ({
+                // hide delete button
+                self.delete.alpha = 0.0
                 // reset rotation animation
                 self.container.transform = .identity
                 self.delete.transform = .identity
@@ -177,6 +177,17 @@ class ComparisonCell: UITableViewCell {
                 }
             }
         )
+    }
+    
+    func resetConstraints() {
+        // hide delete button
+        self.delete.alpha = 0.0
+        // reset container sizes
+        containerWidth.constant = UI.Sizing.containerDiameter
+        containerHeight.constant = UI.Sizing.containerHeight
+        // rotate back to normal
+        self.container.transform = .identity
+        self.delete.transform = .identity
     }
     
     required init?(coder aDecoder: NSCoder) {

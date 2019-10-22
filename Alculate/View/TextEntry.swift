@@ -135,12 +135,21 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // if not at end, hide done
         outputNotDefaults()
         // if at end finish
-        (inputLevel > maxLevel) ? updateComparisonTables() : nil
+        (inputLevel > maxLevel && maxLevel != 1) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
         // set input for new level
         setComponents(forLevel: inputLevel)
     }
+    
+    // MARK: - Set Saved Output
+    func outputFromSavedABV(name: String, abv: String) {
+        output[0] = name
+        output[1] = abv
+        inputs.name.setTitle(name, for: .normal)
+        inputs.abv.setTitle("\(abv)%", for: .normal)
+    }
+    
     
     // MARK: - Set Level Components
     func setComponents(forLevel level: Int) {
@@ -320,6 +329,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func updateComparisonTables() {
+        // update output to include unit
+        output[2] = output[2]+sizeUnit
         var noMatches = true
         let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
         for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {

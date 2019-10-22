@@ -42,14 +42,17 @@ class ComparisonContainer: UIView {
         effectDescription.textAlignment = .right
         //
         drinkName.font = UI.Font.cellStubFont
-        drinkInfo.font = UI.Font.cellStubFont
+        drinkInfo.font = UI.Font.cellStubFont2
         value.font = UI.Font.cellStubFont
-        valueDescription.font = UI.Font.cellStubFont
+        valueDescription.font = UI.Font.cellStubFont2
         effect.font = UI.Font.cellStubFont
-        effectDescription.font = UI.Font.cellStubFont
+        effectDescription.font = UI.Font.cellStubFont2
         //
+        drinkInfo.alpha = 0.7
         valueDescription.text = "per shot"
+        valueDescription.alpha = 0.7
         effectDescription.text = "shots"
+        effectDescription.alpha = 0.7
              
         // MARK: - NSLayoutConstraints
         for obj in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription,remove] {

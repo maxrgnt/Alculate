@@ -42,6 +42,7 @@ class SavedABVCell: UITableViewCell {
         drinkInfo.textColor = UI.Color.softWhite
         drinkInfo.textAlignment = .left
         drinkInfo.font = UI.Font.cellStubFont
+        drinkInfo.alpha = 0.7
         //
         addSubview(delete)
         delete.titleLabel?.font = UI.Font.cellHeaderFont

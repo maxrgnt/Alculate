@@ -64,9 +64,11 @@ struct UI {
                                            (lead: 0.250*objectPadding, trail: -0.500*objectPadding)]
         static let containerBorder = comparisonTableWidth/50
         static let containerDiameter = (width-(objectPadding*2.25))/3//+containerBorder
-        static let comparisonRowHeight = containerDiameter + objectPadding/2
+        static let containerHeight = containerDiameter*(3/4)
+        static let comparisonRowHeight = containerHeight + objectPadding/2
         static let containerRadius = containerDiameter/10
         static let containerDeleteSize = UI.Sizing.containerDiameter*0.92
+        static let containerDeleteHeight = UI.Sizing.containerHeight*0.92
         // Comparison Remove
         static let comparisonRemoveDiameter = containerDiameter/4
         static let comparisonRemoveRadius = containerDiameter/8
@@ -79,7 +81,7 @@ struct UI {
         static let savedABVrowHeight = headerHeight
         static let savedABVmainWidth = width-headerHeight-objectPadding*(3/2)-savedABVdeleteDiameter
         static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(2/3)
-        static let savedABVdeleteDiameter = savedABVrowHeight/2
+        static let savedABVdeleteDiameter = savedABVrowHeight*(2/3)
         static let savedABVdeleteRadius = savedABVdeleteDiameter/2
         static let savedABVtopLineHeight = savedABVrowHeight*(2/3)
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
@@ -121,6 +123,7 @@ struct UI {
         static let headerFont = UIFont.systemFont(ofSize: 30)
         static let cellHeaderFont = UIFont.systemFont(ofSize: 18)
         static let cellStubFont = UIFont.systemFont(ofSize: 14)
+        static let cellStubFont2 = UIFont.systemFont(ofSize: 11)
     }
     
     // colors

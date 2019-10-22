@@ -56,17 +56,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         header.build()
         
         let categories = ["Most Value","Most Effective"]
-        let drinkNames = ["Coors","Vodka"]
-        let values = ["$2.00","3.0"]
         let valueDescriptions = ["per shot","shots"]
-        let topLineIcons = [Data.beerListID,Data.wineListID]
+        let topLineIcons = ["value","effect"]
         let alignments = [.left,.right] as [NSTextAlignment]
         for (i, topLinePiece) in [valueTopLine,effectTopLine].enumerated() {
             view.addSubview(topLinePiece)
             topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
             topLinePiece.category.text = categories[i]
-            topLinePiece.drinkName.text = drinkNames[i]
-            topLinePiece.value.text = values[i]
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
 
@@ -193,13 +189,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     // MARK: - Show Text Entry
-    func showTextEntry(forType id: String, fullView: Bool) {
+    func showTextEntry(forType id: String, fullView: Bool, forLevel level: Int? = 0) {
         // set entry id
         textEntry.entryID = id
         // set max level
         textEntry.maxLevel = (fullView==true) ? 3 : 1
         // reset components for first level (name)
-        textEntry.setComponents(forLevel: 0)
+        textEntry.setComponents(forLevel: level!)
         // set icon for given type
         textEntry.inputs.icon.image = UIImage(named: id)
         // show keyboard
@@ -263,7 +259,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let constant = (onScreen == false) ? 0 : -UI.Sizing.appNavigatorHeight
         undo.top.constant = constant
         UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                       options: [.curveEaseInOut],
+                       options: [.curveEaseInOut,.allowUserInteraction],
                        animations: {
                         self.view.layoutIfNeeded()
         }, completion: {(value: Bool) in
@@ -350,31 +346,37 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func sortByValue() {
-        // Set lists of Data to iterate over
-        var lists = [Data.beerList,Data.liquorList,Data.wineList]
-        // for each ID in list below, update the appropriate list (above in lists) by sorting
-        for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-            lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                let value1 = calculateValue(for: drink1)
-                let value2 = calculateValue(for: drink2)
-                return value1 < value2
-            }
-            reloadTable(table: id)
+        Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
         }
+        reloadTable(table: Data.beerListID)
+        //
+        Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
+        }
+        reloadTable(table: Data.liquorListID)
+        //
+        Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
+        }
+        reloadTable(table: Data.wineListID)
     }
     
     func sortByEffect() {
-        // Set lists of Data to iterate over
-        var lists = [Data.beerList,Data.liquorList,Data.wineList]
-        // for each ID in list below, update the appropriate list (above in lists) by sorting
-        for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-            lists[i] = lists[i].sorted { (drink1, drink2) -> Bool in
-                let effect1 = calculateEffect(for: drink1)
-                let effect2 = calculateEffect(for: drink2)
-                return effect1 > effect2
-            }
-            reloadTable(table: id)
+        Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
         }
+        reloadTable(table: Data.beerListID)
+        //
+        Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+        }
+        reloadTable(table: Data.liquorListID)
+        //
+        Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+        }
+        reloadTable(table: Data.wineListID)
     }
         
     // MARK: - Protocol Delegate Functions
@@ -400,7 +402,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func editSavedABV(name: String, abv: String, type: String) {
         // use type in future, but saved types dont work right now
-        showTextEntry(forType: Data.liquorListID, fullView: false)
+        showTextEntry(forType: type, fullView: false)
+        // reset output to saved data
+        textEntry.outputFromSavedABV(name: name, abv: abv)
+        textEntry.changeInputLevel(sender: textEntry.navigator.forward)
+        // hide back and done buttons
+        textEntry.navigator.backwardBottom.constant = UI.Sizing.appNavigatorHeight
     }
     
     func reloadTable(table: String) {

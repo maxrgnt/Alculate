@@ -51,7 +51,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         ViewController.bottomAnchor = view.bottomAnchor
         //
         view.backgroundColor = UI.Color.alculatePurpleDark
-
+        
+        build()
+        //clearTestData()
+        handleInit()
+    }
+    
+    // MARK: - Initialization / Testing
+    func build() {
         view.addSubview(header)
         header.build()
         
@@ -103,12 +110,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         view.addSubview(textEntry)
         textEntry.build()
         self.textEntry.textEntryDelegate = self
-        
-        //clearTestData()
-        handleInit()
     }
     
-    // MARK: - Initialization / Testing
     func clearTestData(){
         Data.deleteCoreDataFor(entity: Data.masterListID)
         Data.deleteCoreDataFor(entity: Data.beerListID)

@@ -86,7 +86,7 @@ class ComparisonCell: UITableViewCell {
         // get the size by dropping last two characters (oz or ml) ex. 24ml
         let size = info.size.dropLast(2)
         // set info using price and size piece
-        container.drinkInfo.text = "\(info.abv) | \(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
+        container.drinkInfo.text = "\(info.size.dropLast(2)) \(sizeUnit) | $\(price)"
         var correctedSize = Double(size)!
         // if unitForSize is ml, need to convert to oz for calculations
         if sizeUnit == "ml" {

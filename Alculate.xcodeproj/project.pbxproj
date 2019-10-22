@@ -38,6 +38,11 @@
 		66C2634E234EAD7E0077332F /* TopLinePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C2634D234EAD7D0077332F /* TopLinePiece.swift */; };
 		66C26351234F44310077332F /* ComparisonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26350234F44310077332F /* ComparisonCell.swift */; };
 		66C26353234F44CD0077332F /* ComparisonContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26352234F44CD0077332F /* ComparisonContainer.swift */; };
+		66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */; };
+		66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */; };
+		66C3259B235F2FE7003DAC45 /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */; };
+		66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */; };
+		66C3259D235F2FE7003DAC45 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */; };
 		66CDFCFA233D75F600267670 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* Data.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +97,11 @@
 		66C2634D234EAD7D0077332F /* TopLinePiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLinePiece.swift; sourceTree = "<group>"; };
 		66C26350234F44310077332F /* ComparisonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonCell.swift; sourceTree = "<group>"; };
 		66C26352234F44CD0077332F /* ComparisonContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonContainer.swift; sourceTree = "<group>"; };
+		66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
+		66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
+		66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
+		66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Light.ttf"; sourceTree = "<group>"; };
 		66CDFCF9233D75F600267670 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,6 +192,7 @@
 				669931C42354EE0900021512 /* View */,
 				669931C52354EE1400021512 /* Controller */,
 				66AF5847233A33EB00502EEA /* Assets.xcassets */,
+				66C3259E235F2FF1003DAC45 /* Fonts */,
 				66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */,
 				66AF584F233A33EB00502EEA /* Info.plist */,
 				66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */,
@@ -223,6 +234,18 @@
 				66AF587E233C148300502EEA /* Extensions.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		66C3259E235F2FF1003DAC45 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */,
+				66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */,
+				66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */,
+				66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */,
+				66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,8 +353,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */,
+				66C3259D235F2FE7003DAC45 /* JosefinSans-Light.ttf in Resources */,
+				66C3259B235F2FE7003DAC45 /* JosefinSans-Regular.ttf in Resources */,
 				66AF584B233A33EB00502EEA /* Preview Assets.xcassets in Resources */,
 				66AF5848233A33EB00502EEA /* Assets.xcassets in Resources */,
+				66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */,
+				66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */,
+				66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

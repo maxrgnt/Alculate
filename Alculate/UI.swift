@@ -120,10 +120,10 @@ struct UI {
     // fonts
     struct Font {
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
-        static let headerFont = UIFont.systemFont(ofSize: 30)
-        static let cellHeaderFont = UIFont.systemFont(ofSize: 18)
-        static let cellStubFont = UIFont.systemFont(ofSize: 14)
-        static let cellStubFont2 = UIFont.systemFont(ofSize: 11)
+        static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
+        static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
+        static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 14)
+        static let cellStubFont2 = UIFont(name: "JosefinSans-Light", size: 11)
     }
     
     // colors

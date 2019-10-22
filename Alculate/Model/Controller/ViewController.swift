@@ -433,7 +433,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         if type == Data.beerListID {
             for i in 0..<Data.beerList.count {
                 if Data.beerList[i].name == name {
-                    Data.beerList[i].abv = newAbv
+                    let abv = Data.beerList[i].abv
+                    let size = Data.beerList[i].size
+                    let price = Data.beerList[i].price
+                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
+                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
                     beerComparison.reloadSections(sections as IndexSet, with: .automatic)
                 }
             }
@@ -441,7 +445,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         if type == Data.liquorListID {
             for i in 0..<Data.liquorList.count {
                 if Data.liquorList[i].name == name {
-                    Data.liquorList[i].abv = newAbv
+                    let abv = Data.liquorList[i].abv
+                    let size = Data.liquorList[i].size
+                    let price = Data.liquorList[i].price
+                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
+                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
                     liquorComparison.reloadSections(sections as IndexSet, with: .automatic)
                 }
             }
@@ -449,7 +457,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         if type == Data.wineListID {
             for i in 0..<Data.wineList.count {
                 if Data.wineList[i].name == name {
-                    Data.wineList[i].abv = newAbv
+                    let abv = Data.wineList[i].abv
+                    let size = Data.wineList[i].size
+                    let price = Data.wineList[i].price
+                    Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
+                    Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
                     wineComparison.reloadSections(sections as IndexSet, with: .automatic)
                 }
             }

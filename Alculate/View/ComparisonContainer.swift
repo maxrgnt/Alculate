@@ -84,7 +84,7 @@ class ComparisonContainer: UIView {
             value.heightAnchor.constraint(equalTo: heightAnchor, multiplier: categoryHeight),
             value.topAnchor.constraint(equalTo: drinkInfo.bottomAnchor),
             valueDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
-            valueDescription.widthAnchor.constraint(equalTo: value.widthAnchor, constant: -borderOffset),
+            valueDescription.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5, constant: -borderOffset),
             valueDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),
             valueDescription.topAnchor.constraint(equalTo: value.bottomAnchor, constant: -borderOffset),
             effect.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -borderOffset),
@@ -92,7 +92,7 @@ class ComparisonContainer: UIView {
             effect.heightAnchor.constraint(equalTo: heightAnchor, multiplier: categoryHeight),
             effect.topAnchor.constraint(equalTo: drinkInfo.bottomAnchor),
             effectDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -borderOffset),
-            effectDescription.widthAnchor.constraint(equalTo: effect.widthAnchor, constant: -borderOffset),
+            effectDescription.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5, constant: -borderOffset),
             effectDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),
             effectDescription.topAnchor.constraint(equalTo: effect.bottomAnchor, constant: -borderOffset)
             ])

@@ -12,6 +12,7 @@ import UIKit
 protocol ComparisonCellDelegate: AnyObject {
     func delegateCell(animate: Bool, forCell: ComparisonCell)
     func delegateRemove(forCell: ComparisonCell)
+    func delegatePopulate(forCell: ComparisonCell)
 }
 
 class ComparisonCell: UITableViewCell {
@@ -30,7 +31,6 @@ class ComparisonCell: UITableViewCell {
 
     // Variables
     var needsConstraints = true
-    var continueAnimating = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // MARK: - View/Object Settings
@@ -111,7 +111,7 @@ class ComparisonCell: UITableViewCell {
     }
     
     @objc func tapActivated(_ sender: UITapGestureRecognizer) {
-        delegate?.delegateCell(animate: false, forCell: self)
+        (delete.alpha == 1.0) ? delegate?.delegateCell(animate: false, forCell: self) : delegate?.delegatePopulate(forCell: self)
     }
     
     @objc func deleteButtonPressed() {

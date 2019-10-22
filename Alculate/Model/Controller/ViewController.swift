@@ -410,6 +410,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         textEntry.navigator.backwardBottom.constant = UI.Sizing.appNavigatorHeight
     }
     
+    func editComparison(type: String, name: String, abv: String, size: String, price: String) {
+        // reset output to saved data
+        textEntry.outputFromComparison(name: name, abv: abv, size: size, price: price)
+        // use type in future, but saved types dont work right now
+        showTextEntry(forType: type, fullView: true)
+    }
+    
     func reloadTable(table: String) {
         if table == Data.masterListID {
             savedABV.savedABVTable.reloadData()

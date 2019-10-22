@@ -53,6 +53,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     var sizeUnit = "oz"
     var entryID = ""
     var suggestedName = ""
+    var oldComparison: (name: String, abv: String, size: String, price: String) = (name: "", abv: "", size: "", price: "")
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -155,6 +156,17 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         inputs.abv.setTitle("\(abv)%", for: .normal)
     }
     
+    func outputFromComparison(name: String, abv: String, size: String, price: String) {
+        oldComparison = (name: name, abv: abv, size: size, price: price)
+        output[0] = name
+        output[1] = abv
+        // using length of string minus the last two characters (oz or ml) ex. 24ml
+        sizeUnit = String(size.dropFirst(size.count-2))
+        // get the size by dropping last two characters (oz or ml) ex. 24ml
+        let tempSize = size.dropLast(2)
+        output[2] = String(tempSize)
+        output[3] = price
+    }
     
     // MARK: - Set Level Components
     func setComponents(forLevel level: Int) {
@@ -378,18 +390,31 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func updateComparisonTables() {
         // update output to include unit
         output[2] = output[2]+sizeUnit
-        var noMatches = true
-        let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-        for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
-            if ids[i] == entryID {
-                for info in dataList {
-                    if [info.name.lowercased(), info.abv, info.size, info.price] == output {
-                        noMatches = false
+        if oldComparison.name == "" {
+            var noMatches = true
+            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+            for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+                if ids[i] == entryID {
+                    for info in dataList {
+                        if [info.name.lowercased(), info.abv, info.size, info.price] == output {
+                            noMatches = false
+                        }
+                    }
+                    if noMatches {
+                        Data.saveToList(ids[i], wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
+                        self.textEntryDelegate!.insertRowFor(table: ids[i])
                     }
                 }
-                if noMatches {
-                    Data.saveToList(ids[i], wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.textEntryDelegate!.insertRowFor(table: ids[i])
+            }
+        }
+        else {
+            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+                if id == entryID {
+                    let old = oldComparison
+                    Data.deleteFromList(id, wName: old.name, wABV: old.abv, wSize: old.size, wPrice: old.price)
+                    Data.saveToList(id, wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
+                    self.textEntryDelegate!.reloadTable(table: id)
+                    oldComparison = (name: "", abv: "", size: "", price: "")
                 }
             }
         }

@@ -13,6 +13,7 @@ protocol ComparisonTableDelegate {
     // called when user taps container or delete button
     func reloadTable(table: String)
     func makeDeletable(_ paramDeletable: Bool, lists: String)
+    func editComparison(type: String, name: String, abv: String, size: String, price: String)
 }
 
 class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComparisonCellDelegate {
@@ -117,6 +118,17 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     }
         
     // MARK: - Comparison Cell Delegate
+    func delegatePopulate(forCell cell: ComparisonCell) {
+        let indexPath = self.indexPath(for: cell)
+        let list = listForThisTable()
+        let type = comparisonTableListID
+        let name = list[indexPath!.row].name
+        let abv = list[indexPath!.row].abv
+        let size = list[indexPath!.row].size
+        let price = list[indexPath!.row].price
+        self.comparisonTableDelegate.editComparison(type: type, name: name, abv: abv, size: size, price: price)
+    }
+    
     func delegateCell(animate: Bool, forCell: ComparisonCell) {
         self.comparisonTableDelegate.makeDeletable(animate, lists: "all")
     }

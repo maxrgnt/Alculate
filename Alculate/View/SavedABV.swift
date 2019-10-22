@@ -42,7 +42,7 @@ class SavedABV: UIView {
         addGestureRecognizer(pan)
         for obj in [header,savedABVTable] {
             addSubview(obj)
-            obj.backgroundColor = .clear
+            obj.backgroundColor = UI.Color.alculatePurpleDark
         }
         savedABVTable.build()
         //
@@ -51,20 +51,6 @@ class SavedABV: UIView {
         headerLabel.textColor = UI.Color.softWhite
         headerLabel.textAlignment = .left
         headerLabel.text = "Saved drink ABVs:"
-        
-        // MARK: - Gradient Settings
-        // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: 0)
-        // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
-        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
-        // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
-        // Set locations of where gradient will transition
-        gradient.locations = [0.0,1.0]
-        // Add gradient as bottom layer in sublayer array
-        self.layer.insertSublayer(gradient, at: 0)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
@@ -90,6 +76,24 @@ class SavedABV: UIView {
             savedABVTable.centerXAnchor.constraint(equalTo: centerXAnchor),
             savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])
+        
+//        buildGradient()
+    }
+    
+    // MARK: - Gradient Settings
+    func buildGradient() {
+        // Set origin of gradient (top left of screen)
+        let gradientOrigin = CGPoint(x: 0,y: 0)
+        // Set frame of gradient (header height, because status bar will be solid color)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
+        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
+        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+                           UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
+        // Set locations of where gradient will transition
+        gradient.locations = [0.0,1.0]
+        // Add gradient as bottom layer in sublayer array
+        self.layer.insertSublayer(gradient, at: 0)
     }
     
     // MARK: - Animation Functions

@@ -89,6 +89,10 @@ class SavedABVCell: UITableViewCell {
         drinkInfo.text = "\(abv)%"
     }
     
+    func setBackgroundColor(R: CGFloat, G: CGFloat, B: CGFloat) {
+        backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
+    }
+    
     @objc func remove(sender: AnyObject) {
         delegate?.remove(cell: self)
     }

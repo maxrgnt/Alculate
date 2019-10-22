@@ -49,6 +49,24 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         let cell: SavedABVCell = tableView.dequeueReusableCell(withIdentifier: "SavedABVCell") as! SavedABVCell
         cell.delegate = self
         cell.setLabels(forCellAt: indexPath)
+        /*
+         color = x * start_color + (x-1) * end_color
+         Dark Purple is  75  63 114
+         Lite Purple is 100  87 166
+         */
+        let masterCount: CGFloat = CGFloat(Data.masterList.count)
+        let section: CGFloat = CGFloat(indexPath.section)
+//        let row: CGFloat = CGFloat(indexPath.row)
+        let blah: CGFloat = section/masterCount
+        let R: CGFloat = ((1-blah) * CGFloat(75))  + (blah * CGFloat(100))
+        let G: CGFloat = ((1-blah) * CGFloat(63))  + (blah * CGFloat(87))
+        let B: CGFloat = ((1-blah) * CGFloat(114)) + (blah * CGFloat(166))
+//        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
+        cell.setBackgroundColor(R: R, G: G, B: B)
+        if indexPath.section == Data.masterList.count-1 {
+            print("max")
+            backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
+        }
         return cell
     }
     
@@ -112,7 +130,9 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
 
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // pass
+        if scrollView.contentOffset.y <= 0 {
+            scrollView.contentOffset.y = 0
+        }
     }
 
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {

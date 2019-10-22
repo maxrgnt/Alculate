@@ -45,6 +45,7 @@ class TextNavigator: UIView {
         }
         //
         addSubview(suggestion)
+        suggestion.tag = 2
         suggestion.backgroundColor = .clear
         suggestion.setTitle("Use 'Coors Light'", for: .normal)
         suggestion.setTitleColor(UI.Color.softWhite, for: .normal)

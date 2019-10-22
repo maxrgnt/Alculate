@@ -51,6 +51,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     var output: [String] = []
     var sizeUnit = "oz"
     var entryID = ""
+    var suggestedName = ""
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -89,6 +90,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         //
         vibrancyView.contentView.addSubview(navigator)
         navigator.build()
+        navigator.suggestion.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.backward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.done.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
@@ -132,6 +134,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         inputLevel += sender.tag
         // if at start, dont move further back
         inputLevel = (inputLevel < 0) ? 0 : inputLevel
+        // if using suggestion, update necessary stuff
+        (sender.tag == 2) ? useSuggestedName() : nil
         // if not at end, hide done
         outputNotDefaults()
         // if at end finish
@@ -169,6 +173,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         }
         // if at level 0 (name) hide the back button
         navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
+        // if not at level 0 hide suggestion
+        navigator.suggestionBottom.constant = UI.Sizing.appNavigatorHeight
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
@@ -198,7 +204,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func formatOutput(with changedText: String, atLevel level: Int) -> String {
         var formattedText = ""
         // add the % and $ to percent and price
-        (level == 0) ? formattedText = changedText : nil
+        (level == 0) ? formattedText = changedText.capitalizingFirstLetter() : nil
         (level == 1) ? formattedText = "\(changedText)%" : nil
         (level == 2) ? formattedText = changedText : nil
         (level == 3) ? formattedText = "$\(changedText)" : nil
@@ -234,6 +240,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             changedText = (field.text?.removeInvalidNameCharacters())!
             changedText = (changedText==" ") ? "" : changedText
             field.text = changedText
+            checkSuggestions(for: changedText.lowercased())
         }
         // if not name and the field isnt empty
         else if textField.text != "" {
@@ -261,6 +268,45 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             inputs.fields[inputLevel].setTitle(defaults[inputLevel], for: .normal)
         }
         outputNotDefaults()
+    }
+    
+    // MARK: - Suggestion Logic
+    func checkSuggestions(for changedText: String) {
+        print("trying: \(changedText) for \(entryID)")
+        var arrNames: [String] = []
+        for key in Data.masterList.keys {
+            if entryID == Data.masterList[key]!.type {
+                print(key, Data.masterList[key]!.type)
+                arrNames.append(key)
+            }
+        }
+        let filtered = arrNames.filter({ $0.contains(changedText) })
+        if !filtered.isEmpty {
+            // update suggestion with new text
+            suggestedName = filtered[0].lowercased()
+            navigator.suggestion.setTitle("Use '\(suggestedName.capitalizingFirstLetter())'?", for: .normal)
+            // animate
+            animateSuggestions(to: 0)
+        }
+        else {
+            animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+        }
+    }
+    
+    func useSuggestedName() {
+        output[0] = suggestedName
+        let unformatted = Double(Data.masterList[suggestedName]!.abv)!
+        output[1] = String(format: "%.1f", unformatted)
+        inputs.abv.setTitle(String(format: "%.1f", unformatted)+"%", for: .normal)
+        animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+    }
+    
+    func animateSuggestions(to constant: CGFloat) {
+        navigator.suggestionBottom.constant = constant
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
+                       options: [.allowUserInteraction,.curveEaseOut], animations: {
+                        self.superview!.layoutIfNeeded()
+        })
     }
 
     // MARK: - Animate Top Anchor
@@ -341,7 +387,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                     }
                 }
                 if noMatches {
-                    Data.saveToList(ids[i], wName: output[0], wABV: output[1], wSize: output[2], wPrice: output[3])
+                    Data.saveToList(ids[i], wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
                     self.textEntryDelegate!.insertRowFor(table: ids[i])
                 }
             }
@@ -349,7 +395,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func updateSavedABVTable() {
-        let name = output[0]
+        let name = output[0].lowercased()
         let abv = output[1]
         if let info = Data.masterList[name] {
             let savedAbv = info.abv

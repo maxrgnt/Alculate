@@ -146,7 +146,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
-            print("Master: ",Data.masterList)
+            Data.txtFile()
+            savedABV.savedABVTable.reloadData()
             alculate()
         }
     }

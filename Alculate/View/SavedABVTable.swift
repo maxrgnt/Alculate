@@ -56,17 +56,14 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
          */
         let masterCount: CGFloat = CGFloat(Data.masterList.count)
         let section: CGFloat = CGFloat(indexPath.section)
-//        let row: CGFloat = CGFloat(indexPath.row)
-        let blah: CGFloat = section/masterCount
+        let row: CGFloat = CGFloat(indexPath.row)
+        let blah: CGFloat = ((section*(section+1))/2)/masterCount
         let R: CGFloat = ((1-blah) * CGFloat(75))  + (blah * CGFloat(100))
         let G: CGFloat = ((1-blah) * CGFloat(63))  + (blah * CGFloat(87))
         let B: CGFloat = ((1-blah) * CGFloat(114)) + (blah * CGFloat(166))
-//        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
+        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
         cell.setBackgroundColor(R: R, G: G, B: B)
-        if indexPath.section == Data.masterList.count-1 {
-            print("max")
-            backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
-        }
+        backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
         return cell
     }
     

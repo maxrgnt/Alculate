@@ -285,11 +285,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     
     // MARK: - Suggestion Logic
     func checkSuggestions(for changedText: String) {
-        print("trying: \(changedText) for \(entryID)")
         var arrNames: [String] = []
         for key in Data.masterList.keys {
             if entryID == Data.masterList[key]!.type {
-                print(key, Data.masterList[key]!.type)
                 arrNames.append(key)
             }
         }

@@ -72,7 +72,7 @@ class SavedABV: UIView {
             headerLabel.bottomAnchor.constraint(equalTo: header.bottomAnchor),
             headerLabel.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheaderHeight),
             savedABVTable.widthAnchor.constraint(equalTo: widthAnchor),
-            savedABVTable.heightAnchor.constraint(equalTo: heightAnchor),
+            savedABVTable.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVtableHeight),
             savedABVTable.centerXAnchor.constraint(equalTo: centerXAnchor),
             savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreData
 
@@ -60,6 +61,47 @@ struct Data {
                 }
             }
         }
+    }
+    
+    static func txtFile() {
+        let path = Bundle.main.path(forResource: "alcohol", ofType: "txt")
+        let filemgr = FileManager.default
+        if filemgr.fileExists(atPath: path!) {
+            do {
+                let fullText = try String(contentsOfFile: path!, encoding: .ascii)
+                let readings = fullText.components(separatedBy: "\r") as [String]
+                let size = readings.count
+                print("- trying to pull .txt -")
+                for i in 1...(size-1) {
+                    let alcData = readings[i].components(separatedBy: "\t")
+                    var type = alcData[0];
+                    type = (type=="B") ? "BeerList" : ""
+                    type = (type=="L" || type == "") ? "LiquorList" : ""
+                    type = (type=="W" || type == "") ? "WineList" : type
+                    let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
+                    let abv = String(alcData[2])
+                    Data.masterList[name] = (type: type, abv: abv)
+                }
+//                    do {
+//                        try context.save()
+//                    }
+//                    catch {
+//                        let nserror = error as NSError
+//                        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+//                    }
+            }
+            catch let error as NSError {
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    static func applyReg(starting: String, pattern: String, substitution: String) -> String {
+        var newString = starting
+        if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
+            let regString = regex.stringByReplacingMatches(in: starting, options: .withoutAnchoringBounds, range: NSMakeRange(0,starting.count), withTemplate: substitution)
+            newString = regString}
+        return newString
     }
     
 //    func updateCoreData(for attribute: String, from entity: String, oldValue: String, newValue: String) {

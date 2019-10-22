@@ -427,6 +427,36 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
     
+    func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
+        let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
+        // cant do for loop here over different lists because changing a copy of array not original array
+        if type == Data.beerListID {
+            for i in 0..<Data.beerList.count {
+                if Data.beerList[i].name == name {
+                    Data.beerList[i].abv = newAbv
+                    beerComparison.reloadSections(sections as IndexSet, with: .automatic)
+                }
+            }
+        }
+        if type == Data.liquorListID {
+            for i in 0..<Data.liquorList.count {
+                if Data.liquorList[i].name == name {
+                    Data.liquorList[i].abv = newAbv
+                    liquorComparison.reloadSections(sections as IndexSet, with: .automatic)
+                }
+            }
+        }
+        if type == Data.wineListID {
+            for i in 0..<Data.wineList.count {
+                if Data.wineList[i].name == name {
+                    Data.wineList[i].abv = newAbv
+                    wineComparison.reloadSections(sections as IndexSet, with: .automatic)
+                }
+            }
+        }
+        alculate()
+    }
+    
     func insertRowFor(table: String) {
         let tables = [beerComparison,liquorComparison,wineComparison]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]

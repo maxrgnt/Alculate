@@ -12,6 +12,7 @@ protocol TextEntryDelegate: AnyObject {
     func displayAlert(alert: UIAlertController)
     func hideTextEntry()
     func reloadTable(table: String)
+    func updateComparison(for: String, ofType: String, wABV: String)
     func insertRowFor(table: String)
 }
 
@@ -150,7 +151,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func outputFromSavedABV(name: String, abv: String) {
         output[0] = name
         output[1] = abv
-        inputs.name.setTitle(name, for: .normal)
+        inputs.name.setTitle(name.capitalizingFirstLetter(), for: .normal)
         inputs.abv.setTitle("\(abv)%", for: .normal)
     }
     
@@ -395,7 +396,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func updateSavedABVTable() {
-        let name = output[0].lowercased()
+        let name = output[0]
         let abv = output[1]
         if let info = Data.masterList[name] {
             let savedAbv = info.abv
@@ -406,6 +407,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .default, handler: { action in
                     Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
                     self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+                    self.textEntryDelegate!.updateComparison(for: name, ofType: self.entryID, wABV: abv)
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Keep \(savedAbv)%", style: .cancel, handler: { action in
                     //
@@ -416,6 +418,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         else {
             Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
             self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+            self.textEntryDelegate!.updateComparison(for: name, ofType: entryID, wABV: abv)
         }
     }
     

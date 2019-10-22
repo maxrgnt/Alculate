@@ -13,6 +13,7 @@ protocol SavedABVTableDelegate {
     func animateUndo(onScreen: Bool)
     func reloadTable(table: String)
     func editSavedABV(name: String, abv: String, type: String)
+    func adjustHeaderBackground()
 }
 
 class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SavedABVCellDelegate {
@@ -39,7 +40,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .singleLine
-        separatorColor = .gray
+        separatorColor = .lightGray
         sectionIndexColor = UI.Color.softWhite
         sectionIndexBackgroundColor = UIColor.clear
     }
@@ -56,17 +57,17 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
          */
         let masterCount: CGFloat = CGFloat(Data.masterList.count)
         let section: CGFloat = CGFloat(indexPath.section)
-        let row: CGFloat = CGFloat(indexPath.row)
+//        let row: CGFloat = CGFloat(indexPath.row)
         let blah: CGFloat = ((section*(section+1))/2)/masterCount
         let R: CGFloat = ((1-blah) * CGFloat(75))  + (blah * CGFloat(100))
         let G: CGFloat = ((1-blah) * CGFloat(63))  + (blah * CGFloat(87))
         let B: CGFloat = ((1-blah) * CGFloat(114)) + (blah * CGFloat(166))
-        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
+//        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
         cell.setBackgroundColor(R: R, G: G, B: B)
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
         return cell
     }
-    
+        
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         var indexTitles: [String]? = Data.headers
         if isMoving {
@@ -127,6 +128,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
 
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.savedABVTableDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
             scrollView.contentOffset.y = 0
         }

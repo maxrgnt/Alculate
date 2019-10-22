@@ -1,0 +1,303 @@
+type,name,abv
+B,abita amber,4.5
+B,abita golden,4.2
+B,abita jockamo ipa,6.5
+B,abita light,4
+B,abita purple haze,4.2
+B,abita restoration,5
+B,abita turbodog,5.6
+B,amstel light,4.1
+B,anchor porter,5.6
+B,anchor steam,4.9
+B,augustiner amber lager,4.3
+B,bass ale,5
+B,beach bum blonde ale,5.4
+B,beck's,5
+B,beck's light,2.3
+B,blatz beer,4.8
+B,blue moon belgian white,5.36
+B,blue moon full moon winter ale,5.52
+B,blue moon harvest moon pumpkin ale,5.76
+B,blue moon honey moon summer ale,5.12
+B,blue moon rising moon spring ale,5.4
+B,blue point toasted lager,5.3
+B,boddington's ale,4.7
+B,brooklyn black chocolate stout,10
+B,brooklyn brown ale,5.6
+B,brooklyn east india pale ale,6.9
+B,brooklyn lager,5.2
+B,brooklyn monster,10.1
+B,brooklyn pennant pale ale,5
+B,brooklyn pilsner,5.1
+B,brooklyn summer ale,5
+B,brooklyn winter ale,6.1
+B,bud american ale,5.3
+B,bud ice,5.5
+B,bud light,4.2
+B,bud light chelada clamato,4.2
+B,bud light lime,4.2
+B,bud light platinum,6
+B,budweiser,5
+B,budweiser chelada,5
+B,budweiser select,4.3
+B,budweiser select 55,2.4
+B,busch,4.3
+B,busch ice,5.9
+B,busch light,4.1
+B,carling black label,4.3
+B,coors banquet,5
+B,coors extra gold,4.97
+B,coors light,4.2
+B,corona extra,4.6
+B,corona familiar,4.8
+B,corona light,4.1
+B,corona premier,4
+B,cristal (peru),4.6
+B,cusquena,4.8
+B,deschutes black butte porter,5.2
+B,deschutes fresh squeezed ipa,6.4
+B,deschutes inversion ipa,6.8
+B,deschutes mirror pond ale,5
+B,dogfish head 120 minute ipa,18
+B,dogfish head 60 minute ipa,6
+B,dogfish head 90 minute ipa,9
+B,dogfish head midas touch,9
+B,dogfish head red & white,10
+B,dogfish head shelter pale ale,5
+B,efes pils,5
+B,firestone dba,5
+B,flying dog doggie style pale ale,5.5
+B,flying dog double dog,11.5
+B,flying dog gonzo,9.2
+B,flying dog horn dog,10.2
+B,flying dog in heat wheat,4.7
+B,flying dog kerberos tripel,8.5
+B,flying dog old scratch amber lager,5.5
+B,flying dog raging bitch,8.3
+B,flying dog road dog,6
+B,flying dog snake dog ipa,7.1
+B,flying dog tire bite golden ale,5.1
+B,foster's,5
+B,foster's premium ale,5.5
+B,genesee beer,4.5
+B,genesee cream ale,5.1
+B,genesee ice,5.9
+B,genesee red,4.9
+B,george killian's irish red,5.4
+B,grolsch amber ale,5.4
+B,grolsch blonde lager,2.8
+B,grolsch light lager,3.6
+B,grolsch premium lager,5
+B,guinness draught,4.27
+B,guinness extra stout,5
+B,hamm's beer,4.7
+B,hamm's special light,3.8
+B,harbin,4.6
+B,harp lager,5.2
+B,heineken,5
+B,heineken light,4.2
+B,hiland light,4
+B,hoegaarden belgian white,4.9
+B,irish red ale,5.7
+B,iron city,4.5
+B,iron city light,4.15
+B,keystone ice,5.9
+B,keystone light,4.13
+B,keystone premium,4.43
+B,kirin,5
+B,kirin light,3.2
+B,lagunitas brown shugga',9.7
+B,lagunitas hop stoopid,8
+B,lagunitas ipa,6.2
+B,lagunitas little sumpin' sumpin' ale,7.5
+B,lech,4.9
+B,leinenkugel amber light,4.14
+B,leinenkugel creamy dark,4.94
+B,leinenkugel honey weiss,4.92
+B,leinenkugel light,4.19
+B,leinenkugel northwoods lager,4.94
+B,leinenkugel original,4.67
+B,leinenkugel red,4.94
+B,leinenkugel sunset wheat,4.9
+B,lowenbrau dark,5
+B,lowenbrau special beer,5.2
+B,magic hat #9,5.1
+B,michael shea's,4.62
+B,michelob amberbock,5.2
+B,michelob beer,5
+B,michelob dunkelweisse,5.5
+B,michelob golden draft,4.7
+B,michelob golden draft light,4.1
+B,michelob honey lager,4.9
+B,michelob light,4.3
+B,michelob pale ale,5.6
+B,michelob porter,5.9
+B,michelob ultra,4.2
+B,michelob ultra amber,4
+B,michelob ultra lime cactus,4
+B,michelob ultra pure gold,4.3
+B,mickey's ice,5.8
+B,miller fortune,6.9
+B,miller genuine draft (mgd),4.6
+B,miller high life,4.6
+B,miller high life light,4.1
+B,miller lite,4.2
+B,miller64,2.8
+B,milwaukee's best (premium),4.8
+B,milwaukee's best ice (beast ice),5.9
+B,milwaukee's best light,4.1
+B,modelo especial,4.4
+B,molson canadian,5
+B,molson canadian 67,3
+B,molson canadian light,3.9
+B,molson ice,5.6
+B,natty daddy,8
+B,natural ice,5.9
+B,natural light,4.2
+B,negra modelo,5.4
+B,new belgium 1554,5.6
+B,new belgium 2 below,6.6
+B,new belgium abbey,7
+B,new belgium blue paddle,4.8
+B,new belgium fat tire,5.2
+B,new belgium mothership wit,4.8
+B,new belgium skinny dip,4.2
+B,new belgium sunshine wheat,4.8
+B,new belgium trippel,7.8
+B,new planet tread lightly ale,5
+B,newcastle brown ale,4.7
+B,old milwaukee beer,4.6
+B,old milwaukee light,3.82
+B,olympia premium lager,4.7
+B,ommegang three philosophers,9.7
+B,omission ipa,6.7
+B,omission lager,4.6
+B,omission pale ale,5.8
+B,omission ultimate light,4.2
+B,pabst blue ribbon,4.74
+B,pabst extra light low alcohol,2.5
+B,pacifico,4.4
+B,peroni nastro azzurro,5.1
+B,pete's wicked ale,5.3
+B,pilsner urquell,4.4
+B,presidente,5
+B,red bridge,4.8
+B,red dog,5
+B,red stripe,4.9
+B,redd's apple ale,5
+B,redhook esb,5.77
+B,redhook ipa,6.5
+B,redhook slim chance,3.9
+B,rock bottom illuminator doppelback,6.67
+B,rogue dead guy ale,6.8
+B,rolling rock extra pale,4.6
+B,rolling rock green light,3.7
+B,rolling rock premium beer,4.5
+B,russian river pliny the elder,8
+B,sam adams black lager,4.9
+B,sam adams blackberry witbier,5.5
+B,sam adams boston ale,5.4
+B,sam adams boston lager,5
+B,sam adams brown ale,5.35
+B,sam adams cherry wheat,5.4
+B,sam adams coastal wheat,5.3
+B,sam adams cream stout,4.9
+B,sam adams hefeweizen,5.4
+B,sam adams honey porter,5.45
+B,sam adams imperial double bock,9.5
+B,sam adams imperial stout,9.2
+B,sam adams imperial white,10.3
+B,sam adams ipa,5.93
+B,sam adams irish red,5.5
+B,sam adams light,4.3
+B,sam adams octoberfest,5.4
+B,sam adams pale ale,5.4
+B,sam adams scotch ale,5.4
+B,sam adams summer ale,5.3
+B,sam adams white ale,5.4
+B,sam adams winter lager,5.8
+B,schaefer beer,4.6
+B,schlitz beer,4.7
+B,schlitz light,4.2
+B,sculpin ipa,7
+B,shipyard light,3.9
+B,shock top,5.2
+B,sierra nevada anniversary ale,5.9
+B,sierra nevada bigfoot,9.6
+B,sierra nevada celebration ale,6.8
+B,sierra nevada draft ale,5
+B,sierra nevada early spring beer,5.9
+B,sierra nevada harvest ale,6.7
+B,sierra nevada india pale ale,6.9
+B,sierra nevada pale ale,5.6
+B,sierra nevada pale bock,7
+B,sierra nevada porter,5.6
+B,sierra nevada stout,5.8
+B,sierra nevada summerfest,5
+B,sierra nevada wheat beer,4.4
+B,signature stroh beer,4.8
+B,smithwick's,4.5
+B,smuttynose fineskind ipa,6.9
+B,sol cerveza,4.2
+B,southpaw light,5
+B,st. pauli girl,4.9
+B,st. pauli girl special dark,4.8
+B,stella artois,5.2
+B,stone pale ale,5.64
+B,strauss endless summer light,3.3
+B,stroh's beer,4.6
+B,stroh's light,4.4
+B,tsingtao,4.8
+B,tuborg deluxe dark export,5.1
+B,tuborg export quality,5
+B,tyskie,5.3
+B,victoria,4.04
+B,weinhard's amber light,4.2
+B,weinhard's blonde lager,5.1
+B,weinhard's hefeweizen,4.9
+B,weinhard's pale ale,4.6
+B,weinhard's private reserve,4.8
+B,widmer hefeweizen,4.9
+B,winter's bourbon cask ale,6
+B,wyder's apple cider,5
+B,wyder's pear cider,5
+B,yuengling lager,4.5
+B,yuengling light lager,3.8
+B,yuengling lord chesterfield ale,5.4
+B,yuengling oktoberfest,5.4
+B,yuengling porter,4.7
+B,yuengling porter,4.7
+B,yuengling premium beer,4.5
+L,bacardi 151,75.5
+L,bacardi superior,40
+L,bombay sapphire,47
+L,bourbon (90 proof),45
+L,captain morgan original spiced,35
+L,captain morgan private stock,40
+L,dewar's,40
+L,everclear,95
+L,jack daniels,40
+L,jameson,40
+L,jim beam,40
+L,jim beam black label,43
+L,johnny walker (except green),40
+L,johnny walker green,43
+L,sailor jerry,46
+L,tanqueray london dry gin,41.3
+L,tequila (80 proof),40
+L,vodka (100 proof),50
+L,vodka (80 proof),40
+L,whiskey (80 proof),40
+L,vermouth (extra dry),15
+L,bitters,44.7
+L,malibu,24
+L,fireball,33
+L,triple sec,40
+L,vermouth (sweet),15
+L,sambuca,40
+L,peach schnaaps,23
+L,jagermeister,35
+L,bailey's irish creme,17
+L,kahlua,26.5
+L,amaretto,28
+L,chambord,16.5

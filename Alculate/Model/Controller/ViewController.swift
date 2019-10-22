@@ -310,9 +310,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                                    ind: listPiece.ind)
                 }
             }
-            valueTopLine.drinkName.text = bestPrice.name.capitalizingFirstLetter()
+            valueTopLine.drinkName.text = bestPrice.name.capitalized
             valueTopLine.value.text = "$"+bestPrice.best
-            effectTopLine.drinkName.text = bestRatio.name.capitalizingFirstLetter()
+            effectTopLine.drinkName.text = bestRatio.name.capitalized
             effectTopLine.value.text = bestRatio.best
         }
         // if all lists are empty, dont alculate
@@ -344,7 +344,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         (appNavigator.sortMethod == "effect") ? sortByValue() : sortByEffect()
         appNavigator.sortMethod = (appNavigator.sortMethod == "effect") ? "value" : "effect"
         // update button title with new order by
-        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalizingFirstLetter())", for: .normal)
+        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalized)", for: .normal)
         // update top line
         alculate()
     }
@@ -412,6 +412,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         textEntry.changeInputLevel(sender: textEntry.navigator.forward)
         // hide back and done buttons
         textEntry.navigator.backwardBottom.constant = UI.Sizing.appNavigatorHeight
+    }
+    
+    func adjustHeaderBackground() {
+        let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0])
+        savedABV.header.backgroundColor = cell!.backgroundColor
     }
     
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {

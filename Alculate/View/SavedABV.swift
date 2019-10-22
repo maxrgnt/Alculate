@@ -62,7 +62,7 @@ class SavedABV: UIView {
             savedABVleading,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
+            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.savedABVtop),
             header.centerXAnchor.constraint(equalTo: centerXAnchor),
             header.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             header.topAnchor.constraint(equalTo: topAnchor),

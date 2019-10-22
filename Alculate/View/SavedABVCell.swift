@@ -47,8 +47,8 @@ class SavedABVCell: UITableViewCell {
         addSubview(delete)
         delete.titleLabel?.font = UI.Font.cellHeaderFont
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(.white, for: .normal)
-        delete.backgroundColor = UI.Color.alculatePurpleLite
+        delete.setTitleColor(UI.Color.alculatePurpleDark, for: .normal)
+        delete.backgroundColor = .lightGray
         delete.contentVerticalAlignment = .center
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
         delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
@@ -85,7 +85,7 @@ class SavedABVCell: UITableViewCell {
         let abv = Data.masterList[nameFromMemory]!.abv
         let type = Data.masterList[nameFromMemory]!.type
         icon.image = UIImage(named: type)
-        drinkName.text = nameFromMemory.capitalizingFirstLetter()
+        drinkName.text = nameFromMemory.capitalized
         drinkInfo.text = "\(abv)%"
     }
     

@@ -152,7 +152,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func outputFromSavedABV(name: String, abv: String) {
         output[0] = name
         output[1] = abv
-        inputs.name.setTitle(name.capitalizingFirstLetter(), for: .normal)
+        inputs.name.setTitle(name.capitalized, for: .normal)
         inputs.abv.setTitle("\(abv)%", for: .normal)
     }
     
@@ -217,7 +217,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     func formatOutput(with changedText: String, atLevel level: Int) -> String {
         var formattedText = ""
         // add the % and $ to percent and price
-        (level == 0) ? formattedText = changedText.capitalizingFirstLetter() : nil
+        (level == 0) ? formattedText = changedText.capitalized : nil
         (level == 1) ? formattedText = "\(changedText)%" : nil
         (level == 2) ? formattedText = changedText : nil
         (level == 3) ? formattedText = "$\(changedText)" : nil
@@ -295,7 +295,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         if !filtered.isEmpty {
             // update suggestion with new text
             suggestedName = filtered[0].lowercased()
-            navigator.suggestion.setTitle("Use '\(suggestedName.capitalizingFirstLetter())'?", for: .normal)
+            navigator.suggestion.setTitle("Use '\(suggestedName.capitalized)'?", for: .normal)
             // animate
             animateSuggestions(to: 0)
         }

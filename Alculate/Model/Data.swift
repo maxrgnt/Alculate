@@ -37,7 +37,7 @@ struct Data {
                 // go through every alcohol in list of alcohol names if it isnt empty
                 if !alcoholNames.isEmpty {
                     for alcohol in alcoholNames {
-                        let firstLetterLastName = String(alcohol.prefix(1))
+                        let firstLetterLastName = String(alcohol.prefix(1)).capitalized
                         // if first letter does not exist in headers, add it
                         if !headers.contains(firstLetterLastName) {
                             headers.append(firstLetterLastName)
@@ -51,7 +51,7 @@ struct Data {
                     }
                     // add each alcohol name to first letter list in matrix
                     for alcohol in alcoholNames {
-                        let firstLetterLastName = String(alcohol.prefix(1))
+                        let firstLetterLastName = String(alcohol.prefix(1)).capitalized
                         matrix[firstLetterLastName]!.append(alcohol)
                     }
                     // sort each letter list in matrix alphabetically
@@ -64,19 +64,19 @@ struct Data {
     }
     
     static func txtFile() {
-        let path = Bundle.main.path(forResource: "alcohol", ofType: "txt")
+        let path = Bundle.main.path(forResource: "alcohol", ofType: "csv")
         let filemgr = FileManager.default
         if filemgr.fileExists(atPath: path!) {
             do {
                 let fullText = try String(contentsOfFile: path!, encoding: .ascii)
-                let readings = fullText.components(separatedBy: "\r") as [String]
+                let readings = fullText.components(separatedBy: "\n") as [String]
                 let size = readings.count
                 print("- trying to pull .txt -")
                 for i in 1...(size-1) {
-                    let alcData = readings[i].components(separatedBy: "\t")
-                    var type = alcData[0];
+                    let alcData = readings[i].components(separatedBy: ",")
+                    var type = String(alcData[0])
                     type = (type=="B") ? "BeerList" : ""
-                    type = (type=="L" || type == "") ? "LiquorList" : ""
+                    type = (type=="L" || type == "") ? "LiquorList" : type
                     type = (type=="W" || type == "") ? "WineList" : type
                     let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
                     let abv = String(alcData[2])

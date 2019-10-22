@@ -77,7 +77,7 @@ class ComparisonCell: UITableViewCell {
     
     // MARK: - Label Setter
     func setLabels(with info: (name: String, abv: String, size: String, price: String)) {
-        container.drinkName.text = "\(info.name.capitalizingFirstLetter())"
+        container.drinkName.text = "\(info.name.capitalized)"
         // convert price to $X.00 format
         let price = String(format: "%.2f", Double(info.price)!)
         // get the unitForSize by dropping the first part of string

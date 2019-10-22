@@ -415,8 +415,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func adjustHeaderBackground() {
-        let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0])
-        savedABV.header.backgroundColor = cell!.backgroundColor
+        if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
+            savedABV.header.backgroundColor = cell.backgroundColor
+        }
     }
     
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {

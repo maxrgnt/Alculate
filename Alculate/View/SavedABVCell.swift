@@ -50,6 +50,7 @@ class SavedABVCell: UITableViewCell {
         delete.setTitleColor(UI.Color.alculatePurpleDark, for: .normal)
         delete.backgroundColor = .lightGray
         delete.contentVerticalAlignment = .center
+        delete.contentHorizontalAlignment = .center
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
         delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
         

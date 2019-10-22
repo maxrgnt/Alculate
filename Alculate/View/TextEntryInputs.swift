@@ -41,6 +41,7 @@ class TextEntryInputs: UIView {
             field.alpha = 0.5
             field.setTitle(titles[i], for: .normal)
             field.backgroundColor = .clear
+            field.titleLabel?.font = UI.Font.cellHeaderFont
             field.contentHorizontalAlignment = (i<3||i>4) ? .left : .center
             field.setTitleColor(UI.Color.softWhite, for: .normal)
         }

@@ -40,6 +40,7 @@ class TextNavigator: UIView {
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
+            button.titleLabel?.font = UI.Font.cellHeaderFont
             button.setTitleColor(UI.Color.softWhite, for: .normal)
             button.contentHorizontalAlignment = .center //alignments[i]
         }
@@ -47,6 +48,7 @@ class TextNavigator: UIView {
         addSubview(suggestion)
         suggestion.tag = 2
         suggestion.backgroundColor = .clear
+        suggestion.titleLabel?.font = UI.Font.cellHeaderFont
         suggestion.setTitle("Use 'Coors Light'", for: .normal)
         suggestion.setTitleColor(UI.Color.softWhite, for: .normal)
         suggestion.contentHorizontalAlignment = .left

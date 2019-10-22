@@ -44,6 +44,7 @@ class AppNavigator: UIView {
             button.layer.borderColor = UI.Color.alculatePurpleDark.cgColor
             button.contentHorizontalAlignment = .center
             button.contentVerticalAlignment = .center
+            button.titleLabel?.font = UI.Font.cellHeaderFont
             button.setTitle("+ add \(buttonText[i])", for: .normal)
             button.setTitleColor(UI.Color.softWhite, for: .normal)
             button.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
@@ -62,6 +63,7 @@ class AppNavigator: UIView {
             button.contentVerticalAlignment = .center
             button.contentHorizontalAlignment = alignments[i]
             button.setTitle(buttonText[i], for: .normal)
+            button.titleLabel?.font = UI.Font.cellHeaderFont
             button.setTitleColor(UI.Color.softWhite, for: .normal)
         }
         

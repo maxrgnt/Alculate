@@ -417,6 +417,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     func adjustHeaderBackground() {
         if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
             savedABV.header.backgroundColor = cell.backgroundColor
+            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }
     

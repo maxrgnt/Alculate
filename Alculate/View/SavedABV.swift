@@ -22,6 +22,7 @@ class SavedABV: UIView {
     
     // Objects
     var gradient = CAGradientLayer()
+    let statusBar = StatusBar()
     let header = UIView()
     let headerLabel = UILabel()
     var savedABVTable = SavedABVTable()
@@ -34,9 +35,9 @@ class SavedABV: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        clipsToBounds = true
+        clipsToBounds = false
         backgroundColor = UI.Color.alculatePurpleDark
-        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
+//        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
@@ -77,6 +78,8 @@ class SavedABV: UIView {
             savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])
         
+        addSubview(statusBar)
+        statusBar.build(leading: savedABVleading)
 //        buildGradient()
     }
     

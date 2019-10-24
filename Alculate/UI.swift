@@ -51,7 +51,7 @@ struct UI {
         
         // Comparison Header
         static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
-        static let comparisonIconDiameter = ((width/3)-(objectPadding))*(2/3)
+        static let comparisonIconDiameter = ((width/3)-(objectPadding))*(1/2)
         static let comparisonHeaderHeight = (width/3)*(2/3)
         static let comparisonHeaderWidth = width/3
         // Comparison Table
@@ -76,11 +76,11 @@ struct UI {
         // Saved ABV
         static let savedABVheight = height
         static let savedABVtop = statusBar.height
-        static let savedABVheaderHeight = savedABVrowHeight*(3/2)
-        static let savedABVtableHeight = savedABVheight-savedABVheaderHeight
+        static let savedABVheaderHeight = savedABVheight-savedABVrowHeight*(12)
+        static let savedABVtableHeight = savedABVrowHeight*(12) // savedABVheight-savedABVheaderHeight
         static let savedABVrowHeight = headerHeight
         static let savedABVmainWidth = width-headerHeight-objectPadding*(3/2)-savedABVdeleteDiameter
-        static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(2/3)
+        static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(1/2)
         static let savedABVdeleteDiameter = savedABVrowHeight*(2/3)
         static let savedABVdeleteRadius = savedABVdeleteDiameter/2
         static let savedABVtopLineHeight = savedABVrowHeight*(2/3)

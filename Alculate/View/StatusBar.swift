@@ -11,14 +11,21 @@ import UIKit
 class StatusBar: UIView {
     
     init() {
-        // Set view origin (top left of screen)
-        let viewOrigin = CGPoint(x: 0, y: 0)
-        // Set view size (height of the status bar)
-        let viewSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.statusBar.height)
         // Initialize frame of view
-        super.init(frame: CGRect(origin: viewOrigin, size: viewSize))
+        super.init(frame: CGRect.zero)
         // Set background color you want to mask the status bar as
         backgroundColor = UI.Color.alculatePurpleDark
+    }
+    
+    func build(leading: NSLayoutConstraint) {
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            // View constraints
+            widthAnchor.constraint(equalToConstant: UI.Sizing.width),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.statusBar.height),
+            leadingAnchor.constraint(equalTo: leadingAnchor),
+            topAnchor.constraint(equalTo: ViewController.topAnchor)
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -21,7 +21,7 @@ class TapDismiss: UIView {
         super.init(frame: CGRect.zero)
         // Set background color you want to mask the status bar as
         addSubview(TapDismiss.dismiss)
-        backgroundColor = UI.Color.alculatePurpleDark
+        backgroundColor = .clear
     }
     
     func build() {

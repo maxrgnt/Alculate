@@ -52,9 +52,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         //
         view.backgroundColor = UI.Color.alculatePurpleDark
         
-        build()
+//        let domain = Bundle.main.bundleIdentifier!
+//        UserDefaults.standard.removePersistentDomain(forName: domain)
+//        UserDefaults.standard.synchronize()
+//        Data.deleteCoreDataFor(entity: Data.masterListID)
+
         //clearTestData()
         handleInit()
+        build()
+        
     }
     
     // MARK: - Initialization / Testing
@@ -140,14 +146,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
             // onboarding
             UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+            Data.txtFile()
+            Data.loadList(for: Data.masterListID)
+            alculate()
         }
         else {
             // normal run
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
-            Data.txtFile()
-            savedABV.savedABVTable.reloadData()
             alculate()
         }
     }

@@ -34,10 +34,11 @@ class TopLinePiece: UIView {
             label.textAlignment = alignText
         }
         category.textAlignment = .center
-        category.font = UI.Font.cellHeaderFont
-        drinkName.font = UI.Font.cellStubFont
-        value.font = UI.Font.cellStubFont
-        valueDescription.font = UI.Font.cellStubFont2
+        category.font = UI.Font.topLineCategory
+        category.alpha = 0.7
+        drinkName.font = UI.Font.topLinePrimary
+        value.font = UI.Font.topLinePrimary
+        valueDescription.font = UI.Font.topLineSecondary
         valueDescription.alpha = 0.7
         //
         addSubview(icon)

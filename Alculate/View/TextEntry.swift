@@ -291,7 +291,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 arrNames.append(key)
             }
         }
-        let filtered = arrNames.filter({ $0.contains(changedText) })
+        let filtered = arrNames.filter({ $0.starts(with: changedText) }) // .contains
         if !filtered.isEmpty {
             // update suggestion with new text
             suggestedName = filtered[0].lowercased()

@@ -72,6 +72,9 @@ struct Data {
                 let readings = fullText.components(separatedBy: "\n") as [String]
                 let size = readings.count
                 print("- trying to pull .txt -")
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+                let managedContext = appDelegate.persistentContainer.viewContext
+                let entity = NSEntityDescription.entity(forEntityName: "Alcohol", in: managedContext)!
                 for i in 1...(size-1) {
                     let alcData = readings[i].components(separatedBy: ",")
                     var type = String(alcData[0])
@@ -79,16 +82,19 @@ struct Data {
                     type = (type=="L" || type == "") ? "LiquorList" : type
                     type = (type=="W" || type == "") ? "WineList" : type
                     let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
-                    let abv = String(alcData[2])
+                    let abv = String(alcData[2]).filter { !"\r".contains($0) }
                     Data.masterList[name] = (type: type, abv: abv)
+                    //
+                    let alcohol = NSManagedObject(entity: entity, insertInto: managedContext)
+                    alcohol.setValue(name, forKeyPath: "name")
+                    alcohol.setValue(type, forKeyPath: "type")
+                    alcohol.setValue(abv, forKeyPath: "abv")
+                    do {
+                        try managedContext.save()
+                    } catch let error as NSError {
+                        print("Could not save. \(error), \(error.userInfo)")
+                    }
                 }
-//                    do {
-//                        try context.save()
-//                    }
-//                    catch {
-//                        let nserror = error as NSError
-//                        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//                    }
             }
             catch let error as NSError {
                 print("Error: \(error)")

@@ -76,8 +76,8 @@ struct UI {
         // Saved ABV
         static let savedABVheight = height
         static let savedABVtop = statusBar.height
-        static let savedABVheaderHeight = savedABVheight-savedABVrowHeight*(12)
-        static let savedABVtableHeight = savedABVrowHeight*(12) // savedABVheight-savedABVheaderHeight
+        static let savedABVheaderHeight = savedABVheight-savedABVrowHeight*(12.5)
+        static let savedABVtableHeight = savedABVrowHeight*(12.5) // savedABVheight-savedABVheaderHeight
         static let savedABVrowHeight = headerHeight
         static let savedABVmainWidth = width-headerHeight-objectPadding*(3/2)-savedABVdeleteDiameter
         static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(1/2)
@@ -122,6 +122,9 @@ struct UI {
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
         static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
+        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
+        static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
+        static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
         static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 14)
         static let cellStubFont2 = UIFont(name: "JosefinSans-Light", size: 11)
     }

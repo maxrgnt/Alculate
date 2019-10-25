@@ -31,6 +31,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var liquorComparison = ComparisonTable()
     var wineComparison = ComparisonTable()
     var savedABV = SavedABV()
+    var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
     var appNavigator = AppNavigator()
     var undo = Undo()
@@ -112,6 +113,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                     appNavigator.sortDifferent,appNavigator.showSavedABV] {
                         obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
+        
+        view.addSubview(tapDismiss)
+        tapDismiss.build()
         
         view.addSubview(textEntry)
         textEntry.build()
@@ -201,6 +205,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // MARK: - Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool, forLevel level: Int? = 0) {
+        TapDismiss.dismissTop.constant = 0
         // set entry id
         textEntry.entryID = id
         // set max level

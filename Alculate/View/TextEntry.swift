@@ -101,6 +101,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         inputs.ml.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.build()
         
+        TapDismiss.dismiss.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -370,7 +372,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         }
     }
     
-    func dismiss() {
+    @objc func dismiss() {
+        TapDismiss.dismissTop.constant = UI.Sizing.bounds.height
         navigator.doneBottom.constant = UI.Sizing.appNavigatorHeight
         //
         sizeUnit = "oz"

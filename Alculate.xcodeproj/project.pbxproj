@@ -14,6 +14,7 @@
 		6620AA51234B935F002275B3 /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620AA50234B935F002275B3 /* StatusBar.swift */; };
 		6620AA53234E7DD7002275B3 /* ComparisonHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6620AA52234E7DD7002275B3 /* ComparisonHeader.swift */; };
 		66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66216037234FE50100AB4BB9 /* ComparisonTable.swift */; };
+		662BB8922362811300BCA837 /* TapDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662BB8912362811300BCA837 /* TapDismiss.swift */; };
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
 		669931B92352623C00021512 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931B82352623C00021512 /* ViewController.swift */; };
@@ -75,6 +76,7 @@
 		6620AA50234B935F002275B3 /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
 		6620AA52234E7DD7002275B3 /* ComparisonHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonHeader.swift; sourceTree = "<group>"; };
 		66216037234FE50100AB4BB9 /* ComparisonTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTable.swift; sourceTree = "<group>"; };
+		662BB8912362811300BCA837 /* TapDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapDismiss.swift; sourceTree = "<group>"; };
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
 		669931B82352623C00021512 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				660043C22351196400E2A03A /* SavedABV.swift */,
 				660043C023510EF800E2A03A /* SavedABVTable.swift */,
 				660043BE23510A2B00E2A03A /* SavedABVCell.swift */,
+				662BB8912362811300BCA837 /* TapDismiss.swift */,
 				669931C62354FFD300021512 /* TextEntry.swift */,
 				66896A3A2357E0C400C5793F /* TextEntryInputs.swift */,
 				669931CA23550A4A00021512 /* TextNavigator.swift */,
@@ -416,6 +419,7 @@
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
 				669931CB23550A4A00021512 /* TextNavigator.swift in Sources */,
+				662BB8922362811300BCA837 /* TapDismiss.swift in Sources */,
 				66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */,
 				660043BF23510A2B00E2A03A /* SavedABVCell.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,

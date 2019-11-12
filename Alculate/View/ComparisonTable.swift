@@ -66,19 +66,17 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     }
 
     func updateTableContentInset() {
-        print("comparisonTableListID: \(comparisonTableListID)")
+        // number of rows in table
         let numRows = tableView(self, numberOfRowsInSection: 0)
-        print("numRows: \(numRows)")
+        // content inset
         var contentInsetTop = UI.Sizing.comparisonTableHeight
-        print("contentInsetTop: \(contentInsetTop)")
-        var i = 0
-        while i < numRows {
-            contentInsetTop -= UI.Sizing.comparisonRowHeight
-            i += 1
-        }
+        // Reset inest based on rows in table
+        contentInsetTop -= UI.Sizing.comparisonRowHeight*numRows
+        // Update spacing for new inset
         contentInsetTop -= UI.Sizing.objectPadding/2
+        // If the inset is less than 0 make it 0
         contentInsetTop = (contentInsetTop < 0) ? 0 : contentInsetTop
-        print("contentInsetTop_2: \(contentInsetTop)")
+        // Reset the inset
         self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
     }
     

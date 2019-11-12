@@ -56,7 +56,7 @@ struct UI {
         static let comparisonHeaderWidth = width/3
         // Comparison Table
         static let comparisonTableWidth = width/3
-        static let comparisonTableHeight = height-headerHeight-topLineHeight-comparisonHeaderHeight
+        static let comparisonTableHeight = height-headerHeight-topLineHeight-comparisonHeaderHeight-appNavigatorHeight
         static let comparisonTableTop = comparisonHeaderTop + comparisonHeaderHeight
         // Comparison Container
         static var containerConstraints = [(lead: 0.500*objectPadding, trail: -0.250*objectPadding),

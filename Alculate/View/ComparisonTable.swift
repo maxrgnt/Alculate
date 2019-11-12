@@ -62,8 +62,26 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
 //        tableHeaderView = header
 //        tableHeaderView?.layoutIfNeeded()
 //        tableHeaderView = tableHeaderView
+        updateTableContentInset()
     }
 
+    func updateTableContentInset() {
+        print("comparisonTableListID: \(comparisonTableListID)")
+        let numRows = tableView(self, numberOfRowsInSection: 0)
+        print("numRows: \(numRows)")
+        var contentInsetTop = UI.Sizing.comparisonTableHeight
+        print("contentInsetTop: \(contentInsetTop)")
+        var i = 0
+        while i < numRows {
+            contentInsetTop -= UI.Sizing.comparisonRowHeight
+            i += 1
+        }
+        contentInsetTop -= UI.Sizing.objectPadding/2
+        contentInsetTop = (contentInsetTop < 0) ? 0 : contentInsetTop
+        print("contentInsetTop_2: \(contentInsetTop)")
+        self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
+    }
+    
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
@@ -137,7 +155,8 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         let indexPath = self.indexPath(for: cell)
         let info = listForThisTable()[indexPath!.row]
         Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-        self.deleteRows(at: [indexPath!], with: .automatic)
+        self.deleteRows(at: [indexPath!], with: .bottom)
+        updateTableContentInset()
     }
     
     // MARK: - ScrollView Delegate

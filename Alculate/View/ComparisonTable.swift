@@ -71,7 +71,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         // content inset
         var contentInsetTop = UI.Sizing.comparisonTableHeight
         // Reset inest based on rows in table
-        contentInsetTop -= UI.Sizing.comparisonRowHeight*numRows
+        contentInsetTop -= CGFloat(numRows)*UI.Sizing.comparisonRowHeight
         // Update spacing for new inset
         contentInsetTop -= UI.Sizing.objectPadding/2
         // If the inset is less than 0 make it 0

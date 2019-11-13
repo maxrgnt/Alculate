@@ -62,6 +62,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
 //        tableHeaderView = header
 //        tableHeaderView?.layoutIfNeeded()
 //        tableHeaderView = tableHeaderView
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
+        footer.backgroundColor = backgroundColor
+        tableFooterView = footer
+        
         updateTableContentInset()
     }
 
@@ -72,12 +76,14 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         var contentInsetTop = UI.Sizing.comparisonTableHeight
         // Reset inest based on rows in table
         contentInsetTop -= CGFloat(numRows)*UI.Sizing.comparisonRowHeight
-        // Update spacing for new inset
-        contentInsetTop -= UI.Sizing.objectPadding/2
         // If the inset is less than 0 make it 0
         contentInsetTop = (contentInsetTop < 0) ? 0 : contentInsetTop
         // Reset the inset
         self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
+        //
+        let lastCell = listForThisTable().count-1
+        let indexPath = IndexPath(row: lastCell, section: 0)
+        scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
     
     // MARK: - TableView Delegate

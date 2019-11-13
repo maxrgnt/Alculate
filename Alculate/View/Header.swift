@@ -9,8 +9,9 @@
 import UIKit
 
 class Header: UIView {
-         
+     
     // Objects
+    let statusBar = StatusBar()
     let appName = UILabel()
     
     init() {
@@ -21,7 +22,8 @@ class Header: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        clipsToBounds = true
+        clipsToBounds = false
+        backgroundColor = UI.Color.alculatePurpleDark
         // Object settings
         addSubview(appName)
         appName.textColor = UI.Color.softWhite
@@ -44,6 +46,9 @@ class Header: UIView {
             appName.centerXAnchor.constraint(equalTo: centerXAnchor),
             appName.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
+        
+        addSubview(statusBar)
+        statusBar.build(leading: ViewController.leadingAnchor)
     }
 
     required init?(coder aDecoder: NSCoder) {

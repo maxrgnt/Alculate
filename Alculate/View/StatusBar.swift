@@ -17,13 +17,13 @@ class StatusBar: UIView {
         backgroundColor = UI.Color.alculatePurpleDark
     }
     
-    func build(leading: NSLayoutConstraint) {
+    func build(leading: NSLayoutXAxisAnchor) {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.statusBar.height),
-            leadingAnchor.constraint(equalTo: leadingAnchor),
+            leadingAnchor.constraint(equalTo: leading),
             topAnchor.constraint(equalTo: ViewController.topAnchor)
             ])
     }

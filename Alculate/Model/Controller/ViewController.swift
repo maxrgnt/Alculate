@@ -51,7 +51,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         //
-        view.backgroundColor = UI.Color.alculatePurpleDark
+        view.backgroundColor = UI.Color.alculatePurpleLite
         
 //        let domain = Bundle.main.bundleIdentifier!
 //        UserDefaults.standard.removePersistentDomain(forName: domain)
@@ -109,8 +109,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
         view.addSubview(appNavigator)
         appNavigator.build()
-        for obj in [appNavigator.addBeer,appNavigator.addLiquor,appNavigator.addWine,
-                    appNavigator.sortDifferent,appNavigator.showSavedABV] {
+        for obj in [appNavigator.addBeer,appNavigator.addLiquor,appNavigator.addWine,appNavigator.showSavedABV] {
                         obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
         
@@ -356,7 +355,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         (appNavigator.sortMethod == "effect") ? sortByValue() : sortByEffect()
         appNavigator.sortMethod = (appNavigator.sortMethod == "effect") ? "value" : "effect"
         // update button title with new order by
-        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalized)", for: .normal)
+//        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalized)", for: .normal)
         // update top line
         alculate()
     }

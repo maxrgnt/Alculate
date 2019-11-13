@@ -17,7 +17,6 @@ class AppNavigator: UIView {
     var addBeer = UIButton()
     var addLiquor = UIButton()
     var addWine = UIButton()
-    var sortDifferent = UIButton()
     var showSavedABV = UIButton()
     let bounceBuffer = UILabel()
     
@@ -53,10 +52,10 @@ class AppNavigator: UIView {
         addSubview(bounceBuffer)
         bounceBuffer.backgroundColor = UI.Color.alculatePurpleDark
         //
-        let alignments: [UIControl.ContentHorizontalAlignment] = [.left, .right]
-        buttonText = ["Order by Value","Saved ABVs"]
-        for (i,button) in [sortDifferent,showSavedABV].enumerated() {
-            button.tag = i
+        let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
+        buttonText = ["Saved ABVs"]
+        for (i,button) in [showSavedABV].enumerated() {
+            button.tag = 1
             addSubview(button)
             button.alpha = 0.7
             button.backgroundColor = .clear
@@ -85,7 +84,7 @@ class AppNavigator: UIView {
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [sortDifferent,showSavedABV,addBeer,addLiquor,addWine,bounceBuffer] {
+        for obj in [showSavedABV,addBeer,addLiquor,addWine,bounceBuffer] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.appNavigatorHeight)
@@ -94,16 +93,15 @@ class AppNavigator: UIView {
             heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight+UI.Sizing.appNavigatorBounceBuffer),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
-            sortDifferent.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            showSavedABV.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+            showSavedABV.centerXAnchor.constraint(equalTo: centerXAnchor),
             bounceBuffer.widthAnchor.constraint(equalTo: widthAnchor),
             bounceBuffer.heightAnchor.constraint(equalToConstant: UI.Sizing.objectPadding),
             bounceBuffer.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        for button in [sortDifferent,showSavedABV] {
+        for button in [showSavedABV] {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
-                button.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight-UI.Sizing.headerHeight),
+                button.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight-UI.Sizing.headerHeight-UI.Sizing.objectPadding),
                 button.topAnchor.constraint(equalTo: addLiquor.bottomAnchor)
             ])
         }

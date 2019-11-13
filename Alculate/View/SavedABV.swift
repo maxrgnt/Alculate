@@ -79,7 +79,7 @@ class SavedABV: UIView {
             ])
         
         addSubview(statusBar)
-        statusBar.build(leading: savedABVleading)
+        statusBar.build(leading: header.leadingAnchor)
 //        buildGradient()
     }
     

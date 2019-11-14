@@ -42,12 +42,15 @@ struct UI {
         // Top line sizing
         static let topLineHeight = height*topLineRatio
         static let topLinePieceWidth = width/2
-        static let topLineTop = statusBar.height + headerHeight
+        static let topLineTop = -topLineHeight-appNavigatorHeight
         // user input sizing
         static let userInputHeight = height*(userInputRatio)
         static let userInputRadius = width/10
         static let inputTextHeight = height*(headerRatio)
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
+        
+        //
+        static let addComparisonHeight = headerHeight+objectPadding
         
         // Comparison Header
         static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
@@ -56,8 +59,8 @@ struct UI {
         static let comparisonHeaderWidth = width/3
         // Comparison Table
         static let comparisonTableWidth = width/3
-        static let comparisonTableHeight = height-headerHeight-topLineHeight-comparisonHeaderHeight-appNavigatorHeight
-        static let comparisonTableTop = comparisonHeaderTop + comparisonHeaderHeight
+        static let comparisonTableHeight = height-headerHeight-topLineHeight-appNavigatorHeight-addComparisonHeight
+        static let comparisonTableTop = statusBar.height + headerHeight
         // Comparison Container
         static var containerConstraints = [(lead: 0.500*objectPadding, trail: -0.250*objectPadding),
                                            (lead: 0.375*objectPadding, trail: -0.375*objectPadding),
@@ -87,7 +90,7 @@ struct UI {
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
         static let savedABVgestureThreshold = UI.Sizing.width/8
         // App Navigator
-        static let appNavigatorHeight = (headerHeight*2.5)
+        static let appNavigatorHeight = (headerHeight*1.5)
         static let appNavigatorBounceBuffer = objectPadding
         static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
         // Text Entry

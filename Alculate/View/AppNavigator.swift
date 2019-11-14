@@ -31,29 +31,14 @@ class AppNavigator: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = .clear
+        backgroundColor = UI.Color.alculatePurpleDark
         clipsToBounds = true
         // Object settings
-        var buttonText = ["Beer","Liquor","Wine"]
-        for (i, button) in [addBeer,addLiquor,addWine].enumerated() {
-            button.tag = 20+i
-            addSubview(button)
-            button.backgroundColor = UI.Color.alculatePurpleLite
-            button.layer.borderWidth = UI.Sizing.containerBorder
-            button.layer.borderColor = UI.Color.alculatePurpleDark.cgColor
-            button.contentHorizontalAlignment = .center
-            button.contentVerticalAlignment = .center
-            button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitle("+ add \(buttonText[i])", for: .normal)
-            button.setTitleColor(UI.Color.softWhite, for: .normal)
-            button.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
-        }
-        //
         addSubview(bounceBuffer)
         bounceBuffer.backgroundColor = UI.Color.alculatePurpleDark
         //
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
-        buttonText = ["Saved ABVs"]
+        let buttonText = ["Saved ABVs"]
         for (i,button) in [showSavedABV].enumerated() {
             button.tag = 1
             addSubview(button)
@@ -66,25 +51,9 @@ class AppNavigator: UIView {
             button.setTitleColor(UI.Color.softWhite, for: .normal)
         }
         
-        // MARK: - Gradient Settings
-        // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: 0)
-        // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.appNavigatorHeight)
-        let gradient = CAGradientLayer()
-        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
-        // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleLite.withAlphaComponent(0.0).cgColor,
-                           UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor]
-        // Set locations of where gradient will transition
-        gradient.locations = [0.0,0.2,1.0]
-        // Add gradient as bottom layer in sublayer array
-        self.layer.insertSublayer(gradient, at: 0)
-        
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [showSavedABV,addBeer,addLiquor,addWine,bounceBuffer] {
+        for obj in [showSavedABV,bounceBuffer] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.appNavigatorHeight)
@@ -101,16 +70,7 @@ class AppNavigator: UIView {
         for button in [showSavedABV] {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
-                button.heightAnchor.constraint(equalToConstant: UI.Sizing.appNavigatorHeight-UI.Sizing.headerHeight-UI.Sizing.objectPadding),
-                button.topAnchor.constraint(equalTo: addLiquor.bottomAnchor)
-            ])
-        }
-        for (i, button) in [addBeer,addLiquor,addWine].enumerated() {
-            let offset = (CGFloat(i)*UI.Sizing.containerDiameter) + (UI.Sizing.appNavigatorConstraints[i])
-            NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter),
-                button.heightAnchor.constraint(equalToConstant: UI.Sizing.headerHeight),
-                button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                button.heightAnchor.constraint(equalToConstant: (2/3)*UI.Sizing.appNavigatorHeight),
                 button.topAnchor.constraint(equalTo: topAnchor)
             ])
         }

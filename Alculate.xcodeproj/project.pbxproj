@@ -49,6 +49,7 @@
 		66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */; };
 		66C3259D235F2FE7003DAC45 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */; };
 		66CDFCFA233D75F600267670 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* Data.swift */; };
+		66FD5088237CD3E800EC5E1C /* AddToComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FD5087237CD3E700EC5E1C /* AddToComparison.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
 		66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Light.ttf"; sourceTree = "<group>"; };
 		66CDFCF9233D75F600267670 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		66FD5087237CD3E700EC5E1C /* AddToComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToComparison.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				669931CA23550A4A00021512 /* TextNavigator.swift */,
 				6680A11D2344B773000A884D /* Undo.swift */,
 				660043BC2350C92700E2A03A /* AppNavigator.swift */,
+				66FD5087237CD3E700EC5E1C /* AddToComparison.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				662BB8922362811300BCA837 /* TapDismiss.swift in Sources */,
 				66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */,
 				660043BF23510A2B00E2A03A /* SavedABVCell.swift in Sources */,
+				66FD5088237CD3E800EC5E1C /* AddToComparison.swift in Sources */,
 				66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

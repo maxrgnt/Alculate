@@ -62,10 +62,9 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
 //        tableHeaderView = header
 //        tableHeaderView?.layoutIfNeeded()
 //        tableHeaderView = tableHeaderView
-        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
-        footer.backgroundColor = backgroundColor
-        tableFooterView = footer
-        
+//        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
+//        footer.backgroundColor = backgroundColor
+//        tableFooterView = footer
         updateTableContentInset()
     }
 

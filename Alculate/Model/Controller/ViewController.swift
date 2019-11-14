@@ -24,9 +24,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var header = Header()
     var valueTopLine = TopLinePiece()
     var effectTopLine = TopLinePiece()
-    var beerHeader = ComparisonHeader()
-    var liquorHeader = ComparisonHeader()
-    var wineHeader = ComparisonHeader()
+//    var beerHeader = ComparisonHeader()
+//    var liquorHeader = ComparisonHeader()
+//    var wineHeader = ComparisonHeader()
+    var addToComparison = AddToComparison()
     var beerComparison = ComparisonTable()
     var liquorComparison = ComparisonTable()
     var wineComparison = ComparisonTable()
@@ -69,9 +70,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         view.addSubview(header)
         header.build()
         
-        let categories = ["Most Value","Most Effective"]
+        let categories = ["Value","Effect"]
         let valueDescriptions = ["per shot","shots"]
-        let topLineIcons = ["value","effect"]
+        let topLineIcons = ["",""] // ["value","effect"]
         let alignments = [.left,.right] as [NSTextAlignment]
         for (i, topLinePiece) in [valueTopLine,effectTopLine].enumerated() {
             view.addSubview(topLinePiece)
@@ -80,13 +81,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
 
-        let headerIcons = [Data.beerListID,Data.liquorListID,Data.wineListID]
-        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
-            view.addSubview(comparisonHeader)
-            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
+//        let headerIcons = [Data.beerListID,Data.liquorListID,Data.wineListID]
+//        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
+//            view.addSubview(comparisonHeader)
+//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
+//            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
+//        }
+        
+        view.addSubview(addToComparison)
+        addToComparison.build()
+        for obj in [addToComparison.addBeer,addToComparison.addLiquor,addToComparison.addWine] {
+            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
-
+        
         let listIDs = [Data.beerListID,Data.liquorListID,Data.wineListID]
         for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
             view.addSubview(comparisonTable)
@@ -109,8 +116,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
         view.addSubview(appNavigator)
         appNavigator.build()
-        for obj in [appNavigator.addBeer,appNavigator.addLiquor,appNavigator.addWine,appNavigator.showSavedABV] {
-                        obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        for obj in [appNavigator.showSavedABV] {
+            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
         
         view.addSubview(tapDismiss)

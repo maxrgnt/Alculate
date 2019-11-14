@@ -78,7 +78,7 @@ class TopLinePiece: UIView {
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.topLineTop),
+            topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.topLineTop),
             category.widthAnchor.constraint(equalToConstant: topLineWidth),
             category.heightAnchor.constraint(equalToConstant: categoryHeight),
             category.centerXAnchor.constraint(equalTo: centerXAnchor),

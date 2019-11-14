@@ -32,7 +32,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         super.init(frame: frame, style: style)
     }
     
-    func build(forType ID: String, withLeading constantParameter: CGFloat) {
+    func build(forType ID: String, withLeading constantParameter: CGFloat, anchorTo anchorView: UIView) {
         // MARK: - View/Object Settings
         comparisonTableListID = ID
         // Miscelaneous view settings
@@ -56,7 +56,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: constantParameter),
             widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableHeight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.comparisonTableTop)
+            bottomAnchor.constraint(equalTo: anchorView.topAnchor)
             ])
 //        let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width/3, height: UI.Sizing.headerHeight*(1/2)))
 //        let header = ComparisonHeader()
@@ -110,21 +110,17 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
             cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
         }
         if indexPath.row == maxRow && comparisonTableListID == Data.liquorListID {
-            // pass
             cell.container.layer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
         }
         if indexPath.row == maxRow && comparisonTableListID == Data.beerListID {
-            // pass
             cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
-        
-            let sublayer: CALayer = CALayer()
-            sublayer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
-            sublayer.backgroundColor = UIColor.clear.cgColor
-            sublayer.cornerRadius = UI.Sizing.containerRadius
-            sublayer.frame = CGRect(x:2, y: 2, width: UI.Sizing.containerDiameter - 4, height: UI.Sizing.containerHeight - 4)
-            sublayer.borderWidth = 4.0
-            cell.container.layer.addSublayer(sublayer)
-            
+//            let sublayer: CALayer = CALayer()
+//            sublayer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
+//            sublayer.backgroundColor = UIColor.clear.cgColor
+//            sublayer.cornerRadius = UI.Sizing.containerRadius
+//            sublayer.frame = CGRect(x:2, y: 2, width: UI.Sizing.containerDiameter - 4, height: UI.Sizing.containerHeight - 4)
+//            sublayer.borderWidth = 4.0
+//            cell.container.layer.addSublayer(sublayer)
         }
         
         // I think you need to end animations when reloading table after deleting

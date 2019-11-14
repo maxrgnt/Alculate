@@ -79,9 +79,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         valueSummary.category.textColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0)
         effectSummary.category.textColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0)
-                
+           
         view.addSubview(newComparison)
-        newComparison.build()
+        newComparison.build(anchorTo: valueSummary)
         for obj in [newComparison.addBeer,newComparison.addLiquor,newComparison.addWine] {
             obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
@@ -90,7 +90,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         for (i, comparisonTable) in [beerComparison,liquorComparison,wineComparison].enumerated() {
             view.addSubview(comparisonTable)
             let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading)
+            comparisonTable.build(forType: listIDs[i], withLeading: calculatedLeading, anchorTo: newComparison)
         }
         self.beerComparison.comparisonTableDelegate = self
         self.liquorComparison.comparisonTableDelegate = self
@@ -105,7 +105,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         undo.build()
         undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
         undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
-
+        
         view.addSubview(subMenu)
         subMenu.build()
         for obj in [subMenu.showSavedABV] {
@@ -194,11 +194,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             flipAlculate()
         }
         else if sender.tag == 1 {
-            savedABV.animateLeadingAnchor(constant: 0)
-            subMenu.top.constant = 0
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            })
+            valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+//            savedABV.animateLeadingAnchor(constant: 0)
+//            subMenu.top.constant = 0
+//            UIView.animate(withDuration: 0.2, animations: {
+//                self.view.layoutIfNeeded()
+//            })
         }
     }
     
@@ -328,9 +330,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if all lists are empty, dont alculate
         else {
-            for label in [valueSummary.drinkName,valueSummary.value,effectSummary.drinkName,effectSummary.value] {
-                label.text = "?"
-            }
+            valueSummary.moveTopAnchor(to: 0.0)
+            effectSummary.moveTopAnchor(to: 0.0)
         }
     }
     

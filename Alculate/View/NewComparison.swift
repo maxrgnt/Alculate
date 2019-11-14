@@ -11,7 +11,7 @@ import UIKit
 class NewComparison: UIView {
          
     // Constraints
-    var top = NSLayoutConstraint()
+    var bottom = NSLayoutConstraint()
     
     // Objects
     var addBeer = UIButton()
@@ -23,7 +23,7 @@ class NewComparison: UIView {
         super.init(frame: CGRect.zero)
     }
     
-    func build() {
+    func build(anchorTo anchorView: UIView) {
         // MARK: - View/Object Settings
         // View settings
         backgroundColor = .clear
@@ -56,7 +56,7 @@ class NewComparison: UIView {
                            UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor,
                            UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
-        gradient.locations = [0.0,0.4,1.0]
+        gradient.locations = [0.0,0.5,1.0]
         // Add gradient as bottom layer in sublayer array
         self.layer.insertSublayer(gradient, at: 0)
 
@@ -78,12 +78,12 @@ class NewComparison: UIView {
         for obj in [addBeer,addLiquor,addWine] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.topLineTop-UI.Sizing.newComparisonHeight)
+//        bottom = bottomAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.topLineHeight-UI.Sizing.subMenuHeight)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.newComparisonHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            top
+            bottomAnchor.constraint(equalTo: anchorView.topAnchor)
         ])
         for (i, button) in [addBeer,addLiquor,addWine].enumerated() {
             let offset = (CGFloat(i)*UI.Sizing.containerDiameter) + (UI.Sizing.subMenuConstraints[i])
@@ -96,6 +96,17 @@ class NewComparison: UIView {
         }
     }
         
+//    func moveBottomAnchor(to newConstant: CGFloat) {
+//        bottom.constant = newConstant
+//        UIView.animate(withDuration: 0.2, delay: 0
+//            , animations: ({
+//                self.superview!.layoutIfNeeded()
+//            }), completion: { (completed) in
+//                // pass
+//            }
+//        )
+//    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

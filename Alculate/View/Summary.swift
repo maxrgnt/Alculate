@@ -10,6 +10,9 @@ import UIKit
 
 class Summary: UIView {
     
+    // Constraints
+    var top: NSLayoutConstraint!
+
     // Objects
     let category = UILabel()
     let drinkName = UILabel()
@@ -75,10 +78,11 @@ class Summary: UIView {
 //                icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2)
             ])
         }
+        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.topLineTop)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
-            topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.topLineTop),
+            top,
             category.widthAnchor.constraint(equalToConstant: topLineWidth),
             category.heightAnchor.constraint(equalToConstant: categoryHeight),
             category.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -98,6 +102,17 @@ class Summary: UIView {
             ])
     }
 
+    func moveTopAnchor(to newConstant: CGFloat) {
+        top.constant = newConstant
+        UIView.animate(withDuration: 0.2, delay: 0
+            , animations: ({
+                self.superview!.layoutIfNeeded()
+            }), completion: { (completed) in
+                // pass
+            }
+        )
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

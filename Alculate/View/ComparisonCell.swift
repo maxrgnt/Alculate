@@ -52,7 +52,7 @@ class ComparisonCell: UITableViewCell {
         delete.alpha = 0.0
         delete.backgroundColor = .lightGray
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.alculatePurpleDark, for: .normal)
+        delete.setTitleColor(UI.Color.alculatePurpleDarker, for: .normal)
         delete.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
     

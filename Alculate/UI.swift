@@ -42,7 +42,7 @@ struct UI {
         // Top line sizing
         static let topLineHeight = height*topLineRatio
         static let topLinePieceWidth = width/2
-        static let topLineTop = -topLineHeight-appNavigatorHeight
+        static let topLineTop = -topLineHeight-subMenuHeight
         // user input sizing
         static let userInputHeight = height*(userInputRatio)
         static let userInputRadius = width/10
@@ -50,7 +50,7 @@ struct UI {
         static var inputTop = -(keyboard+(inputTextHeight*2)+userInputRadius)
         
         //
-        static let addComparisonHeight = headerHeight+objectPadding
+        static let newComparisonHeight = headerHeight+objectPadding
         
         // Comparison Header
         static let comparisonHeaderTop = statusBar.height+headerHeight+topLineHeight
@@ -59,7 +59,7 @@ struct UI {
         static let comparisonHeaderWidth = width/3
         // Comparison Table
         static let comparisonTableWidth = width/3
-        static let comparisonTableHeight = height-headerHeight-topLineHeight-appNavigatorHeight-addComparisonHeight
+        static let comparisonTableHeight = height-headerHeight-topLineHeight-subMenuHeight-newComparisonHeight
         static let comparisonTableTop = statusBar.height + headerHeight
         // Comparison Container
         static var containerConstraints = [(lead: 0.500*objectPadding, trail: -0.250*objectPadding),
@@ -90,9 +90,9 @@ struct UI {
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
         static let savedABVgestureThreshold = UI.Sizing.width/8
         // App Navigator
-        static let appNavigatorHeight = (headerHeight*1.5)
-        static let appNavigatorBounceBuffer = objectPadding
-        static let appNavigatorConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
+        static let subMenuHeight = (headerHeight*1.5)
+        static let subMenuBounceBuffer = objectPadding
+        static let subMenuConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
         // Text Entry
         static var textEntryHeight = textEntryInputsHeight+textNavigatorHeight+keyboard // height*(userInputRatio)
         static let textEntryBounceBuffer = objectPadding
@@ -110,12 +110,12 @@ struct UI {
         static let textEntryFieldWidthForSize = textEntryFieldWidth-textEntryIconDiameter
         static let textEntryGestureThreshold = textEntryTop*(5/6)
         // Undo
-        static let undoHeight = appNavigatorHeight
+        static let undoHeight = subMenuHeight
         static let undoBounceBuffer = objectPadding
         static let undoRadius = undoHeight/10
-        static let undoCancelDiameter = appNavigatorHeight*(2/3)*(1/3)
+        static let undoCancelDiameter = subMenuHeight*(2/3)*(1/3)
         static let undoCancelRadius = undoCancelDiameter/2
-        static let undoConfirmHeight = appNavigatorHeight*(2/3)*(1/3)
+        static let undoConfirmHeight = subMenuHeight*(2/3)*(1/3)
         static let undoConfirmWidth = widthObjectPadding-undoCancelDiameter
         
     }
@@ -125,7 +125,7 @@ struct UI {
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
         static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
-        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
+        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 18)
         static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
         static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
         static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 14)
@@ -138,8 +138,21 @@ struct UI {
 //        static let beer = UIColor(displayP3Red: 255/255, green: 180/255, blue: 0/255, alpha: 1.0)
 //        static let liquor = UIColor(displayP3Red: 38/255, green: 196/255, blue: 133/255, alpha: 1.0)
 //        static let wine = UIColor(displayP3Red: 232/255, green: 63/255, blue: 111/255, alpha: 1.0)
-        static let alculatePurpleDark = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
+        // #3D4C6f actual green
+//        static let alculateGreenDark = UIColor(displayP3Red: 54/255, green: 76/255, blue: 111/255, alpha: 1.0)
+        // #221647
+//        static let alculatePurpleDarkest = UIColor(displayP3Red: 34/255, green: 22/255, blue: 71/255, alpha: 1.0)
+        // #35295D
+        static let alculatePurpleDarkest = UIColor(displayP3Red: 53/255, green: 41/255, blue: 93/255, alpha: 1.0)
+        // #4B3F72
+        static let alculatePurpleDarker = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
+        // #6457A6
+        static let alculatePurpleDark = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+        // #6457A6
         static let alculatePurpleLite = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+        // #907AD6
+        static let alculatePurpleLighter = UIColor(displayP3Red: 144/255, green: 122/255, blue: 214/255, alpha: 1.0)
+        
         static let beer = UIColor(displayP3Red: 91/255, green: 140/255, blue: 90/255, alpha: 1.0)
         static let liquor = UIColor(displayP3Red: 0/255, green: 110/255, blue: 144/255, alpha: 1.0)
         static let wine = UIColor(displayP3Red: 144/255, green: 78/255, blue: 85/255, alpha: 1.0)

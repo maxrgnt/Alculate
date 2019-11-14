@@ -35,8 +35,8 @@ class ComparisonHeader: UIView {
         let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.comparisonHeaderHeight)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+        gradient.colors = [UI.Color.alculatePurpleDarker.withAlphaComponent(1.0).cgColor,
+                           UI.Color.alculatePurpleDarker.withAlphaComponent(1.0).cgColor,
                            UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.0,0.5,1.0]

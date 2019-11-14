@@ -47,7 +47,7 @@ class SavedABVCell: UITableViewCell {
         addSubview(delete)
         delete.titleLabel?.font = UI.Font.cellHeaderFont
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.alculatePurpleDark, for: .normal)
+        delete.setTitleColor(UI.Color.alculatePurpleDarker, for: .normal)
         delete.backgroundColor = .lightGray
         delete.contentVerticalAlignment = .center
         delete.contentHorizontalAlignment = .center

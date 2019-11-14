@@ -1,5 +1,5 @@
 //
-//  TopLinePiece.swift
+//  Summary.swift
 //  Alculate
 //
 //  Created by Max Sergent on 10/9/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopLinePiece: UIView {
+class Summary: UIView {
     
     // Objects
     let category = UILabel()
@@ -25,7 +25,7 @@ class TopLinePiece: UIView {
     func build(iconName: String, alignText: NSTextAlignment, leadingAnchors: Int) {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = UI.Color.alculatePurpleDark
+        backgroundColor = UI.Color.alculatePurpleDarkest
         clipsToBounds = true
         // Object settings
         for label in [category,drinkName,value,valueDescription] {
@@ -41,13 +41,13 @@ class TopLinePiece: UIView {
         valueDescription.font = UI.Font.topLineSecondary
         valueDescription.alpha = 0.7
         //
-        addSubview(icon)
-        icon.image = UIImage(named: iconName)
-        icon.alpha = 0.7
+//        addSubview(icon)
+//        icon.image = UIImage(named: iconName)
+//        icon.alpha = 0.7
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
-        for obj in [category,drinkName,value,valueDescription,icon] {
+        for obj in [category,drinkName,value,valueDescription/*,icon*/] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         let categoryHeight = UI.Sizing.topLineHeight/6
@@ -56,7 +56,7 @@ class TopLinePiece: UIView {
         let valueDescriptionHeight = UI.Sizing.topLineHeight/6
         let topLineWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding
         let valuePiecesWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3
-        let iconDiameter = UI.Sizing.topLineHeight*(2/5)
+//        let iconDiameter = UI.Sizing.topLineHeight*(2/5)
         //
         if leadingAnchors == 0 {
             NSLayoutConstraint.activate([
@@ -64,7 +64,7 @@ class TopLinePiece: UIView {
                 drinkName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 value.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 valueDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-                icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding/2)
+//                icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding/2)
             ])
         } else if leadingAnchors == 1 {
             NSLayoutConstraint.activate([
@@ -72,7 +72,7 @@ class TopLinePiece: UIView {
                 drinkName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 value.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 valueDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-                icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2)
+//                icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2)
             ])
         }
         NSLayoutConstraint.activate([
@@ -92,9 +92,9 @@ class TopLinePiece: UIView {
             valueDescription.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
             valueDescription.heightAnchor.constraint(equalToConstant: valueDescriptionHeight),
             valueDescription.topAnchor.constraint(equalTo: value.bottomAnchor),
-            icon.widthAnchor.constraint(equalToConstant: iconDiameter),
-            icon.heightAnchor.constraint(equalToConstant: iconDiameter),
-            icon.bottomAnchor.constraint(equalTo: valueDescription.bottomAnchor)
+//            icon.widthAnchor.constraint(equalToConstant: iconDiameter),
+//            icon.heightAnchor.constraint(equalToConstant: iconDiameter),
+//            icon.bottomAnchor.constraint(equalTo: valueDescription.bottomAnchor)
             ])
     }
 

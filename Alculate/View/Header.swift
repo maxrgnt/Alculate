@@ -23,7 +23,7 @@ class Header: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.alculatePurpleDark
+        backgroundColor = UI.Color.alculatePurpleDarker
         // Object settings
         addSubview(appName)
         appName.textColor = UI.Color.softWhite

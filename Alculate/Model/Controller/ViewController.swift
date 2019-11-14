@@ -22,19 +22,16 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // Objects
     var header = Header()
-    var valueTopLine = TopLinePiece()
-    var effectTopLine = TopLinePiece()
-//    var beerHeader = ComparisonHeader()
-//    var liquorHeader = ComparisonHeader()
-//    var wineHeader = ComparisonHeader()
-    var addToComparison = AddToComparison()
+    var valueSummary = Summary()
+    var effectSummary = Summary()
+    var newComparison = NewComparison()
     var beerComparison = ComparisonTable()
     var liquorComparison = ComparisonTable()
     var wineComparison = ComparisonTable()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
-    var appNavigator = AppNavigator()
+    var subMenu = SubMenu()
     var undo = Undo()
     
     override func viewDidLoad() {
@@ -52,7 +49,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         //
-        view.backgroundColor = UI.Color.alculatePurpleLite
+        view.backgroundColor = UI.Color.alculatePurpleDarker
         
 //        let domain = Bundle.main.bundleIdentifier!
 //        UserDefaults.standard.removePersistentDomain(forName: domain)
@@ -74,23 +71,18 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let valueDescriptions = ["per shot","shots"]
         let topLineIcons = ["",""] // ["value","effect"]
         let alignments = [.left,.right] as [NSTextAlignment]
-        for (i, topLinePiece) in [valueTopLine,effectTopLine].enumerated() {
+        for (i, topLinePiece) in [valueSummary,effectSummary].enumerated() {
             view.addSubview(topLinePiece)
             topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
             topLinePiece.category.text = categories[i]
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
-
-//        let headerIcons = [Data.beerListID,Data.liquorListID,Data.wineListID]
-//        for (i, comparisonHeader) in [beerHeader,liquorHeader,wineHeader].enumerated() {
-//            view.addSubview(comparisonHeader)
-//            let calculatedLeading = CGFloat(i)*UI.Sizing.comparisonTableWidth
-//            comparisonHeader.build(iconName: headerIcons[i], leadingConstant: calculatedLeading)
-//        }
-        
-        view.addSubview(addToComparison)
-        addToComparison.build()
-        for obj in [addToComparison.addBeer,addToComparison.addLiquor,addToComparison.addWine] {
+        valueSummary.category.textColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0)
+        effectSummary.category.textColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0)
+                
+        view.addSubview(newComparison)
+        newComparison.build()
+        for obj in [newComparison.addBeer,newComparison.addLiquor,newComparison.addWine] {
             obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
         
@@ -114,9 +106,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
         undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
 
-        view.addSubview(appNavigator)
-        appNavigator.build()
-        for obj in [appNavigator.showSavedABV] {
+        view.addSubview(subMenu)
+        subMenu.build()
+        for obj in [subMenu.showSavedABV] {
             obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
         
@@ -165,6 +157,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for list in [Data.masterListID,Data.beerListID,Data.liquorListID,Data.wineListID] {
                 Data.loadList(for: list)
             }
+            sortByValue()
             alculate()
         }
     }
@@ -202,7 +195,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         else if sender.tag == 1 {
             savedABV.animateLeadingAnchor(constant: 0)
-            appNavigator.top.constant = 0
+            subMenu.top.constant = 0
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
             })
@@ -278,7 +271,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func animateUndo(onScreen: Bool = true) {
-        let constant = (onScreen == false) ? 0 : -UI.Sizing.appNavigatorHeight
+        let constant = (onScreen == false) ? 0 : -UI.Sizing.subMenuHeight
         undo.top.constant = constant
         UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut,.allowUserInteraction],
@@ -300,15 +293,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         for (index, listPiece) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
             // if the list is not empty, add the top item to lists to be compared (already sorted)
             if !listPiece.isEmpty {
-                lists.append((arr: listPiece[0], ind: index))
+                lists.append((arr: listPiece.last!, ind: index))
             }
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
-            let info = lists[0].arr
+            let info = lists.last!.arr
             bestPrice = (name: info.name,
                          best: String(format: "%.2f", calculateValue(for: info)),
-                         ind: lists[0].ind)
+                         ind: lists.last!.ind)
             for listPiece in lists {
                 let tryBest = calculateValue(for: listPiece.arr)
                 if tryBest < Double(bestPrice.best)! {
@@ -319,7 +312,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             bestRatio = (name: info.name,
                            best: String(format: "%.1f", calculateEffect(for: info)),
-                           ind: lists[0].ind)
+                           ind: lists.last!.ind)
             for listPiece in lists {
                 let tryBest = calculateEffect(for: listPiece.arr)
                 if tryBest > Double(bestRatio.best)! {
@@ -328,14 +321,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                                    ind: listPiece.ind)
                 }
             }
-            valueTopLine.drinkName.text = bestPrice.name.capitalized
-            valueTopLine.value.text = "$"+bestPrice.best
-            effectTopLine.drinkName.text = bestRatio.name.capitalized
-            effectTopLine.value.text = bestRatio.best
+            valueSummary.drinkName.text = bestPrice.name.capitalized
+            valueSummary.value.text = "$"+bestPrice.best
+            effectSummary.drinkName.text = bestRatio.name.capitalized
+            effectSummary.value.text = bestRatio.best
         }
         // if all lists are empty, dont alculate
         else {
-            for label in [valueTopLine.drinkName,valueTopLine.value,effectTopLine.drinkName,effectTopLine.value] {
+            for label in [valueSummary.drinkName,valueSummary.value,effectSummary.drinkName,effectSummary.value] {
                 label.text = "?"
             }
         }
@@ -359,51 +352,51 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     // MARK: - Flip Alculate
     func flipAlculate() {
         // If sorting by effect, switch to value and vice versa
-        (appNavigator.sortMethod == "effect") ? sortByValue() : sortByEffect()
-        appNavigator.sortMethod = (appNavigator.sortMethod == "effect") ? "value" : "effect"
+//        (subMenu.sortMethod == "effect") ? sortByValue() : sortByEffect()
+//        subMenu.sortMethod = (subMenu.sortMethod == "effect") ? "value" : "effect"
         // update button title with new order by
-//        appNavigator.sortDifferent.setTitle("Order by \(appNavigator.sortMethod.capitalized)", for: .normal)
+//        subMenu.sortDifferent.setTitle("Order by \(subMenu.sortMethod.capitalized)", for: .normal)
         // update top line
         alculate()
     }
     
     func sortByValue() {
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
+            return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
         reloadTable(table: Data.beerListID)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
+            return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
         reloadTable(table: Data.liquorListID)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
+            return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
         reloadTable(table: Data.wineListID)
     }
     
     func sortByEffect() {
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
         reloadTable(table: Data.beerListID)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
         reloadTable(table: Data.liquorListID)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
         reloadTable(table: Data.wineListID)
     }
         
     // MARK: - Protocol Delegate Functions
-    func animateAppNavigator(by percent: CGFloat, reset: Bool) {
-        appNavigator.top.constant = -UI.Sizing.appNavigatorHeight*(percent)
+    func animateSubMenu(by percent: CGFloat, reset: Bool) {
+        subMenu.top.constant = -UI.Sizing.subMenuHeight*(percent)
         // remove undo if it is on screen
         if undo.top.constant != 0 {
             undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight
@@ -429,7 +422,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         textEntry.outputFromSavedABV(name: name, abv: abv)
         textEntry.changeInputLevel(sender: textEntry.navigator.forward)
         // hide back and done buttons
-        textEntry.navigator.backwardBottom.constant = UI.Sizing.appNavigatorHeight
+        textEntry.navigator.backwardBottom.constant = UI.Sizing.subMenuHeight
     }
     
     func adjustHeaderBackground() {

@@ -30,7 +30,7 @@ class ComparisonContainer: UIView {
         clipsToBounds = false
         backgroundColor = UI.Color.alculatePurpleDark
         layer.borderWidth = UI.Sizing.containerBorder
-        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
+        layer.borderColor = UI.Color.alculatePurpleDarkest.cgColor
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         // Object settings
         for label in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription] {

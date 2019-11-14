@@ -10,7 +10,7 @@ import UIKit
 
 protocol SavedABVDelegate {
     // called when user taps subview/delete button
-    func animateAppNavigator(by: CGFloat, reset: Bool)
+    func animateSubMenu(by: CGFloat, reset: Bool)
 }
 
 class SavedABV: UIView {
@@ -36,14 +36,14 @@ class SavedABV: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.alculatePurpleDark
+        backgroundColor = UI.Color.alculatePurpleDarker
 //        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
         for obj in [header,savedABVTable] {
             addSubview(obj)
-            obj.backgroundColor = UI.Color.alculatePurpleDark
+            obj.backgroundColor = UI.Color.alculatePurpleDarker
         }
         savedABVTable.build()
         //
@@ -91,7 +91,7 @@ class SavedABV: UIView {
         let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(1.0).cgColor,
+        gradient.colors = [UI.Color.alculatePurpleDarker.withAlphaComponent(1.0).cgColor,
                            UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.0,1.0]
@@ -109,7 +109,7 @@ class SavedABV: UIView {
         // If contact card is fully visible, don't allow movement further left
         savedABVleading.constant = savedABVleading.constant < 0 ? 0 : savedABVleading.constant
         let percent = savedABVleading.constant/UI.Sizing.width >= 1 ? 1 : savedABVleading.constant/UI.Sizing.width
-        self.savedABVDelegate.animateAppNavigator(by: percent, reset: false)
+        self.savedABVDelegate.animateSubMenu(by: percent, reset: false)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
@@ -120,7 +120,7 @@ class SavedABV: UIView {
             let constant = (savedABVleading.constant > UI.Sizing.savedABVgestureThreshold) ? UI.Sizing.width : 0
             let percent: CGFloat = (constant == 0) ? 0 : 1
             let reset = (constant == 0) ? true : false
-            self.savedABVDelegate.animateAppNavigator(by: percent, reset: reset)
+            self.savedABVDelegate.animateSubMenu(by: percent, reset: reset)
             // Animate to end-point
             animateLeadingAnchor(constant: constant)
         }

@@ -187,14 +187,14 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             input.alpha = (i==level) ? 1.0 : 0.5
         }
         // if at level 0 (name) hide the back button
-        navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.appNavigatorHeight : 0
+        navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.subMenuHeight : 0
         // if not at level 0 hide suggestion
-        navigator.suggestionBottom.constant = UI.Sizing.appNavigatorHeight
+        navigator.suggestionBottom.constant = UI.Sizing.subMenuHeight
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
         // if at level 3 (price) update the "next" button
-        navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.appNavigatorHeight : 0
+        navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.subMenuHeight : 0
     }
     
     func setText(forLevel level: Int) {
@@ -238,7 +238,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 break
             }
         }
-        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.appNavigatorHeight
+        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.subMenuHeight
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.superview!.layoutIfNeeded()
@@ -374,7 +374,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     
     @objc func dismiss() {
         TapDismiss.dismissTop.constant = UI.Sizing.bounds.height
-        navigator.doneBottom.constant = UI.Sizing.appNavigatorHeight
+        navigator.doneBottom.constant = UI.Sizing.subMenuHeight
         //
         sizeUnit = "oz"
         inputLevel = 0

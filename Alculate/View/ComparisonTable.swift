@@ -14,6 +14,7 @@ protocol ComparisonTableDelegate {
     func reloadTable(table: String)
     func makeDeletable(_ paramDeletable: Bool, lists: String)
     func editComparison(type: String, name: String, abv: String, size: String, price: String)
+    func alculate()
 }
 
 class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComparisonCellDelegate {
@@ -35,7 +36,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         // MARK: - View/Object Settings
         comparisonTableListID = ID
         // Miscelaneous view settings
-        backgroundColor = UI.Color.alculatePurpleLite
+        backgroundColor = UI.Color.alculatePurpleDarker
         register(ComparisonCell.self, forCellReuseIdentifier: "ComparisonCell")
         delegate = self
         dataSource = self
@@ -81,8 +82,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
         //
         let lastCell = listForThisTable().count-1
-        let indexPath = IndexPath(row: lastCell, section: 0)
-        scrollToRow(at: indexPath, at: .bottom, animated: true)
+        if lastCell > 0 {
+            let indexPath = IndexPath(row: lastCell, section: 0)
+            scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
     
     // MARK: - TableView Delegate
@@ -101,9 +104,29 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         // update labels for each cell
         cell.setLabels(with: info)
         // do something for "best" alcohol from each type
-        if indexPath.row == 0 {
+        let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
+        if indexPath.row == maxRow && comparisonTableListID == Data.wineListID {
             // pass
+            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
         }
+        if indexPath.row == maxRow && comparisonTableListID == Data.liquorListID {
+            // pass
+            cell.container.layer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
+        }
+        if indexPath.row == maxRow && comparisonTableListID == Data.beerListID {
+            // pass
+            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
+        
+            let sublayer: CALayer = CALayer()
+            sublayer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
+            sublayer.backgroundColor = UIColor.clear.cgColor
+            sublayer.cornerRadius = UI.Sizing.containerRadius
+            sublayer.frame = CGRect(x:2, y: 2, width: UI.Sizing.containerDiameter - 4, height: UI.Sizing.containerHeight - 4)
+            sublayer.borderWidth = 4.0
+            cell.container.layer.addSublayer(sublayer)
+            
+        }
+        
         // I think you need to end animations when reloading table after deleting
         cell.resetConstraints()
         return cell
@@ -160,6 +183,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
         self.deleteRows(at: [indexPath!], with: .bottom)
         updateTableContentInset()
+        self.comparisonTableDelegate.alculate()
     }
     
     // MARK: - ScrollView Delegate

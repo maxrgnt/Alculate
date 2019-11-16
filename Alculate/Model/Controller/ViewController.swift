@@ -32,7 +32,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
     var subMenu = SubMenu()
+    var subMenuBG = SubMenuBG()
     var undo = Undo()
+    
+    var noComparisons = UILabel()
     
     override func viewDidLoad() {
         // MARK: - View/Object Settings
@@ -59,6 +62,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         //clearTestData()
         handleInit()
         build()
+        alculate()
         
     }
     
@@ -66,6 +70,20 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     func build() {
         view.addSubview(header)
         header.build()
+        
+        view.addSubview(noComparisons)
+        noComparisons.text = "Add a drink below."
+        noComparisons.font = UI.Font.topLinePrimary
+        noComparisons.textColor = UI.Color.alculatePurpleDarkest
+        noComparisons.alpha = 1.0
+        noComparisons.textAlignment = .center
+        noComparisons.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noComparisons.heightAnchor.constraint(equalTo: view.heightAnchor),
+            noComparisons.widthAnchor.constraint(equalTo: view.widthAnchor),
+            noComparisons.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noComparisons.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
         let categories = ["Value","Effect"]
         let valueDescriptions = ["per shot","shots"]
@@ -95,6 +113,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         self.beerComparison.comparisonTableDelegate = self
         self.liquorComparison.comparisonTableDelegate = self
         self.wineComparison.comparisonTableDelegate = self
+        
+        view.addSubview(subMenuBG)
+        subMenuBG.build()
         
         view.addSubview(savedABV)
         savedABV.build()
@@ -150,7 +171,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
             Data.txtFile()
             Data.loadList(for: Data.masterListID)
-            alculate()
         }
         else {
             // normal run
@@ -158,7 +178,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 Data.loadList(for: list)
             }
             sortByValue()
-            alculate()
         }
     }
     
@@ -194,13 +213,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             flipAlculate()
         }
         else if sender.tag == 1 {
-            valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
-            effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
-//            savedABV.animateLeadingAnchor(constant: 0)
-//            subMenu.top.constant = 0
-//            UIView.animate(withDuration: 0.2, animations: {
-//                self.view.layoutIfNeeded()
-//            })
+            savedABV.animateLeadingAnchor(constant: 0)
+            subMenu.top.constant = 0
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -300,6 +317,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
+            valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
+            effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
+            noComparisons.alpha = 0.0
+            //
             let info = lists.last!.arr
             bestPrice = (name: info.name,
                          best: String(format: "%.2f", calculateValue(for: info)),
@@ -330,8 +351,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if all lists are empty, dont alculate
         else {
-            valueSummary.moveTopAnchor(to: 0.0)
-            effectSummary.moveTopAnchor(to: 0.0)
+            valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            noComparisons.alpha = 1.0
         }
     }
     
@@ -445,6 +467,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             savedABV.savedABVTable.reloadData()
         }
         else {
+            alculate()
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             let tables = [beerComparison,liquorComparison,wineComparison]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
@@ -453,7 +476,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
                 }
             }
-            alculate()
         }
     }
     
@@ -470,12 +492,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                         let price = lists[i][x].price
                         Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
                         Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
+                        alculate()
                         tables[i].reloadSections(sections as IndexSet, with: .automatic)
                     }
                 }
             }
         }
-        alculate()
+        
     }
     
     func insertRowFor(table: String) {
@@ -489,7 +512,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].updateTableContentInset()
             }
         }
-        alculate()
+        //alculate()
     }
     
     func makeDeletable(_ paramDeletable: Bool, lists: String) {

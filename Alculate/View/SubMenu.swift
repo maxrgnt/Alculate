@@ -24,7 +24,7 @@ class SubMenu: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = UI.Color.alculatePurpleDarkest
+        backgroundColor = .clear
         clipsToBounds = true
         // Object settings
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
@@ -40,6 +40,22 @@ class SubMenu: UIView {
             button.titleLabel?.font = UI.Font.cellHeaderFont
             button.setTitleColor(UI.Color.softWhite, for: .normal)
         }
+        
+        // MARK: - Gradient Settings
+        // Set origin of gradient (top left of screen)
+        let gradientOrigin = CGPoint(x: 0,y: 0)
+        // Set frame of gradient (header height, because status bar will be solid color)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.subMenuHeight)
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
+        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+        gradient.colors = [UI.Color.alculatePurpleDarkest.withAlphaComponent(0.0).cgColor,
+                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor,
+                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor]
+        // Set locations of where gradient will transition
+        gradient.locations = [0.2,0.5,1.0]
+        // Add gradient as bottom layer in sublayer array
+        self.layer.insertSublayer(gradient, at: 0)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

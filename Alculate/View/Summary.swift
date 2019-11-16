@@ -35,14 +35,15 @@ class Summary: UIView {
             addSubview(label)
             label.textColor = UI.Color.softWhite
             label.textAlignment = alignText
+            label.alpha = 0.0
         }
         category.textAlignment = .center
         category.font = UI.Font.topLineCategory
-        category.alpha = 0.7
+//        category.alpha = 0.7
         drinkName.font = UI.Font.topLinePrimary
         value.font = UI.Font.topLinePrimary
         valueDescription.font = UI.Font.topLineSecondary
-        valueDescription.alpha = 0.7
+//        valueDescription.alpha = 0.7
         //
 //        addSubview(icon)
 //        icon.image = UIImage(named: iconName)
@@ -78,7 +79,7 @@ class Summary: UIView {
 //                icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2)
             ])
         }
-        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: UI.Sizing.topLineTop)
+        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.subMenuHeight) // UI.Sizing.topLineTop)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
@@ -103,14 +104,20 @@ class Summary: UIView {
     }
 
     func moveTopAnchor(to newConstant: CGFloat) {
-        top.constant = newConstant
-        UIView.animate(withDuration: 0.2, delay: 0
-            , animations: ({
-                self.superview!.layoutIfNeeded()
-            }), completion: { (completed) in
-                // pass
-            }
-        )
+        if top != nil {
+            top.constant = newConstant
+            let newAlpha = (newConstant == -UI.Sizing.subMenuHeight) ? 0.0 : 1.0
+            UIView.animate(withDuration: 0.2, delay: 0
+                , animations: ({
+                    for label in [self.category,self.drinkName,self.value,self.valueDescription] {
+                        label.alpha = CGFloat(newAlpha)
+                    }
+                    self.superview!.layoutIfNeeded()
+                }), completion: { (completed) in
+                    // pass
+                }
+            )
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

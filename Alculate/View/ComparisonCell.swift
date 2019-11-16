@@ -180,6 +180,8 @@ class ComparisonCell: UITableViewCell {
     }
     
     func resetConstraints() {
+        // reset border color
+        self.container.layer.borderColor = UI.Color.alculatePurpleDarkest.cgColor
         // hide delete button
         self.delete.alpha = 0.0
         // reset container sizes

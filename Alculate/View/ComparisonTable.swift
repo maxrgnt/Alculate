@@ -36,7 +36,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         // MARK: - View/Object Settings
         comparisonTableListID = ID
         // Miscelaneous view settings
-        backgroundColor = UI.Color.alculatePurpleDarker
+        backgroundColor = .clear
         register(ComparisonCell.self, forCellReuseIdentifier: "ComparisonCell")
         delegate = self
         dataSource = self

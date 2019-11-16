@@ -11,7 +11,7 @@ import UIKit
 protocol TextEntryDelegate: AnyObject {
     func displayAlert(alert: UIAlertController)
     func hideTextEntry()
-    func reloadTable(table: String)
+    func reloadTable(table: String, realculate: Bool)
     func updateComparison(for: String, ofType: String, wABV: String)
     func insertRowFor(table: String)
 }
@@ -414,7 +414,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                     let old = oldComparison
                     Data.deleteFromList(id, wName: old.name, wABV: old.abv, wSize: old.size, wPrice: old.price)
                     Data.saveToList(id, wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.textEntryDelegate!.reloadTable(table: id)
+                    self.textEntryDelegate!.reloadTable(table: id, realculate: true)
                     oldComparison = (name: "", abv: "", size: "", price: "")
                 }
             }
@@ -432,7 +432,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .default, handler: { action in
                     Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
-                    self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+                    self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: true)
                     self.textEntryDelegate!.updateComparison(for: name, ofType: self.entryID, wABV: abv)
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Keep \(savedAbv)%", style: .cancel, handler: { action in
@@ -443,7 +443,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         }
         else {
             Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
-            self.textEntryDelegate!.reloadTable(table: Data.masterListID)
+            self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: true)
             self.textEntryDelegate!.updateComparison(for: name, ofType: entryID, wABV: abv)
         }
     }

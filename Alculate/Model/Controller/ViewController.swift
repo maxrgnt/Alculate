@@ -37,7 +37,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     var noComparisons = UILabel()
     
+    static var typeValue: String!
+    static var typeEffect: String!
+
     override func viewDidLoad() {
+        
+        ViewController.typeValue = ""
+        
         // MARK: - View/Object Settings
         // Add keyboard observer to retrieve keyboard height when keyboard shown
          NotificationCenter.default.addObserver(
@@ -344,6 +350,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                                    ind: listPiece.ind)
                 }
             }
+            ViewController.typeValue = [Data.beerListID,Data.liquorListID,Data.wineListID][bestPrice.ind]
+            ViewController.typeEffect = [Data.beerListID,Data.liquorListID,Data.wineListID][bestRatio.ind]
+            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+                reloadTable(table: id, realculate: false)
+            }
             valueSummary.drinkName.text = bestPrice.name.capitalized
             valueSummary.value.text = "$"+bestPrice.best
             effectSummary.drinkName.text = bestRatio.name.capitalized
@@ -462,13 +473,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         showTextEntry(forType: type, fullView: true)
     }
     
-    func reloadTable(table: String) {
+    func reloadTable(table: String, realculate: Bool = true) {
         if table == Data.masterListID {
             savedABV.savedABVTable.reloadData()
         }
         else {
             print("gotcha bitch")
-            alculate()
+            if realculate {
+                alculate()
+            }
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             let tables = [beerComparison,liquorComparison,wineComparison]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
@@ -513,6 +526,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].updateTableContentInset()
             }
         }
+        sortByValue()
         alculate()
     }
     

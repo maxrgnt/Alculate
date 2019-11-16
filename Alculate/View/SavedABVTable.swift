@@ -11,7 +11,7 @@ import UIKit
 protocol SavedABVTableDelegate {
     // called when user taps subview/delete button
     func animateUndo(onScreen: Bool)
-    func reloadTable(table: String)
+    func reloadTable(table: String, realculate: Bool)
     func editSavedABV(name: String, abv: String, type: String)
     func adjustHeaderBackground()
 }
@@ -122,7 +122,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
             Data.masterList[name] = nil
         }
-        self.savedABVTableDelegate.reloadTable(table: Data.masterListID)
+        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: true)
         self.savedABVTableDelegate.animateUndo(onScreen: true)
     }
 

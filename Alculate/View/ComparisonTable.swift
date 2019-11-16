@@ -11,7 +11,7 @@ import UIKit
 
 protocol ComparisonTableDelegate {
     // called when user taps container or delete button
-    func reloadTable(table: String)
+    func reloadTable(table: String, realculate: Bool)
     func makeDeletable(_ paramDeletable: Bool, lists: String)
     func editComparison(type: String, name: String, abv: String, size: String, price: String)
     func alculate()
@@ -103,17 +103,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         let info = listForThisTable()[indexPath.row]
         // update labels for each cell
         cell.setLabels(with: info)
-        // do something for "best" alcohol from each type
-        let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
-        if indexPath.row == maxRow && comparisonTableListID == Data.wineListID {
-            // pass
-            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
-        }
-        if indexPath.row == maxRow && comparisonTableListID == Data.liquorListID {
-            cell.container.layer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
-        }
-        if indexPath.row == maxRow && comparisonTableListID == Data.beerListID {
-            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
+
 //            let sublayer: CALayer = CALayer()
 //            sublayer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
 //            sublayer.backgroundColor = UIColor.clear.cgColor
@@ -121,10 +111,19 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
 //            sublayer.frame = CGRect(x:2, y: 2, width: UI.Sizing.containerDiameter - 4, height: UI.Sizing.containerHeight - 4)
 //            sublayer.borderWidth = 4.0
 //            cell.container.layer.addSublayer(sublayer)
-        }
         
         // I think you need to end animations when reloading table after deleting
         cell.resetConstraints()
+        
+        // do something for "best" alcohol from each type
+        let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
+        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue {
+            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
+        }
+        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeEffect {
+            cell.container.layer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
+        }
+        
         return cell
     }
     

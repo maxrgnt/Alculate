@@ -105,13 +105,13 @@ class Summary: UIView {
 
     func moveTopAnchor(to newConstant: CGFloat) {
         if top != nil {
-            top.constant = newConstant
             let newAlpha = (newConstant == -UI.Sizing.subMenuHeight) ? 0.0 : 1.0
-            UIView.animate(withDuration: 0.2, delay: 0
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut
                 , animations: ({
                     for label in [self.category,self.drinkName,self.value,self.valueDescription] {
                         label.alpha = CGFloat(newAlpha)
                     }
+                    self.top.constant = newConstant
                     self.superview!.layoutIfNeeded()
                 }), completion: { (completed) in
                     // pass

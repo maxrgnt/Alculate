@@ -24,7 +24,7 @@ class SubMenuBG: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.subMenuHeight+UI.Sizing.subMenuBounceBuffer),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.subMenuHeight),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             bottomAnchor.constraint(equalTo: ViewController.bottomAnchor)
         ])

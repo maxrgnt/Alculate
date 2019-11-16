@@ -210,7 +210,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
         }
         else if sender.tag == 0 {
-            flipAlculate()
+//            flipAlculate()
         }
         else if sender.tag == 1 {
             savedABV.animateLeadingAnchor(constant: 0)
@@ -467,6 +467,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             savedABV.savedABVTable.reloadData()
         }
         else {
+            print("gotcha bitch")
             alculate()
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             let tables = [beerComparison,liquorComparison,wineComparison]
@@ -512,7 +513,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].updateTableContentInset()
             }
         }
-        //alculate()
+        alculate()
     }
     
     func makeDeletable(_ paramDeletable: Bool, lists: String) {

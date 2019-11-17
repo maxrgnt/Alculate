@@ -68,7 +68,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         backgroundColor = .clear
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.textEntryRadius)
         layer.borderWidth = UI.Sizing.containerBorder*2
-        layer.borderColor = UI.Color.alculatePurpleLite.cgColor
+        layer.borderColor = UI.Color.bgLite.cgColor
         // Required for textView delegates to work
         addSubview(field)
         field.delegate = self
@@ -97,6 +97,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         navigator.done.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
         addSubview(inputs)
+        for fields in [inputs.name, inputs.abv, inputs.size, inputs.price] {
+            fields.addTarget(self, action: #selector(jumpToLevel), for: .touchUpInside)
+        }
         inputs.oz.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.ml.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.build()
@@ -146,6 +149,14 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         (inputLevel > maxLevel && maxLevel != 1) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
+        // set input for new level
+        setComponents(forLevel: inputLevel)
+    }
+    
+    @objc func jumpToLevel(sender: UIButton) {
+        inputLevel = sender.tag
+        // if not at end, hide done
+        outputNotDefaults()
         // set input for new level
         setComponents(forLevel: inputLevel)
     }
@@ -238,7 +249,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 break
             }
         }
-        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.subMenuHeight
+        navigator.doneBottom.constant = (outputSafe /*&& inputLevel == maxLevel*/) ? 0 : UI.Sizing.subMenuHeight
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.superview!.layoutIfNeeded()
@@ -307,11 +318,13 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func useSuggestedName() {
-        output[0] = suggestedName
-        let unformatted = Double(Data.masterList[suggestedName]!.abv)!
-        output[1] = String(format: "%.1f", unformatted)
-        inputs.abv.setTitle(String(format: "%.1f", unformatted)+"%", for: .normal)
-        animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+        if suggestedName != "" {
+            output[0] = suggestedName
+            let unformatted = Double(Data.masterList[suggestedName]!.abv)!
+            output[1] = String(format: "%.1f", unformatted)
+            inputs.abv.setTitle(String(format: "%.1f", unformatted)+"%", for: .normal)
+            animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+        }
     }
     
     func animateSuggestions(to constant: CGFloat) {

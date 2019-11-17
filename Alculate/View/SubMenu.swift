@@ -38,7 +38,7 @@ class SubMenu: UIView {
             button.contentHorizontalAlignment = alignments[i]
             button.setTitle(buttonText[i], for: .normal)
             button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitleColor(UI.Color.softWhite, for: .normal)
+            button.setTitleColor(UI.Color.fontWhite, for: .normal)
         }
         
         // MARK: - Gradient Settings
@@ -49,9 +49,9 @@ class SubMenu: UIView {
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDarkest.withAlphaComponent(0.0).cgColor,
-                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor]
+        gradient.colors = [UI.Color.bgDarkest.withAlphaComponent(0.0).cgColor,
+                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
+                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.2,0.5,1.0]
         // Add gradient as bottom layer in sublayer array

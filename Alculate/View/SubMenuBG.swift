@@ -18,7 +18,7 @@ class SubMenuBG: UIView {
     func build() {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = UI.Color.alculatePurpleDarkest
+        backgroundColor = UI.Color.bgDarkest
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

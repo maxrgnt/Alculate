@@ -52,7 +52,7 @@ class ComparisonCell: UITableViewCell {
         delete.alpha = 0.0
         delete.backgroundColor = .lightGray
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.alculatePurpleDarker, for: .normal)
+        delete.setTitleColor(UI.Color.bgDarker, for: .normal)
         delete.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.comparisonRemoveRadius)
     
@@ -181,7 +181,7 @@ class ComparisonCell: UITableViewCell {
     
     func resetConstraints() {
         // reset border color
-        self.container.layer.borderColor = UI.Color.alculatePurpleDarkest.cgColor
+        self.container.layer.borderColor = UI.Color.bgDarkest.cgColor
         // hide delete button
         self.delete.alpha = 0.0
         // reset container sizes

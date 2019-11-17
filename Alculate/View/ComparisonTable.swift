@@ -118,10 +118,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         // do something for "best" alcohol from each type
         let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue {
-            cell.container.layer.borderColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0).cgColor
+            cell.container.layer.borderColor = UI.Color.value.cgColor
         }
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeEffect {
-            cell.container.layer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
+            cell.container.layer.borderColor = UI.Color.effect.cgColor
         }
         
         return cell

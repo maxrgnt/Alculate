@@ -36,20 +36,20 @@ class SavedABV: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.alculatePurpleDarker
+        backgroundColor = UI.Color.bgDarker
 //        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
         for obj in [header,savedABVTable] {
             addSubview(obj)
-            obj.backgroundColor = UI.Color.alculatePurpleDarker
+            obj.backgroundColor = UI.Color.bgDarker
         }
         savedABVTable.build()
         //
         header.addSubview(headerLabel)
         headerLabel.font = UI.Font.headerFont
-        headerLabel.textColor = UI.Color.softWhite
+        headerLabel.textColor = UI.Color.fontWhite
         headerLabel.textAlignment = .left
         headerLabel.text = "Saved drink ABVs:"
         
@@ -91,8 +91,8 @@ class SavedABV: UIView {
         let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDarker.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleLite.withAlphaComponent(1.0).cgColor]
+        gradient.colors = [UI.Color.bgDarker.withAlphaComponent(1.0).cgColor,
+                           UI.Color.bgLite.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.0,1.0]
         // Add gradient as bottom layer in sublayer array

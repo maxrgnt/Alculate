@@ -33,14 +33,14 @@ class NewComparison: UIView {
         for (i, button) in [addBeer,addLiquor,addWine].enumerated() {
             button.tag = 20+i
             addSubview(button)
-            button.backgroundColor = UI.Color.alculatePurpleDark
+            button.backgroundColor = UI.Color.bgDark
             button.layer.borderWidth = UI.Sizing.containerBorder
-            button.layer.borderColor = UI.Color.alculatePurpleDarkest.cgColor
+            button.layer.borderColor = UI.Color.bgDarkest.cgColor
             button.contentHorizontalAlignment = .center
             button.contentVerticalAlignment = .center
             button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitle("+ add \(buttonText[i])", for: .normal)
-            button.setTitleColor(UI.Color.softWhite, for: .normal)
+            button.setTitle("+ \(buttonText[i])", for: .normal)
+            button.setTitleColor(UI.Color.fontWhite, for: .normal)
             button.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         }
         
@@ -52,9 +52,9 @@ class NewComparison: UIView {
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.alculatePurpleDark.withAlphaComponent(0.0).cgColor,
-                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor,
-                           UI.Color.alculatePurpleDarkest.withAlphaComponent(1.0).cgColor]
+        gradient.colors = [UI.Color.bgDark.withAlphaComponent(0.0).cgColor,
+                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
+                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.0,0.5,1.0]
         // Add gradient as bottom layer in sublayer array

@@ -41,7 +41,7 @@ class TextNavigator: UIView {
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
             button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitleColor(UI.Color.softWhite, for: .normal)
+            button.setTitleColor(UI.Color.fontWhite, for: .normal)
             button.contentHorizontalAlignment = .center //alignments[i]
         }
         //
@@ -50,7 +50,7 @@ class TextNavigator: UIView {
         suggestion.backgroundColor = .clear
         suggestion.titleLabel?.font = UI.Font.cellHeaderFont
         suggestion.setTitle("Use 'Coors Light'", for: .normal)
-        suggestion.setTitleColor(UI.Color.softWhite, for: .normal)
+        suggestion.setTitleColor(UI.Color.fontWhite, for: .normal)
         suggestion.contentHorizontalAlignment = .left
         
         // MARK: - NSLayoutConstraints

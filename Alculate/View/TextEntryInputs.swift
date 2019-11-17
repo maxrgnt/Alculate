@@ -43,7 +43,7 @@ class TextEntryInputs: UIView {
             field.backgroundColor = .clear
             field.titleLabel?.font = UI.Font.cellHeaderFont
             field.contentHorizontalAlignment = (i<3||i>4) ? .left : .center
-            field.setTitleColor(UI.Color.softWhite, for: .normal)
+            field.setTitleColor(UI.Color.fontWhite, for: .normal)
         }
         
         // MARK: - NSLayoutConstraints

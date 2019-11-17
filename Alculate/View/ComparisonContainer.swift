@@ -28,14 +28,14 @@ class ComparisonContainer: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.alculatePurpleDark
+        backgroundColor = UI.Color.bgDark
         layer.borderWidth = UI.Sizing.containerBorder
-        layer.borderColor = UI.Color.alculatePurpleDarkest.cgColor
+        layer.borderColor = UI.Color.bgDarkest.cgColor
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         // Object settings
         for label in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription] {
             addSubview(label)
-            label.textColor = UI.Color.softWhite
+            label.textColor = UI.Color.fontWhite
             label.textAlignment = .left
         }
         effect.textAlignment = .right

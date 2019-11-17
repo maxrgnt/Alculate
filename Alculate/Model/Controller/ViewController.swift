@@ -58,7 +58,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
         //
-        view.backgroundColor = UI.Color.alculatePurpleDarker
+        view.backgroundColor = UI.Color.bgDarker
         
 //        let domain = Bundle.main.bundleIdentifier!
 //        UserDefaults.standard.removePersistentDomain(forName: domain)
@@ -66,8 +66,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        Data.deleteCoreDataFor(entity: Data.masterListID)
 
         //clearTestData()
-        handleInit()
-        build()
+        
+        let background = DispatchQueue.global()
+        background.sync { self.handleInit() }
+        background.sync { self.build() }
         alculate()
         
     }
@@ -80,7 +82,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         view.addSubview(noComparisons)
         noComparisons.text = "Add a drink below."
         noComparisons.font = UI.Font.topLinePrimary
-        noComparisons.textColor = UI.Color.alculatePurpleDarkest
+        noComparisons.textColor = UI.Color.bgDarkest
         noComparisons.alpha = 1.0
         noComparisons.textAlignment = .center
         noComparisons.translatesAutoresizingMaskIntoConstraints = false
@@ -101,8 +103,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             topLinePiece.category.text = categories[i]
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
-        valueSummary.category.textColor = UIColor(displayP3Red: 77/255, green: 169/255, blue: 68/255, alpha: 1.0)
-        effectSummary.category.textColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0)
+        valueSummary.category.textColor = UI.Color.value
+        effectSummary.category.textColor = UI.Color.effect
            
         view.addSubview(newComparison)
         newComparison.build(anchorTo: valueSummary)
@@ -478,7 +480,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             savedABV.savedABVTable.reloadData()
         }
         else {
-            print("gotcha bitch")
             if realculate {
                 alculate()
             }

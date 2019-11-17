@@ -34,12 +34,12 @@ class SavedABVCell: UITableViewCell {
         addSubview(icon)
         //
         addSubview(drinkName)
-        drinkName.textColor = UI.Color.softWhite
+        drinkName.textColor = UI.Color.fontWhite
         drinkName.textAlignment = .left
         drinkName.font = UI.Font.cellHeaderFont
         //
         addSubview(drinkInfo)
-        drinkInfo.textColor = UI.Color.softWhite
+        drinkInfo.textColor = UI.Color.fontWhite
         drinkInfo.textAlignment = .left
         drinkInfo.font = UI.Font.cellStubFont
         drinkInfo.alpha = 0.7
@@ -47,7 +47,7 @@ class SavedABVCell: UITableViewCell {
         addSubview(delete)
         delete.titleLabel?.font = UI.Font.cellHeaderFont
         delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.alculatePurpleDarker, for: .normal)
+        delete.setTitleColor(UI.Color.bgDarker, for: .normal)
         delete.backgroundColor = .lightGray
         delete.contentVerticalAlignment = .center
         delete.contentHorizontalAlignment = .center

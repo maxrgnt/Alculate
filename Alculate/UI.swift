@@ -125,7 +125,7 @@ struct UI {
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
         static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
-        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 18)
+        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
         static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
         static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
         static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 14)
@@ -134,31 +134,48 @@ struct UI {
     
     // colors
     struct Color {
-//        static let alculatePurple = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
-//        static let beer = UIColor(displayP3Red: 255/255, green: 180/255, blue: 0/255, alpha: 1.0)
-//        static let liquor = UIColor(displayP3Red: 38/255, green: 196/255, blue: 133/255, alpha: 1.0)
-//        static let wine = UIColor(displayP3Red: 232/255, green: 63/255, blue: 111/255, alpha: 1.0)
-        // #3D4C6f actual green
-//        static let alculateGreenDark = UIColor(displayP3Red: 54/255, green: 76/255, blue: 111/255, alpha: 1.0)
-        // #221647
-//        static let alculatePurpleDarkest = UIColor(displayP3Red: 34/255, green: 22/255, blue: 71/255, alpha: 1.0)
+        // static let alculatePurple = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
         // #35295D
-        static let alculatePurpleDarkest = UIColor(displayP3Red: 53/255, green: 41/255, blue: 93/255, alpha: 1.0)
+        static let purpleDarkest = UIColor(displayP3Red: 53/255, green: 41/255, blue: 93/255, alpha: 1.0)
         // #4B3F72
-        static let alculatePurpleDarker = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
+        static let purpleDarker = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
         // #6457A6
-        static let alculatePurpleDark = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+        static let purpleDark = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
         // #6457A6
-        static let alculatePurpleLite = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
+        static let purpleLight = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
         // #907AD6
-        static let alculatePurpleLighter = UIColor(displayP3Red: 144/255, green: 122/255, blue: 214/255, alpha: 1.0)
+        static let purpleLighter = UIColor(displayP3Red: 144/255, green: 122/255, blue: 214/255, alpha: 1.0)
+        
+        // #0D1F2D
+        static let darkGunmetal = UIColor(displayP3Red: 13/255, green: 31/255, blue: 45/255, alpha: 1.0)
+        // #404E5C
+        static let outerSpace = UIColor(displayP3Red: 64/255, green: 78/255, blue: 92/255, alpha: 1.0)
+        // #4F6272
+        static let blackCoral = UIColor(displayP3Red: 79/255, green: 98/255, blue: 114/255, alpha: 1.0)
+        // #9FA2B2
+        static let cadetGrey = UIColor(displayP3Red: 159/255, green: 162/255, blue: 178/255, alpha: 1.0)
+        // #61E786
+        static let malachiteGreen = UIColor(displayP3Red: 97/255, green: 231/255, blue: 134/255, alpha: 1.0)
+        // #3F88C5
+        static let tuftsBlue = UIColor(displayP3Red: 63/255, green: 136/255, blue: 197/255, alpha: 1.0)
+        // #EDFFEC
+        static let honeydew = UIColor(displayP3Red: 237/255, green: 255/255, blue: 236/255, alpha: 1.0)
         
         static let beer = UIColor(displayP3Red: 91/255, green: 140/255, blue: 90/255, alpha: 1.0)
         static let liquor = UIColor(displayP3Red: 0/255, green: 110/255, blue: 144/255, alpha: 1.0)
         static let wine = UIColor(displayP3Red: 144/255, green: 78/255, blue: 85/255, alpha: 1.0)
-        static let softWhite = UIColor(displayP3Red: 236/255, green: 229/255, blue: 240/255, alpha: 1.0) // lavender mist
-        //static let softWhite = UIColor(displayP3Red: 230/255, green: 232/255, blue: 230/255, alpha: 1.0) // platinum
-        static let alcoholTypes = [beer, liquor, wine, alculatePurpleLite]
+        // static let alcoholTypes = [beer, liquor, wine, bgLite]
+        // static let lavenderMist = UIColor(displayP3Red: 236/255, green: 229/255, blue: 240/255, alpha: 1.0) // lavender mist
+        
+        static let bgDarkest = darkGunmetal
+        static let bgDarker = outerSpace
+        static let bgDarkerRGB = [64,78,92]
+        static let bgDark = blackCoral
+        static let bgDarkRGB = [79,98,114]
+        static let bgLite = cadetGrey
+        static let value = malachiteGreen
+        static let effect = tuftsBlue
+        static let fontWhite = honeydew
     }
     
     static func printUI() {

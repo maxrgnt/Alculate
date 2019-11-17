@@ -41,7 +41,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         tableHeaderView = nil
         separatorStyle = .singleLine
         separatorColor = .lightGray
-        sectionIndexColor = UI.Color.softWhite
+        sectionIndexColor = UI.Color.fontWhite
         sectionIndexBackgroundColor = UIColor.clear
     }
         
@@ -52,16 +52,14 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         cell.setLabels(forCellAt: indexPath)
         /*
          color = x * start_color + (x-1) * end_color
-         Dark Purple is  75  63 114
-         Lite Purple is 100  87 166
          */
         let masterCount: CGFloat = CGFloat(Data.masterList.count)
         let section: CGFloat = CGFloat(indexPath.section)
 //        let row: CGFloat = CGFloat(indexPath.row)
         let blah: CGFloat = ((section*(section+1))/2)/masterCount
-        let R: CGFloat = ((1-blah) * CGFloat(75))  + (blah * CGFloat(100))
-        let G: CGFloat = ((1-blah) * CGFloat(63))  + (blah * CGFloat(87))
-        let B: CGFloat = ((1-blah) * CGFloat(114)) + (blah * CGFloat(166))
+        let R: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[0]))  + (blah * CGFloat(UI.Color.bgDarkRGB[0]))
+        let G: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[1]))  + (blah * CGFloat(UI.Color.bgDarkRGB[1]))
+        let B: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[2])) + (blah * CGFloat(UI.Color.bgDarkRGB[2]))
 //        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
         cell.setBackgroundColor(R: R, G: G, B: B)
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)

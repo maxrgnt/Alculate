@@ -28,12 +28,12 @@ class Summary: UIView {
     func build(iconName: String, alignText: NSTextAlignment, leadingAnchors: Int) {
         // MARK: - View/Object Settings
         // View settings
-        backgroundColor = UI.Color.alculatePurpleDarkest
+        backgroundColor = UI.Color.bgDarkest
         clipsToBounds = true
         // Object settings
         for label in [category,drinkName,value,valueDescription] {
             addSubview(label)
-            label.textColor = UI.Color.softWhite
+            label.textColor = UI.Color.fontWhite
             label.textAlignment = alignText
             label.alpha = 0.0
         }
@@ -106,10 +106,14 @@ class Summary: UIView {
     func moveTopAnchor(to newConstant: CGFloat) {
         if top != nil {
             let newAlpha = (newConstant == -UI.Sizing.subMenuHeight) ? 0.0 : 1.0
+            let descriptionAlpha = (newConstant == -UI.Sizing.subMenuHeight) ? 0.0 : 0.7
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut
                 , animations: ({
-                    for label in [self.category,self.drinkName,self.value,self.valueDescription] {
+                    for label in [self.category,self.drinkName,self.value] {
                         label.alpha = CGFloat(newAlpha)
+                    }
+                    for label in [self.valueDescription] {
+                        label.alpha = CGFloat(descriptionAlpha)
                     }
                     self.top.constant = newConstant
                     self.superview!.layoutIfNeeded()

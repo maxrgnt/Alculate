@@ -25,18 +25,18 @@ class Undo: UIView {
     func build() {
         // MARK: - View/Object Settings
         clipsToBounds = true
-        backgroundColor = UI.Color.alculatePurpleDarker
+        backgroundColor = UI.Color.bgDarker
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.undoRadius)
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {
             button.tag = i
             addSubview(button)
-            button.setTitleColor(UI.Color.softWhite, for: .normal)
+            button.setTitleColor(UI.Color.fontWhite, for: .normal)
             button.setTitle(buttonText[i], for: .normal)
             button.contentHorizontalAlignment = alignments[i]
         }
-        cancel.backgroundColor = UI.Color.alculatePurpleLite
+        cancel.backgroundColor = UI.Color.bgLite
         cancel.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.undoCancelRadius)
         
         // MARK: - NSLayoutConstraints

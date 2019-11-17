@@ -23,10 +23,10 @@ class Header: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.alculatePurpleDarker
+        backgroundColor = UI.Color.bgDarker
         // Object settings
         addSubview(appName)
-        appName.textColor = UI.Color.softWhite
+        appName.textColor = UI.Color.fontWhite
         appName.font = UI.Font.headerFont
         appName.textAlignment = .center
         appName.text = "Alculate"

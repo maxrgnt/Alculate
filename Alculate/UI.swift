@@ -128,8 +128,9 @@ struct UI {
         static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
         static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
         static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
-        static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 14)
-        static let cellStubFont2 = UIFont(name: "JosefinSans-Light", size: 11)
+        static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 18)
+        static let cellStubFont2 = UIFont(name: "JosefinSans-Regular", size: 18)
+        static let cellStubFont3 = UIFont(name: "JosefinSans-Light", size: 14)
     }
     
     // colors
@@ -160,12 +161,20 @@ struct UI {
         static let tuftsBlue = UIColor(displayP3Red: 63/255, green: 136/255, blue: 197/255, alpha: 1.0)
         // #EDFFEC
         static let honeydew = UIColor(displayP3Red: 237/255, green: 255/255, blue: 236/255, alpha: 1.0)
+        // #FFC857
+        static let mustard = UIColor(displayP3Red: 255/255, green: 200/255, blue: 87/255, alpha: 1.0)
+        // #F56476
+        static let begonia = UIColor(displayP3Red: 245/255, green: 100/255, blue: 118/255, alpha: 1.0)
         
         static let beer = UIColor(displayP3Red: 91/255, green: 140/255, blue: 90/255, alpha: 1.0)
         static let liquor = UIColor(displayP3Red: 0/255, green: 110/255, blue: 144/255, alpha: 1.0)
         static let wine = UIColor(displayP3Red: 144/255, green: 78/255, blue: 85/255, alpha: 1.0)
         // static let alcoholTypes = [beer, liquor, wine, bgLite]
         // static let lavenderMist = UIColor(displayP3Red: 236/255, green: 229/255, blue: 240/255, alpha: 1.0) // lavender mist
+        
+        // beer =   (red: 91/255, green: 140/255, blue: 90/255)
+        // liquor = (red: 0/255, green: 110/255, blue: 144/255)
+        // wine =   (red: 144/255, green: 78/255, blue: 85/255)
         
         static let bgDarkest = darkGunmetal
         static let bgDarker = outerSpace
@@ -175,7 +184,9 @@ struct UI {
         static let bgLite = cadetGrey
         static let value = malachiteGreen
         static let effect = tuftsBlue
+        static let best = mustard
         static let fontWhite = honeydew
+        static let undo = begonia
     }
     
     static func printUI() {

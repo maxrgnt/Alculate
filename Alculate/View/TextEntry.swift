@@ -54,7 +54,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     var entryID = ""
     var suggestedName = ""
     var oldComparison: (name: String, abv: String, size: String, price: String) = (name: "", abv: "", size: "", price: "")
-
+    var outputSafe = true
+    
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -242,14 +243,13 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func outputNotDefaults() {
-        var outputSafe = true
         for i in 0...maxLevel {
             outputSafe = (output[i] == defaults[i]) ? false : true
             if outputSafe == false {
                 break
             }
         }
-        navigator.doneBottom.constant = (outputSafe /*&& inputLevel == maxLevel*/) ? 0 : UI.Sizing.subMenuHeight
+        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.subMenuHeight
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.superview!.layoutIfNeeded()
@@ -271,7 +271,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // if not name and the field isnt empty
         else if textField.text != "" {
             // list of max vals for percent, size, price
-            let maxVal = [100.0,10000.0,10000.0]
+            let maxVal = [100.0,1000.0,1000.0]
             // formatting for 100.0% | 12.0 oz | $4.00
             let formats = ["%.1f","%.1f","%.2f"]
             // set the unformatted to the max if over, otherwise whatever it is

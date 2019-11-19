@@ -33,7 +33,7 @@ class ComparisonContainer: UIView {
         layer.borderColor = UI.Color.bgDarkest.cgColor
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.containerRadius)
         // Object settings
-        for label in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription] {
+        for label in [drinkName,/*drinkInfo,*/value,valueDescription,effect,effectDescription] {
             addSubview(label)
             label.textColor = UI.Color.fontWhite
             label.textAlignment = .left
@@ -42,13 +42,15 @@ class ComparisonContainer: UIView {
         effectDescription.textAlignment = .right
         //
         drinkName.font = UI.Font.cellStubFont
-        drinkInfo.font = UI.Font.cellStubFont2
-        value.font = UI.Font.cellStubFont
-        valueDescription.font = UI.Font.cellStubFont2
-        effect.font = UI.Font.cellStubFont
-        effectDescription.font = UI.Font.cellStubFont2
+//        drinkInfo.font = UI.Font.cellStubFont2
+        value.font = UI.Font.cellStubFont2
+        value.alpha = 0.85
+        valueDescription.font = UI.Font.cellStubFont3
+        effect.font = UI.Font.cellStubFont2
+        effect.alpha = 0.85
+        effectDescription.font = UI.Font.cellStubFont3
         //
-        drinkInfo.alpha = 0.7
+//        drinkInfo.alpha = 0.7
         valueDescription.text = "per shot"
         valueDescription.alpha = 0.7
         effectDescription.text = "shots"
@@ -58,12 +60,12 @@ class ComparisonContainer: UIView {
         for obj in [drinkName,drinkInfo,value,valueDescription,effect,effectDescription,remove] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        let drinkNameHeight: CGFloat = (1/3)
-        let drinkInfoHeight: CGFloat = (1/6)
+        let drinkNameHeight: CGFloat = 0.4166666667 // (1/3)+((1/3)-(1/4))
+//        let drinkInfoHeight: CGFloat = (1/6)
         // value and effect
         let categoryHeight: CGFloat = (1/3)
         // value and effect
-        let descriptionHeight: CGFloat = (1/6)
+        let descriptionHeight: CGFloat = (1/4)
         //
         let valueWidth: CGFloat = (2/3)
         let effectWidth: CGFloat = (1/3)
@@ -75,14 +77,14 @@ class ComparisonContainer: UIView {
             drinkName.widthAnchor.constraint(equalTo: widthAnchor, constant: -borderOffset),
             drinkName.heightAnchor.constraint(equalTo: heightAnchor, multiplier: drinkNameHeight),
             drinkName.topAnchor.constraint(equalTo: topAnchor),
-            drinkInfo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
-            drinkInfo.widthAnchor.constraint(equalTo: widthAnchor, constant: -borderOffset),
-            drinkInfo.heightAnchor.constraint(equalTo: heightAnchor, multiplier: drinkInfoHeight),
-            drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
+//            drinkInfo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
+//            drinkInfo.widthAnchor.constraint(equalTo: widthAnchor, constant: -borderOffset),
+//            drinkInfo.heightAnchor.constraint(equalTo: heightAnchor, multiplier: drinkInfoHeight),
+//            drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
             value.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
             value.widthAnchor.constraint(equalTo: widthAnchor, multiplier: valueWidth, constant: -borderOffset),
             value.heightAnchor.constraint(equalTo: heightAnchor, multiplier: categoryHeight),
-            value.topAnchor.constraint(equalTo: drinkInfo.bottomAnchor),
+            value.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
             valueDescription.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
             valueDescription.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5, constant: -borderOffset),
             valueDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),
@@ -90,7 +92,7 @@ class ComparisonContainer: UIView {
             effect.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -borderOffset),
             effect.widthAnchor.constraint(equalTo: widthAnchor, multiplier: effectWidth, constant: -borderOffset),
             effect.heightAnchor.constraint(equalTo: heightAnchor, multiplier: categoryHeight),
-            effect.topAnchor.constraint(equalTo: drinkInfo.bottomAnchor),
+            effect.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
             effectDescription.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -borderOffset),
             effectDescription.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5, constant: -borderOffset),
             effectDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),

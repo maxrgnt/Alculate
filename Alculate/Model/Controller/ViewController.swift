@@ -103,8 +103,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             topLinePiece.category.text = categories[i]
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
-        valueSummary.category.textColor = UI.Color.value
-        effectSummary.category.textColor = UI.Color.effect
            
         view.addSubview(newComparison)
         newComparison.build(anchorTo: valueSummary)
@@ -357,6 +355,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
                 reloadTable(table: id, realculate: false)
             }
+            if ViewController.typeValue == ViewController.typeEffect {
+                valueSummary.category.textColor = UI.Color.best
+                effectSummary.category.textColor = UI.Color.best
+            }
+            else {
+                valueSummary.category.textColor = UI.Color.value
+                effectSummary.category.textColor = UI.Color.effect
+            }
             valueSummary.drinkName.text = bestPrice.name.capitalized
             valueSummary.value.text = "$"+bestPrice.best
             effectSummary.drinkName.text = bestRatio.name.capitalized
@@ -489,6 +495,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 if table == ID {
                     //tables[i].reloadData()
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
+                    tables[i].updateTableContentInset()
                 }
             }
         }
@@ -509,6 +516,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                         Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
                         alculate()
                         tables[i].reloadSections(sections as IndexSet, with: .automatic)
+                        tables[i].updateTableContentInset()
                     }
                 }
             }

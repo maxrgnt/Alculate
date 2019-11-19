@@ -83,6 +83,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         //
         let lastCell = listForThisTable().count-1
         if lastCell > 0 {
+            print(lastCell, comparisonTableListID)
             let indexPath = IndexPath(row: lastCell, section: 0)
             scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
@@ -123,6 +124,9 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeEffect {
             cell.container.layer.borderColor = UI.Color.effect.cgColor
         }
+        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue && comparisonTableListID == ViewController.typeEffect {
+            cell.container.layer.borderColor = UI.Color.best.cgColor
+        }
         
         return cell
     }
@@ -137,6 +141,13 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // pass
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == tableView.numberOfSections - 1 &&
+            indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            print("end reached for \(comparisonTableListID)")
+        }
     }
     
     // MARK: - List Finder Function

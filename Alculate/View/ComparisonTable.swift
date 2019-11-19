@@ -83,7 +83,6 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         //
         let lastCell = listForThisTable().count-1
         if lastCell > 0 {
-            print(lastCell, comparisonTableListID)
             let indexPath = IndexPath(row: lastCell, section: 0)
             scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
@@ -128,6 +127,8 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
             cell.container.layer.borderColor = UI.Color.best.cgColor
         }
         
+        cell.container.calculateNameWidth()
+        
         return cell
     }
     
@@ -146,7 +147,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == tableView.numberOfSections - 1 &&
             indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            print("end reached for \(comparisonTableListID)")
+//            print("end reached for \(comparisonTableListID)")
         }
     }
     

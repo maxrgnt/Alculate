@@ -53,10 +53,10 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         /*
          color = x * start_color + (x-1) * end_color
          */
-        let masterCount: CGFloat = CGFloat(Data.masterList.count)
+        let totalSections: CGFloat = CGFloat(tableView.numberOfSections) // CGFloat(Data.masterList.count)
         let section: CGFloat = CGFloat(indexPath.section)
 //        let row: CGFloat = CGFloat(indexPath.row)
-        let blah: CGFloat = ((section*(section+1))/2)/masterCount
+        let blah: CGFloat = section/totalSections // ((section*(section+1))/2)/totalSections
         let R: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[0]))  + (blah * CGFloat(UI.Color.bgDarkRGB[0]))
         let G: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[1]))  + (blah * CGFloat(UI.Color.bgDarkRGB[1]))
         let B: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[2])) + (blah * CGFloat(UI.Color.bgDarkRGB[2]))

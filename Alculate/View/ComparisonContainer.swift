@@ -10,6 +10,9 @@ import UIKit
 
 class ComparisonContainer: UIView {
     
+    // Constraints
+    var drinkNameWidth: NSLayoutConstraint!
+
     // Objects
     let drinkName = UILabel()
     let drinkInfo = UILabel()
@@ -18,7 +21,12 @@ class ComparisonContainer: UIView {
     let effect = UILabel()
     let effectDescription = UILabel()
     let remove = UIButton()
-
+    
+    // Variables
+    var calcFontWidth: CGFloat!
+    var originalCenter: (x: CGFloat
+    , y: CGFloat)!
+    
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -72,9 +80,10 @@ class ComparisonContainer: UIView {
         //
         let borderOffset = 2*UI.Sizing.containerBorder
         //
+        drinkNameWidth = drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.containerDiameter-borderOffset)
         NSLayoutConstraint.activate([
             drinkName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
-            drinkName.widthAnchor.constraint(equalTo: widthAnchor, constant: -borderOffset),
+            drinkNameWidth,
             drinkName.heightAnchor.constraint(equalTo: heightAnchor, multiplier: drinkNameHeight),
             drinkName.topAnchor.constraint(equalTo: topAnchor),
 //            drinkInfo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: borderOffset),
@@ -98,8 +107,39 @@ class ComparisonContainer: UIView {
             effectDescription.heightAnchor.constraint(equalTo: heightAnchor, multiplier: descriptionHeight),
             effectDescription.topAnchor.constraint(equalTo: effect.bottomAnchor, constant: -borderOffset)
             ])
+        originalCenter = (x: drinkName.center.x, y: drinkName.center.y)
+    }
+    
+    func calculateNameWidth() {
+        let secondsToPanFullContainer: CGFloat = 5.0
+        let standardWidth = (UI.Sizing.containerDiameter-2*UI.Sizing.containerBorder)
+        let pixelsPerSecond = standardWidth/secondsToPanFullContainer
+        let calcHeight = 0.4166666667 * UI.Sizing.containerHeight
+        calcFontWidth = drinkName.text!.width(withConstrainedHeight: calcHeight, font: drinkName.font)
+        let duration = Double(calcFontWidth/pixelsPerSecond)
+        drinkNameWidth.constant = calcFontWidth
+//        print("\(drinkName.text!): \(drinkNameWidth!)")
+        standardWidth < calcFontWidth ? startAnimation(for: duration) : nil
     }
 
+    func startAnimation(for duration: Double) {
+        // nuke all nimations
+        self.subviews.forEach({$0.layer.removeAllAnimations()})
+        self.layer.removeAllAnimations()
+        self.layoutIfNeeded()
+        originalCenter = (originalCenter == (x: 0.0, y: 0.0)) ? (x: drinkName.center.x, y: drinkName.center.y) : originalCenter
+        //Animating the label automatically change as per your requirement
+        DispatchQueue.main.async(execute: {
+            UIView.animate(withDuration: duration, delay: 1, options: ([/*.beginFromCurrentState,*/ .curveLinear, .repeat])
+                , animations: ({
+                    self.drinkName.center = CGPoint(x: 0 - self.drinkNameWidth.constant / 2, y: self.drinkName.center.y)
+                    print("\(self.drinkName.text!): \(self.drinkName.center) | \(self.originalCenter!)")
+                }), completion: { (completed) in
+//                    self.drinkName.center = CGPoint(x: 0 - self.originalCenter.x, y: self.originalCenter.y)
+            })
+        })
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

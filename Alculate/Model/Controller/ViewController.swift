@@ -52,6 +52,18 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
              name: UIResponder.keyboardWillShowNotification,
              object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.willEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
         //
         ViewController.leadingAnchor = view.leadingAnchor
         ViewController.topAnchor = view.topAnchor
@@ -205,6 +217,17 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
         }
     }
+    
+    @objc func didEnterBackground() {
+        
+    }
+
+    @objc func willEnterForeground() {
+        for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+            reloadTable(table: id, realculate: true)
+        }
+    }
+
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {

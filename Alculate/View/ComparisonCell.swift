@@ -79,7 +79,7 @@ class ComparisonCell: UITableViewCell {
     func setLabels(with info: (name: String, abv: String, size: String, price: String)) {
         container.drinkName.text = "\(info.name.capitalized)"
         // convert price to $X.00 format
-        let price = String(format: "%.2f", Double(info.price)!)
+//        let price = String(format: "%.2f", Double(info.price)!)
         // get the unitForSize by dropping the first part of string
         // using length of string minus the last two characters (oz or ml) ex. 24ml
         let sizeUnit = info.size.dropFirst(info.size.count-2)
@@ -175,6 +175,7 @@ class ComparisonCell: UITableViewCell {
                 if restartAnimations {
                     self.beginAnimating()
                 }
+                self.container.calculateNameWidth()
             }
         )
     }

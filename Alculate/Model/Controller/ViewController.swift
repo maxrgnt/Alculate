@@ -220,12 +220,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
 
     @objc func willEnterForeground() {
-        for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
-            reloadTable(table: id, realculate: false)
+        if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+                reloadTable(table: id, realculate: false)
+            }
+            alculate()
+            summaryContainer.valueSummary.calculateNameWidth()
+            summaryContainer.effectSummary.calculateNameWidth()
         }
-        alculate()
-        summaryContainer.valueSummary.calculateNameWidth()
-        summaryContainer.effectSummary.calculateNameWidth()
     }
 
 

@@ -22,8 +22,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // Objects
     var header = Header()
-    var valueSummary = Summary()
-    var effectSummary = Summary()
+//    var valueSummary = Summary()
+//    var effectSummary = Summary()
+    var summaryContainer = SummaryBG()
     var newComparison = NewComparison()
     var beerComparison = ComparisonTable()
     var liquorComparison = ComparisonTable()
@@ -81,8 +82,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
         let background = DispatchQueue.global()
         background.sync { self.handleInit() }
-        background.sync { self.build() }
-        alculate()
+        background.sync { self.build()      }
+        background.sync { self.alculate()   }
         
     }
     
@@ -105,19 +106,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             noComparisons.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
-        let categories = ["Value","Effect"]
-        let valueDescriptions = ["per shot","shots"]
-        let topLineIcons = ["",""] // ["value","effect"]
-        let alignments = [.left,.right] as [NSTextAlignment]
-        for (i, topLinePiece) in [valueSummary,effectSummary].enumerated() {
-            view.addSubview(topLinePiece)
-            topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
-            topLinePiece.category.text = categories[i]
-            topLinePiece.valueDescription.text = valueDescriptions[i]
-        }
+        view.addSubview(summaryContainer)
+        summaryContainer.build()
            
         view.addSubview(newComparison)
-        newComparison.build(anchorTo: valueSummary)
+        newComparison.build(anchorTo: summaryContainer)
         for obj in [newComparison.addBeer,newComparison.addLiquor,newComparison.addWine] {
             obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
@@ -224,8 +217,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
     @objc func willEnterForeground() {
         for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
-            reloadTable(table: id, realculate: true)
+            reloadTable(table: id, realculate: false)
         }
+        alculate()
+        summaryContainer.valueSummary.calculateNameWidth()
+        summaryContainer.effectSummary.calculateNameWidth()
     }
 
 
@@ -346,8 +342,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
-            valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
-            effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
+            summaryContainer.moveTopAnchor(to: UI.Sizing.topLineTop)
+            summaryContainer.valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
+            summaryContainer.effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
             noComparisons.alpha = 0.0
             //
             let info = lists.last!.arr
@@ -379,22 +376,25 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 reloadTable(table: id, realculate: false)
             }
             if ViewController.typeValue == ViewController.typeEffect {
-                valueSummary.category.textColor = UI.Color.best
-                effectSummary.category.textColor = UI.Color.best
+                summaryContainer.valueSummary.category.textColor = UI.Color.best
+                summaryContainer.effectSummary.category.textColor = UI.Color.best
             }
             else {
-                valueSummary.category.textColor = UI.Color.value
-                effectSummary.category.textColor = UI.Color.effect
+                summaryContainer.valueSummary.category.textColor = UI.Color.value
+                summaryContainer.effectSummary.category.textColor = UI.Color.effect
             }
-            valueSummary.drinkName.text = bestPrice.name.capitalized
-            valueSummary.value.text = "$"+bestPrice.best
-            effectSummary.drinkName.text = bestRatio.name.capitalized
-            effectSummary.value.text = bestRatio.best
+            summaryContainer.valueSummary.drinkName.text = bestPrice.name.capitalized
+            summaryContainer.valueSummary.value.text = "$"+bestPrice.best
+            summaryContainer.effectSummary.drinkName.text = bestRatio.name.capitalized
+            summaryContainer.effectSummary.value.text = bestRatio.best
+            summaryContainer.valueSummary.calculateNameWidth()
+            summaryContainer.effectSummary.calculateNameWidth()
         }
         // if all lists are empty, dont alculate
         else {
-            valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
-            effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            summaryContainer.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            summaryContainer.valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
+            summaryContainer.effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
             noComparisons.alpha = 1.0
         }
     }
@@ -429,34 +429,36 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
             return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
-        reloadTable(table: Data.beerListID)
+        // had to specify because of sortByValue on load
+        reloadTable(table: Data.beerListID, realculate: false)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
             return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
-        reloadTable(table: Data.liquorListID)
+        reloadTable(table: Data.liquorListID, realculate: false)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
             return calculateValue(for: drink1) > calculateValue(for: drink2)
         }
-        reloadTable(table: Data.wineListID)
+        reloadTable(table: Data.wineListID, realculate: false)
     }
     
     func sortByEffect() {
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
             return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
-        reloadTable(table: Data.beerListID)
+        reloadTable(table: Data.beerListID, realculate: false)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
             return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
-        reloadTable(table: Data.liquorListID)
+        reloadTable(table: Data.liquorListID, realculate: false)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
             return calculateEffect(for: drink1) < calculateEffect(for: drink2)
         }
-        reloadTable(table: Data.wineListID)
+        reloadTable(table: Data.wineListID, realculate: false)
+        alculate()
     }
         
     // MARK: - Protocol Delegate Functions
@@ -473,6 +475,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                        options: [.curveEaseInOut], animations: { //Do all animations here
                         self.view.layoutIfNeeded()
         })
+    }
+    
+    func animateComparisonLabels() {
+        willEnterForeground()
     }
     
     func displayAlert(alert : UIAlertController) {

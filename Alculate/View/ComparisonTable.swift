@@ -191,6 +191,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         self.deleteRows(at: [indexPath!], with: .bottom)
         updateTableContentInset()
         self.comparisonTableDelegate.alculate()
+        self.comparisonTableDelegate.makeDeletable(true, lists: "all")
     }
     
     // MARK: - ScrollView Delegate

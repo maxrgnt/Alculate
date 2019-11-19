@@ -266,7 +266,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             changedText = (field.text?.removeInvalidNameCharacters())!
             changedText = (changedText==" ") ? "" : changedText
             field.text = changedText
-            checkSuggestions(for: changedText.lowercased())
+            (changedText != "") ? checkSuggestions(for: changedText.lowercased()) : nil
         }
         // if not name and the field isnt empty
         else if textField.text != "" {
@@ -386,6 +386,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     @objc func dismiss() {
+        oldComparison = (name: "", abv: "", size: "", price: "")
         TapDismiss.dismissTop.constant = UI.Sizing.bounds.height
         navigator.doneBottom.constant = UI.Sizing.subMenuHeight
         //
@@ -422,12 +423,12 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             }
         }
         else {
-            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
                 if id == entryID {
                     let old = oldComparison
                     Data.deleteFromList(id, wName: old.name, wABV: old.abv, wSize: old.size, wPrice: old.price)
                     Data.saveToList(id, wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
-                    self.textEntryDelegate!.reloadTable(table: id, realculate: true)
+                    (i == 2) ? self.textEntryDelegate!.reloadTable(table: id, realculate: true) : self.textEntryDelegate!.reloadTable(table: id, realculate: false)
                     oldComparison = (name: "", abv: "", size: "", price: "")
                 }
             }
@@ -435,7 +436,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     }
     
     func updateSavedABVTable() {
-        let name = output[0]
+        let name = output[0].lowercased()
         let abv = output[1]
         if let info = Data.masterList[name] {
             let savedAbv = info.abv
@@ -445,18 +446,18 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .default, handler: { action in
                     Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
-                    self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: true)
+                    self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: false)
                     self.textEntryDelegate!.updateComparison(for: name, ofType: self.entryID, wABV: abv)
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Keep \(savedAbv)%", style: .cancel, handler: { action in
-                    //
+                    // pass
                 }))
                 self.textEntryDelegate!.displayAlert(alert: changeAbv)
             }
         }
         else {
             Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
-            self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: true)
+            self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: false)
             self.textEntryDelegate!.updateComparison(for: name, ofType: entryID, wABV: abv)
         }
     }

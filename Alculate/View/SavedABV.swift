@@ -11,6 +11,7 @@ import UIKit
 protocol SavedABVDelegate {
     // called when user taps subview/delete button
     func animateSubMenu(by: CGFloat, reset: Bool)
+    func animateComparisonLabels()
 }
 
 class SavedABV: UIView {
@@ -128,7 +129,12 @@ class SavedABV: UIView {
     
     func animateLeadingAnchor(constant: CGFloat) {
         savedABVleading.constant = constant
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: {self.superview!.layoutIfNeeded()})
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
+            , animations: ({
+                self.superview!.layoutIfNeeded()
+            }), completion: { (completed) in
+                (constant == 0) ? nil : self.savedABVDelegate.animateComparisonLabels()
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {

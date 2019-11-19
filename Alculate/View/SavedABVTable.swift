@@ -120,7 +120,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
             Data.masterList[name] = nil
         }
-        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: true)
+        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
         self.savedABVTableDelegate.animateUndo(onScreen: true)
     }
 

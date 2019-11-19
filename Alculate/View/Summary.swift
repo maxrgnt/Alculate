@@ -12,13 +12,17 @@ class Summary: UIView {
     
     // Constraints
     var top: NSLayoutConstraint!
-
+    var drinkNameWidth: NSLayoutConstraint!
+    
     // Objects
     let category = UILabel()
     let drinkName = UILabel()
     let value = UILabel()
     let valueDescription = UILabel()
     let icon = UIImageView()
+    
+    // Variables
+    var calcFontWidth: CGFloat!
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -58,7 +62,7 @@ class Summary: UIView {
         let drinkNameHeight = UI.Sizing.topLineHeight/3
         let valueHeight = UI.Sizing.topLineHeight/3
         let valueDescriptionHeight = UI.Sizing.topLineHeight/6
-        let topLineWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding
+        let topLineWidth = UI.Sizing.topLinePieceWidth-(UI.Sizing.objectPadding)
         let valuePiecesWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3
 //        let iconDiameter = UI.Sizing.topLineHeight*(2/5)
         //
@@ -80,17 +84,19 @@ class Summary: UIView {
             ])
         }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.subMenuHeight) // UI.Sizing.topLineTop)
+        drinkNameWidth = drinkName.widthAnchor.constraint(equalToConstant: topLineWidth)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding/2),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             top,
             category.widthAnchor.constraint(equalToConstant: topLineWidth),
             category.heightAnchor.constraint(equalToConstant: categoryHeight),
             category.centerXAnchor.constraint(equalTo: centerXAnchor),
             category.topAnchor.constraint(equalTo: topAnchor),
-            drinkName.widthAnchor.constraint(equalToConstant: topLineWidth),
+            drinkNameWidth,
             drinkName.heightAnchor.constraint(equalToConstant: drinkNameHeight),
             drinkName.topAnchor.constraint(equalTo: category.bottomAnchor),
+//            drinkName.centerXAnchor.constraint(equalTo: centerXAnchor),
             value.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
             value.heightAnchor.constraint(equalToConstant: valueHeight),
             value.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
@@ -122,6 +128,36 @@ class Summary: UIView {
                 }
             )
         }
+    }
+    
+    func calculateNameWidth() {
+        // nuke all nimations
+        self.subviews.forEach({$0.layer.removeAllAnimations()})
+        self.layer.removeAllAnimations()
+        //
+        let secondsToPanFullContainer: CGFloat = 2.0
+        let standardWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding
+        let pixelsPerSecond = standardWidth/secondsToPanFullContainer
+        let calcHeight = UI.Sizing.topLineHeight/3
+        calcFontWidth = drinkName.text!.width(withConstrainedHeight: calcHeight, font: drinkName.font)
+        let duration = Double(calcFontWidth/pixelsPerSecond)
+        drinkNameWidth.constant = calcFontWidth
+        self.layoutIfNeeded()
+        let newCenter = (standardWidth-calcFontWidth)*1.4
+//        print(drinkName.text!, center, standardWidth, calcFontWidth!, standardWidth-calcFontWidth!)
+        standardWidth < calcFontWidth ? startAnimation(for: duration, toCenter: newCenter) : nil
+    }
+
+    func startAnimation(for duration: Double, toCenter center: CGFloat) {
+        //Animating the label automatically change as per your requirement
+        DispatchQueue.main.async(execute: {
+            UIView.animate(withDuration: duration, delay: 1, options: ([.curveEaseInOut, .repeat, .autoreverse])
+                , animations: ({
+                    self.drinkName.transform = CGAffineTransform(translationX: center, y: 0.0)
+                }), completion: { (completed) in
+                    self.drinkName.transform = .identity
+            })
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -135,6 +135,8 @@ class ComparisonCell: UITableViewCell {
     }
     
     func beginAnimating() {
+//        self.subviews.forEach({$0.layer.removeAllAnimations()})
+//        self.layer.removeAllAnimations()
         // shrink the container to desired size
         containerWidth.constant = UI.Sizing.containerDeleteSize
         containerHeight.constant = UI.Sizing.containerDeleteHeight
@@ -191,6 +193,11 @@ class ComparisonCell: UITableViewCell {
         // rotate back to normal
         self.container.transform = .identity
         self.delete.transform = .identity
+        self.container.drinkName.transform = .identity
+        // nuke all nimations
+//        self.container.subviews.forEach({$0.layer.removeAllAnimations()})
+//        self.container.layer.removeAllAnimations()
+//        self.container.layoutIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {

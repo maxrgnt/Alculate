@@ -243,7 +243,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         else if sender.tag == 1 {
             didEnterBackground()
-            savedABV.animateLeadingAnchor(constant: 0)
+            savedABV.animateTopAnchor(constant: UI.Sizing.savedABVtop)
             subMenu.top.constant = 0
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
@@ -383,10 +383,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             if ViewController.typeValue == ViewController.typeEffect {
                 summaryContainer.valueSummary.category.textColor = UI.Color.best
                 summaryContainer.effectSummary.category.textColor = UI.Color.best
+                summaryContainer.effectSummary.drinkName.alpha = 0
             }
             else {
                 summaryContainer.valueSummary.category.textColor = UI.Color.value
                 summaryContainer.effectSummary.category.textColor = UI.Color.effect
+                summaryContainer.effectSummary.drinkName.alpha = 1
             }
             summaryContainer.valueSummary.drinkName.text = bestPrice.name.capitalized
             summaryContainer.valueSummary.value.text = "$"+bestPrice.best
@@ -503,8 +505,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func adjustHeaderBackground() {
         if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
-            savedABV.header.backgroundColor = cell.backgroundColor
-            savedABV.statusBar.backgroundColor = cell.backgroundColor
+            savedABV.gradient2.colors = [UI.Color.bgDarker.withAlphaComponent(0.0).cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
+//            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }
     

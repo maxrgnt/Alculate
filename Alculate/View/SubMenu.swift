@@ -45,7 +45,7 @@ class SubMenu: UIView {
         // Set origin of gradient (top left of screen)
         let gradientOrigin = CGPoint(x: 0,y: 0)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.subMenuHeight)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.subMenuHeight*2)
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
@@ -53,7 +53,7 @@ class SubMenu: UIView {
                            UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
                            UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
-        gradient.locations = [0.2,0.5,1.0]
+        gradient.locations = [0.1,0.25,1.0]
         // Add gradient as bottom layer in sublayer array
         self.layer.insertSublayer(gradient, at: 0)
         

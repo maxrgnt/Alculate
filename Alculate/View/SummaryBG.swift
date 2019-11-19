@@ -30,7 +30,7 @@ class SummaryBG: UIView {
         backgroundColor = UI.Color.bgDarkest
         clipsToBounds = true
         
-        for (i, topLinePiece) in [valueSummary,effectSummary].enumerated() {
+        for (topLinePiece) in [valueSummary,effectSummary] {
             addSubview(topLinePiece)
         }
         

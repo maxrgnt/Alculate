@@ -123,7 +123,7 @@ class ComparisonContainer: UIView {
         let duration = Double(calcFontWidth/pixelsPerSecond)
         drinkNameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
-        let newCenter = (standardWidth-calcFontWidth)*1.4
+        let newCenter = (standardWidth-calcFontWidth)
         (standardWidth < calcFontWidth && labelAnimation == false) ? startAnimation(for: duration, toCenter: newCenter) : nil
     }
 

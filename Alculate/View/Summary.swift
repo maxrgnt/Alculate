@@ -146,7 +146,7 @@ class Summary: UIView {
         let duration = Double(calcFontWidth/pixelsPerSecond)
         drinkNameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
-        let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth)*3.4 : (standardWidth-calcFontWidth)*3.4
+        let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth) : (standardWidth-calcFontWidth)
 //        print(drinkName.text!, center, standardWidth, calcFontWidth!, standardWidth-calcFontWidth!)
         (standardWidth < calcFontWidth && labelAnimation == false) ? startAnimation(for: duration, toCenter: newCenter) : nil
     }

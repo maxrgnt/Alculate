@@ -19,10 +19,11 @@ class SavedABV: UIView {
     var savedABVDelegate : SavedABVDelegate!
 
     // Constraints
-    var savedABVleading: NSLayoutConstraint!
+    var savedABVtop: NSLayoutConstraint!
     
     // Objects
     var gradient = CAGradientLayer()
+    var gradient2 = CAGradientLayer()
     let statusBar = StatusBar()
     let header = UIView()
     let headerLabel = UILabel()
@@ -37,18 +38,20 @@ class SavedABV: UIView {
         // MARK: - View/Object Settings
         // View settings
         clipsToBounds = false
-        backgroundColor = UI.Color.bgDarker
-//        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.height-(UI.Sizing.headerHeight))/(UI.Sizing.width/10))
+        backgroundColor = .clear
+        roundCorners(corners: [.topLeft,.topRight], radius: (UI.Sizing.savedABVheight)/(UI.Sizing.width/10))
+        
         // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         addGestureRecognizer(pan)
         for obj in [header,savedABVTable] {
             addSubview(obj)
-            obj.backgroundColor = UI.Color.bgDarker
+            obj.backgroundColor = backgroundColor
         }
         savedABVTable.build()
         //
         header.addSubview(headerLabel)
+        header.backgroundColor = backgroundColor
         headerLabel.font = UI.Font.headerFont
         headerLabel.textColor = UI.Color.fontWhite
         headerLabel.textAlignment = .left
@@ -59,12 +62,12 @@ class SavedABV: UIView {
         for obj in [header,headerLabel,savedABVTable] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        savedABVleading = leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.width)
+        savedABVtop = topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.height)
         NSLayoutConstraint.activate([
-            savedABVleading,
+            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVheight),
-            topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.savedABVtop),
+            savedABVtop,
             header.centerXAnchor.constraint(equalTo: centerXAnchor),
             header.widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             header.topAnchor.constraint(equalTo: topAnchor),
@@ -79,17 +82,17 @@ class SavedABV: UIView {
             savedABVTable.topAnchor.constraint(equalTo: header.bottomAnchor)
             ])
         
-        addSubview(statusBar)
-        statusBar.build(leading: header.leadingAnchor)
-//        buildGradient()
+//        addSubview(statusBar)
+//        statusBar.build(leading: header.leadingAnchor)
+        buildGradient()
     }
     
     // MARK: - Gradient Settings
     func buildGradient() {
         // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: 0)
+        let gradientOrigin = CGPoint(x: 0,y: UI.Sizing.savedABVheaderHeight)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheight)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVtableHeight)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
         gradient.colors = [UI.Color.bgDarker.withAlphaComponent(1.0).cgColor,
@@ -98,6 +101,20 @@ class SavedABV: UIView {
         gradient.locations = [0.0,1.0]
         // Add gradient as bottom layer in sublayer array
         self.layer.insertSublayer(gradient, at: 0)
+        
+        // Set origin of gradient (top left of screen)
+        let gradientOrigin2 = CGPoint(x: 0,y: 0)
+        // Set frame of gradient (header height, because status bar will be solid color)
+        let gradientSize2 = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheaderHeight)
+        gradient2.frame = CGRect(origin: gradientOrigin2, size: gradientSize2)
+        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+        gradient2.colors = [UI.Color.bgDarker.withAlphaComponent(0.0).cgColor,
+                            UI.Color.bgDarker.withAlphaComponent(1.0).cgColor,
+                           UI.Color.bgDarker.withAlphaComponent(1.0).cgColor]
+        // Set locations of where gradient will transition
+        gradient2.locations = [0.0,0.1,1.0]
+        // Add gradient as bottom layer in sublayer array
+        self.layer.insertSublayer(gradient2, at: 0)
     }
     
     // MARK: - Animation Functions
@@ -106,10 +123,10 @@ class SavedABV: UIView {
         savedABVTable.isMoving = true
         savedABVTable.reloadSectionIndexTitles()
         // Allow movement of contact card back/forth when not fully visible
-        savedABVleading.constant += translation.x
+        savedABVtop.constant += translation.y
         // If contact card is fully visible, don't allow movement further left
-        savedABVleading.constant = savedABVleading.constant < 0 ? 0 : savedABVleading.constant
-        let percent = savedABVleading.constant/UI.Sizing.width >= 1 ? 1 : savedABVleading.constant/UI.Sizing.width
+        savedABVtop.constant = savedABVtop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : savedABVtop.constant
+        let percent = savedABVtop.constant/UI.Sizing.height >= 1 ? 1 : savedABVtop.constant/UI.Sizing.height
         self.savedABVDelegate.animateSubMenu(by: percent, reset: false)
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
@@ -118,22 +135,22 @@ class SavedABV: UIView {
             savedABVTable.isMoving = false
             savedABVTable.reloadSectionIndexTitles()
             // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            let constant = (savedABVleading.constant > UI.Sizing.savedABVgestureThreshold) ? UI.Sizing.width : 0
-            let percent: CGFloat = (constant == 0) ? 0 : 1
-            let reset = (constant == 0) ? true : false
+            let constant = (savedABVtop.constant > UI.Sizing.savedABVgestureThreshold) ? UI.Sizing.height : UI.Sizing.savedABVtop
+            let percent: CGFloat = (constant == UI.Sizing.savedABVtop) ? 0 : 1
+            let reset = (constant == UI.Sizing.savedABVtop) ? true : false
             self.savedABVDelegate.animateSubMenu(by: percent, reset: reset)
             // Animate to end-point
-            animateLeadingAnchor(constant: constant)
+            animateTopAnchor(constant: constant)
         }
     }
     
-    func animateLeadingAnchor(constant: CGFloat) {
-        savedABVleading.constant = constant
+    func animateTopAnchor(constant: CGFloat) {
+        savedABVtop.constant = constant
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.superview!.layoutIfNeeded()
             }), completion: { (completed) in
-                (constant == 0) ? nil : self.savedABVDelegate.animateComparisonLabels()
+                (constant == UI.Sizing.savedABVtop) ? nil : self.savedABVDelegate.animateComparisonLabels()
         })
     }
     

@@ -16,6 +16,8 @@ class SummaryBG: UIView {
     // Objects
     var valueSummary = Summary()
     var effectSummary = Summary()
+    var leftCover = UIView()
+    var rightCover = UIView()
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -28,14 +30,34 @@ class SummaryBG: UIView {
         backgroundColor = UI.Color.bgDarkest
         clipsToBounds = true
         
+        for (i, topLinePiece) in [valueSummary,effectSummary].enumerated() {
+            addSubview(topLinePiece)
+        }
+        
+        for obj in [leftCover,rightCover] {
+            addSubview(obj)
+            obj.backgroundColor = backgroundColor
+        }
+        
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
+        for obj in [leftCover,rightCover] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.subMenuHeight) // UI.Sizing.topLineTop)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
             top,
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor)
+            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
+            leftCover.widthAnchor.constraint(equalToConstant: UI.Sizing.objectPadding),
+            leftCover.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
+            leftCover.topAnchor.constraint(equalTo: topAnchor),
+            leftCover.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rightCover.widthAnchor.constraint(equalToConstant: UI.Sizing.objectPadding),
+            rightCover.heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
+            rightCover.topAnchor.constraint(equalTo: topAnchor),
+            rightCover.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
         // Object settings
@@ -44,11 +66,11 @@ class SummaryBG: UIView {
         let topLineIcons = ["",""] // ["value","effect"]
         let alignments = [.left,.right] as [NSTextAlignment]
         for (i, topLinePiece) in [valueSummary,effectSummary].enumerated() {
-            addSubview(topLinePiece)
             topLinePiece.build(iconName: topLineIcons[i], alignText: alignments[i], leadingAnchors: i)
             topLinePiece.category.text = categories[i]
             topLinePiece.valueDescription.text = valueDescriptions[i]
         }
+        
     }
     
     func moveTopAnchor(to newConstant: CGFloat) {

@@ -24,6 +24,7 @@ class ComparisonContainer: UIView {
     
     // Variables
     var calcFontWidth: CGFloat!
+    var labelAnimation = false
     
     init() {
         // Initialize views frame prior to setting constraints
@@ -123,11 +124,12 @@ class ComparisonContainer: UIView {
         drinkNameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
         let newCenter = (standardWidth-calcFontWidth)*1.4
-        standardWidth < calcFontWidth ? startAnimation(for: duration, toCenter: newCenter) : nil
+        (standardWidth < calcFontWidth && labelAnimation == false) ? startAnimation(for: duration, toCenter: newCenter) : nil
     }
 
     func startAnimation(for duration: Double, toCenter center: CGFloat) {
-        print("Animating \(drinkName.text!)")
+        labelAnimation = true
+        self.drinkName.transform = .identity
         //Animating the label automatically change as per your requirement
         DispatchQueue.main.async(execute: {
             UIView.animate(withDuration: duration, delay: 1, options: ([.curveEaseInOut, .repeat, .autoreverse])
@@ -135,6 +137,7 @@ class ComparisonContainer: UIView {
                     self.drinkName.transform = CGAffineTransform(translationX: center, y: 0.0)
                 }), completion: { (completed) in
                     self.drinkName.transform = .identity
+                    self.labelAnimation = false
             })
         })
     }

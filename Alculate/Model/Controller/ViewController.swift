@@ -212,7 +212,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func didEnterBackground() {
-        
+        for obj in [beerComparison, liquorComparison, wineComparison, summaryContainer.valueSummary, summaryContainer.effectSummary] {
+            obj.subviews.forEach({$0.layer.removeAllAnimations()})
+            obj.layer.removeAllAnimations()
+            obj.layoutIfNeeded()
+        }
     }
 
     @objc func willEnterForeground() {
@@ -238,6 +242,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //            flipAlculate()
         }
         else if sender.tag == 1 {
+            didEnterBackground()
             savedABV.animateLeadingAnchor(constant: 0)
             subMenu.top.constant = 0
             UIView.animate(withDuration: 0.2, animations: {

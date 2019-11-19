@@ -23,6 +23,8 @@ class Summary: UIView {
     
     // Variables
     var calcFontWidth: CGFloat!
+    var labelAnimation = false
+    var leading: Int! = 0
 
     init() {
         // Initialize views frame prior to setting constraints
@@ -48,6 +50,7 @@ class Summary: UIView {
         value.font = UI.Font.topLinePrimary
         valueDescription.font = UI.Font.topLineSecondary
 //        valueDescription.alpha = 0.7
+        leading = leadingAnchors
         //
 //        addSubview(icon)
 //        icon.image = UIImage(named: iconName)
@@ -143,12 +146,13 @@ class Summary: UIView {
         let duration = Double(calcFontWidth/pixelsPerSecond)
         drinkNameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
-        let newCenter = (standardWidth-calcFontWidth)*1.4
+        let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth)*3.4 : (standardWidth-calcFontWidth)*3.4
 //        print(drinkName.text!, center, standardWidth, calcFontWidth!, standardWidth-calcFontWidth!)
-        standardWidth < calcFontWidth ? startAnimation(for: duration, toCenter: newCenter) : nil
+        (standardWidth < calcFontWidth && labelAnimation == false) ? startAnimation(for: duration, toCenter: newCenter) : nil
     }
 
     func startAnimation(for duration: Double, toCenter center: CGFloat) {
+        labelAnimation = true
         //Animating the label automatically change as per your requirement
         DispatchQueue.main.async(execute: {
             UIView.animate(withDuration: duration, delay: 1, options: ([.curveEaseInOut, .repeat, .autoreverse])
@@ -156,6 +160,7 @@ class Summary: UIView {
                     self.drinkName.transform = CGAffineTransform(translationX: center, y: 0.0)
                 }), completion: { (completed) in
                     self.drinkName.transform = .identity
+                    self.labelAnimation = false
             })
         })
     }

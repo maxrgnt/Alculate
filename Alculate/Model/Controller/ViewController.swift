@@ -38,8 +38,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     var noComparisons = UILabel()
     
-    static var typeValue: String!
-    static var typeEffect: String!
+    static var typeValue: String! = ""
+    static var typeEffect: String! = ""
 
     override func viewDidLoad() {
         
@@ -220,13 +220,16 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
 
     @objc func willEnterForeground() {
-        if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+            print("hasLaunched")
             for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
                 reloadTable(table: id, realculate: false)
             }
             alculate()
-            summaryContainer.valueSummary.calculateNameWidth()
-            summaryContainer.effectSummary.calculateNameWidth()
+            if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
+                summaryContainer.valueSummary.calculateNameWidth()
+                summaryContainer.effectSummary.calculateNameWidth()
+            }
         }
     }
 
@@ -401,6 +404,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if all lists are empty, dont alculate
         else {
+            ViewController.typeEffect = ""
+            ViewController.typeValue = ""
             summaryContainer.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
             summaryContainer.valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
             summaryContainer.effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)

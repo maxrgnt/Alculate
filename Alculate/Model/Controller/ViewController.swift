@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -21,6 +21,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     static var bottomAnchor: NSLayoutYAxisAnchor!
     
     // Objects
+    var comparison = Comparison()
     var header = Header()
 //    var valueSummary = Summary()
 //    var effectSummary = Summary()
@@ -150,6 +151,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         view.addSubview(textEntry)
         textEntry.build()
         self.textEntry.textEntryDelegate = self
+        
+        view.addSubview(comparison)
+        comparison.build(forType: Data.beerListID, anchorTo: header)
+        self.comparison.delegate = self
+        
     }
     
     func clearTestData(){

@@ -15,6 +15,7 @@
 		66216038234FE50200AB4BB9 /* ComparisonTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66216037234FE50100AB4BB9 /* ComparisonTable.swift */; };
 		662BB8922362811300BCA837 /* TapDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662BB8912362811300BCA837 /* TapDismiss.swift */; };
 		666F499823846A0900BB3C75 /* SummaryBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666F499723846A0900BB3C75 /* SummaryBG.swift */; };
+		666F499A2385E53400BB3C75 /* Comparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666F49992385E53400BB3C75 /* Comparison.swift */; };
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
 		66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66942D00237F78D300C48211 /* SubMenuBG.swift */; };
@@ -79,6 +80,7 @@
 		66216037234FE50100AB4BB9 /* ComparisonTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTable.swift; sourceTree = "<group>"; };
 		662BB8912362811300BCA837 /* TapDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapDismiss.swift; sourceTree = "<group>"; };
 		666F499723846A0900BB3C75 /* SummaryBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryBG.swift; sourceTree = "<group>"; };
+		666F49992385E53400BB3C75 /* Comparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comparison.swift; sourceTree = "<group>"; };
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
 		66942D00237F78D300C48211 /* SubMenuBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenuBG.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				6620AA50234B935F002275B3 /* StatusBar.swift */,
 				66AF5873233A898600502EEA /* Header.swift */,
+				666F49992385E53400BB3C75 /* Comparison.swift */,
 				66216037234FE50100AB4BB9 /* ComparisonTable.swift */,
 				66C26350234F44310077332F /* ComparisonCell.swift */,
 				66C26352234F44CD0077332F /* ComparisonContainer.swift */,
@@ -421,6 +424,7 @@
 				660043C123510EF800E2A03A /* SavedABVTable.swift in Sources */,
 				6620AA51234B935F002275B3 /* StatusBar.swift in Sources */,
 				66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */,
+				666F499A2385E53400BB3C75 /* Comparison.swift in Sources */,
 				66C26353234F44CD0077332F /* ComparisonContainer.swift in Sources */,
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
@@ -608,7 +612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.6;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "llc.toggle.alculate-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -629,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.6;
+				MARKETING_VERSION = 0.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = "llc.toggle.alculate-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -37,6 +37,27 @@ struct UI {
                 TextNavigator.bottom.constant = -keyboard
             }
         }
+        
+        struct Width {
+            static let comparison = widthObjectPadding
+        }
+        
+        struct Height {
+            static let comparison = height/4
+        }
+        
+        struct Padding {
+            static let comparison = objectPadding
+        }
+        
+        struct Radii {
+            static let comparison = Width.comparison/10
+        }
+        
+        struct Border {
+            static let comparison = Padding.comparison/4
+        }
+        
         // Header sizing
         static let headerHeight = height*headerRatio
         // Top line sizing
@@ -187,6 +208,15 @@ struct UI {
         static let best = mustard
         static let fontWhite = honeydew
         static let undo = begonia
+        
+        struct Border {
+            static let comparison = darkGunmetal
+        }
+        
+        struct Background {
+            static let comparison = blackCoral
+        }
+        
     }
     
     static func printUI() {

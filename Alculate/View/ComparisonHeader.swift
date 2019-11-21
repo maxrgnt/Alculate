@@ -38,9 +38,14 @@ class ComparisonHeader: UIView {
         for obj in [type, add] {
             addSubview(obj)
         }
+        
+        var typeFromID = (alcoholType == Data.beerListID) ? "Beer" : alcoholType
+        typeFromID = (alcoholType == Data.liquorListID) ? "Liquor" : typeFromID
+        typeFromID = (alcoholType == Data.wineListID) ? "Wine" : typeFromID
+        
         type.contentVerticalAlignment = .bottom
         type.contentHorizontalAlignment = .left
-        type.setTitle(alcoholType, for: .normal)
+        type.setTitle(typeFromID, for: .normal)
         type.titleLabel?.font = UI.Font.Header.comparisonType!
         add.contentVerticalAlignment = .center
         add.contentHorizontalAlignment = .right

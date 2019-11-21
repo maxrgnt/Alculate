@@ -131,3 +131,25 @@ UIView.animate(withDuration: 0.55, delay: 0.0,
 //        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
 //        footer.backgroundColor = backgroundColor
 //        tableFooterView = footer
+
+/*
+func updateTableContentInset() {
+    // number of rows in table
+    let numRows = tableView(self, numberOfRowsInSection: 0)
+    // content inset
+    var contentInsetTop = UI.Sizing.comparisonTableHeight
+    // Reset inest based on rows in table
+    contentInsetTop -= CGFloat(numRows)*UI.Sizing.comparisonRowHeight
+    // If the inset is less than 0 make it 0
+    contentInsetTop = (contentInsetTop < 0) ? 0 : contentInsetTop
+    // Reset the inset
+    self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
+    //
+    let lastCell = listForThisTable().count-1
+    if lastCell > 0 {
+        let indexPath = IndexPath(row: lastCell, section: 0)
+        scrollToRow(at: indexPath, at: .bottom, animated: true)
+    }
+}
+*/
+

@@ -14,8 +14,8 @@ class SummaryBG: UIView {
     var top: NSLayoutConstraint!
     
     // Objects
-    var valueSummary = Summary()
-    var effectSummary = Summary()
+    var valueSummary = OldSummary()
+    var effectSummary = OldSummary()
     var leftCover = UIView()
     var rightCover = UIView()
 
@@ -44,7 +44,7 @@ class SummaryBG: UIView {
         for obj in [leftCover,rightCover] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: -UI.Sizing.subMenuHeight) // UI.Sizing.topLineTop)
+        top = topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.statusBar.height) // UI.Sizing.topLineTop)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),

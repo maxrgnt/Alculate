@@ -38,7 +38,15 @@ struct UI {
             }
         }
         
+        struct Ratio {
+            static let header: CGFloat = 0.07
+            static let summary: CGFloat = 0.1225
+            static let comparison: CGFloat = (1-header-summary-menu)
+            static let menu: CGFloat = header
+        }
+        
         struct Width {
+            static let header = UI.Sizing.width
             static let comparison = widthObjectPadding
             static let comparisonHeader = comparison
             static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader
@@ -50,6 +58,9 @@ struct UI {
         }
         
         struct Height {
+            static let header = Ratio.header*height + statusBar.height + summary + Radii.header
+            static let headerAppName = Ratio.header*height
+            static let summary = Ratio.summary*height
             static let comparison = height/4
             static let comparisonHeader = Width.comparison/8
             static let comparisonRow = comparisonRowStat+comparisonRowUnit
@@ -58,11 +69,13 @@ struct UI {
         }
         
         struct Padding {
+            static let summary = objectPadding
             static let comparison = objectPadding
             static let comparisonHeader = Radii.comparison
         }
         
         struct Radii {
+            static let header = Width.header/10
             static let comparison = Width.comparison/10
         }
         
@@ -236,6 +249,7 @@ struct UI {
         }
         
         struct Background {
+            static let summary = darkGunmetal
             static let comparison = blackCoral
             static let comparisonHeader = outerSpace
         }

@@ -14,7 +14,7 @@ class StatusBar: UIView {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
         // Set background color you want to mask the status bar as
-        backgroundColor = UI.Color.bgDarker
+        backgroundColor = UI.Color.bgDarkest
     }
     
     func build(leading: NSLayoutXAxisAnchor) {

@@ -10,9 +10,9 @@ import UIKit
 
 // Protocol to communicate with tableview/viewcontroller
 protocol OldComparisonCellDelegate: AnyObject {
-    func delegateCell(animate: Bool, forCell: OldComparisonCell)
-    func delegateRemove(forCell: OldComparisonCell)
-    func delegatePopulate(forCell: OldComparisonCell)
+//    func delegateCell(animate: Bool, forCell: OldComparisonCell)
+//    func delegateRemove(forCell: OldComparisonCell)
+//    func delegatePopulate(forCell: OldComparisonCell)
 }
 
 class OldComparisonCell: UITableViewCell {
@@ -106,16 +106,16 @@ class OldComparisonCell: UITableViewCell {
     // MARK: - Gesture Recognizers
     @objc func longPressActivated(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            delegate?.delegateCell(animate: true, forCell: self)
+//            delegate?.delegateCell(animate: true, forCell: self)
         }
     }
     
     @objc func tapActivated(_ sender: UITapGestureRecognizer) {
-        (delete.alpha == 1.0) ? delegate?.delegateCell(animate: false, forCell: self) : delegate?.delegatePopulate(forCell: self)
+//        (delete.alpha == 1.0) ? delegate?.delegateCell(animate: false, forCell: self) : delegate?.delegatePopulate(forCell: self)
     }
     
     @objc func deleteButtonPressed() {
-        delegate?.delegateRemove(forCell: self)
+//        delegate?.delegateRemove(forCell: self)
     }
     
     // MARK: - Animation Functions

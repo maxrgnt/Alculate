@@ -52,8 +52,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
+        // gather info for each cell
         let info = listForThisTable()[indexPath.row]
-        cell.name.text = info.name
+        // update labels for each cell
+        cell.setLabels(with: info)
         return cell
     }
     

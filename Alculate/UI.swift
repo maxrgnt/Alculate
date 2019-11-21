@@ -44,12 +44,17 @@ struct UI {
             static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader
             static let comparisonAdd = Height.comparisonHeader
             static let comparisonTable = comparisonHeader-Padding.comparisonHeader
+            static let comparisonRowName = comparisonTable*(3/5)
+            static let comparisonRowValue = comparisonTable*(1/5)
+            static let comparisonRowEffect = comparisonTable*(1/5)
         }
         
         struct Height {
             static let comparison = height/4
             static let comparisonHeader = Width.comparison/8
-            static let comparisonRow = comparisonHeader
+            static let comparisonRow = comparisonRowStat+comparisonRowUnit
+            static let comparisonRowStat = comparisonHeader*(2/3)
+            static let comparisonRowUnit = comparisonHeader*(1/3)
         }
         
         struct Padding {
@@ -154,6 +159,10 @@ struct UI {
         struct Header {
             static let comparisonType = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
             static let comparisonAdd = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+        }
+        struct Row {
+            static let comparison = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
+            static let comparisonUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
         }
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)

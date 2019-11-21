@@ -40,14 +40,21 @@ struct UI {
         
         struct Width {
             static let comparison = widthObjectPadding
+            static let comparisonHeader = comparison
+            static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader
+            static let comparisonAdd = Height.comparisonHeader
+            static let comparisonTable = comparisonHeader-Padding.comparisonHeader
         }
         
         struct Height {
             static let comparison = height/4
+            static let comparisonHeader = Width.comparison/8
+            static let comparisonRow = comparisonHeader
         }
         
         struct Padding {
             static let comparison = objectPadding
+            static let comparisonHeader = Radii.comparison
         }
         
         struct Radii {
@@ -56,6 +63,7 @@ struct UI {
         
         struct Border {
             static let comparison = Padding.comparison/4
+            static let comparisonRow = comparison/3
         }
         
         // Header sizing
@@ -143,6 +151,10 @@ struct UI {
 
     // fonts
     struct Font {
+        struct Header {
+            static let comparisonType = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
+            static let comparisonAdd = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+        }
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
         static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
@@ -211,10 +223,12 @@ struct UI {
         
         struct Border {
             static let comparison = darkGunmetal
+            static let comparisonCell = darkGunmetal
         }
         
         struct Background {
             static let comparison = blackCoral
+            static let comparisonHeader = outerSpace
         }
         
     }

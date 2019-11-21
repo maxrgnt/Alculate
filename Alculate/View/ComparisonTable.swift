@@ -2,7 +2,7 @@
 //  ComparisonTable.swift
 //  Alculate
 //
-//  Created by Max Sergent on 10/10/19.
+//  Created by Max Sergent on 11/20/19.
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
@@ -11,17 +11,20 @@ import UIKit
 
 protocol ComparisonTableDelegate {
     // called when user taps container or delete button
-    func reloadTable(table: String, realculate: Bool)
-    func makeDeletable(_ paramDeletable: Bool, lists: String)
-    func editComparison(type: String, name: String, abv: String, size: String, price: String)
-    func alculate()
+//    func reloadTable(table: String, realculate: Bool)
+//    func makeDeletable(_ paramDeletable: Bool, lists: String)
+//    func editComparison(type: String, name: String, abv: String, size: String, price: String)
+//    func alculate()
 }
 
-class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, ComparisonCellDelegate {
+class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     // Delegate object
-    var comparisonTableDelegate : ComparisonTableDelegate!
+    var customDelegate : ComparisonTableDelegate!
 
+    // Constraints
+    var height: NSLayoutConstraint!
+    
     // Vairables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
     var comparisonTableListID = ""
@@ -32,103 +35,25 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         super.init(frame: frame, style: style)
     }
     
-    func build(forType ID: String, withLeading constantParameter: CGFloat, anchorTo anchorView: UIView) {
-        // MARK: - View/Object Settings
-        comparisonTableListID = ID
-        // Miscelaneous view settings
+    // MARK: - View/Object Settings
+    func build(forType alcoholType: String, anchorTo anchorView: UIView) {
+        comparisonTableListID = alcoholType
         backgroundColor = .clear
         register(ComparisonCell.self, forCellReuseIdentifier: "ComparisonCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
+        isScrollEnabled = false
         showsVerticalScrollIndicator = false
-//        layer.borderWidth = UI.Sizing.cellObjectBorder/3
-//        layer.borderColor = UI.Color.alculatePurpleDark.cgColor
-        estimatedRowHeight = 0
-        estimatedSectionFooterHeight = 0
-        estimatedSectionHeaderHeight = 0
-//        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.tableViewRadius)
-        
-        // MARK: - NSLayoutConstraints
-        translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: constantParameter),
-            widthAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableWidth),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.comparisonTableHeight),
-            bottomAnchor.constraint(equalTo: anchorView.topAnchor)
-            ])
-//        let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width/3, height: UI.Sizing.headerHeight*(1/2)))
-//        let header = ComparisonHeader()
-//        tableHeaderView = header
-//        tableHeaderView?.layoutIfNeeded()
-//        tableHeaderView = tableHeaderView
-//        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
-//        footer.backgroundColor = backgroundColor
-//        tableFooterView = footer
-        updateTableContentInset()
-    }
-
-    func updateTableContentInset() {
-        // number of rows in table
-        let numRows = tableView(self, numberOfRowsInSection: 0)
-        // content inset
-        var contentInsetTop = UI.Sizing.comparisonTableHeight
-        // Reset inest based on rows in table
-        contentInsetTop -= CGFloat(numRows)*UI.Sizing.comparisonRowHeight
-        // If the inset is less than 0 make it 0
-        contentInsetTop = (contentInsetTop < 0) ? 0 : contentInsetTop
-        // Reset the inset
-        self.contentInset = UIEdgeInsets(top: contentInsetTop,left: 0,bottom: 0,right: 0)
-        //
-        let lastCell = listForThisTable().count-1
-        if lastCell > 0 {
-            let indexPath = IndexPath(row: lastCell, section: 0)
-            scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
+        constraints(anchorTo: anchorView)
     }
     
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
-        cell.delegate = self
-        //
-        let constraints = UI.Sizing.containerConstraints
-        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
-            if comparisonTableListID == ID {
-                cell.containerLeading.constant = constraints[i].lead
-            }
-        }
-        // gather info for each cell
         let info = listForThisTable()[indexPath.row]
-        // update labels for each cell
-        cell.setLabels(with: info)
-
-//            let sublayer: CALayer = CALayer()
-//            sublayer.borderColor = UIColor(displayP3Red: 206/255, green: 137/255, blue: 83/255, alpha: 1.0).cgColor
-//            sublayer.backgroundColor = UIColor.clear.cgColor
-//            sublayer.cornerRadius = UI.Sizing.containerRadius
-//            sublayer.frame = CGRect(x:2, y: 2, width: UI.Sizing.containerDiameter - 4, height: UI.Sizing.containerHeight - 4)
-//            sublayer.borderWidth = 4.0
-//            cell.container.layer.addSublayer(sublayer)
-        
-        // I think you need to end animations when reloading table after deleting
-        cell.resetConstraints()
-        
-        // do something for "best" alcohol from each type
-        let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
-        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue {
-            cell.container.layer.borderColor = UI.Color.value.cgColor
-        }
-        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeEffect {
-            cell.container.layer.borderColor = UI.Color.effect.cgColor
-        }
-        if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue && comparisonTableListID == ViewController.typeEffect {
-            cell.container.layer.borderColor = UI.Color.best.cgColor
-        }
-        
-        cell.container.calculateNameWidth()
-        
+        cell.name.text = info.name
         return cell
     }
     
@@ -137,7 +62,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.comparisonRowHeight
+        return UI.Sizing.Height.comparisonRow
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -145,10 +70,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == tableView.numberOfSections - 1 &&
-            indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-//            print("end reached for \(comparisonTableListID)")
-        }
+        // pass
     }
     
     // MARK: - List Finder Function
@@ -167,52 +89,17 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource, 
         }
         return thisTablesList
     }
-        
-    // MARK: - Comparison Cell Delegate
-    func delegatePopulate(forCell cell: ComparisonCell) {
-        let indexPath = self.indexPath(for: cell)
-        let list = listForThisTable()
-        let type = comparisonTableListID
-        let name = list[indexPath!.row].name
-        let abv = list[indexPath!.row].abv
-        let size = list[indexPath!.row].size
-        let price = list[indexPath!.row].price
-        self.comparisonTableDelegate.editComparison(type: type, name: name, abv: abv, size: size, price: price)
-    }
     
-    func delegateCell(animate: Bool, forCell: ComparisonCell) {
-        self.comparisonTableDelegate.makeDeletable(animate, lists: "all")
-    }
-    
-    func delegateRemove(forCell cell: ComparisonCell) {
-        let indexPath = self.indexPath(for: cell)
-        let info = listForThisTable()[indexPath!.row]
-        Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-        self.deleteRows(at: [indexPath!], with: .bottom)
-        updateTableContentInset()
-        self.comparisonTableDelegate.alculate()
-        self.comparisonTableDelegate.makeDeletable(true, lists: "all")
-    }
-    
-    // MARK: - ScrollView Delegate
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // pass
-    }
-
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        // pass
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        // pass
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        // pass
-    }
-    
-    func resetHeader() {
-        // pass
+    // MARK: - NSLayoutConstraints
+    func constraints(anchorTo anchorView: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparisonHeader*2)
+        NSLayoutConstraint.activate([
+            centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonTable),
+            height,
+            topAnchor.constraint(equalTo: anchorView.topAnchor, constant: UI.Sizing.Height.comparisonHeader)
+        ])
     }
     
     required init?(coder aDecoder: NSCoder) {

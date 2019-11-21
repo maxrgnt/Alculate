@@ -22,6 +22,13 @@ class Comparison: UIView {
     // Delegate object
     var delegate : ComparisonDelegate!
 
+    // Constraints
+    var height: NSLayoutConstraint!
+    
+    // Objects
+    var header = ComparisonHeader()
+    var table = ComparisonTable()
+    
     // Variables
     var type = ""
     
@@ -30,20 +37,41 @@ class Comparison: UIView {
         super.init(frame: frame)
     }
     
+    // MARK: - View/Object Settings
     func build(forType alcoholID: String, anchorTo anchorView: UIView) {
-        // MARK: - View/Object Settings
         type = alcoholID
         backgroundColor = UI.Color.Background.comparison
         layer.borderColor = UI.Color.Border.comparison.cgColor
         layer.borderWidth = UI.Sizing.Border.comparison
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.comparison)
-        
-        // MARK: - NSLayoutConstraints
+        addSubview(header)
+        header.build(forType: alcoholID, anchorTo: self)
+        addSubview(table)
+        table.build(forType: alcoholID, anchorTo: self)
+        constraints(anchorTo: anchorView)
+    }
+    
+    func updateTable() {
+        self.layoutIfNeeded()
+        let newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(table.listForThisTable().count) + UI.Sizing.Radii.comparison
+        height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
+        table.height.constant = newTableHeight
+        UIView.animate(withDuration: 2, delay: 0.0, options: .curveEaseInOut
+            , animations: ({
+                self.layoutIfNeeded()
+            }), completion: { (completed) in
+                // pass
+        })
+    }
+    
+    // MARK: - NSLayoutConstraints
+    func constraints(anchorTo anchorView: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
+        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparison)
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparison),
+            height,
             topAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: UI.Sizing.Padding.comparison)
             ])
     }

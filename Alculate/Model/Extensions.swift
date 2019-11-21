@@ -122,3 +122,12 @@ UIView.animate(withDuration: 0.55, delay: 0.0,
     }
 )
 */
+
+//        let header = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width/3, height: UI.Sizing.headerHeight*(1/2)))
+//        let header = ComparisonHeader()
+//        tableHeaderView = header
+//        tableHeaderView?.layoutIfNeeded()
+//        tableHeaderView = tableHeaderView
+//        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UI.Sizing.width, height: UI.Sizing.objectPadding/2))
+//        footer.backgroundColor = backgroundColor
+//        tableFooterView = footer

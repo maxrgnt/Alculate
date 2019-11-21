@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, OldComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -27,9 +27,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //    var effectSummary = Summary()
     var summaryContainer = SummaryBG()
     var newComparison = NewComparison()
-    var beerComparison = ComparisonTable()
-    var liquorComparison = ComparisonTable()
-    var wineComparison = ComparisonTable()
+    var beerComparison = OldComparisonTable()
+    var liquorComparison = OldComparisonTable()
+    var wineComparison = OldComparisonTable()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
@@ -85,6 +85,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         background.sync { self.handleInit() }
         background.sync { self.build()      }
         background.sync { self.alculate()   }
+        background.sync { comparison.updateTable() }
         
     }
     
@@ -597,9 +598,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables = possibleTables[i]
             }
         }
-        for table in tables as! [ComparisonTable] {
+        for table in tables as! [OldComparisonTable] {
             for row in 0..<table.numberOfRows(inSection: 0) {
-                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! ComparisonCell
+                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! OldComparisonCell
                 cell.stopAnimating(restartAnimations: paramDeletable)
             }
         }

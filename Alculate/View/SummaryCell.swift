@@ -11,7 +11,7 @@ import UIKit
 class SummaryCell: UIView {
     
     // Constraints
-    var drinkNameWidth: NSLayoutConstraint!
+    var nameWidth: NSLayoutConstraint!
     
     // Objects
     let category = UILabel()
@@ -51,57 +51,7 @@ class SummaryCell: UIView {
         
         constraints(anchorTo: anchorView)
     }
-    
-    // MARK: - NSLayoutConstraints
-    func constraints(anchorTo anchorView: UIView) {
-        for obj in [self,category,name,stat,statUnit] {
-            obj.translatesAutoresizingMaskIntoConstraints = false
-        }
-        let categoryHeight = UI.Sizing.topLineHeight/6
-        let drinkNameHeight = UI.Sizing.topLineHeight/3
-        let valueHeight = UI.Sizing.topLineHeight/3
-        let valueDescriptionHeight = UI.Sizing.topLineHeight/6
-        let topLineWidth = UI.Sizing.topLinePieceWidth-(UI.Sizing.objectPadding)
-        let valuePiecesWidth = UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding-UI.Sizing.topLineHeight/3
-
-        if leading == 0 {
-            NSLayoutConstraint.activate([
-                leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
-                category.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-                name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-                stat.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-                statUnit.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
-            ])
-        }
-        else if leading == 1 {
-            NSLayoutConstraint.activate([
-                trailingAnchor.constraint(equalTo: anchorView.trailingAnchor),
-                category.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-                name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-                stat.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-                statUnit.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-            ])
-        }
-        drinkNameWidth = name.widthAnchor.constraint(equalToConstant: topLineWidth)
-        NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: UI.Sizing.topLinePieceWidth-UI.Sizing.objectPadding/2),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.topLineHeight),
-            topAnchor.constraint(equalTo: anchorView.topAnchor),
-            category.widthAnchor.constraint(equalToConstant: topLineWidth),
-            category.heightAnchor.constraint(equalToConstant: categoryHeight),
-            category.topAnchor.constraint(equalTo: topAnchor),
-            drinkNameWidth,
-            name.heightAnchor.constraint(equalToConstant: drinkNameHeight),
-            name.topAnchor.constraint(equalTo: category.bottomAnchor),
-            stat.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
-            stat.heightAnchor.constraint(equalToConstant: valueHeight),
-            stat.topAnchor.constraint(equalTo: name.bottomAnchor),
-            statUnit.widthAnchor.constraint(equalToConstant: valuePiecesWidth),
-            statUnit.heightAnchor.constraint(equalToConstant: valueDescriptionHeight),
-            statUnit.topAnchor.constraint(equalTo: stat.bottomAnchor)
-            ])
-    }
-    
+        
     func calculateNameWidth() {
         // nuke all nimations
         self.subviews.forEach({$0.layer.removeAllAnimations()})
@@ -113,7 +63,7 @@ class SummaryCell: UIView {
         let calcHeight = UI.Sizing.topLineHeight/3
         calcFontWidth = name.text!.width(withConstrainedHeight: calcHeight, font: name.font)
         let duration = Double(calcFontWidth/pixelsPerSecond)
-        drinkNameWidth.constant = calcFontWidth
+        nameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
         let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth) : (standardWidth-calcFontWidth)
 //        print(drinkName.text!, center, standardWidth, calcFontWidth!, standardWidth-calcFontWidth!)
@@ -132,6 +82,49 @@ class SummaryCell: UIView {
                     self.labelAnimation = false
             })
         })
+    }
+    
+    // MARK: - NSLayoutConstraints
+    func constraints(anchorTo anchorView: UIView) {
+        for obj in [self,category,name,stat,statUnit] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        if leading == 0 {
+            NSLayoutConstraint.activate([
+                leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
+                category.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Padding.summary),
+                name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Padding.summary),
+                stat.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Padding.summary),
+                statUnit.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Padding.summary),
+            ])
+        }
+        else if leading == 1 {
+            NSLayoutConstraint.activate([
+                trailingAnchor.constraint(equalTo: anchorView.trailingAnchor),
+                category.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.Padding.summary),
+                name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.Padding.summary),
+                stat.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.Padding.summary),
+                statUnit.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.Padding.summary),
+            ])
+        }
+        nameWidth = name.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell)
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summary),
+            topAnchor.constraint(equalTo: anchorView.topAnchor),
+            category.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
+            category.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summaryCategory),
+            category.topAnchor.constraint(equalTo: topAnchor),
+            nameWidth,
+            name.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summaryName),
+            name.topAnchor.constraint(equalTo: category.bottomAnchor),
+            stat.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
+            stat.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summaryStat),
+            stat.topAnchor.constraint(equalTo: name.bottomAnchor),
+            statUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
+            statUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summaryStatUnit),
+            statUnit.topAnchor.constraint(equalTo: stat.bottomAnchor)
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {

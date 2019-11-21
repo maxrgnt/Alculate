@@ -47,6 +47,7 @@ struct UI {
         
         struct Width {
             static let header = UI.Sizing.width
+            static let summaryCell = width/2 - Padding.summary/2
             static let comparison = widthObjectPadding
             static let comparisonHeader = comparison
             static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader
@@ -61,6 +62,10 @@ struct UI {
             static let header = Ratio.header*height + statusBar.height + summary + Radii.header
             static let headerAppName = Ratio.header*height
             static let summary = Ratio.summary*height
+            static let summaryCategory = summary/6
+            static let summaryName = summary/3
+            static let summaryStat = summary/3
+            static let summaryStatUnit = summary/6
             static let comparison = height/4
             static let comparisonHeader = Width.comparison/8
             static let comparisonRow = comparisonRowStat+comparisonRowUnit

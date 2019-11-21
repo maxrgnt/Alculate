@@ -23,7 +23,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     // Objects
     var header = Header()
     var collection = ComparisonCollection()
-    var summaryPoop = SummaryBG()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
@@ -192,7 +191,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func didEnterBackground() {
-        for obj in [collection.beerComparison, collection.liquorComparison, collection.wineComparison, summaryPoop.valueSummary, summaryPoop.effectSummary] {
+        for obj in [collection.beerComparison, collection.liquorComparison, collection.wineComparison,
+                    header.summary.value, header.summary.effect] {
             obj.subviews.forEach({$0.layer.removeAllAnimations()})
             obj.layer.removeAllAnimations()
             obj.layoutIfNeeded()
@@ -366,19 +366,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 reloadTable(table: id, realculate: false)
             }
             if ViewController.typeValue == ViewController.typeEffect {
-                summaryPoop.valueSummary.category.textColor = UI.Color.best
-                summaryPoop.effectSummary.category.textColor = UI.Color.best
-                summaryPoop.effectSummary.drinkName.alpha = 0
+                header.summary.value.category.textColor = UI.Color.best
+                header.summary.effect.category.textColor = UI.Color.best
+                //header.summary.effect.name.alpha = 0
             }
             else {
-                summaryPoop.valueSummary.category.textColor = UI.Color.value
-                summaryPoop.effectSummary.category.textColor = UI.Color.effect
-                summaryPoop.effectSummary.drinkName.alpha = 1
+                header.summary.value.category.textColor = UI.Color.value
+                header.summary.effect.category.textColor = UI.Color.effect
+                //header.summary.effect.name.alpha = 1
             }
-            summaryPoop.valueSummary.drinkName.text = bestPrice.name.capitalized
-            summaryPoop.valueSummary.value.text = "$"+bestPrice.best
-            summaryPoop.effectSummary.drinkName.text = bestRatio.name.capitalized
-            summaryPoop.effectSummary.value.text = bestRatio.best
+            header.summary.value.name.text = bestPrice.name.capitalized
+            header.summary.value.stat.text = "$"+bestPrice.best
+            header.summary.effect.name.text = bestRatio.name.capitalized
+            header.summary.effect.stat.text = bestRatio.best
 //            summaryContainer.valueSummary.calculateNameWidth()
 //            summaryContainer.effectSummary.calculateNameWidth()
         }
@@ -421,35 +421,35 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func sortByValue() {
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) > calculateValue(for: drink2)
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
         }
         // had to specify because of sortByValue on load
         reloadTable(table: Data.beerListID, realculate: false)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) > calculateValue(for: drink2)
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
         }
         reloadTable(table: Data.liquorListID, realculate: false)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) > calculateValue(for: drink2)
+            return calculateValue(for: drink1) < calculateValue(for: drink2)
         }
         reloadTable(table: Data.wineListID, realculate: false)
     }
     
     func sortByEffect() {
         Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
         }
         reloadTable(table: Data.beerListID, realculate: false)
         //
         Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
         }
         reloadTable(table: Data.liquorListID, realculate: false)
         //
         Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) < calculateEffect(for: drink2)
+            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
         }
         reloadTable(table: Data.wineListID, realculate: false)
         alculate()

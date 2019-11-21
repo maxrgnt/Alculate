@@ -39,11 +39,14 @@ class SummaryCell: UIView {
             label.textAlignment = alignText
             label.alpha = 1.0
         }
-        category.textAlignment = .center
-        category.font = UI.Font.topLineCategory
-        name.font = UI.Font.topLinePrimary
-        stat.font = UI.Font.topLinePrimary
-        statUnit.font = UI.Font.topLineSecondary
+
+        category.font = UI.Font.Summary.category
+        category.alpha = 0.7
+        name.font = UI.Font.Summary.name
+        stat.font = UI.Font.Summary.stat
+        statUnit.font = UI.Font.Summary.statUnit
+        statUnit.alpha = 0.7
+        
         leading = leadingAnchors
         
         constraints(anchorTo: anchorView)
@@ -64,6 +67,7 @@ class SummaryCell: UIView {
         if leading == 0 {
             NSLayoutConstraint.activate([
                 leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
+                category.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 stat.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
                 statUnit.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding),
@@ -72,6 +76,7 @@ class SummaryCell: UIView {
         else if leading == 1 {
             NSLayoutConstraint.activate([
                 trailingAnchor.constraint(equalTo: anchorView.trailingAnchor),
+                category.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 stat.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
                 statUnit.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
@@ -84,7 +89,6 @@ class SummaryCell: UIView {
             topAnchor.constraint(equalTo: anchorView.topAnchor),
             category.widthAnchor.constraint(equalToConstant: topLineWidth),
             category.heightAnchor.constraint(equalToConstant: categoryHeight),
-            category.centerXAnchor.constraint(equalTo: centerXAnchor),
             category.topAnchor.constraint(equalTo: topAnchor),
             drinkNameWidth,
             name.heightAnchor.constraint(equalToConstant: drinkNameHeight),

@@ -46,11 +46,13 @@ class ComparisonHeader: UIView {
         type.contentVerticalAlignment = .bottom
         type.contentHorizontalAlignment = .left
         type.setTitle(typeFromID, for: .normal)
-        type.titleLabel?.font = UI.Font.Header.comparisonType!
+        type.titleLabel?.font = UI.Font.Comparison.type!
+        type.setTitleColor(UI.Color.fontWhite, for: .normal)
         add.contentVerticalAlignment = .center
         add.contentHorizontalAlignment = .right
         add.setTitle("+", for: .normal)
-        add.titleLabel?.font = UI.Font.Header.comparisonAdd!
+        add.titleLabel?.font = UI.Font.Comparison.add!
+        add.setTitleColor(UI.Color.fontWhite, for: .normal)
         
         constraints(anchorTo: anchorView)
     }

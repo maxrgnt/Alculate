@@ -169,13 +169,17 @@ struct UI {
 
     // fonts
     struct Font {
-        struct Header {
-            static let comparisonType = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
-            static let comparisonAdd = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+        struct Comparison {
+            static let type = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
+            static let add = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+            static let row = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
+            static let rowUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
         }
-        struct Row {
-            static let comparison = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
-            static let comparisonUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
+        struct Summary {
+            static let category = Comparison.row
+            static let name = Comparison.type
+            static let stat = Comparison.type
+            static let statUnit = Comparison.row
         }
         //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
         static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)

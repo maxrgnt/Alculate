@@ -48,20 +48,20 @@ class ComparisonCell: UITableViewCell {
         addSubview(name)
         name.textColor = UI.Color.fontWhite
         name.textAlignment = .left
-        name.font = UI.Font.Row.comparison
+        name.font = UI.Font.Comparison.row
         
         for obj in [value,effect] {
             addSubview(obj)
             obj.textColor = UI.Color.fontWhite
             obj.textAlignment = .right
-            obj.font = UI.Font.Row.comparison
+            obj.font = UI.Font.Comparison.row
         }
         
         for obj in [valueUnit,effectUnit] {
             addSubview(obj)
             obj.textColor = UI.Color.fontWhite
             obj.textAlignment = .right
-            obj.font = UI.Font.Row.comparisonUnit
+            obj.font = UI.Font.Comparison.rowUnit
         }
         
         valueUnit.text = "per shot"

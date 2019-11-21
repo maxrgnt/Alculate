@@ -56,7 +56,7 @@ class Comparison: UIView {
         let newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(table.listForThisTable().count) + UI.Sizing.Radii.comparison
         height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
         table.height.constant = newTableHeight
-        UIView.animate(withDuration: 2, delay: 0.0, options: .curveEaseInOut
+        UIView.animate(withDuration: 1, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.layoutIfNeeded()
             }), completion: { (completed) in

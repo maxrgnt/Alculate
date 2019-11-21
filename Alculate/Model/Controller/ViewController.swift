@@ -78,19 +78,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let background = DispatchQueue.global()
         background.sync { self.handleInit() }
         background.sync { self.build()      }
-        background.sync { self.alculate()   }
         self.view.layoutIfNeeded()
+        background.sync { self.alculate()   }
         background.sync { comparison.beer.updateTable() }
         background.sync { comparison.liquor.updateTable() }
         background.sync { comparison.wine.updateTable() }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
+//        }
         
     }
     
-    // MARK: - Initialization / Testing
+    // MARK: - Build
     func build() {
         
         view.addSubview(statusBar)
@@ -99,9 +99,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
         view.insertSubview(header, at: 0)
         header.build(anchorTo: statusBar)
-        
-//        view.addSubview(header)
-//        header.build(anchorTo: self.view)
 
         view.addSubview(comparison)
         comparison.build(anchorTo: header)
@@ -135,15 +132,16 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
 //        }
         
-//        view.addSubview(tapDismiss)
-//        tapDismiss.build()
+        view.addSubview(tapDismiss)
+        tapDismiss.build()
         
-//        view.addSubview(textEntry)
-//        textEntry.build()
-//        self.textEntry.textEntryDelegate = self
+        view.addSubview(textEntry)
+        textEntry.build()
+        self.textEntry.textEntryDelegate = self
 
     }
     
+    // MARK: - Initialization / Testing
     func clearTestData(){
         Data.deleteCoreDataFor(entity: Data.masterListID)
         Data.deleteCoreDataFor(entity: Data.beerListID)
@@ -227,12 +225,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     // MARK: - Animations
-    func moveSummaryAnchor (to newConstant: CGFloat) {
+    func moveSummaryAnchor (to state: String) {
+        let headerHeight: CGFloat = (state == "hidden") ? UI.Sizing.Height.headerMinimized : UI.Sizing.Height.header
+        let summaryTop: CGFloat = (state == "hidden") ? -UI.Sizing.Height.summary : 0.0
         if header.height != nil {
-            UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseInOut
+            UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut
                 , animations: ({
-                    self.header.height.constant = UI.Sizing.Height.headerMinimized
-                    self.header.summary.top.constant = newConstant
+                    self.header.height.constant = headerHeight
+                    self.header.summary.top.constant = summaryTop
                     self.view.layoutIfNeeded()
                 }), completion: { (completed) in
                     // pass
@@ -359,6 +359,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
+            moveSummaryAnchor(to: "shown")
             //summaryContainer.moveTopAnchor(to: UI.Sizing.topLineTop)
             //summaryContainer.valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
             //summaryContainer.effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
@@ -411,6 +412,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if all lists are empty, dont alculate
         else {
+            moveSummaryAnchor(to: "hidden")
             ViewController.typeEffect = ""
             ViewController.typeValue = ""
             //summaryContainer.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
@@ -575,6 +577,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func insertRowFor(table: String) {
+        let collections = [comparison.beer,comparison.liquor,comparison.wine]
         let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
@@ -583,6 +586,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].insertRows(at: [IndexPath(row: lists[i].count-1, section: 0)], with: .bottom)
                 tables[i].endUpdates()
 //                tables[i].updateTableContentInset()
+                collections[i].updateTable()
             }
         }
         sortByValue()

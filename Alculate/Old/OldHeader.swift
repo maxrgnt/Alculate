@@ -48,7 +48,7 @@ class OldHeader: UIView {
             ])
         
         addSubview(statusBar)
-        statusBar.build(leading: ViewController.leadingAnchor)
+//        statusBar.build(leading: ViewController.leadingAnchor)
     }
 
     required init?(coder aDecoder: NSCoder) {

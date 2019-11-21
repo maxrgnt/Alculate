@@ -59,7 +59,9 @@ struct UI {
         }
         
         struct Height {
-            static let header = Ratio.header*height + statusBar.height + summary + Radii.header
+            static let headerCollection = Ratio.header*height + statusBar.height + summary + Radii.header
+            static let header = Ratio.header*height + summary + Radii.header
+            static let headerMinimized = UI.Sizing.Height.headerAppName + UI.Sizing.Radii.header
             static let headerAppName = Ratio.header*height
             static let summary = Ratio.summary*height
             static let summaryCategory = summary/6
@@ -258,6 +260,7 @@ struct UI {
         }
         
         struct Background {
+            static let header = darkGunmetal
             static let summary = darkGunmetal
             static let comparison = blackCoral
             static let comparisonHeader = outerSpace

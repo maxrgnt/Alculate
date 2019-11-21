@@ -163,7 +163,6 @@
 			children = (
 				66C2634D234EAD7D0077332F /* OldSummary.swift */,
 				666F499723846A0900BB3C75 /* SummaryBG.swift */,
-				6620AA50234B935F002275B3 /* StatusBar.swift */,
 				66AF5873233A898600502EEA /* OldHeader.swift */,
 				66216037234FE50100AB4BB9 /* OldComparisonTable.swift */,
 				66C26350234F44310077332F /* OldComparisonCell.swift */,
@@ -176,6 +175,7 @@
 		669931C42354EE0900021512 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6620AA50234B935F002275B3 /* StatusBar.swift */,
 				666F49A8238701C200BB3C75 /* Header.swift */,
 				666F49A42386BE6F00BB3C75 /* Summary.swift */,
 				666F49A62386C1E000BB3C75 /* SummaryCell.swift */,

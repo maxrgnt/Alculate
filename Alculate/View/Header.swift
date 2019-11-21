@@ -10,6 +10,9 @@ import UIKit
 
 class Header: UIView {
      
+    // Constraints
+    var height: NSLayoutConstraint!
+    
     // Objects
     let appName = UILabel()
     var summary = Summary()
@@ -22,17 +25,18 @@ class Header: UIView {
     // MARK: - View/Object Settings
     func build(anchorTo anchorView: UIView) {
         clipsToBounds = false
-        backgroundColor = UI.Color.bgDarkest
+        backgroundColor = UI.Color.Background.header
         
         roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.header)
 
         addSubview(appName)
+        appName.backgroundColor = backgroundColor
         appName.textColor = UI.Color.fontWhite
         appName.font = UI.Font.headerFont
         appName.textAlignment = .center
         appName.text = "Alculate"
         
-        addSubview(summary)
+        self.insertSubview(summary, at: 0)
         summary.build(anchorTo: appName)
         
         constraints(anchorTo: anchorView)
@@ -40,16 +44,18 @@ class Header: UIView {
     
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
-        appName.translatesAutoresizingMaskIntoConstraints = false
+        for obj in [self, appName] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.header)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.Height.header),
-            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
-            topAnchor.constraint(equalTo: anchorView.topAnchor),
+            height,
+            leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
+            topAnchor.constraint(equalTo: anchorView.bottomAnchor),
             appName.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header),
             appName.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.headerAppName),
-            appName.topAnchor.constraint(equalTo: anchorView.topAnchor, constant: UI.Sizing.statusBar.height),
+            appName.topAnchor.constraint(equalTo: topAnchor),
             appName.centerXAnchor.constraint(equalTo: centerXAnchor)
             ])
     }

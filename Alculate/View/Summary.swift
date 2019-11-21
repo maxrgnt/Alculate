@@ -75,20 +75,7 @@ class Summary: UIView {
             rightPadding.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-    
-    func moveTopAnchor(to newConstant: CGFloat) {
-        if top != nil {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut
-                , animations: ({
-                    self.top.constant = newConstant
-                    self.layoutIfNeeded()
-                }), completion: { (completed) in
-                    // pass
-                }
-            )
-        }
-    }
-    
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

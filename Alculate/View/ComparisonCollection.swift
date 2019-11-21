@@ -26,9 +26,9 @@ class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
     var height: NSLayoutConstraint!
     
     // Objects
-    var beerComparison = Comparison()
-    var liquorComparison = Comparison()
-    var wineComparison = Comparison()
+    var beer = Comparison()
+    var liquor = Comparison()
+    var wine = Comparison()
     
     override init (frame: CGRect) {
         // Initialize views frame prior to setting constraints
@@ -43,13 +43,13 @@ class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
         alwaysBounceVertical = true
         alwaysBounceHorizontal = false
     
-        for (i, obj) in [beerComparison,liquorComparison,wineComparison].enumerated() {
+        for (i, obj) in [beer,liquor,wine].enumerated() {
             addSubview(obj)
             obj.header.add.tag = 20 + i
         }
-        beerComparison.build(forType: Data.beerListID, anchorTo: self)
-        liquorComparison.build(forType: Data.liquorListID, anchorTo: beerComparison)
-        wineComparison.build(forType: Data.wineListID, anchorTo: liquorComparison)
+        beer.build(forType: Data.beerListID, anchorTo: self)
+        liquor.build(forType: Data.liquorListID, anchorTo: beer)
+        wine.build(forType: Data.wineListID, anchorTo: liquor)
         
         constraints(anchorTo: anchorView)
     }

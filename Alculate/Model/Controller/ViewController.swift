@@ -21,8 +21,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     static var bottomAnchor: NSLayoutYAxisAnchor!
     
     // Objects
+    var statusBar = StatusBar()
     var header = Header()
-    var collection = ComparisonCollection()
+    var comparison = ComparisonCollection()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
@@ -73,35 +74,47 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        Data.deleteCoreDataFor(entity: Data.masterListID)
 
         //clearTestData()
-        
+
         let background = DispatchQueue.global()
         background.sync { self.handleInit() }
         background.sync { self.build()      }
         background.sync { self.alculate()   }
-        background.sync {   collection.beerComparison.updateTable();
-                            collection.liquorComparison.updateTable();
-                            collection.wineComparison.updateTable() }
+        self.view.layoutIfNeeded()
+        background.sync { comparison.beer.updateTable() }
+        background.sync { comparison.liquor.updateTable() }
+        background.sync { comparison.wine.updateTable() }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
+        }
         
     }
     
     // MARK: - Initialization / Testing
     func build() {
         
-        view.addSubview(header)
-        header.build(anchorTo: self.view)
-
-        view.addSubview(collection)
-        collection.build(anchorTo: header)
+        view.addSubview(statusBar)
+        statusBar.build()
+        statusBar.backgroundColor = UI.Color.bgDarkest // backgroundColor
         
-        for obj in [collection.beerComparison,collection.liquorComparison,collection.wineComparison] {
+        view.insertSubview(header, at: 0)
+        header.build(anchorTo: statusBar)
+        
+//        view.addSubview(header)
+//        header.build(anchorTo: self.view)
+
+        view.addSubview(comparison)
+        comparison.build(anchorTo: header)
+        
+        for obj in [comparison.beer,comparison.liquor,comparison.wine] {
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
-        self.collection.beerComparison.delegate = self
-        self.collection.beerComparison.table.customDelegate = self
-        self.collection.liquorComparison.delegate = self
-        self.collection.liquorComparison.table.customDelegate = self
-        self.collection.wineComparison.delegate = self
-        self.collection.wineComparison.table.customDelegate = self
+        self.comparison.beer.delegate = self
+        self.comparison.beer.table.customDelegate = self
+        self.comparison.liquor.delegate = self
+        self.comparison.liquor.table.customDelegate = self
+        self.comparison.wine.delegate = self
+        self.comparison.wine.table.customDelegate = self
         
 //        view.addSubview(subMenuBG)
 //        subMenuBG.build()
@@ -191,7 +204,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func didEnterBackground() {
-        for obj in [collection.beerComparison, collection.liquorComparison, collection.wineComparison,
+        for obj in [comparison.beer, comparison.liquor, comparison.wine,
                     header.summary.value, header.summary.effect] {
             obj.subviews.forEach({$0.layer.removeAllAnimations()})
             obj.layer.removeAllAnimations()
@@ -212,7 +225,21 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
         }
     }
-
+    
+    // MARK: - Animations
+    func moveSummaryAnchor (to newConstant: CGFloat) {
+        if header.height != nil {
+            UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseInOut
+                , animations: ({
+                    self.header.height.constant = UI.Sizing.Height.headerMinimized
+                    self.header.summary.top.constant = newConstant
+                    self.view.layoutIfNeeded()
+                }), completion: { (completed) in
+                    // pass
+                }
+            )
+        }
+    }
 
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
@@ -513,7 +540,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 alculate()
             }
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-            let tables = [collection.beerComparison.table,collection.liquorComparison.table,collection.wineComparison.table]
+            let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
                 if table == ID {
                     //tables[i].reloadData()
@@ -526,7 +553,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-        let tables = [collection.beerComparison.table,collection.liquorComparison.table,collection.wineComparison.table]
+        let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if type == ID {
@@ -548,7 +575,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func insertRowFor(table: String) {
-        let tables = [collection.beerComparison.table,collection.liquorComparison.table,collection.wineComparison.table]
+        let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if table == ID {
@@ -564,8 +591,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func makeDeletable(_ paramDeletable: Bool, lists: String) {
         var tables: [UITableView]! = []
-        let possibleTables = [[collection.beerComparison.table],[collection.liquorComparison.table],[collection.wineComparison.table],
-                              [collection.beerComparison.table,collection.liquorComparison.table,collection.wineComparison.table]]
+        let possibleTables = [[comparison.beer.table],[comparison.liquor.table],[comparison.wine.table],
+                              [comparison.beer.table,comparison.liquor.table,comparison.wine.table]]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID,"all"].enumerated() {
             if lists == ID {
                 tables = possibleTables[i]
@@ -579,3 +606,4 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
 }
+

@@ -13,17 +13,15 @@ class StatusBar: UIView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        // Set background color you want to mask the status bar as
-        backgroundColor = UI.Color.bgDarkest
     }
     
-    func build(leading: NSLayoutXAxisAnchor) {
+    func build() {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
             heightAnchor.constraint(equalToConstant: UI.Sizing.statusBar.height),
-            leadingAnchor.constraint(equalTo: leading),
+            leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             topAnchor.constraint(equalTo: ViewController.topAnchor)
             ])
     }

@@ -110,7 +110,7 @@ class SummaryCell: UIView {
         nameWidth = name.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summary),
+            heightAnchor.constraint(equalTo: anchorView.heightAnchor),
             topAnchor.constraint(equalTo: anchorView.topAnchor),
             category.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.summaryCell),
             category.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.summaryCategory),

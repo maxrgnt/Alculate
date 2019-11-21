@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, OldComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, OldComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -155,7 +155,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
         view.addSubview(comparison)
         comparison.build(forType: Data.beerListID, anchorTo: header)
+        comparison.header.add.tag = 20
+        comparison.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         self.comparison.delegate = self
+        self.comparison.table.customDelegate = self
         
     }
     

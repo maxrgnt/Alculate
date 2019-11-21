@@ -13,7 +13,7 @@ protocol ComparisonTableDelegate {
     // called when user taps container or delete button
 //    func reloadTable(table: String, realculate: Bool)
 //    func makeDeletable(_ paramDeletable: Bool, lists: String)
-//    func editComparison(type: String, name: String, abv: String, size: String, price: String)
+    func editComparison(type: String, name: String, abv: String, size: String, price: String)
 //    func alculate()
 }
 
@@ -68,7 +68,13 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // pass
+        let list = listForThisTable()
+        let type = comparisonTableListID
+        let name = list[indexPath.row].name
+        let abv = list[indexPath.row].abv
+        let size = list[indexPath.row].size
+        let price = list[indexPath.row].price
+        self.customDelegate.editComparison(type: type, name: name, abv: abv, size: size, price: price)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

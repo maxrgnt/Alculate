@@ -68,7 +68,7 @@ struct UI {
             static let summaryName = summary/3
             static let summaryStat = summary/3
             static let summaryStatUnit = summary/6
-            static let comparison = height/4
+            static let comparison = comparisonRow
             static let comparisonHeader = Width.comparison/8
             static let comparisonRow = comparisonRowStat+comparisonRowUnit
             static let comparisonRowStat = comparisonHeader*(2/3)
@@ -144,7 +144,7 @@ struct UI {
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
         static let savedABVgestureThreshold = UI.Sizing.width/8
         // App Navigator
-        static let subMenuHeight = (headerHeight*1.5)
+        static let subMenuHeight = (headerHeight*1.25)
         static let subMenuBounceBuffer = objectPadding
         static let subMenuConstraints: [CGFloat] = [0.5*objectPadding, 1.125*objectPadding, 1.75*objectPadding]
         // Text Entry
@@ -177,10 +177,14 @@ struct UI {
     // fonts
     struct Font {
         struct Comparison {
-            static let type = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
-            static let add = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
-            static let row = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
-            static let rowUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
+//            static let type = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
+//            static let add = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+//            static let row = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
+//            static let rowUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
+            static let type = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
+            static let add = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+            static let row = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(1/3))
+            static let rowUnit = UIFont(name: "RobotoSlab-Light", size: Sizing.Height.comparisonHeader*(1/4))
         }
         struct Summary {
             static let category = Comparison.row
@@ -188,31 +192,28 @@ struct UI {
             static let stat = Comparison.type
             static let statUnit = Comparison.row
         }
-        //static let normalFont: UIFont = UIFont.systemFont(ofSize: 30)
-        static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
-        static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
-        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
-        static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
-        static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
-        static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 18)
-        static let cellStubFont2 = UIFont(name: "JosefinSans-Regular", size: 18)
-        static let cellStubFont3 = UIFont(name: "JosefinSans-Light", size: 14)
+        
+//        static let headerFont = UIFont(name: "JosefinSans-Bold", size: 30)
+//        static let cellHeaderFont = UIFont(name: "JosefinSans-SemiBold", size: 18)
+//        static let topLineCategory = UIFont(name: "JosefinSans-SemiBold", size: 16)
+//        static let topLinePrimary = UIFont(name: "JosefinSans-SemiBold", size: 24)
+//        static let topLineSecondary = UIFont(name: "JosefinSans-SemiBold", size: 14)
+//        static let cellStubFont = UIFont(name: "JosefinSans-Regular", size: 18)
+//        static let cellStubFont2 = UIFont(name: "JosefinSans-Regular", size: 18)
+//        static let cellStubFont3 = UIFont(name: "JosefinSans-Light", size: 14)
+        
+        static let headerFont = UIFont(name: "RobotoSlab-Bold", size: 30)
+        static let cellHeaderFont = UIFont(name: "RobotoSlab-SemiBold", size: 18)
+        static let topLineCategory = UIFont(name: "RobotoSlab-SemiBold", size: 16)
+        static let topLinePrimary = UIFont(name: "RobotoSlab-SemiBold", size: 24)
+        static let topLineSecondary = UIFont(name: "RobotoSlab-SemiBold", size: 14)
+        static let cellStubFont = UIFont(name: "RobotoSlab-Regular", size: 18)
+        static let cellStubFont2 = UIFont(name: "RobotoSlab-Regular", size: 18)
+        static let cellStubFont3 = UIFont(name: "RobotoSlab-Light", size: 14)
     }
     
     // colors
     struct Color {
-        // static let alculatePurple = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
-        // #35295D
-        static let purpleDarkest = UIColor(displayP3Red: 53/255, green: 41/255, blue: 93/255, alpha: 1.0)
-        // #4B3F72
-        static let purpleDarker = UIColor(displayP3Red: 75/255, green: 63/255, blue: 114/255, alpha: 1.0)
-        // #6457A6
-        static let purpleDark = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
-        // #6457A6
-        static let purpleLight = UIColor(displayP3Red: 100/255, green: 87/255, blue: 166/255, alpha: 1.0)
-        // #907AD6
-        static let purpleLighter = UIColor(displayP3Red: 144/255, green: 122/255, blue: 214/255, alpha: 1.0)
-        
         // #0D1F2D
         static let darkGunmetal = UIColor(displayP3Red: 13/255, green: 31/255, blue: 45/255, alpha: 1.0)
         // #404E5C
@@ -231,22 +232,24 @@ struct UI {
         static let mustard = UIColor(displayP3Red: 255/255, green: 200/255, blue: 87/255, alpha: 1.0)
         // #F56476
         static let begonia = UIColor(displayP3Red: 245/255, green: 100/255, blue: 118/255, alpha: 1.0)
-        
-        static let beer = UIColor(displayP3Red: 91/255, green: 140/255, blue: 90/255, alpha: 1.0)
-        static let liquor = UIColor(displayP3Red: 0/255, green: 110/255, blue: 144/255, alpha: 1.0)
-        static let wine = UIColor(displayP3Red: 144/255, green: 78/255, blue: 85/255, alpha: 1.0)
-        // static let alcoholTypes = [beer, liquor, wine, bgLite]
-        // static let lavenderMist = UIColor(displayP3Red: 236/255, green: 229/255, blue: 240/255, alpha: 1.0) // lavender mist
-        
-        // beer =   (red: 91/255, green: 140/255, blue: 90/255)
-        // liquor = (red: 0/255, green: 110/255, blue: 144/255)
-        // wine =   (red: 144/255, green: 78/255, blue: 85/255)
-        
-        static let bgDarkest = darkGunmetal
-        static let bgDarker = outerSpace
-        static let bgDarkerRGB = [64,78,92]
-        static let bgDark = blackCoral
-        static let bgDarkRGB = [79,98,114]
+        // #f5d327
+        static let beer = UIColor(displayP3Red: 245/255, green: 211/255, blue: 39/255, alpha: 1.0)
+        // #dc8100
+        static let liquor = UIColor(displayP3Red: 220/255, green: 129/255, blue: 0/255, alpha: 1.0)
+        // #d81e1e
+        static let wine = UIColor(displayP3Red: 216/255, green: 30/255, blue: 30/255, alpha: 1.0)
+        // #A682FF
+        static let lavender = UIColor(displayP3Red: 166/255, green: 130/255, blue: 255/255, alpha: 1.0)
+        // #7880B5
+        static let glaucous = UIColor(displayP3Red: 120/255, green: 128/255, blue: 181/255, alpha: 1.0)
+        // #54428E
+        static let violet = UIColor(displayP3Red: 84/255, green: 66/255, blue: 142/255, alpha: 1.0)
+                
+        static let bgDarkest = violet
+        static let bgDarker = lavender
+        static let bgDarkerRGB = [84,66,142]
+        static let bgDark = glaucous
+        static let bgDarkRGB = [166,130,255]
         static let bgLite = cadetGrey
         static let value = malachiteGreen
         static let effect = tuftsBlue
@@ -255,15 +258,24 @@ struct UI {
         static let undo = begonia
         
         struct Border {
-            static let comparison = darkGunmetal
-            static let comparisonCell = darkGunmetal
+            static let comparison = bgDarkest
+            static let comparisonCell = bgDarkest
+        }
+        
+        struct Font {
+            static let beerHeader = beer
+            static let liquorHeader = liquor
+            static let wineHeader = wine
         }
         
         struct Background {
-            static let header = darkGunmetal
-            static let summary = darkGunmetal
-            static let comparison = blackCoral
-            static let comparisonHeader = outerSpace
+            static let header = bgDarkest
+            static let summary = bgDarkest
+            static let comparison = bgDarker
+            static let comparisonHeader = bgDarkest
+            static let beerHeader = bgDarkest
+            static let liquorHeader = bgDarkest
+            static let wineHeader = bgDarkest
         }
         
     }

@@ -20,6 +20,8 @@ class SubMenuBG: UIView {
         // View settings
         backgroundColor = UI.Color.bgDarkest
         
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.header)
+
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

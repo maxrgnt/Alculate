@@ -28,6 +28,7 @@ class Comparison: UIView {
     // Objects
     var header = ComparisonHeader()
     var table = ComparisonTable()
+    var clear = UIButton()
     
     // Variables
     var type = ""
@@ -48,31 +49,38 @@ class Comparison: UIView {
         header.build(forType: alcoholID, anchorTo: self)
         addSubview(table)
         table.build(forType: alcoholID, anchorTo: self)
+//        addSubview(clear)
+//        clear.backgroundColor = .clear
+//        clear.setTitleColor(UI.Color.Border.comparison, for: .normal)
+//        clear.setTitle("clear", for: .normal)
+//        clear.titleLabel?.font = UI.Font.Comparison.row
+//        clear.contentVerticalAlignment = .center
         constraints(anchorTo: anchorView)
     }
-    
-    func updateTable() {
-        self.layoutIfNeeded()
-        let newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(table.listForThisTable().count) + UI.Sizing.Radii.comparison
-        height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
-        table.height.constant = newTableHeight
-        UIView.animate(withDuration: 1, delay: 0.0, options: .curveEaseInOut
-            , animations: ({
-                self.layoutIfNeeded()
-            }), completion: { (completed) in
-                // pass
-        })
-    }
-    
+        
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
-        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparison)
+        var newConstant: CGFloat = 0.0
+        for obj in [self,clear] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
+        let lists = [Data.beerList, Data.liquorList, Data.wineList]
+        for (i, id) in [Data.beerListID, Data.liquorListID, Data.wineListID].enumerated() {
+            if type == id {
+                newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow + UI.Sizing.Radii.comparison
+            }
+        }
+        print(type, newConstant)
+        height = heightAnchor.constraint(equalToConstant: newConstant)
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
             height,
             topAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: UI.Sizing.Padding.comparison)
+//            clear.centerXAnchor.constraint(equalTo: centerXAnchor),
+//            clear.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
+//            clear.heightAnchor.constraint(equalToConstant: UI.Sizing.Padding.comparison),
+//            clear.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
     }
 

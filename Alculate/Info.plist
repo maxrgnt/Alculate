@@ -27,6 +27,11 @@
 		<string>JosefinSans-Regular.ttf</string>
 		<string>JosefinSans-SemiBold.ttf</string>
 		<string>JosefinSans-Thin.ttf</string>
+		<string>RobotoSlab-Bold.ttf</string>
+		<string>RobotoSlab-Light.ttf</string>
+		<string>RobotoSlab-Regular.ttf</string>
+		<string>RobotoSlab-SemiBold.ttf</string>
+		<string>RobotoSlab-Thin.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

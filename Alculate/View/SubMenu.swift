@@ -26,6 +26,7 @@ class SubMenu: UIView {
         // View settings
         backgroundColor = .clear
         clipsToBounds = true
+
         // Object settings
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
         let buttonText = ["Saved ABVs"]

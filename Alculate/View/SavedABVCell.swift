@@ -48,7 +48,7 @@ class SavedABVCell: UITableViewCell {
         delete.titleLabel?.font = UI.Font.cellHeaderFont
         delete.setTitle("X", for: .normal)
         delete.setTitleColor(UI.Color.bgDarker, for: .normal)
-        delete.backgroundColor = .lightGray
+        delete.backgroundColor = UI.Color.fontWhite
         delete.contentVerticalAlignment = .center
         delete.contentHorizontalAlignment = .center
         delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)

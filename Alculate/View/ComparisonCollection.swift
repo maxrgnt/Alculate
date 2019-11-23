@@ -17,7 +17,7 @@ protocol ComparisonCollectionDelegate {
 //    func alculate()
 }
 
-class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
+class ComparisonCollection: UIScrollView {
 
     // Delegate object
     var customDelegate : ComparisonCollectionDelegate!
@@ -26,6 +26,7 @@ class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
     var height: NSLayoutConstraint!
     
     // Objects
+    var content = UIView()
     var beer = Comparison()
     var liquor = Comparison()
     var wine = Comparison()
@@ -38,14 +39,19 @@ class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
     // MARK: - View/Object Settings
     func build(anchorTo anchorView: UIView) {
         backgroundColor = .clear
-        delegate = self
+//        delegate = self
         isScrollEnabled = true
         alwaysBounceVertical = true
         alwaysBounceHorizontal = false
-    
+//        contentInsetAdjustmentBehavior = .never
+        showsVerticalScrollIndicator = false
+
+        contentSize.height = 2000
+        
         for (i, obj) in [beer,liquor,wine].enumerated() {
             addSubview(obj)
             obj.header.add.tag = 20 + i
+            obj.clear.tag = i
         }
         beer.build(forType: Data.beerListID, anchorTo: self)
         liquor.build(forType: Data.liquorListID, anchorTo: beer)
@@ -54,23 +60,56 @@ class ComparisonCollection: UIScrollView, UIScrollViewDelegate {
         constraints(anchorTo: anchorView)
     }
     
+    func updateHeight(for table: String) {
+        self.layoutIfNeeded()
+        let tables = [beer,liquor,wine]
+        let lists = [Data.beerList,Data.liquorList,Data.wineList]
+        for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            if id == table {
+                let newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
+        //        table.height.constant = newTableHeight
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+                    , animations: ({
+                        tables[i].height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
+                        self.layoutIfNeeded()
+                    }), completion: { (completed) in
+                        // pass
+                })
+                tables[i].clear.isHidden = (lists[i].count == 0) ? true : false
+                break
+            }
+        }
+    }
+    
     // MARK: - ScrollView Delegate
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        self.contentOffset.y += scrollView.contentOffset.y
 //        self.savedABVTableDelegate.adjustHeaderBackground()
 //        if scrollView.contentOffset.y <= 0 {
 //            scrollView.contentOffset.y = 0
 //        }
-    }
+//    }
     
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
+        for obj in [self] {
+            obj.translatesAutoresizingMaskIntoConstraints = false
+        }
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.height),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header),
             topAnchor.constraint(equalTo: anchorView.bottomAnchor)
             ])
+    }
+    
+    func updateContentSize() {
+        // Set at 4 because there is a gab above each (three) tables and one below the last
+        var newContentSize: CGFloat = 4 * UI.Sizing.Padding.comparison
+        for comparison in [beer,liquor,wine] {
+            newContentSize += comparison.height.constant
+        }
+        contentSize.height = newContentSize
     }
 
     required init?(coder aDecoder: NSCoder) {

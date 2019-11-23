@@ -147,6 +147,11 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // if not at end, hide done
         outputNotDefaults()
         // if at end finish
+//        DispatchQueue.main.async {
+//            (self.inputLevel > self.maxLevel && self.maxLevel != 1) ? self.updateComparisonTables() : nil
+//            (self.inputLevel > self.maxLevel) ? self.updateSavedABVTable() : nil
+//            (self.inputLevel > self.maxLevel) ? self.dismiss() : nil
+//        }
         (inputLevel > maxLevel && maxLevel != 1) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil

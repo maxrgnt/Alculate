@@ -43,11 +43,15 @@ class ComparisonHeader: UIView {
         typeFromID = (alcoholType == Data.liquorListID) ? "Liquor" : typeFromID
         typeFromID = (alcoholType == Data.wineListID) ? "Wine" : typeFromID
         
+        var fontColor = (alcoholType == Data.beerListID) ? UI.Color.Font.beerHeader : nil
+        fontColor = (alcoholType == Data.liquorListID) ? UI.Color.Font.liquorHeader : fontColor
+        fontColor = (alcoholType == Data.wineListID) ? UI.Color.Font.wineHeader : fontColor
+        
         type.contentVerticalAlignment = .bottom
         type.contentHorizontalAlignment = .left
         type.setTitle(typeFromID, for: .normal)
         type.titleLabel?.font = UI.Font.Comparison.type!
-        type.setTitleColor(UI.Color.fontWhite, for: .normal)
+        type.setTitleColor(fontColor, for: .normal)
         add.contentVerticalAlignment = .center
         add.contentHorizontalAlignment = .right
         add.setTitle("+", for: .normal)

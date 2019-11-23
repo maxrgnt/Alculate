@@ -123,6 +123,11 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
         self.savedABVTableDelegate.animateUndo(onScreen: true)
     }
+    
+    func scrollToFirstRow() {
+        let indexPath = NSIndexPath(row: 0, section: 0)
+        self.scrollToRow(at: indexPath as IndexPath, at: .top, animated: true)
+    }
 
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

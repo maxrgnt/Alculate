@@ -182,7 +182,7 @@ struct UI {
 //            static let row = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
 //            static let rowUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
             static let type = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
-            static let add = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
+            static let add = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(3/4))
             static let row = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(1/3))
             static let rowUnit = UIFont(name: "RobotoSlab-Light", size: Sizing.Height.comparisonHeader*(1/4))
         }

@@ -61,6 +61,7 @@ class Comparison: UIView {
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
         var newConstant: CGFloat = 0.0
+
         for obj in [self,clear] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }

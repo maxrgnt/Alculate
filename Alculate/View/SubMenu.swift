@@ -50,7 +50,7 @@ class SubMenu: UIView {
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.bgDarkest.withAlphaComponent(0.0).cgColor,
+        gradient.colors = [UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
                            UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
                            UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition

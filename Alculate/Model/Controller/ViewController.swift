@@ -397,9 +397,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             
             let i = bestPrice.ind
-            let priceColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][i]
+            let priceColor = [UI.Color.Font.beerHeader, UI.Color.Font.liquorHeader, UI.Color.Font.wineHeader][i]
             let j = bestRatio.ind
-            let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
+            let effectColor = [UI.Color.Font.beerHeader, UI.Color.Font.liquorHeader, UI.Color.Font.wineHeader][j]
             
             header.summary.value.category.textColor = priceColor
             header.summary.effect.category.textColor = effectColor

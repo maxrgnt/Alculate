@@ -220,8 +220,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             alculate()
             if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
-//                summaryContainer.valueSummary.calculateNameWidth()
-//                summaryContainer.effectSummary.calculateNameWidth()
+                header.summary.value.calculateNameWidth()
+                header.summary.effect.calculateNameWidth()
             }
         }
     }
@@ -409,8 +409,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             header.summary.value.stat.text = "$"+bestPrice.best
             header.summary.effect.name.text = bestRatio.name.capitalized
             header.summary.effect.stat.text = bestRatio.best
-//            summaryContainer.valueSummary.calculateNameWidth()
-//            summaryContainer.effectSummary.calculateNameWidth()
+            header.summary.value.calculateNameWidth()
+            header.summary.effect.calculateNameWidth()
         }
         // if all lists are empty, dont alculate
         else {

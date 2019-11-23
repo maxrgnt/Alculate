@@ -59,7 +59,7 @@ class Summary: UIView {
         for obj in [self,leftPadding,rightPadding] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        top = topAnchor.constraint(equalTo: anchorView.bottomAnchor)
+        top = topAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: -UI.Sizing.Height.summary)
         NSLayoutConstraint.activate([
             top,
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),

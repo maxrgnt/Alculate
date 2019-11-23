@@ -28,6 +28,7 @@
 		666F49B32388C5E100BB3C75 /* RobotoSlab-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49AE2388C5E000BB3C75 /* RobotoSlab-Thin.ttf */; };
 		666F49B42388C5E100BB3C75 /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49AF2388C5E000BB3C75 /* RobotoSlab-Bold.ttf */; };
 		666F49B52388C5E100BB3C75 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49B02388C5E000BB3C75 /* RobotoSlab-SemiBold.ttf */; };
+		666F49B72388DAE500BB3C75 /* alcohol.txt in Resources */ = {isa = PBXBuildFile; fileRef = 666F49B62388DAE500BB3C75 /* alcohol.txt */; };
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
 		66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66942D00237F78D300C48211 /* SubMenuBG.swift */; };
@@ -104,6 +105,7 @@
 		666F49AE2388C5E000BB3C75 /* RobotoSlab-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Thin.ttf"; sourceTree = "<group>"; };
 		666F49AF2388C5E000BB3C75 /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
 		666F49B02388C5E000BB3C75 /* RobotoSlab-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-SemiBold.ttf"; sourceTree = "<group>"; };
+		666F49B62388DAE500BB3C75 /* alcohol.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.txt; sourceTree = "<group>"; };
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
 		66942D00237F78D300C48211 /* SubMenuBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenuBG.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				666F49A123861A1E00BB3C75 /* Old */,
 				66AF5847233A33EB00502EEA /* Assets.xcassets */,
 				66C3259E235F2FF1003DAC45 /* Fonts */,
+				666F49B62388DAE500BB3C75 /* alcohol.txt */,
 				66A6306A235FBCD8004613BF /* alcohol.csv */,
 				66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */,
 				66AF584F233A33EB00502EEA /* Info.plist */,
@@ -426,6 +429,7 @@
 				66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */,
 				66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */,
 				66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */,
+				666F49B72388DAE500BB3C75 /* alcohol.txt in Resources */,
 				66A6306B235FBCD8004613BF /* alcohol.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

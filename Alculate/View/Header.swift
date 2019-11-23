@@ -47,7 +47,7 @@ class Header: UIView {
         for obj in [self, appName] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
-        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.header)
+        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.headerMinimized)
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header),
             height,

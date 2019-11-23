@@ -526,7 +526,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func adjustHeaderBackground() {
         if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
-            savedABV.gradient2.colors = [UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
+            savedABV.gradient2.colors = [cell.backgroundColor!,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
 //            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }

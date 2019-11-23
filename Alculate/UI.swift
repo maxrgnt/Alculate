@@ -84,6 +84,7 @@ struct UI {
         struct Radii {
             static let header = Width.header/10
             static let comparison = Width.comparison/10
+            static let comparisonEmpty = Width.comparison/20
         }
         
         struct Border {
@@ -244,12 +245,16 @@ struct UI {
         static let glaucous = UIColor(displayP3Red: 120/255, green: 128/255, blue: 181/255, alpha: 1.0)
         // #54428E
         static let violet = UIColor(displayP3Red: 84/255, green: 66/255, blue: 142/255, alpha: 1.0)
-                
-        static let bgDarkest = violet
-        static let bgDarker = lavender
-        static let bgDarkerRGB = [84,66,142]
+        // #92C9B1
+        static let etonBlue = UIColor(displayP3Red: 146/255, green: 201/255, blue: 177/255, alpha: 1.0)
+        // #3F7C50
+        static let amazon = UIColor(displayP3Red: 63/255, green: 124/255, blue: 80/255, alpha: 1.0)
+        
+        static let bgDarkest = amazon
+        static let bgDarker = etonBlue
+        static let bgDarkerRGB = [63,124,80]
         static let bgDark = glaucous
-        static let bgDarkRGB = [166,130,255]
+        static let bgDarkRGB = [146,201,177]
         static let bgLite = cadetGrey
         static let value = malachiteGreen
         static let effect = tuftsBlue
@@ -266,6 +271,7 @@ struct UI {
             static let beerHeader = beer
             static let liquorHeader = liquor
             static let wineHeader = wine
+            static let comparisonCell = bgDarkest
         }
         
         struct Background {

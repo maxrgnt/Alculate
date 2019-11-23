@@ -61,17 +61,19 @@ class Comparison: UIView {
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
         var newConstant: CGFloat = 0.0
-
+        var newRadius: CGFloat = 0.0
         for obj in [self,clear] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         let lists = [Data.beerList, Data.liquorList, Data.wineList]
         for (i, id) in [Data.beerListID, Data.liquorListID, Data.wineListID].enumerated() {
             if type == id {
-                newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow + UI.Sizing.Radii.comparison
+                newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow
+                newConstant = (lists[i].count == 0) ? newConstant : newConstant + UI.Sizing.Radii.comparison
+                newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
             }
         }
-        print(type, newConstant)
+        layer.cornerRadius = newRadius
         height = heightAnchor.constraint(equalToConstant: newConstant)
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),

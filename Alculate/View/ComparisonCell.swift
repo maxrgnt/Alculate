@@ -46,20 +46,20 @@ class ComparisonCell: UITableViewCell {
         contentView.layer.addSublayer(border)
         
         addSubview(name)
-        name.textColor = UI.Color.fontWhite
+        name.textColor = UI.Color.Font.comparisonCell
         name.textAlignment = .left
         name.font = UI.Font.Comparison.row
         
         for obj in [value,effect] {
             addSubview(obj)
-            obj.textColor = UI.Color.fontWhite
+            obj.textColor = UI.Color.Font.comparisonCell
             obj.textAlignment = .right
             obj.font = UI.Font.Comparison.row
         }
         
         for obj in [valueUnit,effectUnit] {
             addSubview(obj)
-            obj.textColor = UI.Color.fontWhite
+            obj.textColor = UI.Color.Font.comparisonCell
             obj.textAlignment = .right
             obj.font = UI.Font.Comparison.rowUnit
         }

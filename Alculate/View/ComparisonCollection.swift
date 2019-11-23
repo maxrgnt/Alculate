@@ -61,22 +61,27 @@ class ComparisonCollection: UIScrollView {
     }
     
     func updateHeight(for table: String) {
+        print("update for \(table)")
         self.layoutIfNeeded()
         let tables = [beer,liquor,wine]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if id == table {
-                let newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
+                print(id, lists[i].count)
+                var newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count)
+                newTableHeight = (lists[i].count == 0) ? newTableHeight : newTableHeight + UI.Sizing.Radii.comparison
+                let newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
         //        table.height.constant = newTableHeight
                 UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                     , animations: ({
+                        tables[i].layer.cornerRadius = newRadius
                         tables[i].height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
                         self.layoutIfNeeded()
                     }), completion: { (completed) in
                         // pass
                 })
-                tables[i].clear.isHidden = (lists[i].count == 0) ? true : false
-                break
+//                tables[i].clear.isHidden = (lists[i].count == 0) ? true : false
+                //break
             }
         }
     }

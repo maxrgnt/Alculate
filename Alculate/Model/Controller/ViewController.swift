@@ -395,16 +395,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
                 reloadTable(table: id, realculate: false)
             }
-            if ViewController.typeValue == ViewController.typeEffect {
-                header.summary.value.category.textColor = UI.Color.best
-                header.summary.effect.category.textColor = UI.Color.best
-                //header.summary.effect.name.alpha = 0
-            }
-            else {
-                header.summary.value.category.textColor = UI.Color.value
-                header.summary.effect.category.textColor = UI.Color.effect
-                //header.summary.effect.name.alpha = 1
-            }
+            
+            let i = bestPrice.ind
+            let priceColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][i]
+            let j = bestRatio.ind
+            let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
+            
+            header.summary.value.category.textColor = priceColor
+            header.summary.effect.category.textColor = effectColor
+            
             header.summary.value.name.text = bestPrice.name.capitalized
             header.summary.value.stat.text = "$"+bestPrice.best
             header.summary.effect.name.text = bestRatio.name.capitalized
@@ -527,7 +526,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func adjustHeaderBackground() {
         if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
-            savedABV.gradient2.colors = [UI.Color.bgDarkest.withAlphaComponent(0.0).cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
+            savedABV.gradient2.colors = [UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
 //            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }
@@ -593,8 +592,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].endUpdates()
 //                tables[i].updateTableContentInset()
                 comparison.updateHeight(for: table)
+                break
             }
-            break
         }
         comparison.updateContentSize()
         sortByValue()

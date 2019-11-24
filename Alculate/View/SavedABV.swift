@@ -41,9 +41,6 @@ class SavedABV: UIView {
         backgroundColor = .clear
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.comparison)
         
-        // Initialize pan gesture recognizer to dismiss view
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
-        addGestureRecognizer(pan)
         for obj in [header,savedABVTable] {
             addSubview(obj)
             obj.backgroundColor = backgroundColor
@@ -55,7 +52,11 @@ class SavedABV: UIView {
         headerLabel.font = UI.Font.headerFont
         headerLabel.textColor = UI.Color.fontWhite
         headerLabel.textAlignment = .left
-        headerLabel.text = "Saved ABVs:"
+        headerLabel.text = "Drink Library"
+        
+        // Initialize pan gesture recognizer to dismiss view
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
+        header.addGestureRecognizer(pan)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

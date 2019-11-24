@@ -14,6 +14,9 @@ protocol SavedABVTableDelegate {
     func reloadTable(table: String, realculate: Bool)
     func editSavedABV(name: String, abv: String, type: String)
     func adjustHeaderBackground()
+    func adjustHeaderConstant(to: CGFloat)
+    func resetHeader()
+    func finishScrolling()
 }
 
 class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SavedABVCellDelegate {
@@ -41,6 +44,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         tableHeaderView = nil
         separatorStyle = .singleLine
         separatorColor = .lightGray
+        alwaysBounceHorizontal = false
         sectionIndexColor = UI.Color.fontWhite
         sectionIndexBackgroundColor = UIColor.clear
     }
@@ -95,6 +99,10 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         self.savedABVTableDelegate.editSavedABV(name: name, abv: abv, type: type)
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 10
 //    }
@@ -106,22 +114,43 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
 //        return sectionHeader
 //    }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
+            print("Delete")
+            let headerLetter = Data.headers[indexPath.section]
+            let nameList = Data.matrix[headerLetter]
+            let name = nameList![indexPath.row]
+            let abv = Data.masterList[name]!.abv
+            let type = Data.masterList[name]!.type
+            self.toBeDeleted.append((name: name, abv: abv, type: type))
+            Data.isEditable = true // false
+            // Checking for specific name / abv / type combo
+            if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
+                Data.masterList[name] = nil
+            }
+            self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
+            self.savedABVTableDelegate.animateUndo(onScreen: true)
+        })
+        DeleteAction.backgroundColor = UI.Color.begonia
+        return UISwipeActionsConfiguration(actions: [DeleteAction])
+    }
+    
     // MARK: - SavedABV Cell Delegate
     func remove(cell: SavedABVCell) {
-        let indexPath = self.indexPath(for: cell)
-        let headerLetter = Data.headers[indexPath!.section]
-        let nameList = Data.matrix[headerLetter]
-        let name = nameList![indexPath!.row]
-        let abv = Data.masterList[name]!.abv
-        let type = Data.masterList[name]!.type
-        toBeDeleted.append((name: name, abv: abv, type: type))
-        Data.isEditable = true // false
-        // Checking for specific name / abv / type combo
-        if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
-            Data.masterList[name] = nil
-        }
-        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
-        self.savedABVTableDelegate.animateUndo(onScreen: true)
+//        let indexPath = self.indexPath(for: cell)
+//        let headerLetter = Data.headers[indexPath!.section]
+//        let nameList = Data.matrix[headerLetter]
+//        let name = nameList![indexPath!.row]
+//        let abv = Data.masterList[name]!.abv
+//        let type = Data.masterList[name]!.type
+//        toBeDeleted.append((name: name, abv: abv, type: type))
+//        Data.isEditable = true // false
+//        // Checking for specific name / abv / type combo
+//        if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
+//            Data.masterList[name] = nil
+//        }
+//        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
+//        self.savedABVTableDelegate.animateUndo(onScreen: true)
     }
     
     func scrollToFirstRow() {
@@ -133,7 +162,11 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.savedABVTableDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
+            self.savedABVTableDelegate.adjustHeaderConstant(to: contentOffset.y)
             scrollView.contentOffset.y = 0
+        }
+        if scrollView.contentOffset.y > 0 {
+            self.savedABVTableDelegate.resetHeader()
         }
     }
 
@@ -142,11 +175,11 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        // pass
+        self.savedABVTableDelegate.finishScrolling()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        // pass
+        self.savedABVTableDelegate.finishScrolling()
     }
     
     func resetHeader() {

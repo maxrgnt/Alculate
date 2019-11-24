@@ -44,15 +44,15 @@ class SavedABVCell: UITableViewCell {
         drinkInfo.font = UI.Font.cellStubFont
         drinkInfo.alpha = 0.7
         //
-        addSubview(delete)
-        delete.titleLabel?.font = UI.Font.cellHeaderFont
-        delete.setTitle("X", for: .normal)
-        delete.setTitleColor(UI.Color.bgDarker, for: .normal)
-        delete.backgroundColor = UI.Color.fontWhite
-        delete.contentVerticalAlignment = .center
-        delete.contentHorizontalAlignment = .center
-        delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
-        delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
+//        addSubview(delete)
+//        delete.titleLabel?.font = UI.Font.cellHeaderFont
+//        delete.setTitle("X", for: .normal)
+//        delete.setTitleColor(UI.Color.bgDarker, for: .normal)
+//        delete.backgroundColor = UI.Color.fontWhite
+//        delete.contentVerticalAlignment = .center
+//        delete.contentHorizontalAlignment = .center
+//        delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
+//        delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
         
         // MARK: - NSLayoutConstraints
         for obj in [icon,drinkName,drinkInfo,delete] {
@@ -70,11 +70,11 @@ class SavedABVCell: UITableViewCell {
             drinkInfo.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: UI.Sizing.objectPadding/2),
             drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
             drinkInfo.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVmainWidth),
-            drinkInfo.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVsubLineHeight),
-            delete.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-            delete.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
-            delete.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
-            delete.centerYAnchor.constraint(equalTo: centerYAnchor)
+//            drinkInfo.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVsubLineHeight),
+//            delete.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
+//            delete.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
+//            delete.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
+//            delete.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }
     

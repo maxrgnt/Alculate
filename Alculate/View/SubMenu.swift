@@ -29,7 +29,7 @@ class SubMenu: UIView {
 
         // Object settings
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
-        let buttonText = ["Saved ABVs"]
+        let buttonText = ["Drink Library"]
         for (i,button) in [showSavedABV].enumerated() {
             button.tag = 1
             addSubview(button)

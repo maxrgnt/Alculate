@@ -109,9 +109,14 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
             self.customDelegate.alculate()
             self.customDelegate.resetHeight(for: self.comparisonTableListID)
         })
-        DeleteAction.backgroundColor = .red
+        
+        var bgColor = (comparisonTableListID == Data.beerListID) ? UI.Color.Background.beerHeader : nil
+        bgColor = (comparisonTableListID == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
+        bgColor = (comparisonTableListID == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
+        
+        DeleteAction.backgroundColor = bgColor
         return UISwipeActionsConfiguration(actions: [DeleteAction])
-      }
+    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // pass

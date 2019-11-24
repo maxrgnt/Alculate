@@ -68,14 +68,15 @@ class ComparisonCollection: UIScrollView {
         for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if id == table {
                 print(id, lists[i].count)
-                var newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
-                newTableHeight = (lists[i].count == 0) ? newTableHeight + UI.Sizing.Radii.comparisonEmpty/4 : newTableHeight + UI.Sizing.Radii.comparisonEmpty
-                let newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
+                var newConstant = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
+                newConstant += UI.Sizing.Border.comparisonRow*2
+//                newTableHeight = (lists[i].count == 0) ? newTableHeight + UI.Sizing.Radii.comparisonEmpty : newTableHeight + UI.Sizing.Radii.comparisonEmpty
+//                let newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
         //        table.height.constant = newTableHeight
                 UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                     , animations: ({
-                        tables[i].layer.cornerRadius = newRadius
-                        tables[i].height.constant = UI.Sizing.Height.comparisonHeader + newTableHeight
+//                        tables[i].layer.cornerRadius = newRadius
+                        tables[i].height.constant = UI.Sizing.Height.comparisonHeader + newConstant
                         self.layoutIfNeeded()
                     }), completion: { (completed) in
                         // pass

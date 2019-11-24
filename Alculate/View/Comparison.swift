@@ -69,8 +69,8 @@ class Comparison: UIView {
         for (i, id) in [Data.beerListID, Data.liquorListID, Data.wineListID].enumerated() {
             if type == id {
                 newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow
-                newConstant = (lists[i].count == 0) ? newConstant + UI.Sizing.Radii.comparisonEmpty/4 : newConstant + UI.Sizing.Radii.comparisonEmpty
-                newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
+                newConstant += UI.Sizing.Radii.comparison + UI.Sizing.Border.comparisonRow*2
+                newRadius = UI.Sizing.Radii.comparison
             }
         }
         layer.cornerRadius = newRadius

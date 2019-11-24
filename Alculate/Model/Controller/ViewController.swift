@@ -531,6 +531,26 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
     }
     
+    func resetHeader() {
+        savedABV.savedABVtop.constant = UI.Sizing.savedABVtop
+        finishScrolling()
+    }
+    
+    func adjustHeaderConstant(to constant: CGFloat) {
+        // Allow movement of contact card back/forth when not fully visible
+        savedABV.savedABVtop.constant += -constant
+        // If contact card is fully visible, don't allow movement further left
+        savedABV.savedABVtop.constant = savedABV.savedABVtop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : savedABV.savedABVtop.constant
+        savedABV.layoutIfNeeded()
+    }
+    
+    func finishScrolling() {
+        let newConstant = savedABV.savedABVtop.constant / UI.Sizing.height <= 0.5 ? UI.Sizing.savedABVtop : UI.Sizing.height
+        let percent: CGFloat = (savedABV.savedABVtop.constant / UI.Sizing.height <= 0.5) ? 0.0 : 1.0
+        percent == 1.0 ? animateSubMenu(by: 1.0, reset: false) : nil
+        savedABV.animateTopAnchor(constant: newConstant)
+    }
+    
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {
         // reset output to saved data
         textEntry.outputFromComparison(name: name, abv: abv, size: size, price: price)

@@ -145,7 +145,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
 //        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparisonHeader*2)
         NSLayoutConstraint.activate([
             centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
-            widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonTable),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
 //            height,
             bottomAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: -UI.Sizing.Padding.comparison),
             topAnchor.constraint(equalTo: anchorView.topAnchor, constant: UI.Sizing.Height.comparisonHeader)

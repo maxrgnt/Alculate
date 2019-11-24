@@ -24,12 +24,14 @@ class ComparisonCollection: UIScrollView {
 
     // Constraints
     var height: NSLayoutConstraint!
+    var emptyPromptTop: NSLayoutConstraint!
     
     // Objects
     var content = UIView()
     var beer = Comparison()
     var liquor = Comparison()
     var wine = Comparison()
+    var emptyPrompt = UILabel()
     
     override init (frame: CGRect) {
         // Initialize views frame prior to setting constraints
@@ -56,6 +58,13 @@ class ComparisonCollection: UIScrollView {
         beer.build(forType: Data.beerListID, anchorTo: self)
         liquor.build(forType: Data.liquorListID, anchorTo: beer)
         wine.build(forType: Data.wineListID, anchorTo: liquor)
+        
+        addSubview(emptyPrompt)
+        emptyPrompt.backgroundColor = .clear
+        emptyPrompt.textColor = UI.Color.Border.comparison
+        emptyPrompt.text = "Add a drink above!"
+        emptyPrompt.font = UI.Font.Comparison.type
+        emptyPrompt.textAlignment = .center
         
         constraints(anchorTo: anchorView)
     }
@@ -98,14 +107,19 @@ class ComparisonCollection: UIScrollView {
     
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
-        for obj in [self] {
+        for obj in [self, emptyPrompt] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
+        emptyPromptTop = emptyPrompt.topAnchor.constraint(equalTo: wine.bottomAnchor)
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
             heightAnchor.constraint(equalToConstant: UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header),
-            topAnchor.constraint(equalTo: anchorView.bottomAnchor)
+            topAnchor.constraint(equalTo: anchorView.bottomAnchor),
+            emptyPromptTop,
+            emptyPrompt.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
+            emptyPrompt.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
+            emptyPrompt.heightAnchor.constraint(equalToConstant: UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header - (UI.Sizing.Padding.comparison)*3 - UI.Sizing.Height.comparison*3)
             ])
     }
     
@@ -116,6 +130,22 @@ class ComparisonCollection: UIScrollView {
             newContentSize += comparison.height.constant
         }
         contentSize.height = newContentSize
+    }
+    
+    func checkIfEmpty() {
+        var empty = true
+        for list in [Data.beerList, Data.liquorList, Data.wineList] {
+            if list.count > 0 {
+                empty = false
+            }
+        }
+        let newAlpha: CGFloat = empty ? 1.0 : 0.0
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+                    , animations: ({
+                        self.emptyPrompt.alpha = newAlpha
+                    }), completion: { (completed) in
+                        // pass
+                })
     }
 
     required init?(coder aDecoder: NSCoder) {

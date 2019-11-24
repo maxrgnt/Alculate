@@ -41,8 +41,9 @@ class ComparisonCell: UITableViewCell {
         border.backgroundColor = UI.Color.Border.comparisonCell.cgColor
         let borderHeight = UI.Sizing.Border.comparisonRow
         let rowHeight = UI.Sizing.Height.comparisonRow
-        let rowWidth = UI.Sizing.Width.comparisonTable
-        border.frame = CGRect(x: 0, y: rowHeight - borderHeight, width: rowWidth, height: borderHeight)
+        let rowWidth = UI.Sizing.Width.comparison
+        let leadingAnchor = UI.Sizing.Border.comparison
+        border.frame = CGRect(x: leadingAnchor, y: rowHeight - borderHeight, width: rowWidth - leadingAnchor, height: borderHeight)
         contentView.layer.addSublayer(border)
         
         addSubview(name)
@@ -102,7 +103,7 @@ class ComparisonCell: UITableViewCell {
         NSLayoutConstraint.activate([
             name.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonRowName),
             name.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Border.comparisonRow),
-            name.leadingAnchor.constraint(equalTo: leadingAnchor),
+            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Border.comparison),
             name.centerYAnchor.constraint(equalTo: centerYAnchor),
             value.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonRowValue),
             value.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparisonRowStat),

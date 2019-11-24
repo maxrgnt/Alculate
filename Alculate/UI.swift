@@ -135,7 +135,7 @@ struct UI {
         static let savedABVheight = height
         static let savedABVtop = statusBar.height
         static let savedABVheaderHeight = savedABVheight-savedABVrowHeight*(11)
-        static let savedABVtableHeight = savedABVrowHeight*(12.5) // savedABVheight-savedABVheaderHeight
+        static let savedABVtableHeight = savedABVrowHeight*(11) // savedABVheight-savedABVheaderHeight
         static let savedABVrowHeight = headerHeight*1.2
         static let savedABVmainWidth = width-headerHeight-objectPadding*(3/2)-savedABVdeleteDiameter
         static let savedABViconDiameter = UI.Sizing.savedABVrowHeight*(1/2)

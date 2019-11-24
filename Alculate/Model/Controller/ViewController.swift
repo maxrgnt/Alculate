@@ -361,6 +361,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
+            comparison.checkIfEmpty()
             moveSummaryAnchor(to: "shown")
             //summaryContainer.moveTopAnchor(to: UI.Sizing.topLineTop)
             //summaryContainer.valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
@@ -413,6 +414,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if all lists are empty, dont alculate
         else {
+            comparison.checkIfEmpty()
             moveSummaryAnchor(to: "hidden")
             ViewController.typeEffect = ""
             ViewController.typeValue = ""

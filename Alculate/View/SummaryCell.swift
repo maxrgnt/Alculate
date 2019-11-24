@@ -41,7 +41,7 @@ class SummaryCell: UIView {
         }
 
         category.font = UI.Font.Summary.category
-        category.alpha = 0.7
+//        category.alpha = 0.7
         name.font = UI.Font.Summary.name
         stat.font = UI.Font.Summary.stat
         statUnit.font = UI.Font.Summary.statUnit

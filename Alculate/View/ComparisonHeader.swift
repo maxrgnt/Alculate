@@ -33,7 +33,6 @@ class ComparisonHeader: UIView {
     
     // MARK: - View/Object Settings
     func build(forType alcoholType: String, anchorTo anchorView: UIView) {
-        backgroundColor = UI.Color.Background.comparisonHeader
         
         for obj in [type, add] {
             addSubview(obj)
@@ -46,6 +45,12 @@ class ComparisonHeader: UIView {
         var fontColor = (alcoholType == Data.beerListID) ? UI.Color.Font.beerHeader : nil
         fontColor = (alcoholType == Data.liquorListID) ? UI.Color.Font.liquorHeader : fontColor
         fontColor = (alcoholType == Data.wineListID) ? UI.Color.Font.wineHeader : fontColor
+        
+        var bgColor = (alcoholType == Data.beerListID) ? UI.Color.Background.beerHeader : nil
+        bgColor = (alcoholType == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
+        bgColor = (alcoholType == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
+        
+        backgroundColor = bgColor
         
         type.contentVerticalAlignment = .bottom
         type.contentHorizontalAlignment = .left

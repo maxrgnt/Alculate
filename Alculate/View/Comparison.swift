@@ -68,8 +68,8 @@ class Comparison: UIView {
         let lists = [Data.beerList, Data.liquorList, Data.wineList]
         for (i, id) in [Data.beerListID, Data.liquorListID, Data.wineListID].enumerated() {
             if type == id {
-                newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow
-                newConstant = (lists[i].count == 0) ? newConstant : newConstant + UI.Sizing.Radii.comparison
+                newConstant = UI.Sizing.Height.comparisonHeader + CGFloat(lists[i].count) * UI.Sizing.Height.comparisonRow + UI.Sizing.Radii.comparisonEmpty/4
+                newConstant = (lists[i].count == 0) ? newConstant /*+ UI.Sizing.Height.comparisonRow*/ : newConstant
                 newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
             }
         }

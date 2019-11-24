@@ -86,13 +86,13 @@ class OldComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSourc
         // do something for "best" alcohol from each type
         let maxRow = (listForThisTable().count-1 < 0) ? 0 : listForThisTable().count-1
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue {
-            cell.container.layer.borderColor = UI.Color.value.cgColor
+//            cell.container.layer.borderColor = UI.Color.value.cgColor
         }
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeEffect {
-            cell.container.layer.borderColor = UI.Color.effect.cgColor
+//            cell.container.layer.borderColor = UI.Color.effect.cgColor
         }
         if indexPath.row == maxRow && comparisonTableListID == ViewController.typeValue && comparisonTableListID == ViewController.typeEffect {
-            cell.container.layer.borderColor = UI.Color.best.cgColor
+//            cell.container.layer.borderColor = UI.Color.best.cgColor
         }
         
         cell.container.calculateNameWidth()

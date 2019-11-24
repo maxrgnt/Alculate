@@ -83,7 +83,7 @@ struct UI {
         
         struct Radii {
             static let header = Width.header/10
-            static let comparison = Width.comparison/10
+            static let comparison = Width.comparison/20
             static let comparisonEmpty = Width.comparison/20
         }
         
@@ -188,7 +188,7 @@ struct UI {
             static let rowUnit = UIFont(name: "RobotoSlab-Light", size: Sizing.Height.comparisonHeader*(1/4))
         }
         struct Summary {
-            static let category = Comparison.row
+            static let category = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/3))
             static let name = Comparison.type
             static let stat = Comparison.type
             static let statUnit = Comparison.row
@@ -234,11 +234,23 @@ struct UI {
         // #F56476
         static let begonia = UIColor(displayP3Red: 245/255, green: 100/255, blue: 118/255, alpha: 1.0)
         // #f5d327
-        static let beer = UIColor(displayP3Red: 245/255, green: 211/255, blue: 39/255, alpha: 1.0)
+//        static let beer = UIColor(displayP3Red: 245/255, green: 211/255, blue: 39/255, alpha: 1.0)
+        // #f2dc5d
+//        static let beer = UIColor(displayP3Red: 242/255, green: 220/255, blue: 93/255, alpha: 1.0)
+        // #F2A359
+        static let beer = UIColor(displayP3Red: 200/255, green: 154/255, blue: 76/255, alpha: 1.0)
         // #dc8100
-        static let liquor = UIColor(displayP3Red: 220/255, green: 129/255, blue: 0/255, alpha: 1.0)
+//        static let liquor = UIColor(displayP3Red: 220/255, green: 129/255, blue: 0/255, alpha: 1.0)
+        // #f2a359
+//        static let liquor = UIColor(displayP3Red: 242/255, green: 163/255, blue: 89/255, alpha: 1.0)
+        // #FE5F55 - sunsetOrange
+        static let liquor = UIColor(displayP3Red: 200/255, green: 122/255, blue: 76/255, alpha: 1.0)
         // #d81e1e
-        static let wine = UIColor(displayP3Red: 216/255, green: 30/255, blue: 30/255, alpha: 1.0)
+//        static let wine = UIColor(displayP3Red: 216/255, green: 30/255, blue: 30/255, alpha: 1.0)
+        // #a4031f
+//        static let wine = UIColor(displayP3Red: 164/255, green: 3/255, blue: 31/255, alpha: 1.0)
+        // #BC475C
+        static let wine = UIColor(displayP3Red: 188/255, green: 71/255, blue: 92/255, alpha: 1.0)
         // #A682FF
         static let lavender = UIColor(displayP3Red: 166/255, green: 130/255, blue: 255/255, alpha: 1.0)
         // #7880B5
@@ -249,39 +261,49 @@ struct UI {
         static let etonBlue = UIColor(displayP3Red: 146/255, green: 201/255, blue: 177/255, alpha: 1.0)
         // #3F7C50
         static let amazon = UIColor(displayP3Red: 63/255, green: 124/255, blue: 80/255, alpha: 1.0)
+        // #7492ab
+        static let blueBG = UIColor(displayP3Red: 116/255, green: 146/255, blue: 171/255, alpha: 1.0)
+        // #dfdfe0
+        static let grayBG = UIColor(displayP3Red: 223/255, green: 223/255, blue: 224/255, alpha: 1.0)
+        // #C9DBBA
+        static let paleSilver = UIColor(displayP3Red: 201/255, green: 219/255, blue: 186/255, alpha: 1.0)
+        // #3d4b60
+        static let bleh = UIColor(displayP3Red: 61/255, green: 75/255, blue: 96/255, alpha: 1.0)
+        // #f4f4f4
+        static let bleh2 = UIColor(displayP3Red: 244/255, green: 244/255, blue: 244/255, alpha: 1.0)
         
-        static let bgDarkest = amazon
-        static let bgDarker = etonBlue
-        static let bgDarkerRGB = [63,124,80]
+        static let bgDarkest = bleh // blueBG //amazon
+        static let bgDarker = blackCoral // grayBG // etonBlue
+        static let bgDarkerRGB = [116,146,171] //[63,124,80]
         static let bgDark = glaucous
-        static let bgDarkRGB = [146,201,177]
+        static let bgDarkRGB = [223,223,224] //[146,201,177]
         static let bgLite = cadetGrey
-        static let value = malachiteGreen
-        static let effect = tuftsBlue
-        static let best = mustard
-        static let fontWhite = honeydew
+//        static let value = malachiteGreen
+//        static let effect = tuftsBlue
+//        static let best = mustard
+        static let fontWhite = bleh2
         static let undo = begonia
         
         struct Border {
             static let comparison = bgDarkest
-            static let comparisonCell = bgDarkest
+            static let comparisonCell = bgDarker
         }
         
         struct Font {
-            static let beerHeader = beer
-            static let liquorHeader = liquor
-            static let wineHeader = wine
-            static let comparisonCell = bgDarkest
+            static let beerHeader = fontWhite // beer
+            static let liquorHeader = fontWhite // liquor
+            static let wineHeader = fontWhite // wine
+            static let comparisonCell = fontWhite // bgDarkest
         }
         
         struct Background {
             static let header = bgDarkest
             static let summary = bgDarkest
-            static let comparison = bgDarker
+            static let comparison = bgDarkest
             static let comparisonHeader = bgDarkest
-            static let beerHeader = bgDarkest
-            static let liquorHeader = bgDarkest
-            static let wineHeader = bgDarkest
+            static let beerHeader = beer
+            static let liquorHeader = liquor
+            static let wineHeader = wine
         }
         
     }

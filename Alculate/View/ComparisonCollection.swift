@@ -68,8 +68,8 @@ class ComparisonCollection: UIScrollView {
         for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if id == table {
                 print(id, lists[i].count)
-                var newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count)
-                newTableHeight = (lists[i].count == 0) ? newTableHeight : newTableHeight + UI.Sizing.Radii.comparison
+                var newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
+                newTableHeight = (lists[i].count == 0) ? newTableHeight + UI.Sizing.Height.comparisonRow : newTableHeight
                 let newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
         //        table.height.constant = newTableHeight
                 UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut

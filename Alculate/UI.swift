@@ -53,9 +53,9 @@ struct UI {
             static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader-Padding.comparisonHeader
             static let comparisonAdd = Height.comparisonHeader
             static let comparisonTable = comparisonHeader-Padding.comparisonHeader
-            static let comparisonRowName = comparisonTable*(3/5)
-            static let comparisonRowValue = comparisonTable*(1/5)
-            static let comparisonRowEffect = comparisonTable*(1/5)
+            static let comparisonRowName = comparisonTable*(2/3)
+            static let comparisonRowValue = comparisonTable*(1/6)
+            static let comparisonRowEffect = comparisonTable*(1/6)
         }
         
         struct Height {

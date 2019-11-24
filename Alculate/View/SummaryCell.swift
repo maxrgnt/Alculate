@@ -65,7 +65,7 @@ class SummaryCell: UIView {
         let duration = Double(calcFontWidth/pixelsPerSecond)
         nameWidth.constant = calcFontWidth
         self.layoutIfNeeded()
-        let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth) : (standardWidth-calcFontWidth)
+        let newCenter = (leading == 1) ? -(standardWidth-calcFontWidth)*1.2 : (standardWidth-calcFontWidth)*1.2
 //        print(drinkName.text!, center, standardWidth, calcFontWidth!, standardWidth-calcFontWidth!)
         (standardWidth < calcFontWidth && labelAnimation == false) ? startAnimation(for: duration, toCenter: newCenter) : nil
     }

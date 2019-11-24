@@ -77,22 +77,24 @@ struct Data {
                 let entity = NSEntityDescription.entity(forEntityName: "Alcohol", in: managedContext)!
                 for i in 1...(size-1) {
                     let alcData = readings[i].components(separatedBy: ",")
-                    var type = String(alcData[0])
-                    type = (type=="B") ? "BeerList" : ""
-                    type = (type=="L" || type == "") ? "LiquorList" : type
-                    type = (type=="W" || type == "") ? "WineList" : type
-                    let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
-                    let abv = String(alcData[2]).filter { !"\r".contains($0) }
-                    Data.masterList[name] = (type: type, abv: abv)
-                    //
-                    let alcohol = NSManagedObject(entity: entity, insertInto: managedContext)
-                    alcohol.setValue(name, forKeyPath: "name")
-                    alcohol.setValue(type, forKeyPath: "type")
-                    alcohol.setValue(abv, forKeyPath: "abv")
-                    do {
-                        try managedContext.save()
-                    } catch let error as NSError {
-                        print("Could not save. \(error), \(error.userInfo)")
+                    if alcData.count == 3 {
+                        var type = String(alcData[0])
+                        type = (type=="B") ? "BeerList" : ""
+                        type = (type=="L" || type == "") ? "LiquorList" : type
+                        type = (type=="W" || type == "") ? "WineList" : type
+                        let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
+                        let abv = String(alcData[2]).filter { !"\r".contains($0) }
+                        Data.masterList[name] = (type: type, abv: abv)
+                        //
+                        let alcohol = NSManagedObject(entity: entity, insertInto: managedContext)
+                        alcohol.setValue(name, forKeyPath: "name")
+                        alcohol.setValue(type, forKeyPath: "type")
+                        alcohol.setValue(abv, forKeyPath: "abv")
+                        do {
+                            try managedContext.save()
+                        } catch let error as NSError {
+                            print("Could not save. \(error), \(error.userInfo)")
+                        }
                     }
                 }
             }

@@ -48,7 +48,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     // Variables
     var maxLevel = 0
     var inputLevel = 0
-    var defaults = ["begin typing a name","abv","size","price"]
+    var defaults = ["begin typing a name..","abv","size","price"]
     var output: [String] = []
     var sizeUnit = "oz"
     var entryID = ""

@@ -54,10 +54,10 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
         if listForThisTable().count == 0 {
-            cell.name.text = "Add a drink!"
-            for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
-                obj.isHidden = true
-            }
+//            cell.name.text = "Add a drink!"
+//            for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
+//                obj.isHidden = true
+//            }
         }
         else {
             for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
@@ -72,9 +72,9 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if listForThisTable().count == 0 {return 1}
-        else {return listForThisTable().count}
-//        return listForThisTable().count
+//        if listForThisTable().count == 0 {return 1}
+//        else {return listForThisTable().count}
+        return listForThisTable().count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

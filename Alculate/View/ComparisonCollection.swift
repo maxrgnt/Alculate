@@ -69,7 +69,7 @@ class ComparisonCollection: UIScrollView {
             if id == table {
                 print(id, lists[i].count)
                 var newTableHeight = UI.Sizing.Height.comparisonRow * CGFloat(lists[i].count) + UI.Sizing.Radii.comparison
-                newTableHeight = (lists[i].count == 0) ? newTableHeight + UI.Sizing.Height.comparisonRow : newTableHeight
+                newTableHeight = (lists[i].count == 0) ? newTableHeight + UI.Sizing.Radii.comparisonEmpty/4 : newTableHeight + UI.Sizing.Radii.comparisonEmpty
                 let newRadius = (lists[i].count == 0) ? UI.Sizing.Radii.comparisonEmpty : UI.Sizing.Radii.comparison
         //        table.height.constant = newTableHeight
                 UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut

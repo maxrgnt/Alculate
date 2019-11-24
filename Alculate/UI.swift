@@ -50,7 +50,7 @@ struct UI {
             static let summaryCell = width/2 - Padding.summary/2
             static let comparison = widthObjectPadding
             static let comparisonHeader = comparison
-            static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader
+            static let comparisonType = comparisonHeader-comparisonAdd-Padding.comparisonHeader-Padding.comparisonHeader
             static let comparisonAdd = Height.comparisonHeader
             static let comparisonTable = comparisonHeader-Padding.comparisonHeader
             static let comparisonRowName = comparisonTable*(3/5)
@@ -274,9 +274,9 @@ struct UI {
         
         static let bgDarkest = bleh // blueBG //amazon
         static let bgDarker = blackCoral // grayBG // etonBlue
-        static let bgDarkerRGB = [116,146,171] //[63,124,80]
+        static let bgDarkerRGB = [61,75,96] //[63,124,80]
         static let bgDark = glaucous
-        static let bgDarkRGB = [223,223,224] //[146,201,177]
+        static let bgDarkRGB = [79,98,114] //[146,201,177]
         static let bgLite = cadetGrey
 //        static let value = malachiteGreen
 //        static let effect = tuftsBlue

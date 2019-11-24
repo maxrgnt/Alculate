@@ -39,15 +39,11 @@ class Summary: UIView {
         }
                 
         value.build(alignText: .left, leadingAnchors: 0, anchorTo: self)
-        value.category.text = "Value"
-        value.name.text = "Sudheer sucks"
-        value.stat.text = "$6.90"
+        value.category.text = "Highest Value"
         value.statUnit.text = "per shot"
         
         effect.build(alignText: .right, leadingAnchors: 1, anchorTo: self)
-        effect.category.text = "Effect"
-        effect.name.text = "Max rocks"
-        effect.stat.text = "6.9"
+        effect.category.text = "Most Effective"
         effect.statUnit.text = "shots"
         
         constraints(anchorTo: anchorView)

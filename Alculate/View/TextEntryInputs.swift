@@ -36,9 +36,10 @@ class TextEntryInputs: UIView {
         let titles = ["begin typing a name","abv","size","oz","ml","price"]
         for (i,field) in [name,abv,size,oz,ml,price].enumerated() {
             field.tag = (i>4) ? i-2 : i
+            field.alpha = 0.5
+            field.isHidden = (i>2&&i<5) ? true : false
             (i<3||i>4) ? fields.append(field) : nil
             addSubview(field)
-            field.alpha = 0.5
             field.setTitle(titles[i], for: .normal)
             field.backgroundColor = .clear
             field.titleLabel?.font = UI.Font.cellHeaderFont

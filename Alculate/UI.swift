@@ -68,6 +68,8 @@ struct UI {
             static let summaryName = summary/3
             static let summaryStat = summary/3
             static let summaryStatUnit = summary/6
+            static let comparisonCollectionEmpty = height-subMenuHeight-headerMinimized
+            static let comparisonCollectionFull = height-subMenuHeight-header
             static let comparison = comparisonRow
             static let comparisonHeader = Width.comparison/8
             static let comparisonRow = comparisonRowStat+comparisonRowUnit
@@ -143,7 +145,6 @@ struct UI {
         static let savedABVdeleteRadius = savedABVdeleteDiameter/2
         static let savedABVtopLineHeight = savedABVrowHeight*(2/3)
         static let savedABVsubLineHeight = savedABVrowHeight*(2/9)
-        static let savedABVgestureThreshold = UI.Sizing.width/8
         // App Navigator
         static let subMenuHeight = (headerHeight*1.25)
         static let subMenuBounceBuffer = objectPadding
@@ -208,7 +209,7 @@ struct UI {
         static let topLineCategory = UIFont(name: "RobotoSlab-SemiBold", size: 16)
         static let topLinePrimary = UIFont(name: "RobotoSlab-SemiBold", size: 24)
         static let topLineSecondary = UIFont(name: "RobotoSlab-SemiBold", size: 14)
-        static let cellStubFont = UIFont(name: "RobotoSlab-Regular", size: 18)
+        static let cellStubFont = UIFont(name: "RobotoSlab-Regular", size: 16)
         static let cellStubFont2 = UIFont(name: "RobotoSlab-Regular", size: 18)
         static let cellStubFont3 = UIFont(name: "RobotoSlab-Light", size: 14)
     }

@@ -210,6 +210,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
+        for unit in [inputs.oz,inputs.ml] {
+            unit.isHidden = (level != 2) ? true : false
+        }
         // if at level 3 (price) update the "next" button
         navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.subMenuHeight : 0
     }
@@ -271,6 +274,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             changedText = (field.text?.removeInvalidNameCharacters())!
             changedText = (changedText==" ") ? "" : changedText
             field.text = changedText
+            (changedText == "") ? animateSuggestions(to: UI.Sizing.textNavigatorHeight) : nil
             (changedText != "") ? checkSuggestions(for: changedText.lowercased()) : nil
         }
         // if not name and the field isnt empty
@@ -309,6 +313,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 arrNames.append(key)
             }
         }
+        arrNames = arrNames.sorted()
         let filtered = arrNames.filter({ $0.starts(with: changedText) }) // .contains
         if !filtered.isEmpty {
             // update suggestion with new text
@@ -444,8 +449,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         let name = output[0].lowercased()
         let abv = output[1]
         if let info = Data.masterList[name] {
+            let savedType = info.type
             let savedAbv = info.abv
-            if savedAbv != abv {
+            if savedAbv != abv && savedType == entryID {
                 let title = "Reset \(name)'s ABV?"
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)

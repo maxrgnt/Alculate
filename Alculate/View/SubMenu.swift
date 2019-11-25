@@ -73,7 +73,7 @@ class SubMenu: UIView {
         ])
         for button in [showSavedABV] {
             NSLayoutConstraint.activate([
-                button.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding/2),
+                button.widthAnchor.constraint(equalToConstant: UI.Sizing.widthObjectPadding),
                 button.heightAnchor.constraint(equalToConstant: (2/3)*UI.Sizing.subMenuHeight),
                 button.topAnchor.constraint(equalTo: topAnchor)
             ])

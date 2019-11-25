@@ -279,7 +279,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         // show keyboard
         textEntry.field.becomeFirstResponder()
         // hide non-essential pieces if partial
-        for obj in [textEntry.inputs.size,textEntry.inputs.oz,textEntry.inputs.ml,textEntry.inputs.price] {
+        for obj in [textEntry.inputs.size,textEntry.inputs.price] {
             obj.isHidden = (fullView==true) ? false : true
         }
         // adjust height of input view to make space for text navigator if partial
@@ -534,8 +534,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func resetHeader() {
-        savedABV.savedABVtop.constant = UI.Sizing.savedABVtop
-        finishScrolling()
+        if savedABV.savedABVtop.constant != UI.Sizing.savedABVtop {
+            savedABV.savedABVtop.constant = UI.Sizing.savedABVtop
+            finishScrolling()
+        }
     }
     
     func adjustHeaderConstant(to constant: CGFloat) {
@@ -547,8 +549,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func finishScrolling() {
-        let newConstant = savedABV.savedABVtop.constant / UI.Sizing.height <= 0.5 ? UI.Sizing.savedABVtop : UI.Sizing.height
-        let percent: CGFloat = (savedABV.savedABVtop.constant / UI.Sizing.height <= 0.5) ? 0.0 : 1.0
+        let newConstant = savedABV.savedABVtop.constant / UI.Sizing.height <= 0.4 ? UI.Sizing.savedABVtop : UI.Sizing.height
+        let percent: CGFloat = (savedABV.savedABVtop.constant / UI.Sizing.height <= 0.4) ? 0.0 : 1.0
         percent == 1.0 ? animateSubMenu(by: 1.0, reset: false) : nil
         savedABV.animateTopAnchor(constant: newConstant)
     }

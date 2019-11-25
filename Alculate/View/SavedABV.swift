@@ -136,7 +136,7 @@ class SavedABV: UIView {
             savedABVTable.isMoving = false
             savedABVTable.reloadSectionIndexTitles()
             // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            let constant = (savedABVtop.constant > UI.Sizing.savedABVgestureThreshold) ? UI.Sizing.height : UI.Sizing.savedABVtop
+            let constant = (savedABVtop.constant/UI.Sizing.height > 0.4) ? UI.Sizing.height : UI.Sizing.savedABVtop
             let percent: CGFloat = (constant == UI.Sizing.savedABVtop) ? 0 : 1
             constant == UI.Sizing.height ? savedABVTable.scrollToFirstRow() : nil
             let reset = (constant == UI.Sizing.savedABVtop) ? true : false

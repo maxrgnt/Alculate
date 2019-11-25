@@ -47,8 +47,7 @@ class ComparisonCollection: UIScrollView {
         alwaysBounceHorizontal = false
 //        contentInsetAdjustmentBehavior = .never
         showsVerticalScrollIndicator = false
-
-        contentSize.height = 2000
+        contentSize.height = UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header
         
         for (i, obj) in [beer,liquor,wine].enumerated() {
             addSubview(obj)
@@ -111,10 +110,11 @@ class ComparisonCollection: UIScrollView {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         emptyPromptTop = emptyPrompt.topAnchor.constraint(equalTo: wine.bottomAnchor)
+        height = heightAnchor.constraint(equalToConstant: UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.headerMinimized)
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header),
+            height,
             topAnchor.constraint(equalTo: anchorView.bottomAnchor),
             emptyPromptTop,
             emptyPrompt.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.Padding.comparison),
@@ -125,10 +125,14 @@ class ComparisonCollection: UIScrollView {
     
     func updateContentSize() {
         // Set at 4 because there is a gab above each (three) tables and one below the last
-        var newContentSize: CGFloat = 4 * UI.Sizing.Padding.comparison
+        var newContentSize: CGFloat = 3 * UI.Sizing.Padding.comparison
         for comparison in [beer,liquor,wine] {
             newContentSize += comparison.height.constant
         }
+        // add padding to bottom if bigger than given screen area
+        newContentSize = (newContentSize > UI.Sizing.Height.comparisonCollectionFull) ? newContentSize + UI.Sizing.Padding.comparison : newContentSize
+        // change content size based off scrollview size
+        newContentSize = (height.constant == UI.Sizing.Height.comparisonCollectionEmpty) ? UI.Sizing.Height.comparisonCollectionEmpty : newContentSize
         contentSize.height = newContentSize
     }
     
@@ -140,9 +144,12 @@ class ComparisonCollection: UIScrollView {
             }
         }
         let newAlpha: CGFloat = empty ? 1.0 : 0.0
+        let newHeight = empty ? UI.Sizing.Height.comparisonCollectionEmpty : UI.Sizing.Height.comparisonCollectionFull
         UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                     , animations: ({
+                        self.height.constant = newHeight
                         self.emptyPrompt.alpha = newAlpha
+                        self.layoutIfNeeded()
                     }), completion: { (completed) in
                         // pass
                 })

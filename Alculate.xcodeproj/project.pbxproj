@@ -28,8 +28,8 @@
 		666F49B32388C5E100BB3C75 /* RobotoSlab-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49AE2388C5E000BB3C75 /* RobotoSlab-Thin.ttf */; };
 		666F49B42388C5E100BB3C75 /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49AF2388C5E000BB3C75 /* RobotoSlab-Bold.ttf */; };
 		666F49B52388C5E100BB3C75 /* RobotoSlab-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 666F49B02388C5E000BB3C75 /* RobotoSlab-SemiBold.ttf */; };
-		666F49B72388DAE500BB3C75 /* alcohol.txt in Resources */ = {isa = PBXBuildFile; fileRef = 666F49B62388DAE500BB3C75 /* alcohol.txt */; };
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
+		668257B9238D89E400429454 /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 668257B8238D89E400429454 /* alcohol.csv */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
 		66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66942D00237F78D300C48211 /* SubMenuBG.swift */; };
 		669931B92352623C00021512 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931B82352623C00021512 /* ViewController.swift */; };
@@ -39,9 +39,6 @@
 		669931CB23550A4A00021512 /* TextNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931CA23550A4A00021512 /* TextNavigator.swift */; };
 		669931CC23550A4A00021512 /* TextNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931CA23550A4A00021512 /* TextNavigator.swift */; };
 		669931CD23550A4A00021512 /* TextNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931CA23550A4A00021512 /* TextNavigator.swift */; };
-		66A6306B235FBCD8004613BF /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 66A6306A235FBCD8004613BF /* alcohol.csv */; };
-		66A6306C235FBCD8004613BF /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 66A6306A235FBCD8004613BF /* alcohol.csv */; };
-		66A6306D235FBCD8004613BF /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 66A6306A235FBCD8004613BF /* alcohol.csv */; };
 		66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF583E233A33E900502EEA /* AppDelegate.swift */; };
 		66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5840233A33E900502EEA /* SceneDelegate.swift */; };
 		66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */; };
@@ -105,14 +102,13 @@
 		666F49AE2388C5E000BB3C75 /* RobotoSlab-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Thin.ttf"; sourceTree = "<group>"; };
 		666F49AF2388C5E000BB3C75 /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Bold.ttf"; sourceTree = "<group>"; };
 		666F49B02388C5E000BB3C75 /* RobotoSlab-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-SemiBold.ttf"; sourceTree = "<group>"; };
-		666F49B62388DAE500BB3C75 /* alcohol.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.txt; sourceTree = "<group>"; };
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
+		668257B8238D89E400429454 /* alcohol.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.csv; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
 		66942D00237F78D300C48211 /* SubMenuBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenuBG.swift; sourceTree = "<group>"; };
 		669931B82352623C00021512 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		669931C62354FFD300021512 /* TextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		669931CA23550A4A00021512 /* TextNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNavigator.swift; sourceTree = "<group>"; };
-		66A6306A235FBCD8004613BF /* alcohol.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.csv; sourceTree = "<group>"; };
 		66AF583B233A33E900502EEA /* Alculate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alculate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66AF583E233A33E900502EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66AF5840233A33E900502EEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -250,8 +246,7 @@
 				666F49A123861A1E00BB3C75 /* Old */,
 				66AF5847233A33EB00502EEA /* Assets.xcassets */,
 				66C3259E235F2FF1003DAC45 /* Fonts */,
-				666F49B62388DAE500BB3C75 /* alcohol.txt */,
-				66A6306A235FBCD8004613BF /* alcohol.csv */,
+				668257B8238D89E400429454 /* alcohol.csv */,
 				66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */,
 				66AF584F233A33EB00502EEA /* Info.plist */,
 				66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */,
@@ -416,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668257B9238D89E400429454 /* alcohol.csv in Resources */,
 				666F49B22388C5E100BB3C75 /* RobotoSlab-Regular.ttf in Resources */,
 				66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */,
 				666F49B42388C5E100BB3C75 /* RobotoSlab-Bold.ttf in Resources */,
@@ -429,8 +425,6 @@
 				66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */,
 				66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */,
 				66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */,
-				666F49B72388DAE500BB3C75 /* alcohol.txt in Resources */,
-				66A6306B235FBCD8004613BF /* alcohol.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +432,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66A6306C235FBCD8004613BF /* alcohol.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,7 +439,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66A6306D235FBCD8004613BF /* alcohol.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

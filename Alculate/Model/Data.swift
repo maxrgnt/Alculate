@@ -79,9 +79,9 @@ struct Data {
                     let alcData = readings[i].components(separatedBy: ",")
                     if alcData.count == 3 {
                         var type = String(alcData[0])
-                        type = (type=="B") ? "BeerList" : ""
-                        type = (type=="L" || type == "") ? "LiquorList" : type
-                        type = (type=="W" || type == "") ? "WineList" : type
+                        type = (type=="B") ? "BeerList" : type
+                        type = (type=="L") ? "LiquorList" : type
+                        type = (type=="W") ? "WineList" : type
                         let name = Data.applyReg(starting: alcData[1], pattern: "(?<=\\S)(')(?=\\S)", substitution: "’")
                         let abv = String(alcData[2]).filter { !"\r".contains($0) }
                         Data.masterList[name] = (type: type, abv: abv)

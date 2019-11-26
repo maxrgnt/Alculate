@@ -103,7 +103,7 @@ class ComparisonCell: UITableViewCell {
         NSLayoutConstraint.activate([
             name.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonRowName),
             name.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Border.comparisonRow),
-            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Border.comparison),
+            name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Padding.comparisonHeader),
             name.centerYAnchor.constraint(equalTo: centerYAnchor),
             value.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparisonRowValue),
             value.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparisonRowStat),

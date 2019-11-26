@@ -20,6 +20,7 @@ struct Data {
     static var beerList: [(name: String, abv: String, size: String, price: String)] = []
     static var liquorList: [(name: String, abv: String, size: String, price: String)] = []
     static var wineList: [(name: String, abv: String, size: String, price: String)] = []
+    static var toBeDeleted: [[(name: String, abv: String, size: String, price: String)]] = [[],[],[]]
     // set headers to empty to iterate over letters and append into
     static var headers: [String] = []
     // matrix is dictionary of header letters and drinks that start with that letter

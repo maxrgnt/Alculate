@@ -16,6 +16,7 @@ protocol ComparisonTableDelegate {
     func editComparison(type: String, name: String, abv: String, size: String, price: String)
     func alculate()
     func resetHeight(for: String)
+    func animateUndo(onScreen: Bool)
 }
 
 class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
@@ -104,9 +105,16 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
             print("Delete")
             let info = self.listForThisTable()[indexPath.row]
+            var i = 0
+            i = (self.comparisonTableListID == Data.liquorListID) ? 1 : i
+            i = (self.comparisonTableListID == Data.wineListID) ? 2 : i
+            print(self.comparisonTableListID, i)
+            print(self.toBeDeleted)
+            Data.toBeDeleted[i].append(info)
             Data.deleteFromList(self.comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
             self.deleteRows(at: [indexPath], with: .fade)
             self.customDelegate.alculate()
+            self.customDelegate.animateUndo(onScreen: true)
             self.customDelegate.resetHeight(for: self.comparisonTableListID)
         })
         

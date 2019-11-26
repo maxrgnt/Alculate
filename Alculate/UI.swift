@@ -169,9 +169,9 @@ struct UI {
         static let undoHeight = subMenuHeight
         static let undoBounceBuffer = objectPadding
         static let undoRadius = undoHeight/10
-        static let undoCancelDiameter = subMenuHeight*(2/3)*(1/3)
+        static let undoCancelDiameter = subMenuHeight*(2/3)
         static let undoCancelRadius = undoCancelDiameter/2
-        static let undoConfirmHeight = subMenuHeight*(2/3)*(1/3)
+        static let undoConfirmHeight = subMenuHeight*(2/3)
         static let undoConfirmWidth = widthObjectPadding-undoCancelDiameter
         
     }

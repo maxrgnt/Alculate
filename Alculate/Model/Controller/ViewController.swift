@@ -129,16 +129,16 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         self.savedABV.savedABVDelegate = self
         self.savedABV.savedABVTable.savedABVTableDelegate = self
             
-        view.addSubview(undo)
-        undo.build()
-        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
-
         view.addSubview(subMenu)
         subMenu.build()
         for obj in [subMenu.showSavedABV] {
             obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
+        
+        view.addSubview(undo)
+        undo.build()
+        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
         
         view.addSubview(tapDismiss)
         tapDismiss.build()
@@ -196,7 +196,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
-            string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use Alculate's 'alcohol effect' metric to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
+            string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                 NSAttributedString.Key.foregroundColor : UI.Color.fontWhite,
@@ -335,18 +335,42 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
         // if toBeDeleted is not empty
-        if !savedABV.savedABVTable.toBeDeleted.isEmpty {
-            // for every object in toBeDeleted, add it back to the Data master list
-            for info in savedABV.savedABVTable.toBeDeleted {
-                Data.masterList[info.name] = (type: info.type, abv: info.abv)
+        if savedABV.savedABVtop.constant != UI.Sizing.height {
+            if !savedABV.savedABVTable.toBeDeleted.isEmpty {
+                // for every object in toBeDeleted, add it back to the Data master list
+                for info in savedABV.savedABVTable.toBeDeleted {
+                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
+                }
+                savedABV.savedABVTable.reloadData()
             }
-            savedABV.savedABVTable.reloadData()
+        }
+        else {
+            print("CONFIRM")
+            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+            for (i,list) in Data.toBeDeleted.enumerated() {
+                if !list.isEmpty {
+                    for obj in list {
+                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
+                        insertRowFor(table: ids[i])
+                    }
+                }
+            }
+            Data.toBeDeleted = [[],[],[]]
         }
         animateUndo(onScreen: false)
     }
     
     @objc func cancelUndo() {
-        removeABVfromCoreData()
+        if savedABV.savedABVtop.constant != UI.Sizing.height {
+            removeABVfromCoreData()
+        }
+        else {
+            print("CANCEL")
+            for (i,list) in Data.toBeDeleted.enumerated() {
+                print(i, list)
+            }
+            Data.toBeDeleted = [[],[],[]]
+        }
         animateUndo(onScreen: false)
     }
     

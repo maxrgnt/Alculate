@@ -26,7 +26,7 @@ class Undo: UIView {
         // MARK: - View/Object Settings
         clipsToBounds = true
         backgroundColor = UI.Color.undo
-        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.undoRadius)
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.header)
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {
@@ -38,7 +38,7 @@ class Undo: UIView {
             button.contentHorizontalAlignment = alignments[i]
         }
         cancel.backgroundColor = .clear //UI.Color.bgDark
-        cancel.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.undoCancelRadius)
+//        cancel.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.header)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +56,11 @@ class Undo: UIView {
             confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.undoConfirmWidth),
             confirm.centerXAnchor.constraint(equalTo: centerXAnchor),
             confirm.heightAnchor.constraint(equalToConstant: UI.Sizing.undoConfirmHeight),
-            confirm.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding),
+            confirm.topAnchor.constraint(equalTo: topAnchor, constant: 0), //UI.Sizing.objectPadding),
             cancel.widthAnchor.constraint(equalToConstant: UI.Sizing.undoCancelDiameter),
             cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
             cancel.heightAnchor.constraint(equalToConstant: UI.Sizing.undoCancelDiameter),
-            cancel.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding)
+            cancel.topAnchor.constraint(equalTo: topAnchor, constant: 0)//UI.Sizing.objectPadding)
         ])
     }
     

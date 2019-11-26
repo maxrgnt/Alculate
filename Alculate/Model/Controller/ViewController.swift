@@ -91,6 +91,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
+            presentLegalAgreement()
+        }
+    }
+    
     // MARK: - Build
     func build() {
         
@@ -182,6 +188,29 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             sortByValue()
         }
+    }
+    
+    func presentLegalAgreement(/*title: String, message: String*/) {
+        let title = "User Agreement"
+//        let message = "By using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly. The user certifies they will never drink and drive or use Alculate's 'alcohol effect' metric to determine one's ability to drive."
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        let messageText = NSAttributedString(
+            string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use Alculate's 'alcohol effect' metric to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.foregroundColor : UI.Color.fontWhite,
+                NSAttributedString.Key.font : UI.Font.Comparison.row!
+            ]
+        )
+        let alert = UIAlertController(title: title, message: "Hi", preferredStyle: .alert)
+        alert.setValue(messageText, forKey: "attributedMessage")
+        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: agreed))
+        self.present(alert, animated: true)
+    }
+    
+    func agreed(action:UIAlertAction) {
+        UserDefaults.standard.set(true, forKey: "presentLegalAgreement")
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {

@@ -30,6 +30,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var subMenu = SubMenu()
     var subMenuBG = SubMenuBG()
     var undo = Undo()
+    var alert = UIAlertController(title: "title", message: "Hi", preferredStyle: .alert)
     
     var noComparisons = UILabel()
     
@@ -149,6 +150,34 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        var textColor: UIColor!
+        let userInterfaceStyle = traitCollection.userInterfaceStyle // Either .unspecified, .light, or .dark
+        // Update your user interface based on the appearance
+        if userInterfaceStyle == .light || userInterfaceStyle == .light {
+            print("light")
+            textColor = .black
+        }
+        if userInterfaceStyle == .dark {
+            print("dark")
+            textColor = UI.Color.fontWhite
+        }
+        if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .left
+            let messageText = NSAttributedString(
+                string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
+                attributes: [
+                    NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                    NSAttributedString.Key.foregroundColor : textColor!,
+                    NSAttributedString.Key.font : UI.Font.Comparison.row!
+                ]
+            )
+            alert.setValue(messageText, forKey: "attributedMessage")
+        }
+    }
+    
     // MARK: - Initialization / Testing
     func clearTestData(){
         Data.deleteCoreDataFor(entity: Data.masterListID)
@@ -191,6 +220,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func presentLegalAgreement(/*title: String, message: String*/) {
+        var textColor: UIColor!
+        let userInterfaceStyle = traitCollection.userInterfaceStyle // Either .unspecified, .light, or .dark
+        // Update your user interface based on the appearance
+        if userInterfaceStyle == .light || userInterfaceStyle == .light {
+            textColor = .black
+        }
+        if userInterfaceStyle == .dark {
+            textColor = UI.Color.fontWhite
+        }
         let title = "User Agreement"
 //        let message = "By using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly. The user certifies they will never drink and drive or use Alculate's 'alcohol effect' metric to determine one's ability to drive."
         let paragraphStyle = NSMutableParagraphStyle()
@@ -199,11 +237,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                NSAttributedString.Key.foregroundColor : UI.Color.fontWhite,
+                NSAttributedString.Key.foregroundColor : textColor!,
                 NSAttributedString.Key.font : UI.Font.Comparison.row!
             ]
         )
-        let alert = UIAlertController(title: title, message: "Hi", preferredStyle: .alert)
+        alert = UIAlertController(title: title, message: "Hi", preferredStyle: .alert)
         alert.setValue(messageText, forKey: "attributedMessage")
         alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: agreed))
         self.present(alert, animated: true)

@@ -15,55 +15,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BeerList" translatesAutoresizingMaskIntoConstraints="NO" id="TpH-cY-mRr">
-                                <rect key="frame" x="68" y="344" width="141" height="209"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onboard" translatesAutoresizingMaskIntoConstraints="NO" id="96L-Ed-jLU">
+                                <rect key="frame" x="105.5" y="351.5" width="203" height="193"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="141" id="Vwj-HJ-16a"/>
-                                    <constraint firstAttribute="height" constant="209" id="jKw-n2-9Ph"/>
+                                    <constraint firstAttribute="height" constant="193" id="IvN-oO-Xlb"/>
+                                    <constraint firstAttribute="width" constant="203" id="ipf-gP-mdc"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WineList" translatesAutoresizingMaskIntoConstraints="NO" id="yEe-gx-IxC">
-                                <rect key="frame" x="141" y="397" width="150" height="133"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="133" id="FbC-HK-EgK"/>
-                                    <constraint firstAttribute="width" constant="150" id="KaM-CB-5s1"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LiquorList" translatesAutoresizingMaskIntoConstraints="NO" id="uo3-vH-Wde">
-                                <rect key="frame" x="241" y="440" width="84" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="81" id="Evx-eU-FB4"/>
-                                    <constraint firstAttribute="width" constant="84" id="m6F-7X-F7E"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Always drink responsibly." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68J-hE-sVR">
-                                <rect key="frame" x="99" y="532" width="217" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="217" id="4MK-8Y-Lzi"/>
-                                    <constraint firstAttribute="height" constant="21" id="qTu-Qp-10f"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.30980392156862746" green="0.38431372549019605" blue="0.44705882352941173" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="yEe-gx-IxC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="353" id="65A-Av-Fqq"/>
-                            <constraint firstItem="uo3-vH-Wde" firstAttribute="leading" secondItem="TpH-cY-mRr" secondAttribute="trailing" constant="32" id="GOt-h8-t4k"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yEe-gx-IxC" secondAttribute="trailing" constant="123" id="Ic5-70-epf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="68J-hE-sVR" secondAttribute="bottom" constant="309" id="Ilb-5j-M1U"/>
-                            <constraint firstItem="68J-hE-sVR" firstAttribute="top" secondItem="yEe-gx-IxC" secondAttribute="bottom" constant="2" id="OyU-sJ-s9y"/>
-                            <constraint firstItem="TpH-cY-mRr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="STJ-aW-QBC"/>
-                            <constraint firstItem="68J-hE-sVR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="99" id="Vcv-Ub-VKR"/>
-                            <constraint firstItem="uo3-vH-Wde" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="396" id="YEL-Ee-q3O"/>
-                            <constraint firstItem="TpH-cY-mRr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="68" id="blM-pp-rvo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="TpH-cY-mRr" secondAttribute="bottom" constant="309" id="czY-oU-iXr"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uo3-vH-Wde" secondAttribute="trailing" constant="89" id="dJC-Yx-S4A"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yEe-gx-IxC" secondAttribute="bottom" constant="332" id="lqj-wr-mOx"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uo3-vH-Wde" secondAttribute="bottom" constant="341" id="vPc-mJ-G1F"/>
-                            <constraint firstItem="yEe-gx-IxC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="141" id="wEg-q1-twL"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="68J-hE-sVR" secondAttribute="trailing" constant="98" id="zdV-Ho-DgI"/>
+                            <constraint firstItem="96L-Ed-jLU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="SnP-bx-gOh"/>
+                            <constraint firstItem="96L-Ed-jLU" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="qFa-aF-b74"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -74,8 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BeerList" width="105" height="105"/>
-        <image name="LiquorList" width="105" height="105"/>
-        <image name="WineList" width="105" height="105"/>
+        <image name="onboard" width="300" height="300"/>
     </resources>
 </document>

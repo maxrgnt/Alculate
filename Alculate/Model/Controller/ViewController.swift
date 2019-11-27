@@ -156,11 +156,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let userInterfaceStyle = traitCollection.userInterfaceStyle // Either .unspecified, .light, or .dark
         // Update your user interface based on the appearance
         if userInterfaceStyle == .light || userInterfaceStyle == .light {
-            print("light")
             textColor = .black
         }
         if userInterfaceStyle == .dark {
-            print("dark")
             textColor = UI.Color.fontWhite
         }
         if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {

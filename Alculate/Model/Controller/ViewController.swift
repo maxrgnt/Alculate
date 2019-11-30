@@ -92,9 +92,16 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 self.primaryView.header.effect.calculateNameWidth()
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
             background.sync {
                 self.primaryView.moveSummaryAnchor(to: "hidden")
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+            background.sync {
+                self.primaryView.moveSummaryAnchor(to: "visible")
+                self.primaryView.header.value.calculateNameWidth()
+                self.primaryView.header.effect.calculateNameWidth()
             }
         }
         

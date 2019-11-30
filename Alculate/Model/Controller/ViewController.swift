@@ -100,6 +100,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
             background.sync {
                 self.primaryView.moveSummaryAnchor(to: "visible")
+            }
+            background.sync {
                 self.primaryView.header.value.calculateNameWidth()
                 self.primaryView.header.effect.calculateNameWidth()
             }

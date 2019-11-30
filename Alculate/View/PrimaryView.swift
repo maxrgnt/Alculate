@@ -54,7 +54,10 @@ class PrimaryView: UIView {
                     self.header.effect.top.constant = summaryTop
                     self.layoutIfNeeded()
                 }), completion: { (completed) in
-                    // pass
+                    if state == "visible" {
+                        self.header.value.calculateNameWidth()
+                        self.header.effect.calculateNameWidth()
+                    }
                 }
             )
         }

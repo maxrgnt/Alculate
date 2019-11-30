@@ -101,10 +101,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             background.sync {
                 self.primaryView.moveSummaryAnchor(to: "visible")
             }
-            background.sync {
-                self.primaryView.header.value.calculateNameWidth()
-                self.primaryView.header.effect.calculateNameWidth()
-            }
         }
         
 //        let background = DispatchQueue.global()

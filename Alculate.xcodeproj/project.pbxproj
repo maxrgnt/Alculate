@@ -29,6 +29,10 @@
 		6680A11E2344B774000A884D /* Undo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6680A11D2344B773000A884D /* Undo.swift */; };
 		668257B9238D89E400429454 /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 668257B8238D89E400429454 /* alcohol.csv */; };
 		668257BB238F229100429454 /* onboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 668257BA238F229000429454 /* onboard.png */; };
+		668257BD2391622A00429454 /* PrimaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257BC2391622A00429454 /* PrimaryView.swift */; };
+		668257BF23916C8300429454 /* Header2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257BE23916C8300429454 /* Header2.swift */; };
+		668257C22391733B00429454 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257C12391733B00429454 /* Constraints.swift */; };
+		668257C42391785000429454 /* SummaryCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257C32391785000429454 /* SummaryCell2.swift */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
 		66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66942D00237F78D300C48211 /* SubMenuBG.swift */; };
 		669931B92352623C00021512 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931B82352623C00021512 /* ViewController.swift */; };
@@ -51,11 +55,6 @@
 		66AF587F233C148300502EEA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF587E233C148300502EEA /* Extensions.swift */; };
 		66C26351234F44310077332F /* OldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26350234F44310077332F /* OldCell.swift */; };
 		66C26353234F44CD0077332F /* OldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26352234F44CD0077332F /* OldContainer.swift */; };
-		66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */; };
-		66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */; };
-		66C3259B235F2FE7003DAC45 /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */; };
-		66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */; };
-		66C3259D235F2FE7003DAC45 /* JosefinSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */; };
 		66CDFCFA233D75F600267670 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* Data.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +98,10 @@
 		6680A11D2344B773000A884D /* Undo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undo.swift; sourceTree = "<group>"; };
 		668257B8238D89E400429454 /* alcohol.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.csv; sourceTree = "<group>"; };
 		668257BA238F229000429454 /* onboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboard.png; sourceTree = "<group>"; };
+		668257BC2391622A00429454 /* PrimaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryView.swift; sourceTree = "<group>"; };
+		668257BE23916C8300429454 /* Header2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header2.swift; sourceTree = "<group>"; };
+		668257C12391733B00429454 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		668257C32391785000429454 /* SummaryCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCell2.swift; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
 		66942D00237F78D300C48211 /* SubMenuBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenuBG.swift; sourceTree = "<group>"; };
 		669931B82352623C00021512 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -123,11 +126,6 @@
 		66AF587E233C148300502EEA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		66C26350234F44310077332F /* OldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCell.swift; sourceTree = "<group>"; };
 		66C26352234F44CD0077332F /* OldContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldContainer.swift; sourceTree = "<group>"; };
-		66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Thin.ttf"; sourceTree = "<group>"; };
-		66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-SemiBold.ttf"; sourceTree = "<group>"; };
-		66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
-		66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
-		66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Light.ttf"; sourceTree = "<group>"; };
 		66CDFCF9233D75F600267670 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,10 +163,21 @@
 			path = Old;
 			sourceTree = "<group>";
 		};
-		669931C42354EE0900021512 /* View */ = {
+		668257C023916C8C00429454 /* PrimaryViews */ = {
 			isa = PBXGroup;
 			children = (
 				6620AA50234B935F002275B3 /* StatusBar.swift */,
+				668257BE23916C8300429454 /* Header2.swift */,
+				668257C32391785000429454 /* SummaryCell2.swift */,
+			);
+			path = PrimaryViews;
+			sourceTree = "<group>";
+		};
+		669931C42354EE0900021512 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				668257BC2391622A00429454 /* PrimaryView.swift */,
+				668257C023916C8C00429454 /* PrimaryViews */,
 				666F49A8238701C200BB3C75 /* Header.swift */,
 				666F49A42386BE6F00BB3C75 /* Summary.swift */,
 				666F49A62386C1E000BB3C75 /* SummaryCell.swift */,
@@ -228,6 +237,7 @@
 				66AF5840233A33E900502EEA /* SceneDelegate.swift */,
 				66AF5845233A33E900502EEA /* ContentView.swift */,
 				66AF5875233A899A00502EEA /* UI.swift */,
+				668257C12391733B00429454 /* Constraints.swift */,
 				66AF587B233C140700502EEA /* Model */,
 				669931C42354EE0900021512 /* View */,
 				669931C52354EE1400021512 /* Controller */,
@@ -286,11 +296,6 @@
 				666F49AD2388C5E000BB3C75 /* RobotoSlab-Regular.ttf */,
 				666F49B02388C5E000BB3C75 /* RobotoSlab-SemiBold.ttf */,
 				666F49AE2388C5E000BB3C75 /* RobotoSlab-Thin.ttf */,
-				66C32597235F2FE7003DAC45 /* JosefinSans-Bold.ttf */,
-				66C32598235F2FE7003DAC45 /* JosefinSans-Light.ttf */,
-				66C32596235F2FE7003DAC45 /* JosefinSans-Regular.ttf */,
-				66C32595235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf */,
-				66C32594235F2FE4003DAC45 /* JosefinSans-Thin.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -404,16 +409,11 @@
 				666F49B22388C5E100BB3C75 /* RobotoSlab-Regular.ttf in Resources */,
 				66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */,
 				666F49B42388C5E100BB3C75 /* RobotoSlab-Bold.ttf in Resources */,
-				66C3259D235F2FE7003DAC45 /* JosefinSans-Light.ttf in Resources */,
-				66C3259B235F2FE7003DAC45 /* JosefinSans-Regular.ttf in Resources */,
 				66AF584B233A33EB00502EEA /* Preview Assets.xcassets in Resources */,
 				666F49B12388C5E100BB3C75 /* RobotoSlab-Light.ttf in Resources */,
 				666F49B32388C5E100BB3C75 /* RobotoSlab-Thin.ttf in Resources */,
 				666F49B52388C5E100BB3C75 /* RobotoSlab-SemiBold.ttf in Resources */,
 				66AF5848233A33EB00502EEA /* Assets.xcassets in Resources */,
-				66C3259A235F2FE7003DAC45 /* JosefinSans-SemiBold.ttf in Resources */,
-				66C32599235F2FE7003DAC45 /* JosefinSans-Thin.ttf in Resources */,
-				66C3259C235F2FE7003DAC45 /* JosefinSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,11 +442,14 @@
 				66AF583F233A33E900502EEA /* AppDelegate.swift in Sources */,
 				669931B92352623C00021512 /* ViewController.swift in Sources */,
 				666F49A72386C1E100BB3C75 /* SummaryCell.swift in Sources */,
+				668257C22391733B00429454 /* Constraints.swift in Sources */,
 				66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */,
 				66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */,
 				66C26351234F44310077332F /* OldCell.swift in Sources */,
 				6680A11E2344B774000A884D /* Undo.swift in Sources */,
 				669931C72354FFD300021512 /* TextEntry.swift in Sources */,
+				668257BF23916C8300429454 /* Header2.swift in Sources */,
+				668257BD2391622A00429454 /* PrimaryView.swift in Sources */,
 				660043BD2350C92700E2A03A /* SubMenu.swift in Sources */,
 				66AF587F233C148300502EEA /* Extensions.swift in Sources */,
 				66AF5846233A33E900502EEA /* ContentView.swift in Sources */,
@@ -462,6 +465,7 @@
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				666F49A52386BE6F00BB3C75 /* Summary.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,
+				668257C42391785000429454 /* SummaryCell2.swift in Sources */,
 				666F499E2385F54900BB3C75 /* ComparisonTable.swift in Sources */,
 				669931CB23550A4A00021512 /* TextNavigator.swift in Sources */,
 				662BB8922362811300BCA837 /* TapDismiss.swift in Sources */,
@@ -641,6 +645,7 @@
 				DEVELOPMENT_TEAM = 35DR328JJP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Alculate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -663,6 +668,7 @@
 				DEVELOPMENT_TEAM = 35DR328JJP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Alculate/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

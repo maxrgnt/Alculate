@@ -94,6 +94,37 @@ struct UI {
             static let comparisonRow = comparison/3
         }
         
+        struct Primary {
+            static let height = StatusBar.height + Header.height + Summary.height
+        }
+        
+        struct StatusBar {
+            static let width = UI.Sizing.width
+            static let height = statusBar.height
+        }
+        
+        struct Header {
+            static let width = UI.Sizing.width
+            static let height = Ratio.header*Sizing.height + StatusBar.height + Summary.height + Radii.header
+            static let heightMinimized = Ratio.header*Sizing.height + StatusBar.height + Radii.header
+            
+            struct appName {
+                static let width = Header.width
+                static let height = Ratio.header*Sizing.height
+            }
+        }
+        
+        struct Summary {
+            static let width = UI.Sizing.width/2 - padding - (padding * 0.5)
+            static let xOffset = width/2 + (padding * 0.5)
+            static let height = Ratio.summary*Sizing.height
+            static let padding = objectPadding
+            static let categoryHeight = height/6
+            static let nameHeight = height/3
+            static let statHeight = height/3
+            static let statUnitHeight = height/6
+        }
+        
         // Header sizing
         static let headerHeight = height*headerRatio
         // Top line sizing
@@ -178,6 +209,9 @@ struct UI {
 
     // fonts
     struct Font {
+        struct Header {
+            static let appName = UIFont(name: "RobotoSlab-Bold", size: 30)
+        }
         struct Comparison {
 //            static let type = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
 //            static let add = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
@@ -283,6 +317,7 @@ struct UI {
 //        static let effect = tuftsBlue
 //        static let best = mustard
         static let fontWhite = bleh2
+        static let primaryFont = bleh2
         static let undo = begonia
         
         struct Border {
@@ -305,6 +340,11 @@ struct UI {
             static let beerHeader = beer
             static let liquorHeader = liquor
             static let wineHeader = wine
+        }
+        
+        struct Header {
+            static let background = bgDarkest
+            static let font = primaryFont
         }
         
     }

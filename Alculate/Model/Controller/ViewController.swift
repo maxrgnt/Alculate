@@ -21,6 +21,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     static var bottomAnchor: NSLayoutYAxisAnchor!
     
     // Objects
+    var primaryView = PrimaryView()
     var statusBar = StatusBar()
     var header = Header()
     var comparison = ComparisonCollection()
@@ -75,16 +76,33 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        Data.deleteCoreDataFor(entity: Data.masterListID)
 
         //clearTestData()
-
+        
+        view.addSubview(primaryView)
+        primaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
+        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
+        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                        = true
+        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
+        primaryView.setup()
+        
         let background = DispatchQueue.global()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            background.sync {
+//                self.primaryView.moveSummaryAnchor(to: "hidden")
+                self.primaryView.header.value.calculateNameWidth()
+                self.primaryView.header.effect.calculateNameWidth()
+            }
+        }
+        
+//        let background = DispatchQueue.global()
         background.sync { self.handleInit() }
-        background.sync { self.build()      }
-        self.view.layoutIfNeeded()
-        background.sync { self.alculate()   }
+//        background.sync { self.build()      }
+//        self.view.layoutIfNeeded()
+//        background.sync { self.alculate()   }
 //        background.sync { comparison.updateHeight(for: Data.beerListID) }
 //        background.sync { comparison.updateHeight(for: Data.liquorListID) }
 //        background.sync { comparison.updateHeight(for: Data.wineListID) }
-        comparison.updateContentSize()
+//        comparison.updateContentSize()
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 //            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
@@ -102,7 +120,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     func build() {
         
         view.addSubview(statusBar)
-        statusBar.build()
+//        statusBar.build()
         statusBar.backgroundColor = UI.Color.bgDarkest // backgroundColor
         
         view.insertSubview(header, at: 0)
@@ -150,6 +168,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
     }
     
+    
+    // MARK: TraitCollection
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         var textColor: UIColor!
@@ -278,17 +298,17 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
 
     @objc func willEnterForeground() {
-        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
-            print("hasLaunched")
-            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
-                reloadTable(table: id, realculate: false)
-            }
-            alculate()
-            if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
-                header.summary.value.calculateNameWidth()
-                header.summary.effect.calculateNameWidth()
-            }
-        }
+        print("uncomment foreground when done")
+//        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+//            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+//                reloadTable(table: id, realculate: false)
+//            }
+//            alculate()
+//            if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
+//                header.summary.value.calculateNameWidth()
+//                header.summary.effect.calculateNameWidth()
+//            }
+//        }
     }
     
     // MARK: - Animations
@@ -296,11 +316,12 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let headerHeight: CGFloat = (state == "hidden") ? UI.Sizing.Height.headerMinimized : UI.Sizing.Height.header
         let summaryTop: CGFloat = (state == "hidden") ? -UI.Sizing.Height.summary : 0.0
         if header.height != nil {
+            print("animating")
             UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut
                 , animations: ({
                     self.header.height.constant = headerHeight
                     self.header.summary.top.constant = summaryTop
-                    self.view.layoutIfNeeded()
+                    self.header.layoutIfNeeded()
                 }), completion: { (completed) in
                     // pass
                 }

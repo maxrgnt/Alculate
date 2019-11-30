@@ -40,11 +40,12 @@ class Header: UIView {
         summary.build(anchorTo: appName)
         
         constraints(anchorTo: anchorView)
+        setAppNameConstraints()
     }
     
     // MARK: - NSLayoutConstraints
     func constraints(anchorTo anchorView: UIView) {
-        for obj in [self, appName] {
+        for obj in [self] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.headerMinimized)
@@ -52,16 +53,23 @@ class Header: UIView {
             widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header),
             height,
             leadingAnchor.constraint(equalTo: anchorView.leadingAnchor),
-            topAnchor.constraint(equalTo: anchorView.bottomAnchor),
-            appName.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header),
-            appName.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.headerAppName),
-            appName.topAnchor.constraint(equalTo: topAnchor),
-            appName.centerXAnchor.constraint(equalTo: centerXAnchor)
+            topAnchor.constraint(equalTo: anchorView.bottomAnchor)
             ])
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension Header {
+    
+    private func setAppNameConstraints() {
+        appName.translatesAutoresizingMaskIntoConstraints                                           = false
+        appName.widthAnchor.constraint(equalToConstant: UI.Sizing.Width.header).isActive            = true
+        appName.heightAnchor.constraint(equalToConstant: UI.Sizing.Height.headerAppName).isActive   = true
+        appName.topAnchor.constraint(equalTo: topAnchor).isActive                                   = true
+        appName.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                           = true
     }
     
 }

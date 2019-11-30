@@ -89,13 +89,9 @@ class SummaryCell2: UIView {
     
     //MARK: - Label Animator
     func calculateNameWidth() {
-        // nuke all nimations
-        self.subviews.forEach({$0.layer.removeAllAnimations()})
-        self.layer.removeAllAnimations()
-        // setup new animations
-        let calcHeight = UI.Sizing.Summary.nameHeight
+        nukeAllAnimations()
         // calculate width of text with given font
-        calcFontWidth = name.text!.width(withConstrainedHeight: calcHeight, font: name.font)
+        calcFontWidth = name.text!.width(withConstrainedHeight: UI.Sizing.Summary.nameHeight, font: name.font)
         if calcFontWidth > UI.Sizing.Summary.width {
             // calculate duration needed to traverse width per second
             let duration = Double(calcFontWidth/translationsPerSecond())
@@ -106,10 +102,14 @@ class SummaryCell2: UIView {
         }
     }
     
+    func nukeAllAnimations() {
+        self.subviews.forEach({$0.layer.removeAllAnimations()})
+        self.layer.removeAllAnimations()
+    }
+    
     func translationsPerSecond() -> CGFloat {
         let secondsToPanFullContainer: CGFloat = 2.0
-        let standardWidth = UI.Sizing.Summary.width
-        return standardWidth/secondsToPanFullContainer
+        return UI.Sizing.Summary.width/secondsToPanFullContainer
     }
     
     func setCentersForAnimating() -> (origin: CGFloat, translated: CGFloat) {

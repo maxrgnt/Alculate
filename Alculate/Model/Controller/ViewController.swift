@@ -88,9 +88,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let background = DispatchQueue.global()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             background.sync {
-//                self.primaryView.moveSummaryAnchor(to: "hidden")
                 self.primaryView.header.value.calculateNameWidth()
                 self.primaryView.header.effect.calculateNameWidth()
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            background.sync {
+                self.primaryView.moveSummaryAnchor(to: "hidden")
             }
         }
         

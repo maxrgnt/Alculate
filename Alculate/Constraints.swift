@@ -21,7 +21,7 @@ extension PrimaryView {
 }
 
 //MARK: Header
-extension Header2 {
+extension Header {
 
     func statusBarConstraints() {
         statusBar.translatesAutoresizingMaskIntoConstraints                                             = false
@@ -60,8 +60,8 @@ extension Header2 {
 }
 
 
-//MARK: SummaryCell2
-extension SummaryCell2 {
+//MARK: SummaryCell
+extension SummaryCell {
 
     func categoryConstraints() {
         category.translatesAutoresizingMaskIntoConstraints                                             = false

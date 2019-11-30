@@ -12,7 +12,7 @@ class PrimaryView: UIView {
     
     //MARK: - Definitions
     // Objects
-    let header = Header2()
+    let header = Header()
     
     //MARK: - Initialization
     init() {

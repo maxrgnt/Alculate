@@ -132,9 +132,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        statusBar.build()
         statusBar.backgroundColor = UI.Color.bgDarkest // backgroundColor
         
-        view.insertSubview(header, at: 0)
-        header.build(anchorTo: statusBar)
-
         view.addSubview(comparison)
         comparison.build(anchorTo: header)
         
@@ -299,7 +296,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     @objc func didEnterBackground() {
         for obj in [comparison.beer, comparison.liquor, comparison.wine,
-                    header.summary.value, header.summary.effect] {
+                    header.value, header.effect] {
             obj.subviews.forEach({$0.layer.removeAllAnimations()})
             obj.layer.removeAllAnimations()
             obj.layoutIfNeeded()
@@ -329,7 +326,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut
                 , animations: ({
                     self.header.height.constant = headerHeight
-                    self.header.summary.top.constant = summaryTop
+                    self.header.value.top.constant = summaryTop
+                    self.header.effect.top.constant = summaryTop
                     self.header.layoutIfNeeded()
                 }), completion: { (completed) in
                     // pass
@@ -521,15 +519,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             let j = bestRatio.ind
             let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
             
-            header.summary.value.category.textColor = priceColor
-            header.summary.effect.category.textColor = effectColor
+            header.value.category.textColor = priceColor
+            header.effect.category.textColor = effectColor
             
-            header.summary.value.name.text = bestPrice.name.capitalized
-            header.summary.value.stat.text = "$"+bestPrice.best
-            header.summary.effect.name.text = bestRatio.name.capitalized
-            header.summary.effect.stat.text = bestRatio.best
-            header.summary.value.calculateNameWidth()
-            header.summary.effect.calculateNameWidth()
+            header.value.name.text = bestPrice.name.capitalized
+            header.value.stat.text = "$"+bestPrice.best
+            header.effect.name.text = bestRatio.name.capitalized
+            header.effect.stat.text = bestRatio.best
+            header.value.calculateNameWidth()
+            header.effect.calculateNameWidth()
         }
         // if all lists are empty, dont alculate
         else {

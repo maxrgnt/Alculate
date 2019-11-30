@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Header2: UIView {
+class Header: UIView {
     
     //MARK: - Definitions
     // Constraints
@@ -16,8 +16,8 @@ class Header2: UIView {
     // Objects
     let statusBar = StatusBar()
     let appName = UILabel()
-    let value = SummaryCell2()
-    let effect = SummaryCell2()
+    let value = SummaryCell()
+    let effect = SummaryCell()
     
     //MARK: - Initialization
     init() {

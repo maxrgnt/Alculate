@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SummaryCell2: UIView {
+class SummaryCell: UIView {
     
     //MARK: - Definitions
     // Constraints

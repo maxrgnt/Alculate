@@ -86,13 +86,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         primaryView.setup()
         
         let background = DispatchQueue.global()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             background.sync {
                 self.primaryView.header.value.calculateNameWidth()
                 self.primaryView.header.effect.calculateNameWidth()
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
             background.sync {
                 self.primaryView.moveSummaryAnchor(to: "hidden")
             }

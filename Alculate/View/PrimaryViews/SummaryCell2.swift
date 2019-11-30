@@ -42,11 +42,9 @@ class SummaryCell2: UIView {
     func setup(to side: String) {
         self.side = side
         objects = [category,name,stat,statUnit]
-        
         clipsToBounds = true
         
         addObjectsToView()
-        
         objectSettings()
         
         setCenterOffset()
@@ -54,7 +52,6 @@ class SummaryCell2: UIView {
         
         testLabels()
     }
-    
     
     //MARK: - Add Objects
     func addObjectsToView() {
@@ -96,30 +93,41 @@ class SummaryCell2: UIView {
         self.subviews.forEach({$0.layer.removeAllAnimations()})
         self.layer.removeAllAnimations()
         // setup new animations
-        let secondsToPanFullContainer: CGFloat = 2.0
-        let standardWidth = UI.Sizing.Summary.width
-        let pixelsPerSecond = standardWidth/secondsToPanFullContainer
         let calcHeight = UI.Sizing.Summary.nameHeight
         // calculate width of text with given font
         calcFontWidth = name.text!.width(withConstrainedHeight: calcHeight, font: name.font)
-        // calculate duration needed to traverse width at pixels per second
-        let duration = Double(calcFontWidth/pixelsPerSecond)
-        // if width calculated to be smaller than standard, make standard
-        calcFontWidth = (calcFontWidth < standardWidth) ? standardWidth : calcFontWidth
+        if calcFontWidth > UI.Sizing.Summary.width {
+            // calculate duration needed to traverse width per second
+            let duration = Double(calcFontWidth/translationsPerSecond())
+            // reset left/right centers with new width
+            let center = setCentersForAnimating()
+            // start the animation if all criteria met otherwise do nothing
+            !nameAnimating ? startAnimation(for: duration, fromOld: center.origin, toNew: center.translated) : nil
+        }
+    }
+    
+    func translationsPerSecond() -> CGFloat {
+        let secondsToPanFullContainer: CGFloat = 2.0
+        let standardWidth = UI.Sizing.Summary.width
+        return standardWidth/secondsToPanFullContainer
+    }
+    
+    func setCentersForAnimating() -> (origin: CGFloat, translated: CGFloat) {
         // set constant of name width to calculated version
         nameWidth.constant = calcFontWidth
-        let leftCenter = (calcFontWidth/2-standardWidth/2)
-        let rightCenter = (standardWidth/2-calcFontWidth/2)
-        let center = (side == "left") ? leftCenter : rightCenter
-        nameCenterX.constant = center
+        // calculate left and right centers
+        let leftCenter = (calcFontWidth/2-UI.Sizing.Summary.width/2)
+        let rightCenter = (UI.Sizing.Summary.width/2-calcFontWidth/2)
+        // set origin and translated centers
+        let originCenter = (side == "left") ? leftCenter : rightCenter
+        let translatedCenter = (side == "left") ? rightCenter : leftCenter
+        // set constraint to origin
+        nameCenterX.constant = originCenter
         self.layoutIfNeeded()
-        // set new center based off side of screen on
-        let newCenter = (side == "left") ? rightCenter : leftCenter
-        // start the animation if all criteria met otherwise do nothing
-        (standardWidth < calcFontWidth && !nameAnimating) ? startAnimation(for: duration, toNew: newCenter, fromOld: center) : nil
+        return (origin: originCenter, translated: translatedCenter)
     }
 
-    func startAnimation(for duration: Double, toNew newCenter: CGFloat, fromOld oldCenter: CGFloat) {
+    func startAnimation(for duration: Double, fromOld oldCenter: CGFloat, toNew newCenter: CGFloat) {
         nameAnimating = true
         // animate asyncronously
         DispatchQueue.main.async(execute: { // repeat and autoreverse 

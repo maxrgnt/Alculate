@@ -22,9 +22,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // Objects
     var primaryView = PrimaryView()
-    var statusBar = StatusBar()
-    var header = Header()
-    var comparison = ComparisonCollection()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
@@ -85,33 +82,33 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
         primaryView.setup()
         
-        let background = DispatchQueue.global()
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            background.sync {
-                self.primaryView.header.value.calculateNameWidth()
-                self.primaryView.header.effect.calculateNameWidth()
-            }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
-            background.sync {
-                self.primaryView.moveSummaryAnchor(to: "hidden")
-            }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
-            background.sync {
-                self.primaryView.moveSummaryAnchor(to: "visible")
-            }
-        }
+//        let background = DispatchQueue.global()
+//        DispatchQueue.main.asyncAfter(deadline: .now()) {
+//            background.sync {
+//                self.primaryView.header.value.calculateNameWidth()
+//                self.primaryView.header.effect.calculateNameWidth()
+//            }
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+//            background.sync {
+//                self.primaryView.moveSummaryAnchor(to: "hidden")
+//            }
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+//            background.sync {
+//                self.primaryView.moveSummaryAnchor(to: "visible")
+//            }
+//        }
         
 //        let background = DispatchQueue.global()
-        background.sync { self.handleInit() }
+//        background.sync { self.handleInit() }
 //        background.sync { self.build()      }
 //        self.view.layoutIfNeeded()
 //        background.sync { self.alculate()   }
-//        background.sync { comparison.updateHeight(for: Data.beerListID) }
-//        background.sync { comparison.updateHeight(for: Data.liquorListID) }
-//        background.sync { comparison.updateHeight(for: Data.wineListID) }
-//        comparison.updateContentSize()
+//        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
+//        background.sync { primaryView.comparison.updateHeight(for: Data.liquorListID) }
+//        background.sync { primaryView.comparison.updateHeight(for: Data.wineListID) }
+//        primaryView.comparison.updateContentSize()
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 //            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
@@ -128,23 +125,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     // MARK: - Build
     func build() {
         
-        view.addSubview(statusBar)
-//        statusBar.build()
-        statusBar.backgroundColor = UI.Color.bgDarkest // backgroundColor
-        
-        view.addSubview(comparison)
-        comparison.build(anchorTo: header)
-        
-        for obj in [comparison.beer,comparison.liquor,comparison.wine] {
+        for obj in [primaryView.comparison.beer,primaryView.comparison.liquor,primaryView.comparison.wine] {
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-            obj.clear.addTarget(self, action: #selector(clearList), for: .touchUpInside)
         }
-        self.comparison.beer.delegate = self
-        self.comparison.beer.table.customDelegate = self
-        self.comparison.liquor.delegate = self
-        self.comparison.liquor.table.customDelegate = self
-        self.comparison.wine.delegate = self
-        self.comparison.wine.table.customDelegate = self
+//        self.primaryView.comparison.beer.delegate = self
+//        self.primaryView.comparison.beer.table.customDelegate = self
+//        self.primaryView.comparison.liquor.delegate = self
+//        self.primaryView.comparison.liquor.table.customDelegate = self
+//        self.primaryView.comparison.wine.delegate = self
+//        self.primaryView.comparison.wine.table.customDelegate = self
         
         view.addSubview(subMenuBG)
         subMenuBG.build()
@@ -295,8 +284,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func didEnterBackground() {
-        for obj in [comparison.beer, comparison.liquor, comparison.wine,
-                    header.value, header.effect] {
+        for obj in [primaryView.comparison.beer, primaryView.comparison.liquor, primaryView.comparison.wine,
+                    primaryView.header.value, primaryView.header.effect] {
             obj.subviews.forEach({$0.layer.removeAllAnimations()})
             obj.layer.removeAllAnimations()
             obj.layoutIfNeeded()
@@ -317,25 +306,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        }
     }
     
-    // MARK: - Animations
-    func moveSummaryAnchor (to state: String) {
-        let headerHeight: CGFloat = (state == "hidden") ? UI.Sizing.Height.headerMinimized : UI.Sizing.Height.header
-        let summaryTop: CGFloat = (state == "hidden") ? -UI.Sizing.Height.summary : 0.0
-        if header.height != nil {
-            print("animating")
-            UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut
-                , animations: ({
-                    self.header.height.constant = headerHeight
-                    self.header.value.top.constant = summaryTop
-                    self.header.effect.top.constant = summaryTop
-                    self.header.layoutIfNeeded()
-                }), completion: { (completed) in
-                    // pass
-                }
-            )
-        }
-    }
-
     // MARK: - App Navigator Functions
     @objc func navigateApp(sender: UIButton) {
 //        let hapticFeedback = UINotificationFeedbackGenerator()
@@ -478,8 +448,8 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
-            comparison.checkIfEmpty()
-            moveSummaryAnchor(to: "shown")
+            primaryView.comparison.checkIfEmpty()
+            primaryView.moveSummaryAnchor(to: "visible")
             //summaryContainer.moveTopAnchor(to: UI.Sizing.topLineTop)
             //summaryContainer.valueSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
             //summaryContainer.effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
@@ -519,20 +489,20 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             let j = bestRatio.ind
             let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
             
-            header.value.category.textColor = priceColor
-            header.effect.category.textColor = effectColor
+            primaryView.header.value.category.textColor = priceColor
+            primaryView.header.effect.category.textColor = effectColor
             
-            header.value.name.text = bestPrice.name.capitalized
-            header.value.stat.text = "$"+bestPrice.best
-            header.effect.name.text = bestRatio.name.capitalized
-            header.effect.stat.text = bestRatio.best
-            header.value.calculateNameWidth()
-            header.effect.calculateNameWidth()
+            primaryView.header.value.name.text = bestPrice.name.capitalized
+            primaryView.header.value.stat.text = "$"+bestPrice.best
+            primaryView.header.effect.name.text = bestRatio.name.capitalized
+            primaryView.header.effect.stat.text = bestRatio.best
+            primaryView.header.value.calculateNameWidth()
+            primaryView.header.effect.calculateNameWidth()
         }
         // if all lists are empty, dont alculate
         else {
-            comparison.checkIfEmpty()
-            moveSummaryAnchor(to: "hidden")
+            primaryView.comparison.checkIfEmpty()
+            primaryView.moveSummaryAnchor(to: "hidden")
             ViewController.typeEffect = ""
             ViewController.typeValue = ""
             //summaryContainer.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
@@ -606,7 +576,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
     // MARK: - Protocol Delegate Functions
     func resetHeight(for table: String) {
-        comparison.updateHeight(for: table)
+        primaryView.comparison.updateHeight(for: table)
     }
     
     func animateSubMenu(by percent: CGFloat, reset: Bool) {
@@ -688,7 +658,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 alculate()
             }
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-            let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
+            let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
                 if table == ID {
                     //tables[i].reloadData()
@@ -701,7 +671,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-        let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
+        let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if type == ID {
@@ -723,7 +693,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func insertRowFor(table: String) {
-        let tables = [comparison.beer.table,comparison.liquor.table,comparison.wine.table]
+        let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
             if table == ID {
@@ -732,11 +702,11 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
                 tables[i].insertRows(at: [IndexPath(row: index, section: 0)], with: .bottom)
                 tables[i].endUpdates()
 //                tables[i].updateTableContentInset()
-                comparison.updateHeight(for: table)
+                primaryView.comparison.updateHeight(for: table)
                 break
             }
         }
-        comparison.updateContentSize()
+        primaryView.comparison.updateContentSize()
         sortByValue()
         alculate()
     }
@@ -765,7 +735,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             Data.beerList = []
             reloadTable(table: Data.beerListID, realculate: true)
-            comparison.updateHeight(for: Data.beerListID)
+            primaryView.comparison.updateHeight(for: Data.beerListID)
         }
         else if sender.tag == 1 {
             for info in Data.beerList {
@@ -773,7 +743,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             Data.liquorList = []
             reloadTable(table: Data.liquorListID, realculate: true)
-            comparison.updateHeight(for: Data.liquorListID)
+            primaryView.comparison.updateHeight(for: Data.liquorListID)
         }
         else if sender.tag == 2 {
             for info in Data.beerList {
@@ -781,9 +751,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             }
             Data.wineList = []
             reloadTable(table: Data.wineListID, realculate: true)
-            comparison.updateHeight(for: Data.wineListID)
+            primaryView.comparison.updateHeight(for: Data.wineListID)
         }
-        comparison.updateContentSize()
+        primaryView.comparison.updateContentSize()
     }
 }
 

@@ -95,7 +95,7 @@ struct UI {
         }
         
         struct Primary {
-            static let height = StatusBar.height + Header.height + Summary.height
+            static let height = bounds.height
         }
         
         struct StatusBar {
@@ -123,6 +123,16 @@ struct UI {
             static let nameHeight = height/3
             static let statHeight = height/3
             static let statUnitHeight = height/6
+        }
+        
+        struct ComparisonScroll {
+            static let width = widthObjectPadding
+            static let heightEmpty = height-subMenuHeight-Header.heightMinimized+statusBar.height
+            static let heightFull = height-subMenuHeight-Header.height+statusBar.height
+        }
+        
+        struct Comparison {
+            static let padding = objectPadding
         }
         
         // Header sizing

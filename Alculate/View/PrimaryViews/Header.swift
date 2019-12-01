@@ -34,9 +34,14 @@ class Header: UIView {
     //MARK: - Setup
     func setup() {
         addObjectsToView()
+        roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.header)
         appNameSettings()
         value.setup(to: "left")
+        value.category.text = "Highest Value"
+        value.statUnit.text = "per shot"
         effect.setup(to: "right")
+        effect.category.text = "Most Effective"
+        effect.statUnit.text = "shots"
         constraints()
     }
     

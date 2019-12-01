@@ -50,7 +50,7 @@ class SummaryCell: UIView {
         setCenterOffset()
         constraints()
         
-        testLabels()
+//        testLabels()
     }
     
     //MARK: - Add Objects

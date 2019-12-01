@@ -13,6 +13,7 @@ class PrimaryView: UIView {
     //MARK: - Definitions
     // Objects
     let header = Header()
+    let comparison = ComparisonScroll()
     
     //MARK: - Initialization
     init() {
@@ -32,14 +33,15 @@ class PrimaryView: UIView {
     }
     
     func addObjectsToView() {
-        for obj in [header] {
-            addSubview(obj)
-            obj.setup()
-        }
+        addSubview(header)
+        header.setup()
+        addSubview(comparison)
+        comparison.setup()
     }
     
     func constraints() {
         headerConstraints()
+        comparisonScrollConstraints()
     }
     
     //MARK: - Animations

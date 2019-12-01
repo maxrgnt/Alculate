@@ -10,12 +10,21 @@
 extension PrimaryView {
     
     func headerConstraints() {
-        header.height = header.heightAnchor.constraint(equalToConstant: UI.Sizing.Header.height)
+        header.height = header.heightAnchor.constraint(equalToConstant: UI.Sizing.Header.heightMinimized)
         header.translatesAutoresizingMaskIntoConstraints                                                = false
         header.widthAnchor.constraint(equalToConstant: UI.Sizing.Header.width).isActive                 = true
         header.height.isActive                                                                          = true
         header.topAnchor.constraint(equalTo: topAnchor).isActive                                        = true
         header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                = true
+    }
+    
+    func comparisonScrollConstraints() {
+        comparison.height = comparison.heightAnchor.constraint(equalToConstant: UI.Sizing.ComparisonScroll.heightEmpty)
+        comparison.translatesAutoresizingMaskIntoConstraints                                                = false
+        comparison.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                        = true
+        comparison.widthAnchor.constraint(equalToConstant: UI.Sizing.ComparisonScroll.width).isActive         = true
+        comparison.height.isActive                                                                      = true
+        comparison.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                      = true
     }
     
 }
@@ -40,7 +49,7 @@ extension Header {
     }
     
     func valueConstraints() {
-        value.top = value.topAnchor.constraint(equalTo: appName.bottomAnchor)
+        value.top = value.topAnchor.constraint(equalTo: appName.bottomAnchor, constant: -UI.Sizing.Summary.height)
         value.translatesAutoresizingMaskIntoConstraints                                               = false
         value.widthAnchor.constraint(equalToConstant: UI.Sizing.Summary.width).isActive               = true
         value.heightAnchor.constraint(equalToConstant: UI.Sizing.Summary.height).isActive             = true
@@ -49,7 +58,7 @@ extension Header {
     }
     
     func effectConstraints() {
-        effect.top = effect.topAnchor.constraint(equalTo: appName.bottomAnchor)
+        effect.top = effect.topAnchor.constraint(equalTo: appName.bottomAnchor, constant: -UI.Sizing.Summary.height)
         effect.translatesAutoresizingMaskIntoConstraints                                               = false
         effect.widthAnchor.constraint(equalToConstant: UI.Sizing.Summary.width).isActive               = true
         effect.heightAnchor.constraint(equalToConstant: UI.Sizing.Summary.height).isActive             = true
@@ -96,4 +105,36 @@ extension SummaryCell {
         statUnit.topAnchor.constraint(equalTo: stat.bottomAnchor).isActive                               = true
         statUnit.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                      = true
     }
+}
+
+//MARK: ComparisonScroll
+extension ComparisonScroll {
+    
+    func beerConstraints () {
+        beer.height = beer.heightAnchor.constraint(equalToConstant: 100.0)
+        beer.translatesAutoresizingMaskIntoConstraints                                                  = false
+        beer.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        beer.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
+        beer.height.isActive                                                                            = true
+        beer.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+    }
+    
+    func liquorConstraints () {
+        liquor.height = liquor.heightAnchor.constraint(equalToConstant: 100.0)
+        liquor.translatesAutoresizingMaskIntoConstraints                                                    = false
+        liquor.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        liquor.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
+        liquor.height.isActive                                                                            = true
+        liquor.topAnchor.constraint(equalTo: beer.bottomAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+    }
+    
+    func wineConstraints () {
+        wine.height = wine.heightAnchor.constraint(equalToConstant: 100.0)
+        wine.translatesAutoresizingMaskIntoConstraints                                                      = false
+        wine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        wine.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
+        wine.height.isActive                                                                            = true
+        wine.topAnchor.constraint(equalTo: liquor.bottomAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+    }
+    
 }

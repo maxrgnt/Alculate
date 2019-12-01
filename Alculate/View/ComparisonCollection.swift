@@ -45,7 +45,6 @@ class ComparisonCollection: UIScrollView {
         isScrollEnabled = true
         alwaysBounceVertical = true
         alwaysBounceHorizontal = false
-//        contentInsetAdjustmentBehavior = .never
         showsVerticalScrollIndicator = false
         contentSize.height = UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Height.header
         

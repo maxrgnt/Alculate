@@ -30,19 +30,19 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
-            uuid = "635AA37F-FBB1-47DA-99D1-7EC6F0823461"
-            shouldBeEnabled = "No"
+            uuid = "2F94830A-6B32-463A-B314-1B350FC0DA88"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            symbolName = "UITableViewAlertForLayoutOutsideViewHierarchy"
+            symbolName = "UIViewAlertForUnsatisfiableConstraints"
             moduleName = "">
             <Locations>
                <Location
-                  uuid = "635AA37F-FBB1-47DA-99D1-7EC6F0823461 - 620169ab4c7c265a"
-                  shouldBeEnabled = "No"
+                  uuid = "2F94830A-6B32-463A-B314-1B350FC0DA88 - ba3ad5676a792f38"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "UITableViewAlertForLayoutOutsideViewHierarchy"
+                  symbolName = "UIViewAlertForUnsatisfiableConstraints"
                   moduleName = "UIKitCore"
                   usesParentBreakpointCondition = "Yes"
                   offsetFromSymbolStart = "0">

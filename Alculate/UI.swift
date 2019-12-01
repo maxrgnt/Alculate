@@ -166,6 +166,12 @@ struct UI {
             
         }
         
+        struct Menu {
+            static let height = headerHeight*1.25
+            static let width = UI.Sizing.width
+            static let radii = width/10
+        }
+        
         // Header sizing
         static let headerHeight = height*headerRatio
         // Top line sizing

@@ -27,6 +27,15 @@ extension PrimaryView {
         comparison.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                      = true
     }
     
+    func menuConstraints() {
+        menu.bottom = menu.bottomAnchor.constraint(equalTo: bottomAnchor)
+        menu.translatesAutoresizingMaskIntoConstraints                                                = false
+        menu.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                             = true
+        menu.widthAnchor.constraint(equalToConstant: UI.Sizing.Menu.width).isActive         = true
+        menu.bottom.isActive                                                                      = true
+        menu.heightAnchor.constraint(equalToConstant: UI.Sizing.Menu.height).isActive                      = true
+    }
+    
 }
 
 //MARK: Header

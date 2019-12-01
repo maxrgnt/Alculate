@@ -22,41 +22,6 @@ class SubMenu: UIView {
     }
     
     func build() {
-        // MARK: - View/Object Settings
-        // View settings
-        backgroundColor = .clear
-        clipsToBounds = true
-
-        // Object settings
-        let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
-        let buttonText = ["Show Drink Library"]
-        for (i,button) in [showSavedABV].enumerated() {
-            button.tag = 1
-            addSubview(button)
-            button.alpha = 0.7
-            button.backgroundColor = .clear
-            button.contentVerticalAlignment = .center
-            button.contentHorizontalAlignment = alignments[i]
-            button.setTitle(buttonText[i], for: .normal)
-            button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitleColor(UI.Color.fontWhite, for: .normal)
-        }
-        
-        // MARK: - Gradient Settings
-        // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: 0)
-        // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.subMenuHeight*2)
-        let gradient = CAGradientLayer()
-        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
-        // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.bgDarkest.withAlphaComponent(0.0).cgColor,
-                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
-                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
-        // Set locations of where gradient will transition
-        gradient.locations = [0.1,0.25,1.0]
-        // Add gradient as bottom layer in sublayer array
-        self.layer.insertSublayer(gradient, at: 0)
         
         // MARK: - NSLayoutConstraints
         translatesAutoresizingMaskIntoConstraints = false

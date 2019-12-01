@@ -14,6 +14,7 @@ class PrimaryView: UIView {
     // Objects
     let header = Header()
     let comparison = ComparisonScroll()
+    let menu = Menu()
     
     //MARK: - Initialization
     init() {
@@ -37,11 +38,14 @@ class PrimaryView: UIView {
         header.setup()
         addSubview(comparison)
         comparison.setup()
+        addSubview(menu)
+        menu.setup()
     }
     
     func constraints() {
         headerConstraints()
         comparisonScrollConstraints()
+        menuConstraints()
     }
     
     //MARK: - Animations

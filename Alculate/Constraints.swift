@@ -120,7 +120,7 @@ extension ComparisonScroll {
     }
     
     func liquorConstraints () {
-        liquor.height = liquor.heightAnchor.constraint(equalToConstant: 100.0)
+        liquor.height = liquor.heightAnchor.constraint(equalToConstant: 0.0)
         liquor.translatesAutoresizingMaskIntoConstraints                                                    = false
         liquor.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
         liquor.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
@@ -129,12 +129,21 @@ extension ComparisonScroll {
     }
     
     func wineConstraints () {
-        wine.height = wine.heightAnchor.constraint(equalToConstant: 100.0)
+        wine.height = wine.heightAnchor.constraint(equalToConstant: 0.0)
         wine.translatesAutoresizingMaskIntoConstraints                                                      = false
         wine.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
         wine.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
         wine.height.isActive                                                                            = true
         wine.topAnchor.constraint(equalTo: liquor.bottomAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+    }
+    
+    func emptyConstraints() {
+        emptyTop = empty.topAnchor.constraint(equalTo: wine.bottomAnchor)
+        empty.translatesAutoresizingMaskIntoConstraints                                                      = false
+        empty.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        empty.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
+        emptyTop.isActive                                                                            = true
+        empty.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Empty.height).isActive          = true
     }
     
 }

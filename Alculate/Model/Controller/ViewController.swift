@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate, ComparisonDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!

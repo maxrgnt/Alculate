@@ -14,11 +14,13 @@ class ComparisonScroll: UIScrollView {
     //MARK: - Definitions
     // Constraints
     var height: NSLayoutConstraint!
+    var emptyTop: NSLayoutConstraint!
     // Objects
     let beer = ComparisonContainer()
     let liquor = ComparisonContainer()
     let wine = ComparisonContainer()
     var containers: [ComparisonContainer] = []
+    let empty = UILabel()
     
     //MARK: - Initialization
     init() {
@@ -42,6 +44,13 @@ class ComparisonScroll: UIScrollView {
         showsVerticalScrollIndicator = false
         contentSize.height = UI.Sizing.Comparison.Scroll.heightEmpty
         
+        addSubview(empty)
+        empty.backgroundColor = .clear
+        empty.textColor = UI.Color.Comparison.border
+        empty.text = "Add a drink above!"
+        empty.font = UI.Font.Comparison.empty
+        empty.textAlignment = .center
+        
         addObjectsToView()
         
         constraints()
@@ -52,6 +61,7 @@ class ComparisonScroll: UIScrollView {
         for (i, obj) in containers.enumerated() {
             addSubview(obj)
             obj.setup(forType: Data.IDs[i])
+//            obj.header.add.tag = 20 + i
         }
     }
 
@@ -111,22 +121,31 @@ class ComparisonScroll: UIScrollView {
     }
     
     func checkIfEmpty() {
-        var empty = true
+        var isEmpty = true
         for list in Data.lists {
-            if list.count > 0 {
-                empty = false
+            isEmpty = (list.count > 0) ? false : true
+            if !isEmpty {
+                break
             }
         }
-//        let newAlpha: CGFloat = empty ? 1.0 : 0.0
-        let newHeight = empty ? UI.Sizing.Comparison.Scroll.heightEmpty : UI.Sizing.Comparison.Scroll.heightFull
+        let newHeight = isEmpty ? UI.Sizing.Comparison.Scroll.heightEmpty : UI.Sizing.Comparison.Scroll.heightFull
         UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                     , animations: ({
                         self.height.constant = newHeight
-//                        self.emptyPrompt.alpha = newAlpha
+                        self.empty.alpha = isEmpty ? 1.0 : 0.0
                         self.layoutIfNeeded()
                     }), completion: { (completed) in
                         // pass
                 })
     }
+    
+    // MARK: - ScrollView Delegate
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        self.contentOffset.y += scrollView.contentOffset.y
+    //        self.savedABVTableDelegate.adjustHeaderBackground()
+    //        if scrollView.contentOffset.y <= 0 {
+    //            scrollView.contentOffset.y = 0
+    //        }
+    //    }
     
 }

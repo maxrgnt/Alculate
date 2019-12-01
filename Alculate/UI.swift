@@ -141,6 +141,10 @@ struct UI {
                 static let height = Height.comparisonRow
             }
             
+            struct Empty {
+                static let height = UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Header.height - (UI.Sizing.Comparison.padding)*3 - UI.Sizing.Comparison.Container.height*3
+            }
+            
             struct Header {
                 static let height = Width.comparison/8
             }
@@ -249,6 +253,7 @@ struct UI {
 //            static let add = UIFont(name: "JosefinSans-SemiBold", size: Sizing.Height.comparisonHeader*(4/4))
 //            static let row = UIFont(name: "JosefinSans-Regular", size: Sizing.Height.comparisonHeader*(1/3))
 //            static let rowUnit = UIFont(name: "JosefinSans-Light", size: Sizing.Height.comparisonHeader*(1/4))
+            static let empty = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
             static let type = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
             static let add = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(3/4))
             static let row = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(1/3))

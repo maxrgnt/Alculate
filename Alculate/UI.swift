@@ -147,6 +147,7 @@ struct UI {
             
             struct Header {
                 static let height = Width.comparison/8
+                static let contentWidth = Scroll.width - padding*2
             }
             
             struct Table {

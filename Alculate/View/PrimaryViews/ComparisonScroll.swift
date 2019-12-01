@@ -73,6 +73,7 @@ class ComparisonScroll: UIScrollView {
         for obj in Data.IDs {
             updateHeight(for: obj, animated: false)
         }
+        emptyConstraints()
     }
     
     //MARK: - Settings

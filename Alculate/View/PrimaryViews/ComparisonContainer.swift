@@ -15,7 +15,7 @@ class ComparisonContainer: UIScrollView {
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
-    let header = ComparisonHeader()
+    let header = ContainerHeader()
     let table = ComparisonTable()
     // Variables
     var type = ""
@@ -47,6 +47,7 @@ class ComparisonContainer: UIScrollView {
     //MARK: - Add Objects
     func addObjectsToView() {
         addSubview(header)
+        header.setup(forType: type)
         addSubview(table)
     }
 

@@ -168,3 +168,24 @@ extension ComparisonContainer {
     }
     
 }
+
+//MARK: ContainerHeader
+extension ContainerHeader {
+    
+    func typeConstraints() {
+        type.translatesAutoresizingMaskIntoConstraints                                                        = false
+        type.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                        = true
+        type.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
+        type.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.contentWidth).isActive         = true
+        type.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.height).isActive              = true
+    }
+    
+    func addConstraints() {
+        add.translatesAutoresizingMaskIntoConstraints                                                        = false
+        add.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                        = true
+        add.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
+        add.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.contentWidth).isActive            = true
+        add.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.height).isActive              = true
+    }
+    
+}

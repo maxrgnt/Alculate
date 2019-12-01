@@ -379,6 +379,11 @@ struct UI {
             static let font = primaryFont
         }
         
+        struct Comparison {
+            static let background = bgDarkest
+            static let border = bgDarkest
+        }
+        
     }
     
     static func printUI() {

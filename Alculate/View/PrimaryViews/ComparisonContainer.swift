@@ -34,8 +34,13 @@ class ComparisonContainer: UIScrollView {
     //MARK: - Setup
     func setup(forType id: String) {
         type = id
+        backgroundColor = UI.Color.Comparison.background
+        layer.borderColor = UI.Color.Comparison.border.cgColor
+        layer.borderWidth = UI.Sizing.Comparison.border
+        roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.Comparison.radii)
+        
         addObjectsToView()
-        backgroundColor = .blue
+        
         constraints()
     }
     
@@ -56,16 +61,6 @@ class ComparisonContainer: UIScrollView {
     
     
     //MARK: - Functions
-    func updateHeight(for table: String) {
-        
-    }
-    
-    func updateContentSize() {
-        
-    }
-    
-    func checkIfEmpty() {
-        
-    }
+
     
 }

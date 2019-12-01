@@ -18,7 +18,7 @@ class ComparisonScroll: UIScrollView {
     let beer = ComparisonContainer()
     let liquor = ComparisonContainer()
     let wine = ComparisonContainer()
-    var tables: [ComparisonContainer] = []
+    var containers: [ComparisonContainer] = []
     
     //MARK: - Initialization
     init() {
@@ -34,7 +34,7 @@ class ComparisonScroll: UIScrollView {
     //MARK: - Setup
     func setup() {
         
-        tables = [beer,liquor,wine]
+        containers = [beer,liquor,wine]
         
         isScrollEnabled = true
         alwaysBounceVertical = true
@@ -49,7 +49,7 @@ class ComparisonScroll: UIScrollView {
     
     //MARK: - Add Objects
     func addObjectsToView() {
-        for (i, obj) in tables.enumerated() {
+        for (i, obj) in containers.enumerated() {
             addSubview(obj)
             obj.setup(forType: Data.IDs[i])
         }
@@ -82,14 +82,14 @@ class ComparisonScroll: UIScrollView {
                 if animated! {
                     UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                         , animations: ({
-                            self.tables[i].height.constant = new
+                            self.containers[i].height.constant = new
                             self.layoutIfNeeded()
                         }), completion: { (completed) in
                             // pass
                     })
                 }
                 else {
-                    tables[i].height.constant = new
+                    containers[i].height.constant = new
                     self.layoutIfNeeded()
                 }
             }
@@ -97,11 +97,36 @@ class ComparisonScroll: UIScrollView {
     }
     
     func updateContentSize() {
-        
+        // Set at 4 because there is a gap above each (three) tables and one below the last
+        var new: CGFloat = 3 * UI.Sizing.Padding.comparison
+        // add height of each container
+        for container in containers {
+            new += container.height.constant
+        }
+        // add padding to bottom if bigger than given screen area
+        new = (new > UI.Sizing.Comparison.Scroll.heightFull) ? new + UI.Sizing.Comparison.padding : new
+        // change content size based off scrollview size
+        new = (height.constant == UI.Sizing.Comparison.Scroll.heightEmpty) ? UI.Sizing.Comparison.Scroll.heightEmpty : new
+        contentSize.height = new
     }
     
     func checkIfEmpty() {
-        
+        var empty = true
+        for list in Data.lists {
+            if list.count > 0 {
+                empty = false
+            }
+        }
+//        let newAlpha: CGFloat = empty ? 1.0 : 0.0
+        let newHeight = empty ? UI.Sizing.Comparison.Scroll.heightEmpty : UI.Sizing.Comparison.Scroll.heightFull
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+                    , animations: ({
+                        self.height.constant = newHeight
+//                        self.emptyPrompt.alpha = newAlpha
+                        self.layoutIfNeeded()
+                    }), completion: { (completed) in
+                        // pass
+                })
     }
     
 }

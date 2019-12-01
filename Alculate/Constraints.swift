@@ -234,3 +234,16 @@ extension ContainerCell {
     }
     
 }
+
+//MARK: Secondary View
+extension SecondaryView {
+    
+    func tableHeaderConstraints() {
+        
+    }
+    
+    func tableConstraints() {
+        
+    }
+    
+}

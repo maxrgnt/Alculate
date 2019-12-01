@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ComparisonTableDelegate, TextEntryDelegate {
+class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ContainerTableDelegate, TextEntryDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -74,15 +74,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 
         //clearTestData()
         
-        view.addSubview(primaryView)
-        primaryView.translatesAutoresizingMaskIntoConstraints                                               = false
-        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
-        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
-        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                        = true
-        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
-        primaryView.setup()
-        
-//        let background = DispatchQueue.global()
+        let background = DispatchQueue.global()
 //        DispatchQueue.main.asyncAfter(deadline: .now()) {
 //            background.sync {
 //                self.primaryView.header.value.calculateNameWidth()
@@ -102,7 +94,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
 //        let background = DispatchQueue.global()
 //        background.sync { self.handleInit() }
-//        background.sync { self.build()      }
+        background.sync { self.build()      }
 //        self.view.layoutIfNeeded()
 //        background.sync { self.alculate()   }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
@@ -125,6 +117,14 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     // MARK: - Build
     func build() {
         
+        view.addSubview(primaryView)
+        primaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
+        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
+        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                        = true
+        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
+        primaryView.setup()
+        
         for obj in [primaryView.comparison.beer,primaryView.comparison.liquor,primaryView.comparison.wine] {
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
@@ -135,31 +135,31 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        self.primaryView.comparison.wine.delegate = self
 //        self.primaryView.comparison.wine.table.customDelegate = self
         
-        view.addSubview(subMenuBG)
-        subMenuBG.build()
-        
-        view.addSubview(savedABV)
-        savedABV.build()
-        self.savedABV.savedABVDelegate = self
-        self.savedABV.savedABVTable.savedABVTableDelegate = self
-            
-        view.addSubview(subMenu)
-        subMenu.build()
-        for obj in [subMenu.showSavedABV] {
-            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        }
-        
-        view.addSubview(undo)
-        undo.build()
-        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
-        
-        view.addSubview(tapDismiss)
-        tapDismiss.build()
-        
-        view.addSubview(textEntry)
-        textEntry.build()
-        self.textEntry.textEntryDelegate = self
+//        view.addSubview(subMenuBG)
+//        subMenuBG.build()
+//        
+//        view.addSubview(savedABV)
+//        savedABV.build()
+//        self.savedABV.savedABVDelegate = self
+//        self.savedABV.savedABVTable.savedABVTableDelegate = self
+//
+//        view.addSubview(subMenu)
+//        subMenu.build()
+//        for obj in [subMenu.showSavedABV] {
+//            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+//        }
+//
+//        view.addSubview(undo)
+//        undo.build()
+//        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+//        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
+//
+//        view.addSubview(tapDismiss)
+//        tapDismiss.build()
+//
+//        view.addSubview(textEntry)
+//        textEntry.build()
+//        self.textEntry.textEntryDelegate = self
 
     }
     
@@ -312,6 +312,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        hapticFeedback.notificationOccurred(.warning)
         makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
+            print(Data.IDs[sender.tag-20])
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
             showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
         }
@@ -330,7 +331,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // MARK: - Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool, forLevel level: Int? = 0) {
-        TapDismiss.dismissTop.constant = 0
+         TapDismiss.dismissTop.constant = 0
         // set entry id
         textEntry.entryID = id
         // set max level

@@ -1,59 +1,60 @@
 //
-//  ComparisonTable.swift
+//  ContainerTable.swift
 //  Alculate
 //
-//  Created by Max Sergent on 11/20/19.
+//  Created by Max Sergent on 12/1/19.
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-protocol ComparisonTableDelegate {
-    // called when user taps container or delete button
-//    func reloadTable(table: String, realculate: Bool)
-//    func makeDeletable(_ paramDeletable: Bool, lists: String)
+protocol ContainerTableDelegate {
     func editComparison(type: String, name: String, abv: String, size: String, price: String)
     func alculate()
     func resetHeight(for: String)
     func animateUndo(onScreen: Bool)
 }
 
-class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
-
-    // Delegate object
-    var customDelegate : ComparisonTableDelegate!
-
-    // Constraints
-    var height: NSLayoutConstraint!
+class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
-    // Vairables
+    //MARK: - Definitions
+    // Delegate object
+    var customDelegate : ContainerTableDelegate!
+    // Variables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
-    var comparisonTableListID = ""
+    var type = ""
     var willDelete = false
     
+    //MARK: - Initialization
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
+        print("init table")
     }
     
-    // MARK: - View/Object Settings
-    func build(forType alcoholType: String, anchorTo anchorView: UIView) {
-        comparisonTableListID = alcoholType
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Setup
+    func setup(forType id: String) {
+        
+        type = id
         backgroundColor = .clear
-        register(ComparisonCell.self, forCellReuseIdentifier: "ComparisonCell")
+        register(ContainerCell.self, forCellReuseIdentifier: "ContainerCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
         separatorStyle = .none
         isScrollEnabled = false
         showsVerticalScrollIndicator = false
-        constraints(anchorTo: anchorView)
+    
     }
     
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ComparisonCell = tableView.dequeueReusableCell(withIdentifier: "ComparisonCell") as! ComparisonCell
+        let cell: ContainerCell = tableView.dequeueReusableCell(withIdentifier: "ContainerCell") as! ContainerCell
         if listForThisTable().count == 0 {
 //            cell.name.text = "Add a drink!"
 //            for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
@@ -84,7 +85,6 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let list = listForThisTable()
-        let type = comparisonTableListID
         let name = list[indexPath.row].name
         let abv = list[indexPath.row].abv
         let size = list[indexPath.row].size
@@ -95,7 +95,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
 //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 //        if editingStyle == .delete {
 //            let info = listForThisTable()[indexPath.row]
-//            Data.deleteFromList(comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+//            Data.deleteFromList(type, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
 //            self.deleteRows(at: [indexPath], with: .fade)
 //            self.customDelegate.alculate()
 //        }
@@ -106,21 +106,21 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
             print("Delete")
             let info = self.listForThisTable()[indexPath.row]
             var i = 0
-            i = (self.comparisonTableListID == Data.liquorListID) ? 1 : i
-            i = (self.comparisonTableListID == Data.wineListID) ? 2 : i
-            print(self.comparisonTableListID, i)
+            i = (self.type == Data.liquorListID) ? 1 : i
+            i = (self.type == Data.wineListID) ? 2 : i
+            print(self.type, i)
             print(self.toBeDeleted)
             Data.toBeDeleted[i].append(info)
-            Data.deleteFromList(self.comparisonTableListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
+            Data.deleteFromList(self.type, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
             self.deleteRows(at: [indexPath], with: .fade)
             self.customDelegate.alculate()
             self.customDelegate.animateUndo(onScreen: true)
-            self.customDelegate.resetHeight(for: self.comparisonTableListID)
+            self.customDelegate.resetHeight(for: self.type)
         })
         
-        var bgColor = (comparisonTableListID == Data.beerListID) ? UI.Color.Background.beerHeader : nil
-        bgColor = (comparisonTableListID == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
-        bgColor = (comparisonTableListID == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
+        var bgColor = (type == Data.beerListID) ? UI.Color.Background.beerHeader : nil
+        bgColor = (type == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
+        bgColor = (type == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
         
         DeleteAction.backgroundColor = bgColor
         return UISwipeActionsConfiguration(actions: [DeleteAction])
@@ -129,8 +129,8 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // pass
     }
-    
-    // MARK: - List Finder Function
+
+    //MARK: - List Finder Function
     func listForThisTable() -> [(name: String, abv: String, size: String, price: String)] {
         // create list of each alcoholList
         let lists = [Data.beerList,Data.liquorList,Data.wineList]
@@ -139,7 +139,7 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         // iterate through alcohol list ID's
         for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
            // if alcohol list id matches the tables id, return that lists count
-           if comparisonTableListID == ID {
+           if type == ID {
                // set row count to list count
                thisTablesList = lists[i]
            }
@@ -147,22 +147,4 @@ class ComparisonTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         return thisTablesList
     }
     
-    // MARK: - NSLayoutConstraints
-    func constraints(anchorTo anchorView: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
-//        height = heightAnchor.constraint(equalToConstant: UI.Sizing.Height.comparisonHeader*2)
-        NSLayoutConstraint.activate([
-            centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
-            widthAnchor.constraint(equalToConstant: UI.Sizing.Width.comparison),
-//            height,
-            bottomAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: -UI.Sizing.Padding.comparison),
-            topAnchor.constraint(equalTo: anchorView.topAnchor, constant: UI.Sizing.Height.comparisonHeader)
-        ])
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
-

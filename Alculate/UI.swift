@@ -142,7 +142,7 @@ struct UI {
             }
             
             struct Empty {
-                static let height = UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Header.height - (UI.Sizing.Comparison.padding)*3 - UI.Sizing.Comparison.Container.height*3
+                static let height = UI.Sizing.height-UI.Sizing.subMenuHeight-UI.Sizing.Header.height - (padding)*3 - Container.height*3
             }
             
             struct Header {
@@ -158,6 +158,10 @@ struct UI {
                 static let height = statHeight+unitHeight
                 static let statHeight = Header.height*(2/3)
                 static let unitHeight = Header.height*(1/3)
+                static let nameWidth = Comparison.Scroll.width*(2/3) - padding
+                static let valueWidth = Comparison.Scroll.width*(1/6)
+                static let effectWidth = Comparison.Scroll.width*(1/6)
+                static let unitOffset = -height/3
             }
             
         }

@@ -189,3 +189,48 @@ extension ContainerHeader {
     }
     
 }
+
+//MARK: ContainerCell
+extension ContainerCell {
+    
+    func nameConstraints() {
+        name.translatesAutoresizingMaskIntoConstraints                                                          = false
+        name.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.nameWidth).isActive               = true
+        name.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Comparison.border).isActive    = true
+        name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                          = true
+    }
+    
+    func valueConstraints() {
+        value.translatesAutoresizingMaskIntoConstraints                                                          = false
+        value.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.nameWidth).isActive               = true
+        value.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.statHeight).isActive             = true
+        value.leadingAnchor.constraint(equalTo: name.trailingAnchor).isActive                                = true
+        value.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
+    }
+    
+    func valueUnitConstraints() {
+        valueUnit.translatesAutoresizingMaskIntoConstraints                                                          = false
+        valueUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.valueWidth).isActive               = true
+        valueUnit.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Comparison.border).isActive    = true
+        valueUnit.leadingAnchor.constraint(equalTo: name.trailingAnchor).isActive                                   = true
+        valueUnit.topAnchor.constraint(equalTo: value.bottomAnchor, constant: UI.Sizing.Comparison.Row.unitOffset).isActive = true
+    }
+    
+    func effectConstraints() {
+        effect.translatesAutoresizingMaskIntoConstraints                                                          = false
+        effect.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.effectWidth).isActive               = true
+        effect.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.statHeight).isActive             = true
+        effect.leadingAnchor.constraint(equalTo: value.trailingAnchor).isActive                                = true
+        effect.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
+    }
+    
+    func effectUnitConstraints() {
+        effectUnit.translatesAutoresizingMaskIntoConstraints                                                          = false
+        effectUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.effectWidth).isActive               = true
+        effectUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.statHeight).isActive             = true
+        effectUnit.leadingAnchor.constraint(equalTo: valueUnit.trailingAnchor).isActive                                = true
+        effectUnit.topAnchor.constraint(equalTo: value.bottomAnchor, constant: UI.Sizing.Comparison.Row.unitOffset).isActive = true
+    }
+    
+}

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ContainerHeader: UIScrollView {
+class ContainerHeader: UIView {
     
     //MARK: - Definitions
     // Objects
@@ -36,7 +36,7 @@ class ContainerHeader: UIScrollView {
         backgroundColor = bgColor
         
         typeSettings(forType: id)
-        addSettings()
+        addSettings(forType: id)
         
         addObjectsToView()
         
@@ -68,7 +68,12 @@ class ContainerHeader: UIScrollView {
         type.setTitleColor(UI.Color.fontWhite, for: .normal)
     }
     
-    func addSettings() {
+    func addSettings(forType id: String) {
+        var tagFromID = (id == Data.beerListID) ? 20 : nil
+        tagFromID = (id == Data.liquorListID) ? 21 : tagFromID
+        tagFromID = (id == Data.wineListID) ? 22 : tagFromID
+        
+        add.tag = tagFromID!
         add.contentVerticalAlignment = .center
         add.contentHorizontalAlignment = .right
         add.setTitle("+", for: .normal)

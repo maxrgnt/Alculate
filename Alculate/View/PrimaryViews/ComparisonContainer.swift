@@ -16,7 +16,7 @@ class ComparisonContainer: UIScrollView {
     var height: NSLayoutConstraint!
     // Objects
     let header = ContainerHeader()
-    let table = ComparisonTable()
+    let table = ContainerTable()
     // Variables
     var type = ""
     

@@ -19,10 +19,10 @@ extension PrimaryView {
     }
     
     func comparisonScrollConstraints() {
-        comparison.height = comparison.heightAnchor.constraint(equalToConstant: UI.Sizing.ComparisonScroll.heightEmpty)
+        comparison.height = comparison.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.heightEmpty)
         comparison.translatesAutoresizingMaskIntoConstraints                                                = false
         comparison.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                        = true
-        comparison.widthAnchor.constraint(equalToConstant: UI.Sizing.ComparisonScroll.width).isActive         = true
+        comparison.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.width).isActive         = true
         comparison.height.isActive                                                                      = true
         comparison.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                      = true
     }
@@ -135,6 +135,27 @@ extension ComparisonScroll {
         wine.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
         wine.height.isActive                                                                            = true
         wine.topAnchor.constraint(equalTo: liquor.bottomAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+    }
+    
+}
+
+//MARK: ComparisonContainer
+extension ComparisonContainer {
+    
+    func headerConstraints() {
+        header.translatesAutoresizingMaskIntoConstraints                                                        = false
+        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
+        header.topAnchor.constraint(equalTo: topAnchor).isActive                                                = true
+        header.widthAnchor.constraint(equalTo: widthAnchor).isActive                                            = true
+        header.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.height).isActive  = true
+    }
+    
+    func tableConstraints() {
+        table.translatesAutoresizingMaskIntoConstraints                                                        = false
+        table.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
+        table.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                      = true
+        table.widthAnchor.constraint(equalTo: widthAnchor).isActive                                            = true
+        table.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.Comparison.padding).isActive  = true
     }
     
 }

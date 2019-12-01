@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-class ComparisonPiece: UIScrollView {
+class ComparisonContainer: UIScrollView {
     
     //MARK: - Definitions
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
-    var header = ComparisonHeader()
-    var table = ComparisonTable()
+    let header = ComparisonHeader()
+    let table = ComparisonTable()
     // Variables
     var type = ""
     
@@ -32,7 +32,8 @@ class ComparisonPiece: UIScrollView {
     }
     
     //MARK: - Setup
-    func setup() {
+    func setup(forType id: String) {
+        type = id
         addObjectsToView()
         backgroundColor = .blue
         constraints()
@@ -46,7 +47,8 @@ class ComparisonPiece: UIScrollView {
 
     //MARK: - Constraints
     func constraints() {
-        
+        headerConstraints()
+        tableConstraints()
     }
     
     //MARK: - Settings

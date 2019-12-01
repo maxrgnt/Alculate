@@ -26,7 +26,7 @@ class OldComparisonCell: UITableViewCell {
     var containerLeading: NSLayoutConstraint!
     
     // Objects
-    let container = ComparisonContainer()
+    let container = OldComparisonContainer()
     let delete = UIButton()
 
     // Variables

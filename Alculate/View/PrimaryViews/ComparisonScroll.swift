@@ -15,9 +15,10 @@ class ComparisonScroll: UIScrollView {
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
-    let beer = ComparisonPiece()
-    let liquor = ComparisonPiece()
-    let wine = ComparisonPiece()
+    let beer = ComparisonContainer()
+    let liquor = ComparisonContainer()
+    let wine = ComparisonContainer()
+    var tables: [ComparisonContainer] = []
     
     //MARK: - Initialization
     init() {
@@ -33,11 +34,13 @@ class ComparisonScroll: UIScrollView {
     //MARK: - Setup
     func setup() {
         
+        tables = [beer,liquor,wine]
+        
         isScrollEnabled = true
         alwaysBounceVertical = true
         alwaysBounceHorizontal = false
         showsVerticalScrollIndicator = false
-        contentSize.height = UI.Sizing.ComparisonScroll.heightEmpty
+        contentSize.height = UI.Sizing.Comparison.Scroll.heightEmpty
         
         addObjectsToView()
         
@@ -46,9 +49,9 @@ class ComparisonScroll: UIScrollView {
     
     //MARK: - Add Objects
     func addObjectsToView() {
-        for obj in [beer,liquor,wine] {
+        for (i, obj) in tables.enumerated() {
             addSubview(obj)
-            obj.setup() 
+            obj.setup(forType: Data.IDs[i])
         }
     }
 
@@ -57,6 +60,9 @@ class ComparisonScroll: UIScrollView {
         beerConstraints()
         liquorConstraints()
         wineConstraints()
+        for obj in Data.IDs {
+            updateHeight(for: obj, animated: false)
+        }
     }
     
     //MARK: - Settings
@@ -64,8 +70,30 @@ class ComparisonScroll: UIScrollView {
     
     
     //MARK: - Functions
-    func updateHeight(for table: String) {
-        
+    func updateHeight(for container: String, animated: Bool? = true) {
+        var new: CGFloat = 0.0
+        for (i, id) in Data.IDs.enumerated() {
+            if container == id {
+                // set new height to the header + however many rows
+                new = UI.Sizing.Comparison.Header.height + CGFloat(Data.lists[i].count) * UI.Sizing.Comparison.Row.height
+                // add to the new height for the rounded radii at bottom and border
+                new += UI.Sizing.Comparison.radii + UI.Sizing.Comparison.border*2
+                // only animate when necessary (not on app load)
+                if animated! {
+                    UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+                        , animations: ({
+                            self.tables[i].height.constant = new
+                            self.layoutIfNeeded()
+                        }), completion: { (completed) in
+                            // pass
+                    })
+                }
+                else {
+                    tables[i].height.constant = new
+                    self.layoutIfNeeded()
+                }
+            }
+        }
     }
     
     func updateContentSize() {

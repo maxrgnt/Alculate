@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ComparisonContainer: UIView {
+class OldComparisonContainer: UIView {
     
     // Constraints
     var drinkNameWidth: NSLayoutConstraint!

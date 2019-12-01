@@ -125,14 +125,36 @@ struct UI {
             static let statUnitHeight = height/6
         }
         
-        struct ComparisonScroll {
-            static let width = widthObjectPadding
-            static let heightEmpty = height-subMenuHeight-Header.heightMinimized+statusBar.height
-            static let heightFull = height-subMenuHeight-Header.height+statusBar.height
-        }
-        
         struct Comparison {
+        
             static let padding = objectPadding
+            static let radii = width/20
+            static let border = padding/4
+            
+            struct Scroll {
+                static let width = widthObjectPadding
+                static let heightEmpty = height-subMenuHeight-UI.Sizing.Header.heightMinimized+statusBar.height
+                static let heightFull = height-subMenuHeight-Header.height+statusBar.height
+            }
+
+            struct Container {
+                static let height = Height.comparisonRow
+            }
+            
+            struct Header {
+                static let height = Width.comparison/8
+            }
+            
+            struct Table {
+                
+            }
+            
+            struct Row {
+                static let height = statHeight+unitHeight
+                static let statHeight = Header.height*(2/3)
+                static let unitHeight = Header.height*(1/3)
+            }
+            
         }
         
         // Header sizing

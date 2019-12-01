@@ -12,14 +12,16 @@ import CoreData
 
 struct Data {
     // IDs that match CoreData entity that are used throughout app
-    static var masterListID = "Alcohol"
-    static var beerListID = "BeerList"
-    static var liquorListID = "LiquorList"
-    static var wineListID = "WineList"
+    static let masterListID = "Alcohol"
+    static let beerListID = "BeerList"
+    static let liquorListID = "LiquorList"
+    static let wineListID = "WineList"
+    static let IDs = [beerListID,liquorListID,wineListID]
     // each list represents a column on main page
     static var beerList: [(name: String, abv: String, size: String, price: String)] = []
     static var liquorList: [(name: String, abv: String, size: String, price: String)] = []
     static var wineList: [(name: String, abv: String, size: String, price: String)] = []
+    static var lists = [beerList,liquorList,wineList]
     static var toBeDeleted: [[(name: String, abv: String, size: String, price: String)]] = [[],[],[]]
     // set headers to empty to iterate over letters and append into
     static var headers: [String] = []

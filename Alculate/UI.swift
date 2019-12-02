@@ -187,6 +187,7 @@ struct UI {
             
             struct Header {
                 static let height = DrinkLibrary.height - statusBar.height - Table.height
+                static let width = widthObjectPadding
             }
             struct Table {
                 static let height = Row.height*11
@@ -423,6 +424,10 @@ struct UI {
         struct Comparison {
             static let background = bgDarkest
             static let border = bgDarkest
+        }
+        
+        struct Secondary {
+            static let background = bgDarkest
         }
         
     }

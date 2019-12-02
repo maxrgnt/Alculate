@@ -128,6 +128,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
         
+        primaryView.menu.showDrinkLibrary.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        
         view.addSubview(secondaryView)
         secondaryView.translatesAutoresizingMaskIntoConstraints                                               = false
         ViewController.secondaryTop = secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor)
@@ -136,6 +138,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         ViewController.secondaryTop.isActive                                                                    = true
         secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
         secondaryView.setup()
+        
+        
         
 //        self.primaryView.comparison.beer.delegate = self
 //        self.primaryView.comparison.beer.table.customDelegate = self
@@ -148,10 +152,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        savedABV.build()
 //        self.savedABV.savedABVDelegate = self
 //        self.savedABV.savedABVTable.savedABVTableDelegate = self
-//
-//        for obj in [subMenu.showSavedABV] {
-//            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-//        }
 //
 //        view.addSubview(undo)
 //        undo.build()
@@ -193,19 +193,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             )
             alert.setValue(messageText, forKey: "attributedMessage")
         }
-    }
-    
-    //MARK: - Animations
-    func moveDrinkLibrary(to state: String) {
-        let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
-        ViewController.secondaryTop.constant = new
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
-            , animations: ({
-                self.view.layoutIfNeeded()
-            }), completion: { (completed) in
-                // re animate long labels on primary view when hiding secondary
-                // (new == 0.0) ? nil : self.delegate.animateComparisonLabels()
-        })
     }
     
     // MARK: - Initialization / Testing
@@ -303,6 +290,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     @objc func didEnterBackground() {
+        // stop long name animations
         for obj in [primaryView.comparison.beer, primaryView.comparison.liquor, primaryView.comparison.wine,
                     primaryView.header.value, primaryView.header.effect] {
             obj.subviews.forEach({$0.layer.removeAllAnimations()})
@@ -340,12 +328,24 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         }
         else if sender.tag == 1 {
             didEnterBackground()
-//            savedABV.animateTopAnchor(constant: UI.Sizing.savedABVtop)
-            primaryView.menu.bottom.constant = 0
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            })
+            primaryView.moveMenu(to: "hidden")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.moveDrinkLibrary(to: "visible")
+            }
         }
+    }
+    
+    //MARK: - Animations
+    func moveDrinkLibrary(to state: String) {
+        let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
+        ViewController.secondaryTop.constant = new
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+            , animations: ({
+                self.view.layoutIfNeeded()
+            }), completion: { (completed) in
+                // re animate long labels on primary view when hiding secondary
+                // (new == 0.0) ? nil : self.delegate.animateComparisonLabels()
+        })
     }
     
     // MARK: - Show Text Entry
@@ -681,7 +681,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
                 if table == ID {
-                    print("\(table) reloading")
                     //tables[i].reloadData()
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
 //                    tables[i].updateTableContentInset()

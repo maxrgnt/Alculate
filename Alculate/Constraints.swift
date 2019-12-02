@@ -279,7 +279,7 @@ extension DrinkLibrary {
     func headerConstraints() {
         header.translatesAutoresizingMaskIntoConstraints                                                    = false
         header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                    = true
-        header.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.width).isActive               = true
+        header.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Header.width).isActive       = true
         header.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.statusBar.height).isActive      = true
         header.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Header.height).isActive      = true
     }

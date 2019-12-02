@@ -38,7 +38,7 @@ class DrinkLibrary: UIView {
     //MARK: - Setup
     func setup() {
         clipsToBounds = true
-        backgroundColor = .green
+        backgroundColor = .clear
         
         headerSettings()
         
@@ -49,6 +49,7 @@ class DrinkLibrary: UIView {
     func addObjectsToView() {
         addSubview(header)
         addSubview(table)
+        table.setup()
     }
     
     func constraints() {

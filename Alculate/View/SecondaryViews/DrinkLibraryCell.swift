@@ -21,7 +21,6 @@ class DrinkLibraryCell: UITableViewCell {
     let icon = UIImageView()
     let drinkName = UILabel()
     let drinkInfo = UILabel()
-    let delete = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // MARK: - View/Object Settings
@@ -43,19 +42,9 @@ class DrinkLibraryCell: UITableViewCell {
         drinkInfo.textAlignment = .left
         drinkInfo.font = UI.Font.cellStubFont
         drinkInfo.alpha = 0.7
-        //
-//        addSubview(delete)
-//        delete.titleLabel?.font = UI.Font.cellHeaderFont
-//        delete.setTitle("X", for: .normal)
-//        delete.setTitleColor(UI.Color.bgDarker, for: .normal)
-//        delete.backgroundColor = UI.Color.fontWhite
-//        delete.contentVerticalAlignment = .center
-//        delete.contentHorizontalAlignment = .center
-//        delete.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.savedABVdeleteRadius)
-//        delete.addTarget(self, action: #selector(remove), for: .touchUpInside)
         
         // MARK: - NSLayoutConstraints
-        for obj in [icon,drinkName,drinkInfo,delete] {
+        for obj in [icon,drinkName,drinkInfo] {
             obj.translatesAutoresizingMaskIntoConstraints = false
         }
         NSLayoutConstraint.activate([
@@ -71,10 +60,6 @@ class DrinkLibraryCell: UITableViewCell {
             drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
             drinkInfo.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVmainWidth),
 //            drinkInfo.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVsubLineHeight),
-//            delete.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-//            delete.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
-//            delete.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVdeleteDiameter),
-//            delete.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
     }
     

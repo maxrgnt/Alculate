@@ -35,7 +35,7 @@ class SecondaryView: UIView {
     //MARK: - Setup
     func setup() {
         clipsToBounds = true
-        backgroundColor = .clear
+        backgroundColor = UI.Color.Secondary.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.DrinkLibrary.radii)
         
         addObjectsToView()
@@ -50,5 +50,5 @@ class SecondaryView: UIView {
     func constraints() {
         drinkLibraryConstraints()
     }
-        
+    
 }

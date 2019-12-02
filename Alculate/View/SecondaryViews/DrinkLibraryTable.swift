@@ -40,7 +40,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     }
     
     //MARK: - Setup
-    func setup(forType id: String) {
+    func setup() {
         
         backgroundColor = .clear //UI.Color.alculatePurpleLite
         register(DrinkLibraryCell.self, forCellReuseIdentifier: "DrinkLibraryCell")

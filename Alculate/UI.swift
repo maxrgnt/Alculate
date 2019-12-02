@@ -173,6 +173,27 @@ struct UI {
             static let buttonHeight = height*(2/3)
         }
         
+        struct Secondary {
+            static let height = bounds.height
+        }
+        
+        struct DrinkLibrary {
+            
+            static let height = UI.Sizing.height
+            static let width = UI.Sizing.width
+            
+            struct Header {
+                static let height = DrinkLibrary.height - Table.height
+            }
+            struct Table {
+                static let height = Row.height*11
+            }
+            struct Row {
+                static let height = headerHeight*1.2
+            }
+            
+        }
+        
         // Header sizing
         static let headerHeight = height*headerRatio
         // Top line sizing

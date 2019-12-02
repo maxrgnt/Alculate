@@ -260,12 +260,20 @@ extension Menu {
 //MARK: Secondary View
 extension SecondaryView {
     
-    func tableHeaderConstraints() {
-        
+    func headerConstraints() {
+        header.translatesAutoresizingMaskIntoConstraints                                                    = false
+        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                    = true
+        header.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.width).isActive               = true
+        header.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.statusBar.height).isActive      = true
+        header.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Header.height).isActive      = true
     }
     
     func tableConstraints() {
-        
+        table.translatesAutoresizingMaskIntoConstraints                                                    = false
+        table.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                    = true
+        table.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.width).isActive                = true
+        table.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                   = true
+        table.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Table.height).isActive      = true
     }
     
 }

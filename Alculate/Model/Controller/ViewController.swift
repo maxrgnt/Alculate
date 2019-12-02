@@ -22,6 +22,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     // Objects
     var primaryView = PrimaryView()
+    var secondaryView = SecondaryView()
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
@@ -126,6 +127,15 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         for obj in [primaryView.comparison.beer,primaryView.comparison.liquor,primaryView.comparison.wine] {
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
+        
+        view.addSubview(secondaryView)
+        secondaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        secondaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
+        secondaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
+        secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor).isActive                        = true
+        secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
+        secondaryView.setup()
+        
 //        self.primaryView.comparison.beer.delegate = self
 //        self.primaryView.comparison.beer.table.customDelegate = self
 //        self.primaryView.comparison.liquor.delegate = self

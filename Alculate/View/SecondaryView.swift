@@ -12,7 +12,7 @@ class SecondaryView: UIView {
     
     //MARK: - Definitions
     // Objects
-    let tableHeader = UILabel()
+    let header = UILabel()
     var table = SavedABVTable()
     
     //MARK: - Initialization
@@ -33,12 +33,12 @@ class SecondaryView: UIView {
     }
     
     func addObjectsToView() {
-        addSubview(tableHeader)
+        addSubview(header)
         addSubview(table)
     }
     
     func constraints() {
-        tableHeaderConstraints()
+        headerConstraints()
         tableConstraints()
     }
     

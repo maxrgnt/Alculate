@@ -418,7 +418,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         if oldComparison.name == "" {
             var noMatches = true
             let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-            for (i, dataList) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+            for (i, dataList) in Data.lists.enumerated() {
                 if ids[i] == entryID {
                     for info in dataList {
                         if [info.name.lowercased(), info.abv, info.size, info.price] == output {
@@ -433,12 +433,13 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             }
         }
         else {
-            for (i, id) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            for id in Data.IDs {
                 if id == entryID {
                     let old = oldComparison
                     Data.deleteFromList(id, wName: old.name, wABV: old.abv, wSize: old.size, wPrice: old.price)
                     Data.saveToList(id, wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
-                    (i == 2) ? self.textEntryDelegate!.reloadTable(table: id, realculate: true) : self.textEntryDelegate!.reloadTable(table: id, realculate: false)
+//                    (i == 2) ? self.textEntryDelegate!.reloadTable(table: id, realculate: true) : self.textEntryDelegate!.reloadTable(table: id, realculate: false)
+                    self.textEntryDelegate!.reloadTable(table: id, realculate: true)
                     oldComparison = (name: "", abv: "", size: "", price: "")
                 }
             }

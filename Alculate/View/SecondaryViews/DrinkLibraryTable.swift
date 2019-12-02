@@ -148,10 +148,10 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        isMoving = true
-        reloadSectionIndexTitles()
         self.customDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
+            isMoving = true
+            reloadSectionIndexTitles()
             self.customDelegate.adjustHeaderConstant(to: contentOffset.y)
             scrollView.contentOffset.y = 0
         }
@@ -171,7 +171,9 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        self.customDelegate.finishScrolling()
+        self.customDelegate.finishScrolling()
+        isMoving = false
+        reloadSectionIndexTitles()
     }
     
     //MARK: Cell Delegate

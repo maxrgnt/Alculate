@@ -130,16 +130,14 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: - List Finder Function
     func listForThisTable() -> [(name: String, abv: String, size: String, price: String)] {
-        // create list of each alcoholList
-        let lists = [Data.beerList,Data.liquorList,Data.wineList]
         // set chosenList object
         var thisTablesList: [(name: String, abv: String, size: String, price: String)] = []
         // iterate through alcohol list ID's
-        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+        for (i, ID) in Data.IDs.enumerated() {
            // if alcohol list id matches the tables id, return that lists count
            if type == ID {
                // set row count to list count
-               thisTablesList = lists[i]
+               thisTablesList = Data.lists[i]
            }
         }
         return thisTablesList

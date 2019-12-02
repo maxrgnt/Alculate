@@ -71,7 +71,7 @@ class PrimaryView: UIView {
     func moveMenu (to state: String) {
         let newBottom: CGFloat = (state == "hidden") ? UI.Sizing.Menu.height : 0.0
         if menu.bottom != nil {
-            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut
                 , animations: ({
                     self.menu.bottom.constant = newBottom
                     self.layoutIfNeeded()

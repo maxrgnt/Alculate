@@ -20,20 +20,26 @@ struct Data {
     // each list represents a column on main page
     static var beerList: [(name: String, abv: String, size: String, price: String)] = [] {
         didSet {
-            lists[0] = beerList
+//            lists[0] = beerList
         }
     }
     static var liquorList: [(name: String, abv: String, size: String, price: String)] = [] {
         didSet {
-            lists[1] = liquorList
+//            lists[1] = liquorList
         }
     }
     static var wineList: [(name: String, abv: String, size: String, price: String)] = [] {
         didSet {
-            lists[2] = wineList
+//            lists[2] = wineList
         }
     }
-    static var lists = [beerList,liquorList,wineList]
+    static var lists = [beerList,liquorList,wineList] {
+        didSet {
+            beerList = lists[0]
+            liquorList = lists[1]
+            wineList = lists[2]
+        }
+    }
     static var toBeDeleted: [[(name: String, abv: String, size: String, price: String)]] = [[],[],[]]
     // set headers to empty to iterate over letters and append into
     static var headers: [String] = []
@@ -166,6 +172,7 @@ struct Data {
                 for obj in objects {
                     Data.beerList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
+                Data.lists[0] = Data.beerList
             }
             else if entity == Data.liquorListID {
                 Data.liquorList = []
@@ -173,6 +180,7 @@ struct Data {
                 for obj in objects {
                     Data.liquorList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
+                Data.lists[1] = Data.liquorList
             }
             else if entity == Data.wineListID {
                 Data.wineList = []
@@ -180,6 +188,7 @@ struct Data {
                 for obj in objects {
                     Data.wineList.append((name: obj.name!, abv: obj.abv!, size: obj.size!, price: obj.price!))
                 }
+                Data.lists[2] = Data.wineList
             }
         }
     }

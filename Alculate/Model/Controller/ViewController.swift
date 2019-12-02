@@ -95,7 +95,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         background.sync { self.handleInit() }
         background.sync { self.build()      }
         self.primaryView.layoutIfNeeded()
-        background.sync { self.alculate()   }
+//        background.sync { self.alculate()   }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.liquorListID) }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.wineListID) }
@@ -111,6 +111,10 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
             presentLegalAgreement()
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     // MARK: - Build
@@ -301,17 +305,16 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
 
     @objc func willEnterForeground() {
-        print("uncomment foreground when done")
-//        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
-//            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
-//                reloadTable(table: id, realculate: false)
-//            }
-//            alculate()
+        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+            for id in Data.IDs {
+                reloadTable(table: id, realculate: false)
+            }
+            alculate()
 //            if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
-//                header.summary.value.calculateNameWidth()
-//                header.summary.effect.calculateNameWidth()
+//                primaryView.header.value.calculateNameWidth()
+//                primaryView.header.effect.calculateNameWidth()
 //            }
-//        }
+        }
     }
     
     // MARK: - App Navigator Functions
@@ -320,7 +323,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        hapticFeedback.notificationOccurred(.warning)
         makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
-            print(Data.IDs[sender.tag-20])
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
             showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
         }
@@ -340,12 +342,12 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     func moveDrinkLibrary(to state: String) {
         let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
         ViewController.secondaryTop.constant = new
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.view.layoutIfNeeded()
             }), completion: { (completed) in
                 // re animate long labels on primary view when hiding secondary
-                // (new == 0.0) ? nil : self.delegate.animateComparisonLabels()
+                (state == "hidden") ? self.animateComparisonLabels(to: "moving") : self.animateComparisonLabels(to: "still")
         })
     }
     
@@ -419,9 +421,9 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             removeABVfromCoreData()
         }
         else {
-            for (i,list) in Data.toBeDeleted.enumerated() {
-                print(i, list)
-            }
+//            for (i,list) in Data.toBeDeleted.enumerated() {
+//                print(i, list)
+//            }
             Data.toBeDeleted = [[],[],[]]
         }
         animateUndo(onScreen: false)
@@ -459,7 +461,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         var bestPrice: (name: String, best: String, ind: Int)!
         var bestRatio: (name: String, best: String, ind: Int)!
         // iterate through each type list to see if empty
-        for (index, listPiece) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
+        for (index, listPiece) in Data.lists.enumerated() {
             // if the list is not empty, add the top item to lists to be compared (already sorted)
             if !listPiece.isEmpty {
                 lists.append((arr: listPiece.first!, ind: index))
@@ -515,8 +517,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             primaryView.header.value.stat.text = "$"+bestPrice.best
             primaryView.header.effect.name.text = bestRatio.name.capitalized
             primaryView.header.effect.stat.text = bestRatio.best
-            primaryView.header.value.calculateNameWidth()
-            primaryView.header.effect.calculateNameWidth()
+//            primaryView.header.value.calculateNameWidth()
+//            primaryView.header.effect.calculateNameWidth()
         }
         // if all lists are empty, dont alculate
         else {
@@ -555,21 +557,12 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     func sortByValue() {
-        Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
+        for i in 0..<Data.lists.count {
+            Data.lists[i] = Data.lists[i].sorted { (drink1, drink2) -> Bool in
+                return calculateValue(for: drink1) < calculateValue(for: drink2)
+            }
+            reloadTable(table: Data.IDs[i], realculate: false)
         }
-        // had to specify because of sortByValue on load
-        reloadTable(table: Data.beerListID, realculate: false)
-        //
-        Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
-        }
-        reloadTable(table: Data.liquorListID, realculate: false)
-        //
-        Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateValue(for: drink1) < calculateValue(for: drink2)
-        }
-        reloadTable(table: Data.wineListID, realculate: false)
     }
     
     func sortByEffect() {
@@ -592,12 +585,16 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         
     // MARK: - Protocol Delegate Functions
     func resetHeight(for table: String) {
-        print("resetting")
         primaryView.comparison.updateHeight(for: table)
     }
     
-    func animateComparisonLabels() {
-        willEnterForeground()
+    func animateComparisonLabels(to state: String) {
+        (state == "moving") ? willEnterForeground() : nukeBothComparisonLabels()
+    }
+    
+    func nukeBothComparisonLabels() {
+        primaryView.header.value.nukeAllAnimations()
+        primaryView.header.effect.nukeAllAnimations()
     }
     
     func displayAlert(alert : UIAlertController) {
@@ -640,6 +637,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     func finishScrolling() {
+        print("finishing")
         let dismissRatio: CGFloat = 0.7
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
         let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop
@@ -660,11 +658,12 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         }
         else {
             if realculate {
+                sortByValue()
                 alculate()
             }
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
             let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
-            for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+            for (i, ID) in Data.IDs.enumerated() {
                 if table == ID {
                     //tables[i].reloadData()
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
@@ -677,14 +676,13 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
         let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
-        let lists = [Data.beerList,Data.liquorList,Data.wineList]
-        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+        for (i, ID) in Data.IDs.enumerated() {
             if type == ID {
-                for x in 0..<lists[i].count {
-                    if lists[i][x].name == name {
-                        let abv = lists[i][x].abv
-                        let size = lists[i][x].size
-                        let price = lists[i][x].price
+                for x in 0..<Data.lists[i].count {
+                    if Data.lists[i][x].name == name {
+                        let abv = Data.lists[i][x].abv
+                        let size = Data.lists[i][x].size
+                        let price = Data.lists[i][x].price
                         Data.deleteFromList(type, wName: name, wABV: abv, wSize: size, wPrice: price)
                         Data.saveToList(type, wName: name, wABV: newAbv, wSize: size, wPrice: price)
                         alculate()
@@ -699,8 +697,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     
     func insertRowFor(table: String) {
         let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
-        let lists = [Data.beerList,Data.liquorList,Data.wineList]
-        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
+        let lists = Data.lists
+        for (i, ID) in Data.IDs.enumerated() {
             if table == ID {
                 tables[i].beginUpdates()
                 let index = (lists[i].count-1 < 0) ? 0 : lists[i].count-1

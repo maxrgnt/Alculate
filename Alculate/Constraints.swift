@@ -96,7 +96,7 @@ extension SummaryCell {
         nameWidth.isActive                                                                          = true
         name.heightAnchor.constraint(equalToConstant: UI.Sizing.Summary.nameHeight).isActive      = true
         name.topAnchor.constraint(equalTo: category.bottomAnchor).isActive                          = true
-        nameCenterX.isActive           = true
+        nameCenterX.isActive                                                                         = true
     }
     
     func statConstraints() {

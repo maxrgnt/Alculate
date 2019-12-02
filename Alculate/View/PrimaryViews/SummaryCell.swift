@@ -91,19 +91,32 @@ class SummaryCell: UIView {
         nukeAllAnimations()
         // calculate width of text with given font
         calcFontWidth = name.text!.width(withConstrainedHeight: UI.Sizing.Summary.nameHeight, font: name.font)
-        if calcFontWidth > UI.Sizing.Summary.width {
+        if calcFontWidth > UI.Sizing.Summary.width && !nameAnimating {
             // calculate duration needed to traverse width per second
             let duration = Double(calcFontWidth/translationsPerSecond())
             // reset left/right centers with new width
             let center = setCentersForAnimating()
             // start the animation if all criteria met otherwise do nothing
-            !nameAnimating ? startAnimation(for: duration, fromOld: center.origin, toNew: center.translated) : nil
+            startAnimation(for: duration, fromOld: center.origin, toNew: center.translated)
         }
     }
     
     func nukeAllAnimations() {
+        self.nameAnimating = false
         self.subviews.forEach({$0.layer.removeAllAnimations()})
         self.layer.removeAllAnimations()
+        calcFontWidth = name.text!.width(withConstrainedHeight: UI.Sizing.Summary.nameHeight, font: name.font)
+        let duration = Double(calcFontWidth/translationsPerSecond())
+        let center = setCentersForAnimating()
+        DispatchQueue.main.async(execute: { // repeat and autoreverse
+            UIView.animate(withDuration: duration, delay: 0.4, options: ([.curveEaseInOut])
+                , animations: ({
+                    self.nameCenterX.constant = center.origin
+                    self.layoutIfNeeded()
+                }), completion: { (completed) in
+                    self.nameAnimating = false
+            })
+        })
     }
     
     func translationsPerSecond() -> CGFloat {
@@ -130,14 +143,15 @@ class SummaryCell: UIView {
         nameAnimating = true
         // animate asyncronously
         DispatchQueue.main.async(execute: { // repeat and autoreverse 
-            UIView.animate(withDuration: duration, delay: 1, options: ([.curveEaseInOut, .repeat, .autoreverse])
+            UIView.animate(withDuration: duration, delay: 0.4, options: ([.curveEaseInOut, .repeat, .autoreverse])
                 , animations: ({
                     self.nameCenterX.constant = newCenter
                     self.layoutIfNeeded()
                 }), completion: { (completed) in
-                    self.nameCenterX.constant = oldCenter
-                    self.layoutIfNeeded()
-                    self.nameAnimating = false
+//                    self.nameCenterX.constant = oldCenter
+//                    self.layoutIfNeeded()
+//                    self.nameAnimating = false
+//                    print("\(self.name.text!) has stopped animating")
             })
         })
     }

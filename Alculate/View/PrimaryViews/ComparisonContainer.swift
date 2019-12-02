@@ -24,7 +24,6 @@ class ComparisonContainer: UIScrollView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init container")
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -25,7 +25,6 @@ class SecondaryView: UIView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init secondary")
     }
     
     required init?(coder aDecoder: NSCoder) {

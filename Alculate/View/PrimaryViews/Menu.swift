@@ -21,7 +21,6 @@ class Menu: UIView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init summaryCell2")
     }
     
     required init?(coder aDecoder: NSCoder) {

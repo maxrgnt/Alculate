@@ -24,7 +24,6 @@ class Header: UIView {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
         backgroundColor = UI.Color.Header.background
-        print("init header2")
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -20,7 +20,6 @@ class PrimaryView: UIView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init primary")
     }
     
     required init?(coder aDecoder: NSCoder) {

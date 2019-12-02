@@ -32,7 +32,6 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
-        print("init table")
     }
     
     required init?(coder aDecoder: NSCoder) {

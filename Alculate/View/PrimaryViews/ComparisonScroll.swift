@@ -26,7 +26,6 @@ class ComparisonScroll: UIScrollView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init comparisonScroll")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -95,7 +94,6 @@ class ComparisonScroll: UIScrollView {
         for (i, id) in Data.IDs.enumerated() {
             if container == id {
                 // set new height to the header + however many rows
-                print("\(container) - \(Data.lists[i].count)")
                 newTable = CGFloat(Data.lists[i].count) * UI.Sizing.Comparison.Row.height
                 newContainer = newTable + UI.Sizing.Comparison.Header.height
                 // add to the new height for the rounded radii at bottom and border

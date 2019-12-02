@@ -1,21 +1,21 @@
 //
-//  SavedABVCell.swift
+//  DrinkLibraryCell.swift
 //  Alculate
 //
-//  Created by Max Sergent on 10/11/19.
+//  Created by Max Sergent on 12/2/19.
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
 import UIKit
 
-protocol SavedABVCellDelegate: AnyObject {
-    func remove(cell: SavedABVCell)
+protocol DrinkLibraryCellDelegate: AnyObject {
+    func remove(cell: DrinkLibraryCell)
 }
 
-class SavedABVCell: UITableViewCell {
+class DrinkLibraryCell: UITableViewCell {
   
     // Delegate object for Protocol above
-    var delegate: SavedABVCellDelegate?
+    var delegate: DrinkLibraryCellDelegate?
 
     // Objects
     let icon = UIImageView()
@@ -26,7 +26,7 @@ class SavedABVCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // MARK: - View/Object Settings
         // Initialize views frame prior to setting constraints
-        super.init(style: style, reuseIdentifier: "SavedABVCell")
+        super.init(style: style, reuseIdentifier: "DrinkLibraryCell")
         // Miscelaneous view settings
         selectionStyle = .none
         backgroundColor = .clear

@@ -1,15 +1,15 @@
 //
-//  SavedABVTable.swift
+//  DrinkLibraryTable.swift
 //  Alculate
 //
-//  Created by Max Sergent on 10/11/19.
+//  Created by Max Sergent on 12/2/19.
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-protocol SavedABVTableDelegate {
-    // called when user taps subview/delete button
+protocol DrinkLibraryTableDelegate {
     func animateUndo(onScreen: Bool)
     func reloadTable(table: String, realculate: Bool)
     func editSavedABV(name: String, abv: String, type: String)
@@ -19,26 +19,31 @@ protocol SavedABVTableDelegate {
     func finishScrolling()
 }
 
-class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SavedABVCellDelegate {
-
+class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, DrinkLibraryCellDelegate {
+        
+    //MARK: - Definitions
     // Delegate object
-    var savedABVTableDelegate : SavedABVTableDelegate!
-    
+    var customDelegate : DrinkLibraryTableDelegate!
     // Variables
     var toBeDeleted: [(name: String, abv: String, type: String)] = []
     var isMoving = false
     
+    //MARK: - Initialization
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
+        print("init table")
     }
     
-    func build() {
-        // MARK: - View/Object Settings
-        // Miscelaneous view settings
-        translatesAutoresizingMaskIntoConstraints = false
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Setup
+    func setup(forType id: String) {
+        
         backgroundColor = .clear //UI.Color.alculatePurpleLite
-        register(SavedABVCell.self, forCellReuseIdentifier: "SavedABVCell")
+        register(DrinkLibraryCell.self, forCellReuseIdentifier: "DrinkLibraryCell")
         delegate = self
         dataSource = self
         tableHeaderView = nil
@@ -47,11 +52,12 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         alwaysBounceHorizontal = false
         sectionIndexColor = UI.Color.fontWhite
         sectionIndexBackgroundColor = UIColor.clear
+    
     }
-        
+    
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: SavedABVCell = tableView.dequeueReusableCell(withIdentifier: "SavedABVCell") as! SavedABVCell
+        let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: "DrinkLibraryCell") as! DrinkLibraryCell
         cell.delegate = self
         cell.setLabels(forCellAt: indexPath)
         /*
@@ -96,7 +102,7 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
         let name = nameList![indexPath.row]
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
-        self.savedABVTableDelegate.editSavedABV(name: name, abv: abv, type: type)
+        self.customDelegate.editSavedABV(name: name, abv: abv, type: type)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -128,15 +134,45 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
             if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
                 Data.masterList[name] = nil
             }
-            self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
-            self.savedABVTableDelegate.animateUndo(onScreen: true)
+            self.customDelegate.reloadTable(table: Data.masterListID, realculate: false)
+            self.customDelegate.animateUndo(onScreen: true)
         })
         DeleteAction.backgroundColor = UI.Color.begonia
         return UISwipeActionsConfiguration(actions: [DeleteAction])
     }
+ 
+    //MARK: Functions
+    func scrollToFirstRow() {
+        let indexPath = NSIndexPath(row: 0, section: 0)
+        self.scrollToRow(at: indexPath as IndexPath, at: .top, animated: true)
+    }
     
-    // MARK: - SavedABV Cell Delegate
-    func remove(cell: SavedABVCell) {
+    // MARK: - ScrollView Delegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.customDelegate.adjustHeaderBackground()
+        if scrollView.contentOffset.y <= 0 {
+            self.customDelegate.adjustHeaderConstant(to: contentOffset.y)
+            scrollView.contentOffset.y = 0
+        }
+        if scrollView.contentOffset.y > 0 {
+            self.customDelegate.resetHeader()
+        }
+    }
+
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        // pass
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.customDelegate.finishScrolling()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.customDelegate.finishScrolling()
+    }
+    
+    //MARK: Cell Delegate
+    func remove(cell: DrinkLibraryCell) {
 //        let indexPath = self.indexPath(for: cell)
 //        let headerLetter = Data.headers[indexPath!.section]
 //        let nameList = Data.matrix[headerLetter]
@@ -152,42 +188,4 @@ class SavedABVTable: UITableView, UITableViewDelegate, UITableViewDataSource, UI
 //        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
 //        self.savedABVTableDelegate.animateUndo(onScreen: true)
     }
-    
-    func scrollToFirstRow() {
-        let indexPath = NSIndexPath(row: 0, section: 0)
-        self.scrollToRow(at: indexPath as IndexPath, at: .top, animated: true)
-    }
-
-    // MARK: - ScrollView Delegate
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.savedABVTableDelegate.adjustHeaderBackground()
-        if scrollView.contentOffset.y <= 0 {
-            self.savedABVTableDelegate.adjustHeaderConstant(to: contentOffset.y)
-            scrollView.contentOffset.y = 0
-        }
-        if scrollView.contentOffset.y > 0 {
-            self.savedABVTableDelegate.resetHeader()
-        }
-    }
-
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        // pass
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.savedABVTableDelegate.finishScrolling()
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.savedABVTableDelegate.finishScrolling()
-    }
-    
-    func resetHeader() {
-        // pass
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }

@@ -12,18 +12,18 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate, ContainerTableDelegate, TextEntryDelegate {
+class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
     static var topAnchor: NSLayoutYAxisAnchor!
     static var trailingAnchor: NSLayoutXAxisAnchor!
     static var bottomAnchor: NSLayoutYAxisAnchor!
+    static var secondaryTop: NSLayoutConstraint!
     
     // Objects
     var primaryView = PrimaryView()
     var secondaryView = SecondaryView()
-    var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
     var undo = Undo()
@@ -101,9 +101,9 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
 //        background.sync { primaryView.comparison.updateHeight(for: Data.wineListID) }
 //        primaryView.comparison.updateContentSize()
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            background.sync { self.moveSummaryAnchor(to: -UI.Sizing.Height.summary)}
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+            background.sync { self.moveDrinkLibrary(to: "visible") }
+        }
         
     }
     
@@ -130,9 +130,10 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         
         view.addSubview(secondaryView)
         secondaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        ViewController.secondaryTop = secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor)
         secondaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
         secondaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
-        secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor).isActive                        = true
+        ViewController.secondaryTop.isActive                                                                    = true
         secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
         secondaryView.setup()
         
@@ -197,6 +198,19 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
             )
             alert.setValue(messageText, forKey: "attributedMessage")
         }
+    }
+    
+    //MARK: - Animations
+    func moveDrinkLibrary(to state: String) {
+        let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
+        ViewController.secondaryTop.constant = new
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
+            , animations: ({
+                self.view.layoutIfNeeded()
+            }), completion: { (completed) in
+                // re animate long labels on primary view when hiding secondary
+                // (new == 0.0) ? nil : self.delegate.animateComparisonLabels()
+        })
     }
     
     // MARK: - Initialization / Testing
@@ -329,7 +343,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         }
         else if sender.tag == 1 {
             didEnterBackground()
-            savedABV.animateTopAnchor(constant: UI.Sizing.savedABVtop)
+//            savedABV.animateTopAnchor(constant: UI.Sizing.savedABVtop)
             primaryView.menu.bottom.constant = 0
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
@@ -378,13 +392,13 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
         // if toBeDeleted is not empty
-        if savedABV.savedABVtop.constant != UI.Sizing.height {
-            if !savedABV.savedABVTable.toBeDeleted.isEmpty {
+        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
+            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
                 // for every object in toBeDeleted, add it back to the Data master list
-                for info in savedABV.savedABVTable.toBeDeleted {
+                for info in secondaryView.drinkLibrary.table.toBeDeleted {
                     Data.masterList[info.name] = (type: info.type, abv: info.abv)
                 }
-                savedABV.savedABVTable.reloadData()
+                secondaryView.drinkLibrary.table.reloadData()
             }
         }
         else {
@@ -404,7 +418,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     @objc func cancelUndo() {
-        if savedABV.savedABVtop.constant != UI.Sizing.height {
+        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
             removeABVfromCoreData()
         }
         else {
@@ -419,7 +433,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func removeABVfromCoreData() {
         // iterate over every object in the toBeDeleted table
-        for info in savedABV.savedABVTable.toBeDeleted {
+        for info in secondaryView.drinkLibrary.table.toBeDeleted {
             // make the database editable
             Data.isEditable = true
             // update the database to match the list with now deleted values
@@ -623,32 +637,32 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func adjustHeaderBackground() {
-        if let cell = savedABV.savedABVTable.cellForRow(at: savedABV.savedABVTable.indexPathsForVisibleRows![0]) {
-            savedABV.gradient2.colors = [cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
+        if let cell = secondaryView.drinkLibrary.table.cellForRow(at: secondaryView.drinkLibrary.table.indexPathsForVisibleRows![0]) {
+            secondaryView.drinkLibrary.gradient2.colors = [cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
 //            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }
     
     func resetHeader() {
-        if savedABV.savedABVtop.constant != UI.Sizing.savedABVtop {
-            savedABV.savedABVtop.constant = UI.Sizing.savedABVtop
+        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.savedABVtop {
+            secondaryView.drinkLibrary.headerTop.constant = UI.Sizing.savedABVtop
             finishScrolling()
         }
     }
     
     func adjustHeaderConstant(to constant: CGFloat) {
         // Allow movement of contact card back/forth when not fully visible
-        savedABV.savedABVtop.constant += -constant
+        secondaryView.drinkLibrary.headerTop.constant += -constant
         // If contact card is fully visible, don't allow movement further left
-        savedABV.savedABVtop.constant = savedABV.savedABVtop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : savedABV.savedABVtop.constant
-        savedABV.layoutIfNeeded()
+        secondaryView.drinkLibrary.headerTop.constant = secondaryView.drinkLibrary.headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : secondaryView.drinkLibrary.headerTop.constant
+        secondaryView.layoutIfNeeded()
     }
     
     func finishScrolling() {
-        let newConstant = savedABV.savedABVtop.constant / UI.Sizing.height <= 0.4 ? UI.Sizing.savedABVtop : UI.Sizing.height
-        let percent: CGFloat = (savedABV.savedABVtop.constant / UI.Sizing.height <= 0.4) ? 0.0 : 1.0
-        percent == 1.0 ? animateSubMenu(by: 1.0, reset: false) : nil
-        savedABV.animateTopAnchor(constant: newConstant)
+//        let newConstant = secondaryView.drinkLibrary.headerTop.constant / UI.Sizing.height <= 0.4 ? UI.Sizing.savedABVtop : UI.Sizing.height
+//        let percent: CGFloat = (secondaryView.drinkLibrary.headerTop.constant / UI.Sizing.height <= 0.4) ? 0.0 : 1.0
+//        percent == 1.0 ? animateSubMenu(by: 1.0, reset: false) : nil
+//        savedABV.animateTopAnchor(constant: newConstant)
     }
     
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {
@@ -660,7 +674,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     
     func reloadTable(table: String, realculate: Bool = true) {
         if table == Data.masterListID {
-            savedABV.savedABVTable.reloadData()
+            secondaryView.drinkLibrary.table.reloadData()
         }
         else {
             if realculate {

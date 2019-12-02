@@ -8,12 +8,20 @@
 
 import UIKit
 
+protocol SecondaryDelegate {
+    func animateSubMenu(by: CGFloat, reset: Bool)
+    func animateComparisonLabels()
+}
+
 class SecondaryView: UIView {
     
     //MARK: - Definitions
+    // Delegates
+    var delegate : SecondaryDelegate!
+    // Constraints
+    var headerTop: NSLayoutConstraint!
     // Objects
-    let header = UILabel()
-    var table = SavedABVTable()
+    let drinkLibrary = DrinkLibrary()
     
     //MARK: - Initialization
     init() {
@@ -28,21 +36,21 @@ class SecondaryView: UIView {
     
     //MARK: - Setup
     func setup() {
+        clipsToBounds = true
+        backgroundColor = .clear
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.DrinkLibrary.radii)
+        
         addObjectsToView()
         constraints()
     }
     
     func addObjectsToView() {
-        addSubview(header)
-        addSubview(table)
+        addSubview(drinkLibrary)
+        drinkLibrary.setup()
     }
     
     func constraints() {
-        headerConstraints()
-        tableConstraints()
+        drinkLibraryConstraints()
     }
-    
-    //MARK: - Animations
-
-    
+        
 }

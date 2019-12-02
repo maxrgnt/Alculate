@@ -179,11 +179,12 @@ struct UI {
         
         struct DrinkLibrary {
             
-            static let height = UI.Sizing.height
+            static let height = bounds.height
             static let width = UI.Sizing.width
+            static let radii = width/20
             
             struct Header {
-                static let height = DrinkLibrary.height - Table.height
+                static let height = DrinkLibrary.height - statusBar.height - Table.height
             }
             struct Table {
                 static let height = Row.height*11

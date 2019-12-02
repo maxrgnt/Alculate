@@ -170,6 +170,7 @@ struct UI {
             static let height = headerHeight*1.25
             static let width = UI.Sizing.width
             static let radii = width/10
+            static let buttonHeight = height*(2/3)
         }
         
         // Header sizing

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		660043BD2350C92700E2A03A /* SubMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660043BC2350C92700E2A03A /* SubMenu.swift */; };
 		660043BF23510A2B00E2A03A /* SavedABVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660043BE23510A2B00E2A03A /* SavedABVCell.swift */; };
 		660043C123510EF800E2A03A /* SavedABVTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660043C023510EF800E2A03A /* SavedABVTable.swift */; };
 		660043C32351196400E2A03A /* SavedABV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660043C22351196400E2A03A /* SavedABV.swift */; };
@@ -33,7 +32,6 @@
 		668257C22391733B00429454 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257C12391733B00429454 /* Constraints.swift */; };
 		668257C42391785000429454 /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257C32391785000429454 /* SummaryCell.swift */; };
 		66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66896A3A2357E0C400C5793F /* TextEntryInputs.swift */; };
-		66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66942D00237F78D300C48211 /* SubMenuBG.swift */; };
 		669931B92352623C00021512 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931B82352623C00021512 /* ViewController.swift */; };
 		669931C72354FFD300021512 /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931C62354FFD300021512 /* TextEntry.swift */; };
 		669931C82354FFD300021512 /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669931C62354FFD300021512 /* TextEntry.swift */; };
@@ -75,7 +73,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		660043BC2350C92700E2A03A /* SubMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenu.swift; sourceTree = "<group>"; };
 		660043BE23510A2B00E2A03A /* SavedABVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedABVCell.swift; sourceTree = "<group>"; };
 		660043C023510EF800E2A03A /* SavedABVTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedABVTable.swift; sourceTree = "<group>"; };
 		660043C22351196400E2A03A /* SavedABV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedABV.swift; sourceTree = "<group>"; };
@@ -101,7 +98,6 @@
 		668257C12391733B00429454 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		668257C32391785000429454 /* SummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		66896A3A2357E0C400C5793F /* TextEntryInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryInputs.swift; sourceTree = "<group>"; };
-		66942D00237F78D300C48211 /* SubMenuBG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubMenuBG.swift; sourceTree = "<group>"; };
 		669931B82352623C00021512 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		669931C62354FFD300021512 /* TextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		669931CA23550A4A00021512 /* TextNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNavigator.swift; sourceTree = "<group>"; };
@@ -198,8 +194,6 @@
 				669931C62354FFD300021512 /* TextEntry.swift */,
 				66896A3A2357E0C400C5793F /* TextEntryInputs.swift */,
 				669931CA23550A4A00021512 /* TextNavigator.swift */,
-				660043BC2350C92700E2A03A /* SubMenu.swift */,
-				66942D00237F78D300C48211 /* SubMenuBG.swift */,
 				6680A11D2344B773000A884D /* Undo.swift */,
 			);
 			path = View;
@@ -449,13 +443,11 @@
 				669931B92352623C00021512 /* ViewController.swift in Sources */,
 				668257C22391733B00429454 /* Constraints.swift in Sources */,
 				66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */,
-				66942D01237F78D400C48211 /* SubMenuBG.swift in Sources */,
 				66C26351234F44310077332F /* OldCell.swift in Sources */,
 				6680A11E2344B774000A884D /* Undo.swift in Sources */,
 				669931C72354FFD300021512 /* TextEntry.swift in Sources */,
 				668257BF23916C8300429454 /* Header.swift in Sources */,
 				668257BD2391622A00429454 /* PrimaryView.swift in Sources */,
-				660043BD2350C92700E2A03A /* SubMenu.swift in Sources */,
 				66822D652394281E0078160F /* ContainerCell.swift in Sources */,
 				66AF587F233C148300502EEA /* Extensions.swift in Sources */,
 				66AF5846233A33E900502EEA /* ContentView.swift in Sources */,

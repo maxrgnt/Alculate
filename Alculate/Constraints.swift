@@ -244,6 +244,19 @@ extension ContainerCell {
     
 }
 
+//MARK: Menu
+extension Menu {
+    
+    func showDrinkLibraryConstraints() {
+        showDrinkLibrary.translatesAutoresizingMaskIntoConstraints                                                        = false
+        showDrinkLibrary.widthAnchor.constraint(equalTo: widthAnchor).isActive                                     = true
+        showDrinkLibrary.heightAnchor.constraint(equalToConstant: UI.Sizing.Menu.buttonHeight).isActive           = true
+        showDrinkLibrary.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        showDrinkLibrary.topAnchor.constraint(equalTo: topAnchor).isActive                                          =    true
+    }
+    
+}
+
 //MARK: Secondary View
 extension SecondaryView {
     

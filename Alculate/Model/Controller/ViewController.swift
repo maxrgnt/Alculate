@@ -25,8 +25,6 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     var savedABV = SavedABV()
     var tapDismiss = TapDismiss()
     var textEntry = TextEntry()
-    var subMenu = SubMenu()
-    var subMenuBG = SubMenuBG()
     var undo = Undo()
     var alert = UIAlertController(title: "title", message: "Hi", preferredStyle: .alert)
     
@@ -322,7 +320,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
         else if sender.tag == 1 {
             didEnterBackground()
             savedABV.animateTopAnchor(constant: UI.Sizing.savedABVtop)
-            subMenu.top.constant = 0
+            primaryView.menu.bottom.constant = 0
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
             })
@@ -581,7 +579,7 @@ class ViewController: UIViewController, SavedABVDelegate, SavedABVTableDelegate,
     }
     
     func animateSubMenu(by percent: CGFloat, reset: Bool) {
-        subMenu.top.constant = -UI.Sizing.subMenuHeight*(percent)
+        primaryView.menu.bottom.constant = -UI.Sizing.subMenuHeight*(percent)
         // remove undo if it is on screen
         if undo.top.constant != 0 {
             undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight

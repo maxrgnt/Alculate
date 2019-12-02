@@ -53,7 +53,7 @@ class Menu: UIView {
     
     //MARK: - Constraints
     func constraints() {
-        
+        showDrinkLibraryConstraints()
     }
     
     //MARK: - Settings

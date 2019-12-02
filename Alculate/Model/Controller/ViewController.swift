@@ -12,7 +12,7 @@ import CoreData
 // Setting protocol?
 // Don't forget self.OBJECT.DELEGATE = self
 
-class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegate {
+class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegate, DrinkLibraryTableDelegate {
     
     // Constraints
     static var leadingAnchor: NSLayoutXAxisAnchor!
@@ -139,6 +139,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
         secondaryView.setup()
         
+        self.secondaryView.drinkLibrary.table.customDelegate = self
         
         
 //        self.primaryView.comparison.beer.delegate = self
@@ -153,17 +154,17 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        self.savedABV.savedABVDelegate = self
 //        self.savedABV.savedABVTable.savedABVTableDelegate = self
 //
-//        view.addSubview(undo)
-//        undo.build()
-//        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-//        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
-//
-//        view.addSubview(tapDismiss)
-//        tapDismiss.build()
-//
-//        view.addSubview(textEntry)
-//        textEntry.build()
-//        self.textEntry.textEntryDelegate = self
+        view.addSubview(undo)
+        undo.build()
+        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
+
+        view.addSubview(tapDismiss)
+        tapDismiss.build()
+
+        view.addSubview(textEntry)
+        textEntry.build()
+        self.textEntry.textEntryDelegate = self
 
     }
     
@@ -636,30 +637,33 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     func adjustHeaderBackground() {
         if let cell = secondaryView.drinkLibrary.table.cellForRow(at: secondaryView.drinkLibrary.table.indexPathsForVisibleRows![0]) {
             secondaryView.drinkLibrary.gradient2.colors = [cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
-//            savedABV.statusBar.backgroundColor = cell.backgroundColor
         }
     }
     
     func resetHeader() {
-//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.savedABVtop {
-//            secondaryView.drinkLibrary.headerTop.constant = UI.Sizing.savedABVtop
-//            finishScrolling()
-//        }
+        let secondaryViewAtTop = -UI.Sizing.Secondary.height
+        if ViewController.secondaryTop.constant != secondaryViewAtTop {
+            ViewController.secondaryTop.constant = secondaryViewAtTop
+            finishScrolling()
+        }
     }
     
     func adjustHeaderConstant(to constant: CGFloat) {
-//        // Allow movement of contact card back/forth when not fully visible
-//        secondaryView.drinkLibrary.headerTop.constant += -constant
-//        // If contact card is fully visible, don't allow movement further left
-//        secondaryView.drinkLibrary.headerTop.constant = secondaryView.drinkLibrary.headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : secondaryView.drinkLibrary.headerTop.constant
-//        secondaryView.layoutIfNeeded()
+        // Allow movement of contact card back/forth when not fully visible
+        ViewController.secondaryTop.constant += -constant
+        // If contact card is fully visible, don't allow movement further left
+        let currentConstant = ViewController.secondaryTop.constant
+        let secondaryViewAtTop = -UI.Sizing.Secondary.height
+        ViewController.secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
+        secondaryView.layoutIfNeeded()
     }
     
     func finishScrolling() {
-//        let newConstant = secondaryView.drinkLibrary.headerTop.constant / UI.Sizing.height <= 0.4 ? UI.Sizing.savedABVtop : UI.Sizing.height
-//        let percent: CGFloat = (secondaryView.drinkLibrary.headerTop.constant / UI.Sizing.height <= 0.4) ? 0.0 : 1.0
-//        percent == 1.0 ? animateSubMenu(by: 1.0, reset: false) : nil
-//        savedABV.animateTopAnchor(constant: newConstant)
+        let dismissRatio: CGFloat = 0.7
+        let secondaryViewAtTop = -UI.Sizing.Secondary.height
+        let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop
+        (currentRatio >= dismissRatio) ? moveDrinkLibrary(to: "visible") : moveDrinkLibrary(to: "hidden")
+        (currentRatio >= dismissRatio) ? nil : primaryView.moveMenu(to: "visible")
     }
     
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {

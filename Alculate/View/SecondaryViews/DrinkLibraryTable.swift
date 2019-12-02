@@ -50,6 +50,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         separatorStyle = .singleLine
         separatorColor = .lightGray
         alwaysBounceHorizontal = false
+        showsVerticalScrollIndicator = false
         sectionIndexColor = UI.Color.fontWhite
         sectionIndexBackgroundColor = UIColor.clear
     
@@ -149,6 +150,8 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isMoving = true
+        reloadSectionIndexTitles()
         self.customDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
             self.customDelegate.adjustHeaderConstant(to: contentOffset.y)
@@ -165,10 +168,12 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.customDelegate.finishScrolling()
+        isMoving = false
+        reloadSectionIndexTitles()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.customDelegate.finishScrolling()
+//        self.customDelegate.finishScrolling()
     }
     
     //MARK: Cell Delegate

@@ -62,10 +62,6 @@ class DrinkLibrary: UIView {
         header.textColor = UI.Color.fontWhite
         header.textAlignment = .left
         header.text = "Drink Library"
-        
-        // Initialize pan gesture recognizer to dismiss view
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
-        header.addGestureRecognizer(pan)
     }
     
     
@@ -101,29 +97,6 @@ class DrinkLibrary: UIView {
     
     
     //MARK: - Animations
-    @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
-//        let translation = sender.translation(in: self)
-//        table.isMoving = true
-//        table.reloadSectionIndexTitles()
-//        // Allow movement of contact card back/forth when not fully visible
-//        headerTop.constant += translation.y
-//        // If contact card is fully visible, don't allow movement further left
-//        headerTop.constant = headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : headerTop.constant
-//        let percent = headerTop.constant/UI.Sizing.height >= 1 ? 1 : headerTop.constant/UI.Sizing.height
-//        // Set recognizer to start new drag gesture in future
-//        sender.setTranslation(CGPoint.zero, in: self)
-//        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
-//        if sender.state == UIGestureRecognizer.State.ended {
-//            table.isMoving = false
-//            table.reloadSectionIndexTitles()
-//            // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-//            let constant = (headerTop.constant/UI.Sizing.height > 0.4) ? UI.Sizing.height : UI.Sizing.savedABVtop
-//            let percent: CGFloat = (constant == UI.Sizing.savedABVtop) ? 0 : 1
-//            constant == UI.Sizing.height ? table.scrollToFirstRow() : nil
-//            let reset = (constant == UI.Sizing.savedABVtop) ? true : false
-//            // Animate to end-point
-//            animateTopAnchor(constant: constant)
-//        }
-    }
+
     
 }

@@ -105,18 +105,20 @@ class SummaryCell: UIView {
         self.nameAnimating = false
         self.subviews.forEach({$0.layer.removeAllAnimations()})
         self.layer.removeAllAnimations()
-        calcFontWidth = name.text!.width(withConstrainedHeight: UI.Sizing.Summary.nameHeight, font: name.font)
-        let duration = Double(calcFontWidth/translationsPerSecond())
-        let center = setCentersForAnimating()
-        DispatchQueue.main.async(execute: { // repeat and autoreverse
-            UIView.animate(withDuration: duration, delay: 0.4, options: ([.curveEaseInOut])
-                , animations: ({
-                    self.nameCenterX.constant = center.origin
-                    self.layoutIfNeeded()
-                }), completion: { (completed) in
-                    self.nameAnimating = false
+        if name.text != nil {
+            calcFontWidth = name.text!.width(withConstrainedHeight: UI.Sizing.Summary.nameHeight, font: name.font)
+            let duration = Double(calcFontWidth/translationsPerSecond())
+            let center = setCentersForAnimating()
+            DispatchQueue.main.async(execute: { // repeat and autoreverse
+                UIView.animate(withDuration: duration, delay: 0.4, options: ([.curveEaseInOut])
+                    , animations: ({
+                        self.nameCenterX.constant = center.origin
+                        self.layoutIfNeeded()
+                    }), completion: { (completed) in
+                        self.nameAnimating = false
+                })
             })
-        })
+        }
     }
     
     func translationsPerSecond() -> CGFloat {

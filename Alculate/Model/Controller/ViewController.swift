@@ -143,6 +143,11 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
         secondaryView.setup()
         
+        // Initialize pan gesture recognizer to dismiss view
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
+        secondaryView.drinkLibrary.header.addGestureRecognizer(pan)
+        secondaryView.drinkLibrary.header.isUserInteractionEnabled = true
+        
         self.secondaryView.drinkLibrary.table.customDelegate = self
         
         
@@ -351,6 +356,35 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
                 // re animate long labels on primary view when hiding secondary
                 (state == "hidden") ? self.animateComparisonLabels(to: "moving") : self.animateComparisonLabels(to: "still")
         })
+    }
+    
+    @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: self.view)
+        secondaryView.drinkLibrary.table.isMoving = true
+        secondaryView.drinkLibrary.table.reloadSectionIndexTitles()
+        // Allow movement of contact card back/forth when not fully visible
+        ViewController.secondaryTop.constant += translation.y
+        // If contact card is fully visible, don't allow movement further up
+        let currentConstant = ViewController.secondaryTop.constant
+        let secondaryViewAtTop = -UI.Sizing.Secondary.height
+        ViewController.secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
+        // Set recognizer to start new drag gesture in future
+        sender.setTranslation(CGPoint.zero, in: secondaryView.drinkLibrary.header)
+        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
+        if sender.state == UIGestureRecognizer.State.ended {
+            
+            let dismissRatio: CGFloat = 0.7
+            let secondaryViewAtTop = -UI.Sizing.Secondary.height
+            let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop
+            (currentRatio >= dismissRatio) ? moveDrinkLibrary(to: "visible") : moveDrinkLibrary(to: "hidden")
+            (currentRatio >= dismissRatio) ? nil : primaryView.moveMenu(to: "visible")
+            
+            secondaryView.drinkLibrary.table.isMoving = false
+            secondaryView.drinkLibrary.table.reloadSectionIndexTitles()
+        
+            // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
+            (currentRatio >= dismissRatio) ? secondaryView.drinkLibrary.table.scrollToFirstRow() : nil
+        }
     }
     
     // MARK: - Show Text Entry

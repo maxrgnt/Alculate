@@ -122,7 +122,6 @@ class ComparisonScroll: UIScrollView {
         var new: CGFloat = 3 * UI.Sizing.Padding.comparison
         // add height of each container
         for container in containers {
-            print(container.height.constant)
             new += container.height.constant
         }
         // add padding to bottom if bigger than given screen area

@@ -94,7 +94,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        let background = DispatchQueue.global()
         background.sync { self.handleInit() }
         background.sync { self.build()      }
-        self.primaryView.layoutIfNeeded()
+        background.sync { self.primaryView.layoutIfNeeded()     }
 //        background.sync { self.alculate()   }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.liquorListID) }

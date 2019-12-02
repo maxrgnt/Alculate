@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
             uuid = "62FEEDE5-5C26-4AAC-ABD5-E7D94E5A647B"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "UITableViewAlertForLayoutOutsideViewHierarchy"
@@ -16,7 +16,7 @@
             <Locations>
                <Location
                   uuid = "62FEEDE5-5C26-4AAC-ABD5-E7D94E5A647B - 620169ab4c7c265a"
-                  shouldBeEnabled = "No"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "UITableViewAlertForLayoutOutsideViewHierarchy"

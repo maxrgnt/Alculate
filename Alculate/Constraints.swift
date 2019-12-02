@@ -120,7 +120,7 @@ extension SummaryCell {
 extension ComparisonScroll {
     
     func beerConstraints () {
-        beer.height = beer.heightAnchor.constraint(equalToConstant: 100.0)
+        beer.height = beer.heightAnchor.constraint(equalToConstant: 0.0)
         beer.translatesAutoresizingMaskIntoConstraints                                                  = false
         beer.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
         beer.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
@@ -161,19 +161,22 @@ extension ComparisonScroll {
 extension ComparisonContainer {
     
     func headerConstraints() {
-        header.translatesAutoresizingMaskIntoConstraints                                                        = false
-        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
-        header.topAnchor.constraint(equalTo: topAnchor).isActive                                                = true
-        header.widthAnchor.constraint(equalTo: widthAnchor).isActive                                            = true
-        header.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.height).isActive  = true
+        header.translatesAutoresizingMaskIntoConstraints                                                            = false
+        header.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                       = true
+        header.topAnchor.constraint(equalTo: topAnchor).isActive                                               = true
+        header.widthAnchor.constraint(equalTo: widthAnchor).isActive                                           = true
+        header.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Header.height).isActive                = true
     }
     
     func tableConstraints() {
-        table.translatesAutoresizingMaskIntoConstraints                                                        = false
+        table.height = table.heightAnchor.constraint(equalToConstant: 0.0)
+        table.translatesAutoresizingMaskIntoConstraints                                                             = false
         table.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
-        table.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                      = true
+        table.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                           = true
         table.widthAnchor.constraint(equalTo: widthAnchor).isActive                                            = true
-        table.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.Comparison.padding).isActive  = true
+        // why have to set height? why can't just set top and bottom anchor and height gets set from there?
+//        table.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UI.Sizing.Comparison.padding).isActive  = true
+        table.height.isActive                                                                                 = true
     }
     
 }
@@ -205,14 +208,14 @@ extension ContainerCell {
     func nameConstraints() {
         name.translatesAutoresizingMaskIntoConstraints                                                          = false
         name.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.nameWidth).isActive               = true
-        name.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Comparison.border).isActive    = true
+        name.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.height).isActive    = true
         name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
-        name.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                          = true
+        name.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
     }
     
     func valueConstraints() {
         value.translatesAutoresizingMaskIntoConstraints                                                          = false
-        value.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.nameWidth).isActive               = true
+        value.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.valueWidth).isActive               = true
         value.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.statHeight).isActive             = true
         value.leadingAnchor.constraint(equalTo: name.trailingAnchor).isActive                                = true
         value.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
@@ -221,7 +224,7 @@ extension ContainerCell {
     func valueUnitConstraints() {
         valueUnit.translatesAutoresizingMaskIntoConstraints                                                          = false
         valueUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.valueWidth).isActive               = true
-        valueUnit.heightAnchor.constraint(equalTo: heightAnchor, constant: -UI.Sizing.Comparison.border).isActive    = true
+        valueUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.unitHeight).isActive    = true
         valueUnit.leadingAnchor.constraint(equalTo: name.trailingAnchor).isActive                                   = true
         valueUnit.topAnchor.constraint(equalTo: value.bottomAnchor, constant: UI.Sizing.Comparison.Row.unitOffset).isActive = true
     }
@@ -237,9 +240,9 @@ extension ContainerCell {
     func effectUnitConstraints() {
         effectUnit.translatesAutoresizingMaskIntoConstraints                                                          = false
         effectUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.effectWidth).isActive               = true
-        effectUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.statHeight).isActive             = true
+        effectUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Row.unitHeight).isActive             = true
         effectUnit.leadingAnchor.constraint(equalTo: valueUnit.trailingAnchor).isActive                                = true
-        effectUnit.topAnchor.constraint(equalTo: value.bottomAnchor, constant: UI.Sizing.Comparison.Row.unitOffset).isActive = true
+        effectUnit.topAnchor.constraint(equalTo: effect.bottomAnchor, constant: UI.Sizing.Comparison.Row.unitOffset).isActive = true
     }
     
 }

@@ -92,7 +92,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        }
         
 //        let background = DispatchQueue.global()
-//        background.sync { self.handleInit() }
+        background.sync { self.handleInit() }
         background.sync { self.build()      }
 //        self.view.layoutIfNeeded()
 //        background.sync { self.alculate()   }
@@ -101,9 +101,9 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        background.sync { primaryView.comparison.updateHeight(for: Data.wineListID) }
 //        primaryView.comparison.updateContentSize()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-            background.sync { self.moveDrinkLibrary(to: "visible") }
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+//            background.sync { self.moveDrinkLibrary(to: "visible") }
+//        }
         
     }
     
@@ -143,17 +143,12 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        self.primaryView.comparison.liquor.table.customDelegate = self
 //        self.primaryView.comparison.wine.delegate = self
 //        self.primaryView.comparison.wine.table.customDelegate = self
-        
-//        view.addSubview(subMenuBG)
-//        subMenuBG.build()
-//
+                
 //        view.addSubview(savedABV)
 //        savedABV.build()
 //        self.savedABV.savedABVDelegate = self
 //        self.savedABV.savedABVTable.savedABVTableDelegate = self
 //
-//        view.addSubview(subMenu)
-//        subMenu.build()
 //        for obj in [subMenu.showSavedABV] {
 //            obj.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
 //        }
@@ -265,11 +260,13 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             textColor = UI.Color.fontWhite
         }
         let title = "User Agreement"
-//        let message = "By using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly. The user certifies they will never drink and drive or use Alculate's 'alcohol effect' metric to determine one's ability to drive."
+        let message = """
+            \nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.
+            """
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
-            string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
+            string: message,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                 NSAttributedString.Key.foregroundColor : textColor!,
@@ -392,42 +389,42 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
         // if toBeDeleted is not empty
-        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
-            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
-                // for every object in toBeDeleted, add it back to the Data master list
-                for info in secondaryView.drinkLibrary.table.toBeDeleted {
-                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
-                }
-                secondaryView.drinkLibrary.table.reloadData()
-            }
-        }
-        else {
-            print("CONFIRM")
-            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-            for (i,list) in Data.toBeDeleted.enumerated() {
-                if !list.isEmpty {
-                    for obj in list {
-                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
-                        insertRowFor(table: ids[i])
-                    }
-                }
-            }
-            Data.toBeDeleted = [[],[],[]]
-        }
+//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
+//            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
+//                // for every object in toBeDeleted, add it back to the Data master list
+//                for info in secondaryView.drinkLibrary.table.toBeDeleted {
+//                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
+//                }
+//                secondaryView.drinkLibrary.table.reloadData()
+//            }
+//        }
+//        else {
+//            print("CONFIRM")
+//            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+//            for (i,list) in Data.toBeDeleted.enumerated() {
+//                if !list.isEmpty {
+//                    for obj in list {
+//                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
+//                        insertRowFor(table: ids[i])
+//                    }
+//                }
+//            }
+//            Data.toBeDeleted = [[],[],[]]
+//        }
         animateUndo(onScreen: false)
     }
     
     @objc func cancelUndo() {
-        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
-            removeABVfromCoreData()
-        }
-        else {
-            print("CANCEL")
-            for (i,list) in Data.toBeDeleted.enumerated() {
-                print(i, list)
-            }
-            Data.toBeDeleted = [[],[],[]]
-        }
+//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
+//            removeABVfromCoreData()
+//        }
+//        else {
+//            print("CANCEL")
+//            for (i,list) in Data.toBeDeleted.enumerated() {
+//                print(i, list)
+//            }
+//            Data.toBeDeleted = [[],[],[]]
+//        }
         animateUndo(onScreen: false)
     }
     
@@ -644,18 +641,18 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     func resetHeader() {
-        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.savedABVtop {
-            secondaryView.drinkLibrary.headerTop.constant = UI.Sizing.savedABVtop
-            finishScrolling()
-        }
+//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.savedABVtop {
+//            secondaryView.drinkLibrary.headerTop.constant = UI.Sizing.savedABVtop
+//            finishScrolling()
+//        }
     }
     
     func adjustHeaderConstant(to constant: CGFloat) {
-        // Allow movement of contact card back/forth when not fully visible
-        secondaryView.drinkLibrary.headerTop.constant += -constant
-        // If contact card is fully visible, don't allow movement further left
-        secondaryView.drinkLibrary.headerTop.constant = secondaryView.drinkLibrary.headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : secondaryView.drinkLibrary.headerTop.constant
-        secondaryView.layoutIfNeeded()
+//        // Allow movement of contact card back/forth when not fully visible
+//        secondaryView.drinkLibrary.headerTop.constant += -constant
+//        // If contact card is fully visible, don't allow movement further left
+//        secondaryView.drinkLibrary.headerTop.constant = secondaryView.drinkLibrary.headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : secondaryView.drinkLibrary.headerTop.constant
+//        secondaryView.layoutIfNeeded()
     }
     
     func finishScrolling() {
@@ -684,6 +681,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
             for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID].enumerated() {
                 if table == ID {
+                    print("\(table) reloading")
                     //tables[i].reloadData()
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
 //                    tables[i].updateTableContentInset()

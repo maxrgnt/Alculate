@@ -18,8 +18,6 @@ class SecondaryView: UIView {
     //MARK: - Definitions
     // Delegates
     var delegate : SecondaryDelegate!
-    // Constraints
-    var headerTop: NSLayoutConstraint!
     // Objects
     let drinkLibrary = DrinkLibrary()
     

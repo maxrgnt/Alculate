@@ -20,7 +20,7 @@ class ContainerHeader: UIView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init copmarisonAll")
+        print("init containerHeader")
     }
     
     required init?(coder aDecoder: NSCoder) {

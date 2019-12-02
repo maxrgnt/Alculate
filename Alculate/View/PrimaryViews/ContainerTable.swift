@@ -21,6 +21,8 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     //MARK: - Definitions
     // Delegate object
     var customDelegate : ContainerTableDelegate!
+    // Constraints
+    var height: NSLayoutConstraint!
     // Variables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
     var type = ""
@@ -30,7 +32,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
-        print("init table")
+        print("init containerTable")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,7 +105,6 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
-            print("Delete")
             let info = self.listForThisTable()[indexPath.row]
             var i = 0
             i = (self.type == Data.liquorListID) ? 1 : i

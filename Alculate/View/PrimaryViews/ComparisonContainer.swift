@@ -24,7 +24,7 @@ class ComparisonContainer: UIScrollView {
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
-        print("init copmarisonAll")
+        print("init container")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,6 +34,7 @@ class ComparisonContainer: UIScrollView {
     //MARK: - Setup
     func setup(forType id: String) {
         type = id
+        clipsToBounds = true
         backgroundColor = UI.Color.Comparison.background
         layer.borderColor = UI.Color.Comparison.border.cgColor
         layer.borderWidth = UI.Sizing.Comparison.border
@@ -49,6 +50,7 @@ class ComparisonContainer: UIScrollView {
         addSubview(header)
         header.setup(forType: type)
         addSubview(table)
+        table.setup(forType: type)
     }
 
     //MARK: - Constraints

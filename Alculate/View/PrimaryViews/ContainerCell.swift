@@ -38,7 +38,7 @@ class ContainerCell: UITableViewCell {
 
         let border = CALayer()
         border.backgroundColor = UI.Color.Border.comparisonCell.cgColor
-        let borderHeight = UI.Sizing.Comparison.border
+        let borderHeight = UI.Sizing.Comparison.separator
         let rowHeight = UI.Sizing.Comparison.Row.height
         let rowWidth = UI.Sizing.Comparison.Scroll.width
         let leadingAnchor = UI.Sizing.Comparison.border

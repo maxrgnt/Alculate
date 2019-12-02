@@ -130,6 +130,7 @@ struct UI {
             static let padding = objectPadding
             static let radii = width/20
             static let border = padding/4
+            static let separator = border/2
             
             struct Scroll {
                 static let width = widthObjectPadding
@@ -155,13 +156,14 @@ struct UI {
             }
             
             struct Row {
-                static let height = statHeight+unitHeight
-                static let statHeight = Header.height*(2/3)
-                static let unitHeight = Header.height*(1/3)
-                static let nameWidth = Comparison.Scroll.width*(2/3) - padding
-                static let valueWidth = Comparison.Scroll.width*(1/6)
-                static let effectWidth = Comparison.Scroll.width*(1/6)
-                static let unitOffset = -height/3
+                static let height = Header.height - separator
+                static let width = Comparison.Scroll.width
+                static let statHeight = height*(2/3)
+                static let unitHeight = height*(1/3)
+                static let nameWidth = (width-padding*2)*(2/3)
+                static let valueWidth = (width-padding*2)*(1/6)
+                static let effectWidth = (width-padding*2)*(1/6)
+                static let unitOffset = -height/6
             }
             
         }

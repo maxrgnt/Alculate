@@ -77,30 +77,43 @@ class ComparisonScroll: UIScrollView {
     }
     
     //MARK: - Settings
-    
+    func printConstraintConstants(for view: UIView) {
+        for constraint in view.constraints {
+            print(constraint)
+        }
+
+        for subview in view.subviews {
+            printConstraintConstants(for: subview)
+        }
+    }
     
     
     //MARK: - Functions
     func updateHeight(for container: String, animated: Bool? = true) {
-        var new: CGFloat = 0.0
+        var newContainer: CGFloat = 0.0
+        var newTable: CGFloat = 0.0
         for (i, id) in Data.IDs.enumerated() {
             if container == id {
                 // set new height to the header + however many rows
-                new = UI.Sizing.Comparison.Header.height + CGFloat(Data.lists[i].count) * UI.Sizing.Comparison.Row.height
+                print("\(container) - \(Data.lists[i].count)")
+                newTable = CGFloat(Data.lists[i].count) * UI.Sizing.Comparison.Row.height
+                newContainer = newTable + UI.Sizing.Comparison.Header.height
                 // add to the new height for the rounded radii at bottom and border
-                new += UI.Sizing.Comparison.radii + UI.Sizing.Comparison.border*2
+                newContainer += UI.Sizing.Comparison.radii + UI.Sizing.Comparison.border*2
                 // only animate when necessary (not on app load)
                 if animated! {
                     UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                         , animations: ({
-                            self.containers[i].height.constant = new
+                            self.containers[i].height.constant = newContainer
+                            self.containers[i].table.height.constant = newTable
                             self.layoutIfNeeded()
                         }), completion: { (completed) in
                             // pass
                     })
                 }
                 else {
-                    containers[i].height.constant = new
+                    containers[i].height.constant = newContainer
+                    containers[i].table.height.constant = newTable
                     self.layoutIfNeeded()
                 }
             }

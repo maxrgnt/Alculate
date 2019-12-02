@@ -134,8 +134,8 @@ struct UI {
             
             struct Scroll {
                 static let width = widthObjectPadding
-                static let heightEmpty = height-subMenuHeight-UI.Sizing.Header.heightMinimized+statusBar.height
-                static let heightFull = height-subMenuHeight-Header.height+statusBar.height
+                static let heightEmpty = bounds.height-Menu.height-UI.Sizing.Header.heightMinimized
+                static let heightFull = bounds.height-Menu.height-UI.Sizing.Header.height
             }
 
             struct Container {

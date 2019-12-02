@@ -309,6 +309,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             for id in Data.IDs {
                 reloadTable(table: id, realculate: false)
             }
+            primaryView.comparison.updateContentSize()
+            primaryView.comparison.checkIfEmpty()
             alculate()
 //            if (ViewController.typeValue != "" && ViewController.typeEffect != "") {
 //                primaryView.header.value.calculateNameWidth()
@@ -586,6 +588,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     // MARK: - Protocol Delegate Functions
     func resetHeight(for table: String) {
         primaryView.comparison.updateHeight(for: table)
+        primaryView.comparison.updateContentSize()
+        primaryView.comparison.checkIfEmpty()
     }
     
     func animateComparisonLabels(to state: String) {
@@ -637,7 +641,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     func finishScrolling() {
-        print("finishing")
         let dismissRatio: CGFloat = 0.7
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
         let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop

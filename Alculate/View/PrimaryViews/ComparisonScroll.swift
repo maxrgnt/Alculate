@@ -117,17 +117,19 @@ class ComparisonScroll: UIScrollView {
         }
     }
     
-    func updateContentSize() {
+    func updateContentSize() {print("update")
         // Set at 4 because there is a gap above each (three) tables and one below the last
         var new: CGFloat = 3 * UI.Sizing.Padding.comparison
         // add height of each container
         for container in containers {
+            print(container.height.constant)
             new += container.height.constant
         }
         // add padding to bottom if bigger than given screen area
-        new = (new > UI.Sizing.Comparison.Scroll.heightFull) ? new + UI.Sizing.Comparison.padding : new
+        let newPadded = new + UI.Sizing.Comparison.padding
+        new = (newPadded > UI.Sizing.Comparison.Scroll.heightFull) ? newPadded : new
         // change content size based off scrollview size
-        new = (height.constant == UI.Sizing.Comparison.Scroll.heightEmpty) ? UI.Sizing.Comparison.Scroll.heightEmpty : new
+//        new = (height.constant == UI.Sizing.Comparison.Scroll.heightEmpty) ? UI.Sizing.Comparison.Scroll.heightEmpty : new
         contentSize.height = new
     }
     

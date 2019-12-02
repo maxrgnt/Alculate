@@ -94,8 +94,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        let background = DispatchQueue.global()
         background.sync { self.handleInit() }
         background.sync { self.build()      }
-//        self.view.layoutIfNeeded()
-//        background.sync { self.alculate()   }
+        self.primaryView.layoutIfNeeded()
+        background.sync { self.alculate()   }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.liquorListID) }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.wineListID) }
@@ -143,11 +143,11 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         
         
 //        self.primaryView.comparison.beer.delegate = self
-//        self.primaryView.comparison.beer.table.customDelegate = self
+        self.primaryView.comparison.beer.table.customDelegate = self
 //        self.primaryView.comparison.liquor.delegate = self
-//        self.primaryView.comparison.liquor.table.customDelegate = self
+        self.primaryView.comparison.liquor.table.customDelegate = self
 //        self.primaryView.comparison.wine.delegate = self
-//        self.primaryView.comparison.wine.table.customDelegate = self
+        self.primaryView.comparison.wine.table.customDelegate = self
                 
 //        view.addSubview(savedABV)
 //        savedABV.build()
@@ -390,42 +390,40 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
         // if toBeDeleted is not empty
-//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
-//            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
-//                // for every object in toBeDeleted, add it back to the Data master list
-//                for info in secondaryView.drinkLibrary.table.toBeDeleted {
-//                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
-//                }
-//                secondaryView.drinkLibrary.table.reloadData()
-//            }
-//        }
-//        else {
-//            print("CONFIRM")
-//            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-//            for (i,list) in Data.toBeDeleted.enumerated() {
-//                if !list.isEmpty {
-//                    for obj in list {
-//                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
-//                        insertRowFor(table: ids[i])
-//                    }
-//                }
-//            }
-//            Data.toBeDeleted = [[],[],[]]
-//        }
+        if ViewController.secondaryTop.constant != 0.0 {
+            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
+                // for every object in toBeDeleted, add it back to the Data master list
+                for info in secondaryView.drinkLibrary.table.toBeDeleted {
+                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
+                }
+                secondaryView.drinkLibrary.table.reloadData()
+            }
+        }
+        else {
+            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
+            for (i,list) in Data.toBeDeleted.enumerated() {
+                if !list.isEmpty {
+                    for obj in list {
+                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
+                        insertRowFor(table: ids[i])
+                    }
+                }
+            }
+            Data.toBeDeleted = [[],[],[]]
+        }
         animateUndo(onScreen: false)
     }
     
     @objc func cancelUndo() {
-//        if secondaryView.drinkLibrary.headerTop.constant != UI.Sizing.height {
-//            removeABVfromCoreData()
-//        }
-//        else {
-//            print("CANCEL")
-//            for (i,list) in Data.toBeDeleted.enumerated() {
-//                print(i, list)
-//            }
-//            Data.toBeDeleted = [[],[],[]]
-//        }
+        if ViewController.secondaryTop.constant != 0.0 {
+            removeABVfromCoreData()
+        }
+        else {
+            for (i,list) in Data.toBeDeleted.enumerated() {
+                print(i, list)
+            }
+            Data.toBeDeleted = [[],[],[]]
+        }
         animateUndo(onScreen: false)
     }
     
@@ -464,7 +462,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         for (index, listPiece) in [Data.beerList,Data.liquorList,Data.wineList].enumerated() {
             // if the list is not empty, add the top item to lists to be compared (already sorted)
             if !listPiece.isEmpty {
-                lists.append((arr: listPiece.last!, ind: index))
+                lists.append((arr: listPiece.first!, ind: index))
             }
         }
         // if list of top item from each type has items, compare those against themselves
@@ -476,10 +474,10 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             //summaryContainer.effectSummary.moveTopAnchor(to: UI.Sizing.topLineTop)
             noComparisons.alpha = 0.0
             //
-            let info = lists.last!.arr
+            let info = lists.first!.arr
             bestPrice = (name: info.name,
                          best: String(format: "%.2f", calculateValue(for: info)),
-                         ind: lists.last!.ind)
+                         ind: lists.first!.ind)
             for listPiece in lists {
                 let tryBest = calculateValue(for: listPiece.arr)
                 if tryBest < Double(bestPrice.best)! {
@@ -490,7 +488,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             }
             bestRatio = (name: info.name,
                            best: String(format: "%.1f", calculateEffect(for: info)),
-                           ind: lists.last!.ind)
+                           ind: lists.first!.ind)
             for listPiece in lists {
                 let tryBest = calculateEffect(for: listPiece.arr)
                 if tryBest > Double(bestRatio.best)! {
@@ -526,9 +524,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             primaryView.moveSummaryAnchor(to: "hidden")
             ViewController.typeEffect = ""
             ViewController.typeValue = ""
-            //summaryContainer.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
-            //summaryContainer.valueSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
-            //summaryContainer.effectSummary.moveTopAnchor(to: -UI.Sizing.subMenuHeight)
             noComparisons.alpha = 1.0
         }
     }
@@ -597,22 +592,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         
     // MARK: - Protocol Delegate Functions
     func resetHeight(for table: String) {
+        print("resetting")
         primaryView.comparison.updateHeight(for: table)
-    }
-    
-    func animateSubMenu(by percent: CGFloat, reset: Bool) {
-        primaryView.menu.bottom.constant = -UI.Sizing.subMenuHeight*(percent)
-        // remove undo if it is on screen
-        if undo.top.constant != 0 {
-            undo.top.constant = (reset == false) ? (-UI.Sizing.undoHeight)*(1-percent) : -UI.Sizing.undoHeight
-            if undo.top.constant == -UI.Sizing.undoHeight {
-                removeABVfromCoreData()
-            }
-        }
-        UIView.animate(withDuration: 0.55, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                       options: [.curveEaseInOut], animations: { //Do all animations here
-                        self.view.layoutIfNeeded()
-        })
     }
     
     func animateComparisonLabels() {
@@ -731,6 +712,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             }
         }
         primaryView.comparison.updateContentSize()
+        primaryView.comparison.checkIfEmpty()
         sortByValue()
         alculate()
     }
@@ -750,34 +732,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //                cell.stopAnimating(restartAnimations: paramDeletable)
 //            }
 //        }
-    }
-    
-    @objc func clearList(sender: UIButton) {
-        if sender.tag == 0 {
-            for info in Data.beerList {
-                Data.deleteFromList(Data.beerListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-            }
-            Data.beerList = []
-            reloadTable(table: Data.beerListID, realculate: true)
-            primaryView.comparison.updateHeight(for: Data.beerListID)
-        }
-        else if sender.tag == 1 {
-            for info in Data.beerList {
-                Data.deleteFromList(Data.liquorListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-            }
-            Data.liquorList = []
-            reloadTable(table: Data.liquorListID, realculate: true)
-            primaryView.comparison.updateHeight(for: Data.liquorListID)
-        }
-        else if sender.tag == 2 {
-            for info in Data.beerList {
-                Data.deleteFromList(Data.wineListID, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-            }
-            Data.wineList = []
-            reloadTable(table: Data.wineListID, realculate: true)
-            primaryView.comparison.updateHeight(for: Data.wineListID)
-        }
-        primaryView.comparison.updateContentSize()
     }
 }
 

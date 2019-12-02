@@ -9,7 +9,6 @@
 import UIKit
 
 protocol SecondaryDelegate {
-    func animateSubMenu(by: CGFloat, reset: Bool)
     func animateComparisonLabels()
 }
 

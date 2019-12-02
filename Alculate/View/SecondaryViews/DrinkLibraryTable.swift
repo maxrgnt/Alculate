@@ -122,7 +122,6 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
-            print("Delete")
             let headerLetter = Data.headers[indexPath.section]
             let nameList = Data.matrix[headerLetter]
             let name = nameList![indexPath.row]

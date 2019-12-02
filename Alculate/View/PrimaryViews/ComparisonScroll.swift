@@ -86,7 +86,6 @@ class ComparisonScroll: UIScrollView {
         }
     }
     
-    
     //MARK: - Functions
     func updateHeight(for container: String, animated: Bool? = true) {
         var newContainer: CGFloat = 0.0

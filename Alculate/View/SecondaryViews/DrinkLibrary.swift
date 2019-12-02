@@ -9,7 +9,6 @@
 import UIKit
 
 protocol DrinkLibraryDelegate {
-    func animateSubMenu(by: CGFloat, reset: Bool)
     func animateComparisonLabels()
 }
 
@@ -111,7 +110,6 @@ class DrinkLibrary: UIView {
 //        // If contact card is fully visible, don't allow movement further left
 //        headerTop.constant = headerTop.constant < UI.Sizing.savedABVtop ? UI.Sizing.savedABVtop : headerTop.constant
 //        let percent = headerTop.constant/UI.Sizing.height >= 1 ? 1 : headerTop.constant/UI.Sizing.height
-//        self.delegate.animateSubMenu(by: percent, reset: false)
 //        // Set recognizer to start new drag gesture in future
 //        sender.setTranslation(CGPoint.zero, in: self)
 //        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
@@ -123,7 +121,6 @@ class DrinkLibrary: UIView {
 //            let percent: CGFloat = (constant == UI.Sizing.savedABVtop) ? 0 : 1
 //            constant == UI.Sizing.height ? table.scrollToFirstRow() : nil
 //            let reset = (constant == UI.Sizing.savedABVtop) ? true : false
-//            self.delegate.animateSubMenu(by: percent, reset: reset)
 //            // Animate to end-point
 //            animateTopAnchor(constant: constant)
 //        }

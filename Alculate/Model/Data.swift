@@ -18,9 +18,21 @@ struct Data {
     static let wineListID = "WineList"
     static let IDs = [beerListID,liquorListID,wineListID]
     // each list represents a column on main page
-    static var beerList: [(name: String, abv: String, size: String, price: String)] = []
-    static var liquorList: [(name: String, abv: String, size: String, price: String)] = []
-    static var wineList: [(name: String, abv: String, size: String, price: String)] = []
+    static var beerList: [(name: String, abv: String, size: String, price: String)] = [] {
+        didSet {
+            lists[0] = beerList
+        }
+    }
+    static var liquorList: [(name: String, abv: String, size: String, price: String)] = [] {
+        didSet {
+            lists[1] = liquorList
+        }
+    }
+    static var wineList: [(name: String, abv: String, size: String, price: String)] = [] {
+        didSet {
+            lists[2] = wineList
+        }
+    }
     static var lists = [beerList,liquorList,wineList]
     static var toBeDeleted: [[(name: String, abv: String, size: String, price: String)]] = [[],[],[]]
     // set headers to empty to iterate over letters and append into

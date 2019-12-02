@@ -81,7 +81,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.Height.comparisonRow
+        return UI.Sizing.Comparison.Row.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -108,8 +108,6 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
             var i = 0
             i = (self.type == Data.liquorListID) ? 1 : i
             i = (self.type == Data.wineListID) ? 2 : i
-            print(self.type, i)
-            print(self.toBeDeleted)
             Data.toBeDeleted[i].append(info)
             Data.deleteFromList(self.type, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
             self.deleteRows(at: [indexPath], with: .fade)

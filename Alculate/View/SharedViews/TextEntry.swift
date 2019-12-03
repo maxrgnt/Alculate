@@ -68,7 +68,6 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     
     //MARK: Setup
     func setup() {
-
         output = defaults
         clipsToBounds = true
         backgroundColor = .clear
@@ -81,7 +80,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         constraints()
     }
     
-    //MARK: Settings
+    //MARK: Object Settings
     func objectSettings() {
         // Required for textView delegates to work
         addSubview(field)

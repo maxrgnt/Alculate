@@ -11,7 +11,7 @@ import UIKit
 
 class ComparisonTotal: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
@@ -20,7 +20,7 @@ class ComparisonTotal: UIView {
     let shots = UILabel()
     let shotUnit = UILabel()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -30,24 +30,21 @@ class ComparisonTotal: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
-
         objectSettings()
-        
         addObjectsToView()
-        
         constraints()
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         for obj in [total,spent,shots,shotUnit] {
             addSubview(obj)
         }
     }
 
-    //MARK: - Constraints
+    //MARK: Constraints
     func constraints() {
         totalConstraints()
         spentConstraints()
@@ -55,7 +52,7 @@ class ComparisonTotal: UIView {
         shotUnitConstraints()
     }
     
-    //MARK: - Settings
+    //MARK: Settings
     func objectSettings() {
         totalSettings()
         spentSettings()

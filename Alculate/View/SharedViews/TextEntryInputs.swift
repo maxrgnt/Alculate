@@ -33,10 +33,8 @@ class TextEntryInputs: UIView {
     
     //MARK: Setup
     func setup() {
-        
         clipsToBounds = true
         backgroundColor = .clear
-        //
 
         objectSettings()
         
@@ -44,7 +42,7 @@ class TextEntryInputs: UIView {
         constraints()
     }
     
-    //MARK: Settings
+    //MARK: Object Settings
     func objectSettings() {
         addSubview(icon)
         let titles = ["begin typing a name","abv","size","oz","ml","price"]

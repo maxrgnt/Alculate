@@ -11,12 +11,12 @@ import UIKit
 
 class ContainerHeader: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Objects
     let type = UIButton()
     let add = UIButton()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -26,7 +26,7 @@ class ContainerHeader: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup(forType id: String) {
         
         var bgColor = (id == Data.beerListID) ? UI.Color.Background.beerHeader : nil
@@ -42,19 +42,19 @@ class ContainerHeader: UIView {
         constraints()
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         addSubview(type)
         addSubview(add)
     }
 
-    //MARK: - Constraints
+    //MARK: Constraints
     func constraints() {
         typeConstraints()
         addConstraints()
     }
     
-    //MARK: - Settings
+    //MARK: Settings
     func typeSettings(forType id: String) {
         var typeFromID = (id == Data.beerListID) ? "Beer" : nil
         typeFromID = (id == Data.liquorListID) ? "Liquor" : typeFromID

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//MARK: UIView
 extension UIView {
     func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         if #available(iOS 11.0, *) {
@@ -55,6 +56,7 @@ extension UIView {
     }
 }
 
+//MARK: String
 extension String {
     func capitalizingFirstLetter() -> String {
         return prefix(1).capitalized + dropFirst()
@@ -85,6 +87,7 @@ extension String {
     }
 }
 
+//MARK: CALayer
 extension CALayer {
     func addGradientBorder(colors:[UIColor],width:CGFloat = 1) {
         let gradientLayer = CAGradientLayer()

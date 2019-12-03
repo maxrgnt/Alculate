@@ -11,7 +11,7 @@ import UIKit
 
 class ComparisonScroll: UIScrollView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var height: NSLayoutConstraint!
     var emptyTop: NSLayoutConstraint!
@@ -23,7 +23,7 @@ class ComparisonScroll: UIScrollView {
     let total = ComparisonTotal()
     let empty = UILabel()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -33,23 +33,19 @@ class ComparisonScroll: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
-        
         containers = [beer,liquor,wine]
-        
         isScrollEnabled = true
         alwaysBounceVertical = true
         alwaysBounceHorizontal = false
         showsVerticalScrollIndicator = false
         contentSize.height = UI.Sizing.Comparison.Scroll.heightEmpty
-        
         addObjectsToView()
-        
         constraints()
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         for (i, obj) in containers.enumerated() {
             addSubview(obj)
@@ -68,7 +64,7 @@ class ComparisonScroll: UIScrollView {
         
     }
 
-    //MARK: - Constraints
+    //MARK: Constraints
     func constraints() {
         beerConstraints()
         liquorConstraints()
@@ -80,7 +76,7 @@ class ComparisonScroll: UIScrollView {
         emptyConstraints()
     }
     
-    //MARK: - Settings
+    //MARK: Settings
     func printConstraintConstants(for view: UIView) {
         for constraint in view.constraints {
             print(constraint)
@@ -91,7 +87,7 @@ class ComparisonScroll: UIScrollView {
         }
     }
     
-    //MARK: - Functions
+    //MARK: Functions
     func updateHeight(for container: String, animated: Bool? = true) {
         var newContainer: CGFloat = 0.0
         var newTable: CGFloat = 0.0

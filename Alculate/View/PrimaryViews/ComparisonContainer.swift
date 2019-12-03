@@ -11,7 +11,7 @@ import UIKit
 
 class ComparisonContainer: UIScrollView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var height: NSLayoutConstraint!
     var top: NSLayoutConstraint!
@@ -21,7 +21,7 @@ class ComparisonContainer: UIScrollView {
     // Variables
     var type = ""
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -31,7 +31,7 @@ class ComparisonContainer: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup(forType id: String) {
         type = id
         clipsToBounds = true
@@ -45,7 +45,7 @@ class ComparisonContainer: UIScrollView {
         constraints()
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         addSubview(header)
         header.setup(forType: type)
@@ -53,7 +53,7 @@ class ComparisonContainer: UIScrollView {
         table.setup(forType: type)
     }
 
-    //MARK: - Constraints
+    //MARK: Constraints
     func constraints() {
         headerConstraints()
         tableConstraints()

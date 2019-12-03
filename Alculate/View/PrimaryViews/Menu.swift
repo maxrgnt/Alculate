@@ -37,25 +37,18 @@ class Menu: UIView {
         
         addObjectsToView()
         buttonSettings()
-//        gradientSettings()
         
         constraints()
-        
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         for obj in buttons {
             addSubview(obj)
         }
     }
-    
-    //MARK: - Constraints
-    func constraints() {
-        showDrinkLibraryConstraints()
-    }
-    
-    //MARK: - Settings
+        
+    //MARK: Object Settings
     func buttonSettings() {
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
         let buttonText = ["Show Drink Library"]
@@ -72,20 +65,8 @@ class Menu: UIView {
         }
     }
     
-    func gradientSettings() {
-        // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: 0)
-        // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.Menu.height*2)
-        let gradient = CAGradientLayer()
-        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
-        // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.bgDarkest.withAlphaComponent(0.0).cgColor,
-                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
-                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
-        // Set locations of where gradient will transition
-        gradient.locations = [0.1,0.25,1.0]
-        // Add gradient as bottom layer in sublayer array
-        self.layer.insertSublayer(gradient, at: 0)
+    //MARK: - Constraints
+    func constraints() {
+        showDrinkLibraryConstraints()
     }
 }

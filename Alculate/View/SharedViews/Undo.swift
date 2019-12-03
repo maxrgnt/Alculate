@@ -10,14 +10,14 @@ import UIKit
 
 class Undo: UIView {
          
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var top: NSLayoutConstraint!
     // Objects
     let confirm = UIButton()
     let cancel = UIButton()
         
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize views frame prior to setting constraints
         super.init(frame: CGRect.zero)
@@ -27,9 +27,8 @@ class Undo: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
-
         clipsToBounds = true
         backgroundColor = UI.Color.Undo.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.header)
@@ -37,9 +36,9 @@ class Undo: UIView {
         objectSettings()
         
         constraints()
-        
     }
     
+    //MARK: Object Settings
     func objectSettings() {
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]

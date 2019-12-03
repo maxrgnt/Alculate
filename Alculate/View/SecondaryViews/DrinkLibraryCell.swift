@@ -15,6 +15,7 @@ class DrinkLibraryCell: UITableViewCell {
     let drinkName = UILabel()
     let drinkInfo = UILabel()
     
+    //MARK: Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // MARK: - View/Object Settings
         // Initialize views frame prior to setting constraints
@@ -56,7 +57,16 @@ class DrinkLibraryCell: UITableViewCell {
             ])
     }
     
-    // MARK: - Label Setter
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:)")
+    }
+    
+    //MARK: Object Settings
+    func objectSettings() {
+        
+    }
+    
+    //MARK: Label Setter
     func setLabels(forCellAt indexPath: IndexPath) {
         let headerSection = Data.headers[indexPath.section]
         let drinkNames = Data.matrix[headerSection]
@@ -72,8 +82,9 @@ class DrinkLibraryCell: UITableViewCell {
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:)")
+    //MARK: Constraints
+    func constraints() {
+        
     }
     
 }

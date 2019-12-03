@@ -21,7 +21,7 @@ protocol DrinkLibraryTableDelegate {
 
 class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
         
-    //MARK: - Definitions
+    //MARK: Definitions
     // Delegate object
     var customDelegate : DrinkLibraryTableDelegate!
     // Variables
@@ -38,7 +38,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
         
         backgroundColor = .clear //UI.Color.alculatePurpleLite
@@ -55,7 +55,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     }
     
-    // MARK: - TableView Delegate
+    // MARK: TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: "DrinkLibraryCell") as! DrinkLibraryCell
         cell.setLabels(forCellAt: indexPath)

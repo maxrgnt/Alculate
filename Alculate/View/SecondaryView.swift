@@ -14,13 +14,13 @@ protocol SecondaryDelegate {
 
 class SecondaryView: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Delegates
     var delegate : SecondaryDelegate!
     // Objects
     let drinkLibrary = DrinkLibrary()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -30,7 +30,7 @@ class SecondaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
         clipsToBounds = true
         backgroundColor = UI.Color.Secondary.background
@@ -45,6 +45,7 @@ class SecondaryView: UIView {
         drinkLibrary.setup()
     }
     
+    //MARK: Constraints
     func constraints() {
         drinkLibraryConstraints()
     }

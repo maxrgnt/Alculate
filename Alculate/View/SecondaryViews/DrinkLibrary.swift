@@ -14,7 +14,7 @@ protocol DrinkLibraryDelegate {
 
 class DrinkLibrary: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Delegates
     var delegate : DrinkLibraryDelegate!
     // Objects
@@ -23,7 +23,7 @@ class DrinkLibrary: UIView {
     let header = UILabel()
     var table = DrinkLibraryTable()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -65,7 +65,7 @@ class DrinkLibrary: UIView {
     }
     
     
-    // MARK: - Gradient Settings
+    // MARK: Gradient Settings
     func buildGradient() {
         // Set origin of gradient (top left of screen)
         let gradientOrigin = CGPoint(x: 0,y: UI.Sizing.DrinkLibrary.Header.height)

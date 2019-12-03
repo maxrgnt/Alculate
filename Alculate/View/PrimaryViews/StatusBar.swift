@@ -10,7 +10,7 @@ import UIKit
 
 class StatusBar: UIView {
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)

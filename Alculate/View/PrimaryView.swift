@@ -10,13 +10,13 @@ import UIKit
 
 class PrimaryView: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Objects
     let header = Header()
     let comparison = ComparisonScroll()
     let menu = Menu()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -26,7 +26,7 @@ class PrimaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
         addObjectsToView()
         constraints()
@@ -41,13 +41,14 @@ class PrimaryView: UIView {
         menu.setup()
     }
     
+    //MARK: Constraints
     func constraints() {
         headerConstraints()
         comparisonScrollConstraints()
         menuConstraints()
     }
     
-    //MARK: - Animations
+    //MARK: Animations
     func moveSummaryAnchor (to state: String) {
         let headerHeight: CGFloat = (state == "hidden") ? UI.Sizing.Header.heightMinimized : UI.Sizing.Header.height
         let summaryTop: CGFloat = (state == "hidden") ? -UI.Sizing.Summary.height : 0.0

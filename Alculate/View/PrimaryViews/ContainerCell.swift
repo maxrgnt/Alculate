@@ -95,7 +95,7 @@ class ContainerCell: UITableViewCell {
         effectUnit.text = "shots"
     }
     
-    // MARK: - Label Setter
+    // MARK: Label Setter
     func setLabels(with info: (name: String, abv: String, size: String, price: String)) {
         name.text = "\(info.name.capitalized)"
         // get the unitForSize by dropping the first part of string

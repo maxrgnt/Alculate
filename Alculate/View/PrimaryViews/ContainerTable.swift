@@ -18,7 +18,7 @@ protocol ContainerTableDelegate {
 
 class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Delegate object
     var customDelegate : ContainerTableDelegate!
     // Constraints
@@ -28,7 +28,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     var type = ""
     var willDelete = false
     
-    //MARK: - Initialization
+    //MARK: Initialization
     override init (frame: CGRect, style: UITableView.Style) {
         // Initialize views frame prior to setting constraints
         super.init(frame: frame, style: style)
@@ -38,7 +38,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup(forType id: String) {
         
         type = id
@@ -53,7 +53,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     }
     
-    // MARK: - TableView Delegate
+    // MARK: TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ContainerCell = tableView.dequeueReusableCell(withIdentifier: "ContainerCell") as! ContainerCell
         if listForThisTable().count == 0 {
@@ -119,7 +119,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         // pass
     }
 
-    //MARK: - List Finder Function
+    //MARK: List Finder Function
     func listForThisTable() -> [(name: String, abv: String, size: String, price: String)] {
         // set chosenList object
         var thisTablesList: [(name: String, abv: String, size: String, price: String)] = []

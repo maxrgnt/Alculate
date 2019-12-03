@@ -35,7 +35,6 @@ class TextNavigator: UIView {
     
     //MARK: Setup
     func setup() {
-
         backgroundColor = .clear
         clipsToBounds = true
         

@@ -10,7 +10,7 @@ import UIKit
 
 class Header: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
@@ -19,7 +19,7 @@ class Header: UIView {
     let value = SummaryCell()
     let effect = SummaryCell()
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -30,7 +30,7 @@ class Header: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup() {
         addObjectsToView()
         roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.header)

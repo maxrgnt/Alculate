@@ -84,6 +84,7 @@ struct Data {
         }
     }
     
+    //MARK: Text File
     static func txtFile() {
         let path = Bundle.main.path(forResource: "alcohol", ofType: "csv")
         let filemgr = FileManager.default
@@ -125,6 +126,7 @@ struct Data {
         }
     }
     
+    //MARK: Regex
     static func applyReg(starting: String, pattern: String, substitution: String) -> String {
         var newString = starting
         if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
@@ -154,7 +156,8 @@ struct Data {
 //        }
 //        catch {print("Saving Core Data Failed: \(error)")}
 //    }
-            
+      
+    //MARK: Load
     static func loadList(for entity: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -193,6 +196,7 @@ struct Data {
         }
     }
     
+    //MARK: Save
     static func saveToMaster(ofType type: String, named name: String, withABVof abv: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
@@ -229,6 +233,7 @@ struct Data {
         }
     }
 
+    //MARK: Delete
     static func deleteMaster(wName name: String, wABV abv: String, wType type: String) {
         // if name exists, this will overwrite that name
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}

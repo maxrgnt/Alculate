@@ -10,7 +10,7 @@ import UIKit
 
 class SummaryCell: UIView {
     
-    //MARK: - Definitions
+    //MARK: Definitions
     // Constraints
     var top: NSLayoutConstraint!
     var nameWidth: NSLayoutConstraint!
@@ -27,7 +27,7 @@ class SummaryCell: UIView {
     var nameAnimating = false
     var side: String!
     
-    //MARK: - Initialization
+    //MARK: Initialization
     init() {
         // Initialize frame of view
         super.init(frame: CGRect.zero)
@@ -37,7 +37,7 @@ class SummaryCell: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Setup
+    //MARK: Setup
     func setup(to side: String) {
         self.side = side
         objects = [category,name,stat,statUnit]
@@ -48,18 +48,16 @@ class SummaryCell: UIView {
         
         setCenterOffset()
         constraints()
-        
-//        testLabels()
     }
     
-    //MARK: - Add Objects
+    //MARK: Add Objects
     func addObjectsToView() {
         for obj in objects {
             addSubview(obj)
         }
     }
     
-    //MARK: - Constraints
+    //MARK: Constraints
     func constraints() {
         categoryConstraints()
         nameConstraints()
@@ -67,7 +65,7 @@ class SummaryCell: UIView {
         statUnitConstraints()
     }
     
-    //MARK: - Settings
+    //MARK: Settings
     func objectSettings() {
         for label in objects {
             label.alpha = 1.0
@@ -86,7 +84,7 @@ class SummaryCell: UIView {
         centerOffset = multiplier * (UI.Sizing.Summary.width/2)
     }
     
-    //MARK: - Label Animator
+    //MARK: Label Animator
     func calculateNameWidth() {
         nukeAllAnimations()
         // calculate width of text with given font
@@ -153,13 +151,5 @@ class SummaryCell: UIView {
                     // pass
             })
         })
-    }
-    
-    //MARK: - Test Functions
-    func testLabels() {
-        for label in objects {
-            label.text = "Test: \(centerOffset!)"
-        }
-        name.text = "This is quite a long name wouldn't you say?"
     }
 }

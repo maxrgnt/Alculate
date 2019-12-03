@@ -126,7 +126,7 @@ class ComparisonScroll: UIScrollView {
             new += container.height.constant
         }
         // add padding to bottom if bigger than given screen area
-        let newPadded = new + UI.Sizing.Comparison.padding
+        let newPadded = new + UI.Sizing.Comparison.padding * 2.0 + UI.Sizing.Comparison.Total.height
         new = (newPadded > UI.Sizing.Comparison.Scroll.heightFull) ? newPadded : new
         // change content size based off scrollview size
 //        new = (height.constant == UI.Sizing.Comparison.Scroll.heightEmpty) ? UI.Sizing.Comparison.Scroll.heightEmpty : new

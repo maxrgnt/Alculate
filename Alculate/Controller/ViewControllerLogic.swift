@@ -24,7 +24,7 @@ extension ViewController {
         }
         else if sender.tag == 1 {
             didEnterBackground()
-            primaryView.moveMenu(to: "hidden")
+            primary.moveMenu(to: "hidden")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.moveDrinkLibrary(to: "visible")
             }
@@ -34,7 +34,7 @@ extension ViewController {
     //MARK: Animations
     func moveDrinkLibrary(to state: String) {
         let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
-        ViewController.secondaryTop.constant = new
+        secondaryTop.constant = new
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.view.layoutIfNeeded()
@@ -46,30 +46,30 @@ extension ViewController {
     
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self.view)
-        secondaryView.drinkLibrary.table.isMoving = true
-        secondaryView.drinkLibrary.table.reloadSectionIndexTitles()
+        secondary.drinkLibrary.table.isMoving = true
+        secondary.drinkLibrary.table.reloadSectionIndexTitles()
         // Allow movement of contact card back/forth when not fully visible
-        ViewController.secondaryTop.constant += translation.y
+        secondaryTop.constant += translation.y
         // If contact card is fully visible, don't allow movement further up
-        let currentConstant = ViewController.secondaryTop.constant
+        let currentConstant = secondaryTop.constant
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
-        ViewController.secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
+        secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
         // Set recognizer to start new drag gesture in future
-        sender.setTranslation(CGPoint.zero, in: secondaryView.drinkLibrary.header)
+        sender.setTranslation(CGPoint.zero, in: secondary.drinkLibrary.header)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
         if sender.state == UIGestureRecognizer.State.ended {
             
             let dismissRatio: CGFloat = 0.7
             let secondaryViewAtTop = -UI.Sizing.Secondary.height
-            let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop
+            let currentRatio: CGFloat = secondaryTop.constant / secondaryViewAtTop
             (currentRatio >= dismissRatio) ? moveDrinkLibrary(to: "visible") : moveDrinkLibrary(to: "hidden")
-            (currentRatio >= dismissRatio) ? nil : primaryView.moveMenu(to: "visible")
+            (currentRatio >= dismissRatio) ? nil : primary.moveMenu(to: "visible")
             
-            secondaryView.drinkLibrary.table.isMoving = false
-            secondaryView.drinkLibrary.table.reloadSectionIndexTitles()
+            secondary.drinkLibrary.table.isMoving = false
+            secondary.drinkLibrary.table.reloadSectionIndexTitles()
         
             // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            (currentRatio >= dismissRatio) ? secondaryView.drinkLibrary.table.scrollToFirstRow() : nil
+            (currentRatio >= dismissRatio) ? secondary.drinkLibrary.table.scrollToFirstRow() : nil
         }
     }
     
@@ -114,13 +114,13 @@ extension ViewController {
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
         // if toBeDeleted is not empty
-        if ViewController.secondaryTop.constant != 0.0 {
-            if !secondaryView.drinkLibrary.table.toBeDeleted.isEmpty {
+        if secondaryTop.constant != 0.0 {
+            if !secondary.drinkLibrary.table.toBeDeleted.isEmpty {
                 // for every object in toBeDeleted, add it back to the Data master list
-                for info in secondaryView.drinkLibrary.table.toBeDeleted {
+                for info in secondary.drinkLibrary.table.toBeDeleted {
                     Data.masterList[info.name] = (type: info.type, abv: info.abv)
                 }
-                secondaryView.drinkLibrary.table.reloadData()
+                secondary.drinkLibrary.table.reloadData()
             }
         }
         else {
@@ -139,7 +139,7 @@ extension ViewController {
     }
     
     @objc func cancelUndo() {
-        (ViewController.secondaryTop.constant != 0.0) ? removeABVfromCoreData() : clearDataToBeDeleted()
+        (secondaryTop.constant != 0.0) ? removeABVfromCoreData() : clearDataToBeDeleted()
         animateUndo(onScreen: false)
     }
     
@@ -149,7 +149,7 @@ extension ViewController {
     
     func removeABVfromCoreData() {
         // iterate over every object in the toBeDeleted table
-        for info in secondaryView.drinkLibrary.table.toBeDeleted {
+        for info in secondary.drinkLibrary.table.toBeDeleted {
             // make the database editable
             Data.isEditable = true
             // update the database to match the list with now deleted values
@@ -187,8 +187,8 @@ extension ViewController {
         }
         // if list of top item from each type has items, compare those against themselves
         if !lists.isEmpty {
-            primaryView.comparison.checkIfEmpty()
-            primaryView.moveSummaryAnchor(to: "visible")
+            primary.scroll.checkIfEmpty()
+            primary.moveSummaryAnchor(to: "visible")
             let info = lists.first!.arr
             bestPrice = (name: info.name,
                          best: String(format: "%.2f", calculateValue(for: info)),
@@ -212,8 +212,6 @@ extension ViewController {
                                    ind: listPiece.ind)
                 }
             }
-            ViewController.typeValue = [Data.beerListID,Data.liquorListID,Data.wineListID][bestPrice.ind]
-            ViewController.typeEffect = [Data.beerListID,Data.liquorListID,Data.wineListID][bestRatio.ind]
             for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
                 reloadTable(table: id, realculate: false)
             }
@@ -223,22 +221,20 @@ extension ViewController {
             let j = bestRatio.ind
             let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
             
-            primaryView.header.value.category.textColor = priceColor
-            primaryView.header.effect.category.textColor = effectColor
+            primary.header.value.category.textColor = priceColor
+            primary.header.effect.category.textColor = effectColor
             
-            primaryView.header.value.name.text = bestPrice.name.capitalized
-            primaryView.header.value.stat.text = "$"+bestPrice.best
-            primaryView.header.effect.name.text = bestRatio.name.capitalized
-            primaryView.header.effect.stat.text = bestRatio.best
+            primary.header.value.name.text = bestPrice.name.capitalized
+            primary.header.value.stat.text = "$"+bestPrice.best
+            primary.header.effect.name.text = bestRatio.name.capitalized
+            primary.header.effect.stat.text = bestRatio.best
             calculateTotalSpent()
             calculateTotalShots()
         }
         // if all lists are empty, dont alculate
         else {
-            primaryView.comparison.checkIfEmpty()
-            primaryView.moveSummaryAnchor(to: "hidden")
-            ViewController.typeEffect = ""
-            ViewController.typeValue = ""
+            primary.scroll.checkIfEmpty()
+            primary.moveSummaryAnchor(to: "hidden")
         }
     }
     
@@ -265,7 +261,7 @@ extension ViewController {
             }
         }
         let totalSpentText = (totalSpent > 999.0) ? "$$$" : "$"+String(format: "%.2f", totalSpent)
-        primaryView.comparison.total.spent.text = totalSpentText
+        primary.scroll.total.spent.text = totalSpentText
     }
     
     func calculateTotalShots() {
@@ -290,7 +286,7 @@ extension ViewController {
             }
         }
         let totalShotText = (totalShots > 99.0) ? "XXX" : String(format: "%.1f", totalShots)
-        primaryView.comparison.total.shots.text = totalShotText
+        primary.scroll.total.shots.text = totalShotText
     }
     
     // MARK: Flip Alculate

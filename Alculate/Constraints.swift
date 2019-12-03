@@ -10,48 +10,48 @@
 extension ViewController {
     
     func primaryViewConstraints() {
-        primaryView.translatesAutoresizingMaskIntoConstraints                                                       = false
-        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                        = true
-        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive                      = true
-        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                                = true
-        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive                     = true
+        primary.translatesAutoresizingMaskIntoConstraints                                                       = false
+        primary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                             = true
+        primary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                           = true
+        primary.topAnchor.constraint(equalTo: self.view.topAnchor).isActive                                     = true
+        primary.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive                     = true
     }
     
     func secondaryViewConstraints() {
-        ViewController.secondaryTop = secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor)
-        secondaryView.translatesAutoresizingMaskIntoConstraints                                                     = false
-        secondaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                      = true
-        secondaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive                    = true
-        ViewController.secondaryTop.isActive                                                                        = true
-        secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive                 = true
+        secondaryTop = secondary.topAnchor.constraint(equalTo: self.view.bottomAnchor)
+        secondary.translatesAutoresizingMaskIntoConstraints                                                     = false
+        secondary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                           = true
+        secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                         = true
+        secondaryTop.isActive                                                                                   = true
+        secondary.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive                 = true
     }
     
     func tapDismissConstraints() {
         let x = UI.Sizing.bounds.height
-        TapDismiss.dismissTop = tapDismiss.topAnchor.constraint(equalTo: ViewController.topAnchor, constant: x)
+        TapDismiss.dismissTop = tapDismiss.topAnchor.constraint(equalTo: self.view.topAnchor, constant: x)
         tapDismiss.translatesAutoresizingMaskIntoConstraints                                                        = false
         TapDismiss.dismissTop.isActive                                                                              = true
-        tapDismiss.bottomAnchor.constraint(equalTo: ViewController.bottomAnchor).isActive                           = true
-        tapDismiss.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                         = true
-        tapDismiss.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive                       = true
+        tapDismiss.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive                                = true
+        tapDismiss.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                              = true
+        tapDismiss.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                            = true
     }
     
     func textEntryConstraints() {
-        textEntry.top = textEntry.topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        textEntry.top = textEntry.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
         textEntry.translatesAutoresizingMaskIntoConstraints                                                         = false
         textEntry.top.isActive                                                                                      = true
         textEntry.widthAnchor.constraint(equalToConstant: UI.Sizing.width).isActive                                 = true
         textEntry.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.height).isActive                     = true
-        textEntry.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                          = true
+        textEntry.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                               = true
     }
     
     func undoConstraints() {
-        undo.top = undo.topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        undo.top = undo.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
         undo.translatesAutoresizingMaskIntoConstraints                                                              = false
         undo.top.isActive                                                                                           = true
         undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width).isActive                                      = true
         undo.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.height).isActive                               = true
-        undo.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                               = true
+        undo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                                    = true
     }
     
 }
@@ -69,12 +69,13 @@ extension PrimaryView {
     }
     
     func comparisonScrollConstraints() {
-        comparison.height = comparison.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.heightEmpty)
-        comparison.translatesAutoresizingMaskIntoConstraints                                                        = false
-        comparison.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
-        comparison.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.width).isActive              = true
-        comparison.height.isActive                                                                                  = true
-        comparison.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                      = true
+        let x = UI.Sizing.Comparison.Scroll.heightEmpty
+        scroll.height = scroll.heightAnchor.constraint(equalToConstant: x)
+        scroll.translatesAutoresizingMaskIntoConstraints                                                        = false
+        scroll.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
+        scroll.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.width).isActive              = true
+        scroll.height.isActive                                                                                  = true
+        scroll.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                      = true
     }
     
     func menuConstraints() {

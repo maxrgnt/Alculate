@@ -11,14 +11,55 @@ import UIKit
 
 extension ViewController {
     
+    // MARK: Setup
+    func setup() {
+        
+        view.backgroundColor = UI.Color.ViewController.background
+        
+        view.addSubview(primary)
+        primaryViewConstraints()
+        primary.setup()
+        primary.scroll.beer.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.scroll.liquor.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.scroll.wine.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.menu.showDrinkLibrary.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        self.primary.scroll.beer.table.customDelegate = self
+        self.primary.scroll.liquor.table.customDelegate = self
+        self.primary.scroll.wine.table.customDelegate = self
+
+        view.addSubview(secondary)
+        secondaryViewConstraints()
+        secondary.setup()
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
+        secondary.drinkLibrary.header.addGestureRecognizer(pan)
+        self.secondary.drinkLibrary.table.customDelegate = self
+
+        view.addSubview(undo)
+        undoConstraints()
+        undo.setup()
+        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
+        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
+
+        view.addSubview(tapDismiss)
+        tapDismissConstraints()
+        tapDismiss.setup()
+
+        view.addSubview(textEntry)
+        textEntryConstraints()
+        textEntry.setup()
+        self.textEntry.textEntryDelegate = self
+
+    }
+    
     //MARK: Onboarding
-    func handleOnboarding() {
-        // check onboarding
-        let hasLaunched = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
-        print("hasLaunchedBefore: \(hasLaunched)")
-        if !UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
-            // onboarding
-            UserDefaults.standard.set(true, forKey: "hasLaunchedBefore")
+    func determineIfFirstLaunch() {
+        // check if launched before
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: Strings.Key.hasLaunchedBefore)
+        // if app has not launched before continue
+        if !hasLaunchedBefore {
+            // set to app has launched
+            UserDefaults.standard.set(true, forKey: Strings.Key.hasLaunchedBefore)
+            // load csv file of 300+ drinks into core data
             Data.txtFile()
             Data.loadList(for: Data.masterListID)
         }
@@ -29,10 +70,11 @@ extension ViewController {
             }
             sortByValue()
         }
+        setKeyboardFromCoreData()
     }
 
     //MARK: Setting Keyboard Height
-    func handleKeyboard() {
+    func setKeyboardFromCoreData() {
         // keyboard height
         let keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
         print("keyboardSet: \(keyboardSet)")
@@ -47,7 +89,7 @@ extension ViewController {
     }
 
     //MARK: Observers
-    func addObservers() {
+    func addNotificationCenterObservers() {
         // Add keyboard observer to retrieve keyboard height when keyboard shown
          NotificationCenter.default.addObserver(
              self,
@@ -90,37 +132,27 @@ extension ViewController {
 
     //MARK: Legal Agreement
     func presentLegalAgreement(/*title: String, message: String*/) {
-        var textColor: UIColor!
-        let userInterfaceStyle = traitCollection.userInterfaceStyle // Either .unspecified, .light, or .dark
-        // Update your user interface based on the appearance
-        if userInterfaceStyle == .light || userInterfaceStyle == .light {
-            textColor = .black
-        }
-        if userInterfaceStyle == .dark {
-            textColor = UI.Color.Font.standard
-        }
-        let title = "User Agreement"
-        let message = """
-            \nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.
-            """
+        let userInterfaceStyle = traitCollection.userInterfaceStyle
+        // Either .unspecified, .light, or .dark
+        let textColor: UIColor = (userInterfaceStyle == .dark) ? UI.Color.Font.standard : .black
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
-            string: message,
+            string: Strings.userAgreementMessage,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                NSAttributedString.Key.foregroundColor : textColor!,
+                NSAttributedString.Key.foregroundColor : textColor,
                 NSAttributedString.Key.font : UI.Font.Comparison.row!
             ]
         )
-        alert = UIAlertController(title: title, message: "Hi", preferredStyle: .alert)
+        alert = UIAlertController(title: Strings.userAgreementTitle, message: "", preferredStyle: .alert)
         alert.setValue(messageText, forKey: "attributedMessage")
-        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: agreed))
+        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
         self.present(alert, animated: true)
     }
 
-    func agreed(action:UIAlertAction) {
-        UserDefaults.standard.set(true, forKey: "presentLegalAgreement")
+    func userHasAgreed(action:UIAlertAction) {
+        UserDefaults.standard.set(true, forKey: Strings.Key.userHasAgreed)
     }
     
 }

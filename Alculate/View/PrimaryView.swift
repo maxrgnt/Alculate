@@ -13,7 +13,7 @@ class PrimaryView: UIView {
     //MARK: Definitions
     // Objects
     let header = Header()
-    let comparison = ComparisonScroll()
+    let scroll = ComparisonScroll()
     let menu = Menu()
     
     //MARK: Initialization
@@ -35,8 +35,8 @@ class PrimaryView: UIView {
     func addObjectsToView() {
         addSubview(header)
         header.setup()
-        addSubview(comparison)
-        comparison.setup()
+        addSubview(scroll)
+        scroll.setup()
         addSubview(menu)
         menu.setup()
     }

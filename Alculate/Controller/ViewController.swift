@@ -16,102 +16,43 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     
     //MARK: Definitions
     // Constraints
-    static var leadingAnchor: NSLayoutXAxisAnchor!
-    static var topAnchor: NSLayoutYAxisAnchor!
-    static var trailingAnchor: NSLayoutXAxisAnchor!
-    static var bottomAnchor: NSLayoutYAxisAnchor!
-    static var secondaryTop: NSLayoutConstraint!
+    var secondaryTop: NSLayoutConstraint!
     // Objects
-    var primaryView = PrimaryView()
-    var secondaryView = SecondaryView()
-    var tapDismiss = TapDismiss()
-    var textEntry = TextEntry()
-    var undo = Undo()
-    var alert = UIAlertController(title: "title", message: "Hi", preferredStyle: .alert)
-    static var typeValue: String! = ""
-    static var typeEffect: String! = ""
+    var primary     = PrimaryView()
+    var secondary   = SecondaryView()
+    var tapDismiss  = TapDismiss()
+    var textEntry   = TextEntry()
+    var undo        = Undo()
+    var alert       = UIAlertController(title: "", message: "", preferredStyle: .alert)
 
     //MARK: ViewDidLoad
     override func viewDidLoad() {
-        addObservers()
-        
-        ViewController.leadingAnchor = view.leadingAnchor
-        ViewController.topAnchor = view.topAnchor
-        ViewController.trailingAnchor = view.trailingAnchor
-        ViewController.bottomAnchor = view.bottomAnchor
-
-        view.backgroundColor = UI.Color.ViewController.background
-        
-        //clearTestData()
-        
+        // Clear data while testing
+        let clearTestData = "no"
+        (clearTestData == "yes") ? clearAllDataForTesting() : nil
+        // Syncronously setup the app, running next line only after previous completed
         let background = DispatchQueue.global()
-        background.sync { self.handleOnboarding() }
-        background.sync { self.setup()      }
-        background.sync { self.handleKeyboard() }
-        background.sync { self.primaryView.layoutIfNeeded()     }
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-        //    background.sync { self.moveDrinkLibrary(to: "visible") }
-        //}
-        
+        background.sync { self.setup()                          }
+        background.sync { self.determineIfFirstLaunch()         }
+        background.sync { self.primary.layoutIfNeeded()         }
+        background.sync { self.addNotificationCenterObservers() }
     }
     
     //MARK: ViewDidAppear
     override func viewDidAppear(_ animated: Bool) {
-        if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
-            presentLegalAgreement()
-        }
+        // Present user agreement if hasn't been agreed to yet
+        let userHasAgreed = UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed)
+        userHasAgreed ? nil : presentLegalAgreement()
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    // MARK: Setup
-    func setup() {
         
-        view.addSubview(primaryView)
-        primaryViewConstraints()
-        primaryView.setup()
-        
-        for obj in [primaryView.comparison.beer,primaryView.comparison.liquor,primaryView.comparison.wine] {
-            obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        }
-        primaryView.menu.showDrinkLibrary.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        self.primaryView.comparison.beer.table.customDelegate = self
-        self.primaryView.comparison.liquor.table.customDelegate = self
-        self.primaryView.comparison.wine.table.customDelegate = self
-
-        view.addSubview(secondaryView)
-        secondaryViewConstraints()
-        secondaryView.setup()
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
-        secondaryView.drinkLibrary.header.addGestureRecognizer(pan)
-        secondaryView.drinkLibrary.header.isUserInteractionEnabled = true
-        self.secondaryView.drinkLibrary.table.customDelegate = self
-
-        view.addSubview(undo)
-        undoConstraints()
-        undo.setup()
-        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
-
-        view.addSubview(tapDismiss)
-        tapDismissConstraints()
-        tapDismiss.setup()
-
-        view.addSubview(textEntry)
-        textEntryConstraints()
-        textEntry.setup()
-        self.textEntry.textEntryDelegate = self
-
-    }
-    
     // MARK: Clear Testing
-    func clearTestData(){
-        Data.deleteCoreDataFor(entity: Data.masterListID)
-        Data.deleteCoreDataFor(entity: Data.beerListID)
-        Data.deleteCoreDataFor(entity: Data.liquorListID)
-        Data.deleteCoreDataFor(entity: Data.wineListID)
+    func clearAllDataForTesting(){
+        // Delete core data entities
+        Data.deleteCoreDataFor(entity: Data.masterListID )
+        Data.deleteCoreDataFor(entity: Data.beerListID   )
+        Data.deleteCoreDataFor(entity: Data.liquorListID )
+        Data.deleteCoreDataFor(entity: Data.wineListID   )
+        // Delete onboarding/keyboard/userAgreement user default data
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
         UserDefaults.standard.synchronize()
@@ -119,22 +60,25 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         
     //MARK: Life Cycle
     @objc func didEnterBackground() {
-        // stop long name animations
-        for obj in [primaryView.comparison.beer, primaryView.comparison.liquor, primaryView.comparison.wine,
-                    primaryView.header.value, primaryView.header.effect] {
-            obj.subviews.forEach({$0.layer.removeAllAnimations()})
-            obj.layer.removeAllAnimations()
-            obj.layoutIfNeeded()
-        }
+        // Stop movement of long drink names when app enters background
+        primary.subviews.forEach({$0.layer.removeAllAnimations()})
+        primary.layer.removeAllAnimations()
+        primary.layoutIfNeeded()
     }
 
     @objc func willEnterForeground() {
-        if UserDefaults.standard.bool(forKey: "hasLaunchedBefore") {
+        // If the app has launched before
+        let hasLaunched = UserDefaults.standard.bool(forKey: Strings.Key.hasLaunchedBefore)
+        if hasLaunched {
+            // Update tables to include saved drink data
             for id in Data.IDs {
                 reloadTable(table: id, realculate: false)
             }
-            primaryView.comparison.checkIfEmpty()
-            primaryView.comparison.updateContentSize()
+            // Check if the tables have data in them
+            primary.scroll.checkIfEmpty()
+            // Set the scroll view content size to fit tables after adjusting height to fit rows
+            primary.scroll.updateContentSize()
+            // Update the alculate header
             alculate()
         }
     }
@@ -142,23 +86,18 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     // MARK: TraitCollection (Dark Mode)
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        var textColor: UIColor!
-        let userInterfaceStyle = traitCollection.userInterfaceStyle // Either .unspecified, .light, or .dark
-        // Update your user interface based on the appearance
-        if userInterfaceStyle == .light || userInterfaceStyle == .light {
-            textColor = .black
-        }
-        if userInterfaceStyle == .dark {
-            textColor = UI.Color.Font.standard
-        }
-        if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
+        let userInterfaceStyle = traitCollection.userInterfaceStyle
+        // Either .unspecified, .light, or .dark
+        let textColor: UIColor = (userInterfaceStyle == .dark) ? UI.Color.Font.standard : .black
+        // If the user has not accepted agreement yet, proceed
+        if !UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed) {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .left
             let messageText = NSAttributedString(
-                string: "\nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.",
+                string: Strings.userAgreementMessage,
                 attributes: [
                     NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                    NSAttributedString.Key.foregroundColor : textColor!,
+                    NSAttributedString.Key.foregroundColor : textColor,
                     NSAttributedString.Key.font : UI.Font.Comparison.row!
                 ]
             )
@@ -166,5 +105,9 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        // App background color is dark, whether in light or dark mode make status bar light.
+        return .lightContent
+    }
 }
 

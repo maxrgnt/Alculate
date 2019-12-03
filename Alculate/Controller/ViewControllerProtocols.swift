@@ -13,9 +13,9 @@ extension ViewController {
     
     // MARK: Protocol Delegate Functions
     func resetHeight(for table: String) {
-        primaryView.comparison.updateHeight(for: table)
-        primaryView.comparison.updateContentSize()
-        primaryView.comparison.checkIfEmpty()
+        primary.scroll.updateHeight(for: table)
+        primary.scroll.updateContentSize()
+        primary.scroll.checkIfEmpty()
     }
     
     func animateComparisonLabels(to state: String) {
@@ -23,8 +23,8 @@ extension ViewController {
     }
     
     func nukeBothComparisonLabels() {
-        primaryView.header.value.nukeAllAnimations()
-        primaryView.header.effect.nukeAllAnimations()
+        primary.header.value.nukeAllAnimations()
+        primary.header.effect.nukeAllAnimations()
     }
     
     func displayAlert(alert : UIAlertController) {
@@ -43,35 +43,35 @@ extension ViewController {
     }
     
     func adjustHeaderBackground() {
-        if let cell = secondaryView.drinkLibrary.table.cellForRow(at: secondaryView.drinkLibrary.table.indexPathsForVisibleRows![0]) {
-            secondaryView.drinkLibrary.gradient2.colors = [cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
+        if let cell = secondary.drinkLibrary.table.cellForRow(at: secondary.drinkLibrary.table.indexPathsForVisibleRows![0]) {
+            secondary.drinkLibrary.gradient2.colors = [cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor,cell.backgroundColor!.cgColor]
         }
     }
     
     func resetHeader() {
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
-        if ViewController.secondaryTop.constant != secondaryViewAtTop {
-            ViewController.secondaryTop.constant = secondaryViewAtTop
+        if secondaryTop.constant != secondaryViewAtTop {
+            secondaryTop.constant = secondaryViewAtTop
             finishScrolling()
         }
     }
     
     func adjustHeaderConstant(to constant: CGFloat) {
         // Allow movement of contact card back/forth when not fully visible
-        ViewController.secondaryTop.constant += -constant
+        secondaryTop.constant += -constant
         // If contact card is fully visible, don't allow movement further left
-        let currentConstant = ViewController.secondaryTop.constant
+        let currentConstant = secondaryTop.constant
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
-        ViewController.secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
-        secondaryView.layoutIfNeeded()
+        secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
+        secondary.layoutIfNeeded()
     }
     
     func finishScrolling() {
         let dismissRatio: CGFloat = 0.7
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
-        let currentRatio: CGFloat = ViewController.secondaryTop.constant / secondaryViewAtTop
+        let currentRatio: CGFloat = secondaryTop.constant / secondaryViewAtTop
         (currentRatio >= dismissRatio) ? moveDrinkLibrary(to: "visible") : moveDrinkLibrary(to: "hidden")
-        (currentRatio >= dismissRatio) ? nil : primaryView.moveMenu(to: "visible")
+        (currentRatio >= dismissRatio) ? nil : primary.moveMenu(to: "visible")
     }
     
     func editComparison(type: String, name: String, abv: String, size: String, price: String) {
@@ -83,7 +83,7 @@ extension ViewController {
     
     func reloadTable(table: String, realculate: Bool = true) {
         if table == Data.masterListID {
-            secondaryView.drinkLibrary.table.reloadData()
+            secondary.drinkLibrary.table.reloadData()
         }
         else {
             if realculate {
@@ -91,7 +91,7 @@ extension ViewController {
                 alculate()
             }
             let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-            let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
+            let tables = [primary.scroll.beer.table,primary.scroll.liquor.table,primary.scroll.wine.table]
             for (i, ID) in Data.IDs.enumerated() {
                 if table == ID {
                     //tables[i].reloadData()
@@ -104,7 +104,7 @@ extension ViewController {
     
     func updateComparison(for name: String, ofType type: String, wABV newAbv: String) {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0,1))
-        let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
+        let tables = [primary.scroll.beer.table,primary.scroll.liquor.table,primary.scroll.wine.table]
         for (i, ID) in Data.IDs.enumerated() {
             if type == ID {
                 for x in 0..<Data.lists[i].count {
@@ -125,7 +125,7 @@ extension ViewController {
     }
     
     func insertRowFor(table: String) {
-        let tables = [primaryView.comparison.beer.table,primaryView.comparison.liquor.table,primaryView.comparison.wine.table]
+        let tables = [primary.scroll.beer.table,primary.scroll.liquor.table,primary.scroll.wine.table]
         let lists = Data.lists
         for (i, ID) in Data.IDs.enumerated() {
             if table == ID {
@@ -134,12 +134,12 @@ extension ViewController {
                 tables[i].insertRows(at: [IndexPath(row: index, section: 0)], with: .bottom)
                 tables[i].endUpdates()
                 //tables[i].updateTableContentInset()
-                primaryView.comparison.updateHeight(for: table)
+                primary.scroll.updateHeight(for: table)
                 break
             }
         }
-        primaryView.comparison.updateContentSize()
-        primaryView.comparison.checkIfEmpty()
+        primary.scroll.updateContentSize()
+        primary.scroll.checkIfEmpty()
         sortByValue()
         alculate()
     }

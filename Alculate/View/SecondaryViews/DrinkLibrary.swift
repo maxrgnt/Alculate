@@ -62,6 +62,7 @@ class DrinkLibrary: UIView {
         header.textColor = UI.Color.Font.standard
         header.textAlignment = .left
         header.text = "Drink Library"
+        header.isUserInteractionEnabled = true
     }
     
     

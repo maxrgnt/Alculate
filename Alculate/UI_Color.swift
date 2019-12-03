@@ -1,5 +1,5 @@
 //
-//  UI - Color.swift
+//  UI_Color.swift
 //  Alculate
 //
 //  Created by Max Sergent on 12/3/19.

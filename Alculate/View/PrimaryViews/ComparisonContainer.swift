@@ -1,5 +1,5 @@
 //
-//  ComparisonPiece.swift
+//  ComparisonContainer.swift
 //  Alculate
 //
 //  Created by Max Sergent on 11/30/19.

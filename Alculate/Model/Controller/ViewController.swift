@@ -1,5 +1,5 @@
 //
-//  ViewController2.swift
+//  ViewController.swift
 //  Alculate
 //
 //  Created by Max Sergent on 10/12/19.

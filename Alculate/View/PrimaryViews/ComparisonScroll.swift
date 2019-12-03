@@ -1,5 +1,5 @@
 //
-//  ComparisonAll.swift
+//  ComparisonScroll.swift
 //  Alculate
 //
 //  Created by Max Sergent on 11/30/19.

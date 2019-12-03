@@ -1,5 +1,5 @@
 //
-//  TextNavigation.swift
+//  TextNavigator.swift
 //  Alculate
 //
 //  Created by Max Sergent on 10/14/19.

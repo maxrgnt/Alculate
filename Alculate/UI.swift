@@ -221,14 +221,16 @@ struct UI {
         //MARK: TextEntry
         struct TextEntry {
             static var top = -(keyboard+Input.height)
-            static let topPartial = -(keyboard+(2*Field.height)+Navigator.height+objectPadding)
+            static let padding = objectPadding
+            static let topPartial = -(keyboard+(2*Field.height)+Navigator.height+padding)
             static var height = Input.height + Navigator.height + keyboard
-            static let bounceBuffer = objectPadding
+            static let border = padding/4
+            static let bounceBuffer = padding
             static let radii = width/10
             static let gesture = top*(5/6)
             struct Input {
-                static let height = (4*Field.height)+objectPadding
-                static let heightPartial = (2*Field.height)+objectPadding
+                static let height = (4*Field.height)+padding
+                static let heightPartial = (2*Field.height)+padding
             }
             struct Field {
                 static let height = Header.appName.height
@@ -236,11 +238,11 @@ struct UI {
                 static let sizeWidth = width - Icon.diameter
             }
             struct Icon {
-                static let diameter = ((width/3) - objectPadding)*(2/3)*(2/3)
+                static let diameter = ((width/3) - padding)*(2/3)*(2/3)
             }
             struct Navigator {
                 static let height = Field.height
-                static let width = widthObjectPadding
+                static let width = padding
                 static let buttonWidth = Icon.diameter
             }
         }

@@ -121,55 +121,33 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     func build() {
         
         view.addSubview(primaryView)
-        primaryView.translatesAutoresizingMaskIntoConstraints                                               = false
-        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
-        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
-        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                        = true
-        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
+        primaryViewConstraints()
         primaryView.setup()
         
         for obj in [primaryView.comparison.beer,primaryView.comparison.liquor,primaryView.comparison.wine] {
             obj.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
         }
-        
         primaryView.menu.showDrinkLibrary.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        
+        self.primaryView.comparison.beer.table.customDelegate = self
+        self.primaryView.comparison.liquor.table.customDelegate = self
+        self.primaryView.comparison.wine.table.customDelegate = self
+
         view.addSubview(secondaryView)
-        secondaryView.translatesAutoresizingMaskIntoConstraints                                               = false
-        ViewController.secondaryTop = secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor)
-        secondaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
-        secondaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
-        ViewController.secondaryTop.isActive                                                                    = true
-        secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
+        secondaryViewConstraints()
         secondaryView.setup()
-        
-        // Initialize pan gesture recognizer to dismiss view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(reactToPanGesture(_:)))
         secondaryView.drinkLibrary.header.addGestureRecognizer(pan)
         secondaryView.drinkLibrary.header.isUserInteractionEnabled = true
-        
         self.secondaryView.drinkLibrary.table.customDelegate = self
-        
-        
-//        self.primaryView.comparison.beer.delegate = self
-        self.primaryView.comparison.beer.table.customDelegate = self
-//        self.primaryView.comparison.liquor.delegate = self
-        self.primaryView.comparison.liquor.table.customDelegate = self
-//        self.primaryView.comparison.wine.delegate = self
-        self.primaryView.comparison.wine.table.customDelegate = self
                 
-//        view.addSubview(savedABV)
-//        savedABV.build()
-//        self.savedABV.savedABVDelegate = self
-//        self.savedABV.savedABVTable.savedABVTableDelegate = self
-//
         view.addSubview(undo)
         undo.build()
         undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
         undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
 
         view.addSubview(tapDismiss)
-        tapDismiss.build()
+        tapDismissConstraints()
+        tapDismiss.setup()
 
         view.addSubview(textEntry)
         textEntry.build()

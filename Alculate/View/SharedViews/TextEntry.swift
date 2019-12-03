@@ -68,7 +68,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         clipsToBounds = true
         backgroundColor = .clear
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.TextEntry.radii)
-        layer.borderWidth = UI.Sizing.Comparison.border*2
+        layer.borderWidth = UI.Sizing.TextEntry.border
         layer.borderColor = UI.Color.bgLite.cgColor
         // Required for textView delegates to work
         addSubview(field)

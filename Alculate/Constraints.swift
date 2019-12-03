@@ -6,6 +6,37 @@
 //  Copyright © 2019 Max Sergent. All rights reserved.
 //
 
+//MARK: ViewController
+extension ViewController {
+    
+    func primaryViewConstraints() {
+        primaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        primaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
+        primaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
+        primaryView.topAnchor.constraint(equalTo: ViewController.topAnchor).isActive                        = true
+        primaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive             = true
+    }
+    
+    func secondaryViewConstraints() {
+        secondaryView.translatesAutoresizingMaskIntoConstraints                                               = false
+        ViewController.secondaryTop = secondaryView.topAnchor.constraint(equalTo: ViewController.bottomAnchor)
+        secondaryView.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive                = true
+        secondaryView.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive              = true
+        ViewController.secondaryTop.isActive                                                                    = true
+        secondaryView.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive             = true
+    }
+    
+    func tapDismissConstraints() {
+        tapDismiss.translatesAutoresizingMaskIntoConstraints = false
+        TapDismiss.dismissTop = tapDismiss.topAnchor.constraint(equalTo: ViewController.topAnchor, constant: UI.Sizing.bounds.height)
+        TapDismiss.dismissTop.isActive = true
+        tapDismiss.bottomAnchor.constraint(equalTo: ViewController.bottomAnchor).isActive = true
+        tapDismiss.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive = true
+        tapDismiss.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive = true
+    }
+    
+}
+
 //MARK: PrimaryView
 extension PrimaryView {
     
@@ -340,3 +371,18 @@ extension DrinkLibrary {
     }
     
 }
+
+//MARK: TapDismiss
+extension TapDismiss {
+    
+    func tapDismissConstraints() {
+        TapDismiss.dismiss.translatesAutoresizingMaskIntoConstraints                                                        = false
+        TapDismiss.dismiss.widthAnchor.constraint(equalTo: widthAnchor).isActive                                           = true
+        TapDismiss.dismiss.heightAnchor.constraint(equalTo: heightAnchor).isActive                                         = true
+        TapDismiss.dismiss.leadingAnchor.constraint(equalTo: leadingAnchor).isActive                                       = true
+        TapDismiss.dismiss.topAnchor.constraint(equalTo: topAnchor).isActive                                               = true
+    }
+    
+}
+
+

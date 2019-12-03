@@ -33,7 +33,7 @@ class Header: UIView {
     //MARK: Setup
     func setup() {
         addObjectsToView()
-        roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Radii.header)
+        roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Header.radii)
         appNameSettings()
         value.setup(to: "left")
         value.category.text = "Highest Value"

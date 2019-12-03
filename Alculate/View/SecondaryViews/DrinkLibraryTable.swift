@@ -66,9 +66,9 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         let section: CGFloat = CGFloat(indexPath.section)
 //        let row: CGFloat = CGFloat(indexPath.row)
         let blah: CGFloat = section/totalSections // ((section*(section+1))/2)/totalSections
-        let R: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[0]))  + (blah * CGFloat(UI.Color.bgDarkRGB[0]))
-        let G: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[1]))  + (blah * CGFloat(UI.Color.bgDarkRGB[1]))
-        let B: CGFloat = ((1-blah) * CGFloat(UI.Color.bgDarkerRGB[2])) + (blah * CGFloat(UI.Color.bgDarkRGB[2]))
+        let R: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[0]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[0]))
+        let G: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[1]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[1]))
+        let B: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[2])) + (blah * CGFloat(UI.Color.Gradient.darkRGB[2]))
 //        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
         cell.setBackgroundColor(R: R, G: G, B: B)
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)

@@ -40,7 +40,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         ViewController.trailingAnchor = view.trailingAnchor
         ViewController.bottomAnchor = view.bottomAnchor
 
-        view.backgroundColor = UI.Color.bgDarker
+        view.backgroundColor = UI.Color.ViewController.background
         
         //clearTestData()
         

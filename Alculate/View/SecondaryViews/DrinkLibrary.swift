@@ -73,8 +73,8 @@ class DrinkLibrary: UIView {
         let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Table.height)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient.colors = [UI.Color.bgDarker.withAlphaComponent(1.0).cgColor,
-                           UI.Color.bgLite.withAlphaComponent(1.0).cgColor]
+        gradient.colors = [UI.Color.Gradient.dark.withAlphaComponent(1.0).cgColor,
+                           UI.Color.Gradient.light.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient.locations = [0.0,1.0]
         // Add gradient as bottom layer in sublayer array
@@ -86,9 +86,9 @@ class DrinkLibrary: UIView {
         let gradientSize2 = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Header.height)
         gradient2.frame = CGRect(origin: gradientOrigin2, size: gradientSize2)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
-        gradient2.colors = [UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
-                            UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,
-                           UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor]
+        gradient2.colors = [UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor,
+                            UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor,
+                           UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor]
         // Set locations of where gradient will transition
         gradient2.locations = [0.0,0.1,1.0]
         // Add gradient as bottom layer in sublayer array

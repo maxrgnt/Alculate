@@ -31,7 +31,7 @@ class Undo: UIView {
     func setup() {
         clipsToBounds = true
         backgroundColor = UI.Color.Undo.background
-        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.header)
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Header.radii)
     
         objectSettings()
         

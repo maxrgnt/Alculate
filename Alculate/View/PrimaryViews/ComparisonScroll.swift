@@ -120,7 +120,7 @@ class ComparisonScroll: UIScrollView {
     
     func updateContentSize() {
         // Set at 4 because there is a gap above each (three) tables and one below the last
-        var new: CGFloat = 3 * UI.Sizing.Padding.comparison
+        var new: CGFloat = 3 * UI.Sizing.Comparison.padding
         // add height of each container
         for container in containers {
             new += container.height.constant

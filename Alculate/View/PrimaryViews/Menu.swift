@@ -30,7 +30,7 @@ class Menu: UIView {
     //MARK: - Setup
     func setup() {
         clipsToBounds = true
-        backgroundColor = UI.Color.bgDarkest
+        backgroundColor = UI.Color.Menu.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Menu.radii)
 
         buttons = [showDrinkLibrary]

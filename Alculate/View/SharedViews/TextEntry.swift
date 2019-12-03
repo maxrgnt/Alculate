@@ -73,7 +73,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         backgroundColor = .clear
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.TextEntry.radii)
         layer.borderWidth = UI.Sizing.TextEntry.border
-        layer.borderColor = UI.Color.bgLite.cgColor
+        layer.borderColor = UI.Color.lightAccent.cgColor
         
         objectSettings()
 

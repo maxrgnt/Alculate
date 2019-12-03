@@ -170,7 +170,7 @@ extension SummaryCell {
 extension ComparisonScroll {
     
     func totalConstraints() {
-        total.height = total.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.height)
+        total.height = total.heightAnchor.constraint(equalToConstant: 0.0) // UI.Sizing.Comparison.Total.height
         total.translatesAutoresizingMaskIntoConstraints                                                             = false
         total.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                             = true
         total.widthAnchor.constraint(equalTo: widthAnchor).isActive                                                 = true

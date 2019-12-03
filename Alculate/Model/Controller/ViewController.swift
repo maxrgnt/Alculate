@@ -133,8 +133,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             for id in Data.IDs {
                 reloadTable(table: id, realculate: false)
             }
-            primaryView.comparison.updateContentSize()
             primaryView.comparison.checkIfEmpty()
+            primaryView.comparison.updateContentSize()
             alculate()
         }
     }

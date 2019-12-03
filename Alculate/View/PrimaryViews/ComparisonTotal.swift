@@ -33,6 +33,7 @@ class ComparisonTotal: UIView {
     
     //MARK: Setup
     func setup() {
+        alpha = 0.0
         objectSettings()
         addObjectsToView()
         constraints()

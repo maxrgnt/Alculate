@@ -105,8 +105,8 @@ struct UI {
         
         struct Header {
             static let width = UI.Sizing.width
-            static let height = Ratio.header*Sizing.height + StatusBar.height + Summary.height + Radii.header
-            static let heightMinimized = Ratio.header*Sizing.height + StatusBar.height + Radii.header
+            static let height = Ratio.header*Sizing.height + StatusBar.height + Summary.height + Radii.header/2
+            static let heightMinimized = Ratio.header*Sizing.height + StatusBar.height + Radii.header/2
             
             struct appName {
                 static let width = Header.width
@@ -164,6 +164,17 @@ struct UI {
                 static let valueWidth = (width-padding*2)*(1/6)
                 static let effectWidth = (width-padding*2)*(1/6)
                 static let unitOffset = -height/6
+            }
+            
+            struct Total {
+                static let height = width/16
+                static let width = Comparison.Scroll.width
+                static let statHeight = height
+                static let nameHeight = height
+                static let nameWidth = (width-padding*2)*(2/3)
+                static let spentWidth = (width-padding*2)*(1/6)
+                static let shotsWidth = (width-padding*2)*(1/6)
+                static let unitOffset = -statHeight/2
             }
             
         }
@@ -295,6 +306,9 @@ struct UI {
             static let add = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(3/4))
             static let row = UIFont(name: "RobotoSlab-Regular", size: Sizing.Height.comparisonHeader*(1/3))
             static let rowUnit = UIFont(name: "RobotoSlab-Light", size: Sizing.Height.comparisonHeader*(1/4))
+            static let total = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/2))
+            static let totalStat = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/3))
+            static let totalUnit = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/4))
         }
         struct Summary {
             static let category = UIFont(name: "RobotoSlab-SemiBold", size: Sizing.Height.comparisonHeader*(1/3))
@@ -404,6 +418,7 @@ struct UI {
             static let liquorHeader = fontWhite // liquor
             static let wineHeader = fontWhite // wine
             static let comparisonCell = fontWhite // bgDarkest
+            static let comparisonTotal = bgDarkest
         }
         
         struct Background {

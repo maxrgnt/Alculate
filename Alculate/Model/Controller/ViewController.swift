@@ -555,6 +555,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             primaryView.header.effect.stat.text = bestRatio.best
 //            primaryView.header.value.calculateNameWidth()
 //            primaryView.header.effect.calculateNameWidth()
+            calculateTotalSpent()
+            calculateTotalShots()
         }
         // if all lists are empty, dont alculate
         else {
@@ -579,6 +581,40 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         correctedSize = sizeUnit == "ml" ? correctedSize/29.5735296875 : correctedSize
         let price = Double(info.price)! >= 0 ? Double(info.price)! : 1
         return price/(((Double(info.abv)!*0.01)*correctedSize)/0.6)
+    }
+    
+    func calculateTotalSpent() {
+        var totalSpent: Double = 0.0
+        for list in Data.lists {
+            for info in list {
+                totalSpent += Double(info.price)!
+            }
+        }
+        primaryView.comparison.total.spent.text = "$"+String(format: "%.2f", totalSpent)
+    }
+    
+    func calculateTotalShots() {
+        var totalShots: Double = 0.0
+        for list in Data.lists {
+            for info in list {
+                // get the unitForSize by dropping the first part of string
+                // using length of string minus the last two characters (oz or ml) ex. 24ml
+                let sizeUnit = info.size.dropFirst(info.size.count-2)
+                // get the size by dropping last two characters (oz or ml) ex. 24ml
+                let size = info.size.dropLast(2)
+                var correctedSize = Double(size)!
+                // if unitForSize is ml, need to convert to oz for calculations
+                if sizeUnit == "ml" {
+                    // convert ml size to ounces using ratio of ml per oz
+                    correctedSize = correctedSize/29.5735296875
+                }
+                // calculate the effectiveness
+                let abvAsDecimal = (0.01)*Double(info.abv)!
+                let standardShot = (0.4 /*ABV*/ * 1.5 /*oz*/) // = 0.6
+                totalShots += (abvAsDecimal*correctedSize)/standardShot
+            }
+        }
+        primaryView.comparison.total.shots.text = String(format: "%.1f", totalShots)
     }
     
     // MARK: - Flip Alculate

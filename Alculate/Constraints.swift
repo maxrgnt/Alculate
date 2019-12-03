@@ -119,13 +119,23 @@ extension SummaryCell {
 //MARK: ComparisonScroll
 extension ComparisonScroll {
     
+    func totalConstraints() {
+        total.height = total.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.height)
+        total.translatesAutoresizingMaskIntoConstraints                                                      = false
+        total.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
+        total.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
+        total.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.Comparison.padding).isActive       = true
+        total.height.isActive                                                                                = true
+    }
+    
     func beerConstraints () {
         beer.height = beer.heightAnchor.constraint(equalToConstant: 0.0)
+        beer.top = beer.topAnchor.constraint(equalTo: total.bottomAnchor, constant: UI.Sizing.Comparison.padding)
         beer.translatesAutoresizingMaskIntoConstraints                                                  = false
         beer.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                  = true
         beer.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
         beer.height.isActive                                                                            = true
-        beer.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+        beer.top.isActive                                                                               = true
     }
     
     func liquorConstraints () {
@@ -153,6 +163,43 @@ extension ComparisonScroll {
         empty.widthAnchor.constraint(equalTo: widthAnchor).isActive                                      = true
         emptyTop.isActive                                                                            = true
         empty.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Empty.height).isActive          = true
+    }
+    
+}
+
+//MARK: ComparisonTotal
+extension ComparisonTotal {
+    
+    func totalConstraints() {
+        total.translatesAutoresizingMaskIntoConstraints                                                          = false
+        total.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.nameWidth).isActive               = true
+        total.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.height).isActive              = true
+        total.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.Comparison.padding).isActive  = true
+        total.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                          = true
+    }
+    
+    func spentConstraints() {
+        spent.translatesAutoresizingMaskIntoConstraints                                                          = false
+        spent.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.spentWidth).isActive               = true
+        spent.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.statHeight).isActive             = true
+        spent.leadingAnchor.constraint(equalTo: total.trailingAnchor).isActive                                = true
+        spent.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
+    }
+    
+    func shotsConstraints() {
+        shots.translatesAutoresizingMaskIntoConstraints                                                          = false
+        shots.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.shotsWidth).isActive               = true
+        shots.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.statHeight).isActive             = true
+        shots.leadingAnchor.constraint(equalTo: spent.trailingAnchor).isActive                                = true
+        shots.topAnchor.constraint(equalTo: topAnchor).isActive                                          = true
+    }
+    
+    func shotUnitConstraints() {
+        shotUnit.translatesAutoresizingMaskIntoConstraints                                                          = false
+        shotUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.shotsWidth).isActive               = true
+        shotUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.statHeight).isActive             = true
+        shotUnit.leadingAnchor.constraint(equalTo: spent.trailingAnchor).isActive                                = true
+        shotUnit.topAnchor.constraint(equalTo: shots.bottomAnchor, constant: UI.Sizing.Comparison.Total.unitOffset).isActive = true
     }
     
 }

@@ -20,6 +20,7 @@ class ComparisonScroll: UIScrollView {
     let liquor = ComparisonContainer()
     let wine = ComparisonContainer()
     var containers: [ComparisonContainer] = []
+    let total = ComparisonTotal()
     let empty = UILabel()
     
     //MARK: - Initialization
@@ -43,13 +44,6 @@ class ComparisonScroll: UIScrollView {
         showsVerticalScrollIndicator = false
         contentSize.height = UI.Sizing.Comparison.Scroll.heightEmpty
         
-        addSubview(empty)
-        empty.backgroundColor = .clear
-        empty.textColor = UI.Color.Comparison.border
-        empty.text = "Add a drink above!"
-        empty.font = UI.Font.Comparison.empty
-        empty.textAlignment = .center
-        
         addObjectsToView()
         
         constraints()
@@ -62,6 +56,16 @@ class ComparisonScroll: UIScrollView {
             obj.setup(forType: Data.IDs[i])
 //            obj.header.add.tag = 20 + i
         }
+        addSubview(total)
+        total.setup()
+        
+        addSubview(empty)
+        empty.backgroundColor = .clear
+        empty.textColor = UI.Color.Comparison.border
+        empty.text = "Add a drink above!"
+        empty.font = UI.Font.Comparison.empty
+        empty.textAlignment = .center
+        
     }
 
     //MARK: - Constraints
@@ -72,6 +76,7 @@ class ComparisonScroll: UIScrollView {
         for obj in Data.IDs {
             updateHeight(for: obj, animated: false)
         }
+        totalConstraints()
         emptyConstraints()
     }
     
@@ -141,10 +146,15 @@ class ComparisonScroll: UIScrollView {
             }
         }
         let newHeight = isEmpty ? UI.Sizing.Comparison.Scroll.heightEmpty : UI.Sizing.Comparison.Scroll.heightFull
+        let newTotal = isEmpty ? 0.0 : UI.Sizing.Comparison.Total.height
+        let newPadding = isEmpty ? 0.0 : UI.Sizing.Comparison.padding
         UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseInOut
                     , animations: ({
                         self.height.constant = newHeight
+                        self.total.height.constant = newTotal
+                        self.beer.top.constant = newPadding
                         self.empty.alpha = isEmpty ? 1.0 : 0.0
+                        self.total.alpha = isEmpty ? 0.0 : 1.0
                         self.layoutIfNeeded()
                     }), completion: { (completed) in
                         // pass

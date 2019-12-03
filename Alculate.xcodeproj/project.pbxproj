@@ -25,6 +25,7 @@
 		66822D6C239542160078160F /* DrinkLibraryTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66822D6B239542160078160F /* DrinkLibraryTable.swift */; };
 		66822D6E239542DF0078160F /* DrinkLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66822D6D239542DF0078160F /* DrinkLibraryCell.swift */; };
 		66822D70239547770078160F /* DrinkLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66822D6F239547770078160F /* DrinkLibrary.swift */; };
+		66822D732396A33F0078160F /* ComparisonTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66822D722396A33F0078160F /* ComparisonTotal.swift */; };
 		668257B9238D89E400429454 /* alcohol.csv in Resources */ = {isa = PBXBuildFile; fileRef = 668257B8238D89E400429454 /* alcohol.csv */; };
 		668257BB238F229100429454 /* onboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 668257BA238F229000429454 /* onboard.png */; };
 		668257BD2391622A00429454 /* PrimaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668257BC2391622A00429454 /* PrimaryView.swift */; };
@@ -91,6 +92,7 @@
 		66822D6B239542160078160F /* DrinkLibraryTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkLibraryTable.swift; sourceTree = "<group>"; };
 		66822D6D239542DF0078160F /* DrinkLibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkLibraryCell.swift; sourceTree = "<group>"; };
 		66822D6F239547770078160F /* DrinkLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkLibrary.swift; sourceTree = "<group>"; };
+		66822D722396A33F0078160F /* ComparisonTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTotal.swift; sourceTree = "<group>"; };
 		668257B8238D89E400429454 /* alcohol.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alcohol.csv; sourceTree = "<group>"; };
 		668257BA238F229000429454 /* onboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = onboard.png; sourceTree = "<group>"; };
 		668257BC2391622A00429454 /* PrimaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryView.swift; sourceTree = "<group>"; };
@@ -167,6 +169,18 @@
 			path = SecondaryViews;
 			sourceTree = "<group>";
 		};
+		66822D712396A2EC0078160F /* SharedViews */ = {
+			isa = PBXGroup;
+			children = (
+				662BB8912362811300BCA837 /* TapDismiss.swift */,
+				669931C62354FFD300021512 /* TextEntry.swift */,
+				66896A3A2357E0C400C5793F /* TextEntryInputs.swift */,
+				669931CA23550A4A00021512 /* TextNavigator.swift */,
+				6680A11D2344B773000A884D /* Undo.swift */,
+			);
+			path = SharedViews;
+			sourceTree = "<group>";
+		};
 		668257C023916C8C00429454 /* PrimaryViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +188,7 @@
 				668257BE23916C8300429454 /* Header.swift */,
 				668257C32391785000429454 /* SummaryCell.swift */,
 				66822D5C239304D40078160F /* ComparisonScroll.swift */,
+				66822D722396A33F0078160F /* ComparisonTotal.swift */,
 				66822D5E23930F300078160F /* ComparisonContainer.swift */,
 				66822D6023941DF80078160F /* ContainerHeader.swift */,
 				66822D622394260A0078160F /* ContainerTable.swift */,
@@ -190,11 +205,7 @@
 				668257C023916C8C00429454 /* PrimaryViews */,
 				66822D6623943A1C0078160F /* SecondaryView.swift */,
 				66822D6823943A2B0078160F /* SecondaryViews */,
-				662BB8912362811300BCA837 /* TapDismiss.swift */,
-				669931C62354FFD300021512 /* TextEntry.swift */,
-				66896A3A2357E0C400C5793F /* TextEntryInputs.swift */,
-				669931CA23550A4A00021512 /* TextNavigator.swift */,
-				6680A11D2344B773000A884D /* Undo.swift */,
+				66822D712396A2EC0078160F /* SharedViews */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -445,6 +456,7 @@
 				66C26351234F44310077332F /* OldCell.swift in Sources */,
 				6680A11E2344B774000A884D /* Undo.swift in Sources */,
 				669931C72354FFD300021512 /* TextEntry.swift in Sources */,
+				66822D732396A33F0078160F /* ComparisonTotal.swift in Sources */,
 				668257BF23916C8300429454 /* Header.swift in Sources */,
 				668257BD2391622A00429454 /* PrimaryView.swift in Sources */,
 				66822D652394281E0078160F /* ContainerCell.swift in Sources */,

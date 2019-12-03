@@ -264,7 +264,8 @@ extension ViewController {
                 totalSpent += Double(info.price)!
             }
         }
-        primaryView.comparison.total.spent.text = "$"+String(format: "%.2f", totalSpent)
+        let totalSpentText = (totalSpent > 999.0) ? "$$$" : "$"+String(format: "%.2f", totalSpent)
+        primaryView.comparison.total.spent.text = totalSpentText
     }
     
     func calculateTotalShots() {
@@ -288,7 +289,8 @@ extension ViewController {
                 totalShots += (abvAsDecimal*correctedSize)/standardShot
             }
         }
-        primaryView.comparison.total.shots.text = String(format: "%.1f", totalShots)
+        let totalShotText = (totalShots > 99.0) ? "XXX" : String(format: "%.1f", totalShots)
+        primaryView.comparison.total.shots.text = totalShotText
     }
     
     // MARK: Flip Alculate

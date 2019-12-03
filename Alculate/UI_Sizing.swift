@@ -122,8 +122,8 @@ struct UI {
                 static let width = Comparison.Scroll.width
                 static let statHeight = height
                 static let nameHeight = height
-                static let nameWidth = (width-padding*2)*(2/3)
-                static let spentWidth = (width-padding*2)*(1/6)
+                static let nameWidth = (width-padding*2)*(1/2)
+                static let spentWidth = (width-padding*2)*(1/3)
                 static let shotsWidth = (width-padding*2)*(1/6)
                 static let unitOffset = -statHeight/2
             }

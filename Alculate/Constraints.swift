@@ -239,7 +239,7 @@ extension ComparisonTotal {
     func spentUnitConstraints() {
         let x = UI.Sizing.Comparison.Total.unitOffset
         spentUnit.translatesAutoresizingMaskIntoConstraints                                                         = false
-        spentUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.shotsWidth).isActive           = true
+        spentUnit.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.spentWidth).isActive           = true
         spentUnit.heightAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Total.statHeight).isActive          = true
         spentUnit.leadingAnchor.constraint(equalTo: total.trailingAnchor).isActive                                  = true
         spentUnit.topAnchor.constraint(equalTo: shots.bottomAnchor, constant: x).isActive                           = true

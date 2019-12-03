@@ -51,8 +51,6 @@
 		66AF5864233A33EC00502EEA /* AlculateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5863233A33EC00502EEA /* AlculateUITests.swift */; };
 		66AF5876233A899A00502EEA /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5875233A899A00502EEA /* UI.swift */; };
 		66AF587F233C148300502EEA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF587E233C148300502EEA /* Extensions.swift */; };
-		66C26351234F44310077332F /* OldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26350234F44310077332F /* OldCell.swift */; };
-		66C26353234F44CD0077332F /* OldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C26352234F44CD0077332F /* OldContainer.swift */; };
 		66CDFCFA233D75F600267670 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CDFCF9233D75F600267670 /* Data.swift */; };
 /* End PBXBuildFile section */
 
@@ -120,8 +118,6 @@
 		66AF5865233A33EC00502EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66AF5875233A899A00502EEA /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		66AF587E233C148300502EEA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		66C26350234F44310077332F /* OldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCell.swift; sourceTree = "<group>"; };
-		66C26352234F44CD0077332F /* OldContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldContainer.swift; sourceTree = "<group>"; };
 		66CDFCF9233D75F600267670 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,15 +146,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		666F49A123861A1E00BB3C75 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				66C26350234F44310077332F /* OldCell.swift */,
-				66C26352234F44CD0077332F /* OldContainer.swift */,
-			);
-			path = Old;
-			sourceTree = "<group>";
-		};
 		66822D6823943A2B0078160F /* SecondaryViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +238,6 @@
 				66AF587B233C140700502EEA /* Model */,
 				669931C42354EE0900021512 /* View */,
 				669931C52354EE1400021512 /* Controller */,
-				666F49A123861A1E00BB3C75 /* Old */,
 				66AF5847233A33EB00502EEA /* Assets.xcassets */,
 				66C3259E235F2FF1003DAC45 /* Fonts */,
 				668257B8238D89E400429454 /* alcohol.csv */,
@@ -453,7 +439,6 @@
 				669931B92352623C00021512 /* ViewController.swift in Sources */,
 				668257C22391733B00429454 /* Constraints.swift in Sources */,
 				66AF5841233A33E900502EEA /* SceneDelegate.swift in Sources */,
-				66C26351234F44310077332F /* OldCell.swift in Sources */,
 				6680A11E2344B774000A884D /* Undo.swift in Sources */,
 				669931C72354FFD300021512 /* TextEntry.swift in Sources */,
 				66822D732396A33F0078160F /* ComparisonTotal.swift in Sources */,
@@ -468,7 +453,6 @@
 				66896A3B2357E0C400C5793F /* TextEntryInputs.swift in Sources */,
 				66822D5D239304D40078160F /* ComparisonScroll.swift in Sources */,
 				66822D70239547770078160F /* DrinkLibrary.swift in Sources */,
-				66C26353234F44CD0077332F /* OldContainer.swift in Sources */,
 				66822D6723943A1C0078160F /* SecondaryView.swift in Sources */,
 				66CDFCFA233D75F600267670 /* Data.swift in Sources */,
 				66AF5876233A899A00502EEA /* UI.swift in Sources */,

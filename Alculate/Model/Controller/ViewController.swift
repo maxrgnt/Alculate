@@ -188,7 +188,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             textColor = .black
         }
         if userInterfaceStyle == .dark {
-            textColor = UI.Color.fontWhite
+            textColor = UI.Color.Font.standard
         }
         if !UserDefaults.standard.bool(forKey: "presentLegalAgreement") {
             let paragraphStyle = NSMutableParagraphStyle()
@@ -254,7 +254,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             textColor = .black
         }
         if userInterfaceStyle == .dark {
-            textColor = UI.Color.fontWhite
+            textColor = UI.Color.Font.standard
         }
         let title = "User Agreement"
         let message = """
@@ -406,14 +406,14 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         }
         // adjust height of input view to make space for text navigator if partial
         textEntry.inputsHeight.constant = (fullView==true)
-            ? UI.Sizing.textEntryInputsHeight
-            : UI.Sizing.textEntryInputsHeightPartial
+            ? UI.Sizing.TextEntry.Input.height
+            : UI.Sizing.TextEntry.Input.heightPartial
         // move app navigator up in input view if partial
         TextNavigator.bottom.constant = (fullView==true)
             ? -UI.Sizing.keyboard
-            : -UI.Sizing.keyboard-(2*UI.Sizing.textEntryFieldHeight)
+            : -UI.Sizing.keyboard-(2*UI.Sizing.TextEntry.Field.height)
         // set top of text entry to whether full (compare) or partial (savedABV)
-        let topConstant = (fullView==true) ? UI.Sizing.textEntryTop : UI.Sizing.textEntryTopPartial
+        let topConstant = (fullView==true) ? UI.Sizing.TextEntry.top : UI.Sizing.TextEntry.topPartial
         textEntry.animateTopAnchor(constant: topConstant)
     }
     
@@ -478,7 +478,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     @objc func animateUndo(onScreen: Bool = true) {
-        let constant = (onScreen == false) ? 0 : -UI.Sizing.subMenuHeight
+        let constant = (onScreen == false) ? 0 : -UI.Sizing.Menu.height
         undo.top.constant = constant
         UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
                        options: [.curveEaseInOut,.allowUserInteraction],
@@ -683,7 +683,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         textEntry.outputFromSavedABV(name: name, abv: abv)
         textEntry.changeInputLevel(sender: textEntry.navigator.forward)
         // hide back and done buttons
-        textEntry.navigator.backwardBottom.constant = UI.Sizing.subMenuHeight
+        textEntry.navigator.backwardBottom.constant = UI.Sizing.Menu.height
     }
     
     func adjustHeaderBackground() {

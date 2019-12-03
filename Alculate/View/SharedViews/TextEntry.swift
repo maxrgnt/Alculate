@@ -67,8 +67,8 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // View settings
         clipsToBounds = true
         backgroundColor = .clear
-        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.textEntryRadius)
-        layer.borderWidth = UI.Sizing.containerBorder*2
+        roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.TextEntry.radii)
+        layer.borderWidth = UI.Sizing.Comparison.border*2
         layer.borderColor = UI.Color.bgLite.cgColor
         // Required for textView delegates to work
         addSubview(field)
@@ -113,11 +113,11 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         vibrancyView.translatesAutoresizingMaskIntoConstraints = false
         top = topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
         TextNavigator.bottom = navigator.bottomAnchor.constraint(equalTo: bottomAnchor)
-        inputsHeight = inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryInputsHeight)
+        inputsHeight = inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Input.height)
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryHeight),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.height),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
             TextNavigator.bottom,
@@ -204,9 +204,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             input.alpha = (i==level) ? 1.0 : 0.5
         }
         // if at level 0 (name) hide the back button
-        navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.subMenuHeight : 0
+        navigator.backwardBottom.constant = (level == 0) ? UI.Sizing.Menu.height : 0
         // if not at level 0 hide suggestion
-        navigator.suggestionBottom.constant = UI.Sizing.subMenuHeight
+        navigator.suggestionBottom.constant = UI.Sizing.Menu.height
         // if at level 2 (size) update the sizeUnits
         inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
         inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
@@ -214,7 +214,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             unit.isHidden = (level != 2) ? true : false
         }
         // if at level 3 (price) update the "next" button
-        navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.subMenuHeight : 0
+        navigator.forwardBottom.constant = (level == maxLevel) ? UI.Sizing.Menu.height : 0
     }
     
     func setText(forLevel level: Int) {
@@ -257,7 +257,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
                 break
             }
         }
-        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.subMenuHeight
+        navigator.doneBottom.constant = (outputSafe && inputLevel == maxLevel) ? 0 : UI.Sizing.Menu.height
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5,
                        options: [.allowUserInteraction,.curveEaseOut], animations: {
                         self.superview!.layoutIfNeeded()
@@ -274,7 +274,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             changedText = (field.text?.removeInvalidNameCharacters())!
             changedText = (changedText==" ") ? "" : changedText
             field.text = changedText
-            (changedText == "") ? animateSuggestions(to: UI.Sizing.textNavigatorHeight) : nil
+            (changedText == "") ? animateSuggestions(to: UI.Sizing.TextEntry.Navigator.height) : nil
             (changedText != "") ? checkSuggestions(for: changedText.lowercased()) : nil
         }
         // if not name and the field isnt empty
@@ -323,7 +323,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             animateSuggestions(to: 0)
         }
         else {
-            animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+            animateSuggestions(to: UI.Sizing.TextEntry.Navigator.height)
         }
     }
     
@@ -333,7 +333,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
             let unformatted = Double(Data.masterList[suggestedName]!.abv)!
             output[1] = String(format: "%.1f", unformatted)
             inputs.abv.setTitle(String(format: "%.1f", unformatted)+"%", for: .normal)
-            animateSuggestions(to: UI.Sizing.textNavigatorHeight)
+            animateSuggestions(to: UI.Sizing.TextEntry.Navigator.height)
         }
     }
     
@@ -381,24 +381,24 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         // Allow movement of text entry up/down when not fully visible
         top.constant += translation.y
         // If text entry is fully visible, don't allow movement further up
-        top.constant = (top.constant < UI.Sizing.textEntryTop) ? UI.Sizing.textEntryTop : top.constant
+        top.constant = (top.constant < UI.Sizing.TextEntry.top) ? UI.Sizing.TextEntry.top : top.constant
         (top.constant > -UI.Sizing.keyboard) ? dismiss() : nil
         // Set recognizer to start new drag gesture in future
         sender.setTranslation(CGPoint.zero, in: self)
         // Handle auto-scroll in/out of frame depending on location of ending pan gesture
         if sender.state == UIGestureRecognizer.State.ended {
-            (top.constant > UI.Sizing.textEntryGestureThreshold)
+            (top.constant > UI.Sizing.TextEntry.gesture)
                 // Auto-scroll down (out of frame) if true
                 ? dismiss()
                 // Auto-scroll up (in frame) if false
-                : animateTopAnchor(constant: UI.Sizing.textEntryTop, withKeyboard: false)
+                : animateTopAnchor(constant: UI.Sizing.TextEntry.top, withKeyboard: false)
         }
     }
     
     @objc func dismiss() {
         oldComparison = (name: "", abv: "", size: "", price: "")
         TapDismiss.dismissTop.constant = UI.Sizing.bounds.height
-        navigator.doneBottom.constant = UI.Sizing.subMenuHeight
+        navigator.doneBottom.constant = UI.Sizing.Menu.height
         //
         sizeUnit = "oz"
         inputLevel = 0

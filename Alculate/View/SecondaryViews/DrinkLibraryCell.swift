@@ -33,14 +33,14 @@ class DrinkLibraryCell: UITableViewCell {
         addSubview(icon)
         //
         addSubview(drinkName)
-        drinkName.textColor = UI.Color.fontWhite
+        drinkName.textColor = UI.Color.Font.standard
         drinkName.textAlignment = .left
-        drinkName.font = UI.Font.cellHeaderFont
+        drinkName.font = UI.Font.DrinkLibrary.rowHeader
         //
         addSubview(drinkInfo)
-        drinkInfo.textColor = UI.Color.fontWhite
+        drinkInfo.textColor = UI.Color.Font.standard
         drinkInfo.textAlignment = .left
-        drinkInfo.font = UI.Font.cellStubFont
+        drinkInfo.font = UI.Font.DrinkLibrary.rowStub
         drinkInfo.alpha = 0.7
         
         // MARK: - NSLayoutConstraints
@@ -49,16 +49,16 @@ class DrinkLibraryCell: UITableViewCell {
         }
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding/2),
-            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABViconDiameter),
-            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABViconDiameter),
+            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Icon.diameter),
+            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Icon.diameter),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             drinkName.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: UI.Sizing.objectPadding/2),
             drinkName.topAnchor.constraint(equalTo: topAnchor),
-            drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVmainWidth),
-            drinkName.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVtopLineHeight),
+            drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.contentWidth),
+            drinkName.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.headerHeight),
             drinkInfo.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: UI.Sizing.objectPadding/2),
             drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor),
-            drinkInfo.widthAnchor.constraint(equalToConstant: UI.Sizing.savedABVmainWidth),
+            drinkInfo.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.contentWidth),
 //            drinkInfo.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVsubLineHeight),
             ])
     }

@@ -58,8 +58,8 @@ class DrinkLibrary: UIView {
     func headerSettings() {
         addSubview(header)
         header.backgroundColor = backgroundColor
-        header.font = UI.Font.headerFont
-        header.textColor = UI.Color.fontWhite
+        header.font = UI.Font.DrinkLibrary.header
+        header.textColor = UI.Color.Font.standard
         header.textAlignment = .left
         header.text = "Drink Library"
     }
@@ -68,9 +68,9 @@ class DrinkLibrary: UIView {
     // MARK: - Gradient Settings
     func buildGradient() {
         // Set origin of gradient (top left of screen)
-        let gradientOrigin = CGPoint(x: 0,y: UI.Sizing.savedABVheaderHeight)
+        let gradientOrigin = CGPoint(x: 0,y: UI.Sizing.DrinkLibrary.Header.height)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVtableHeight)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Table.height)
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
         gradient.colors = [UI.Color.bgDarker.withAlphaComponent(1.0).cgColor,
@@ -83,7 +83,7 @@ class DrinkLibrary: UIView {
         // Set origin of gradient (top left of screen)
         let gradientOrigin2 = CGPoint(x: 0,y: 0)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize2 = CGSize(width: UI.Sizing.width, height: UI.Sizing.savedABVheaderHeight)
+        let gradientSize2 = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Header.height)
         gradient2.frame = CGRect(origin: gradientOrigin2, size: gradientSize2)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to
         gradient2.colors = [UI.Color.bgDarkest.withAlphaComponent(1.0).cgColor,

@@ -67,8 +67,8 @@ class Menu: UIView {
             button.contentVerticalAlignment = .center
             button.contentHorizontalAlignment = alignments[i]
             button.setTitle(buttonText[i], for: .normal)
-            button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitleColor(UI.Color.fontWhite, for: .normal)
+            button.titleLabel?.font = UI.Font.Menu.button
+            button.setTitleColor(UI.Color.Font.standard, for: .normal)
         }
     }
     
@@ -76,7 +76,7 @@ class Menu: UIView {
         // Set origin of gradient (top left of screen)
         let gradientOrigin = CGPoint(x: 0,y: 0)
         // Set frame of gradient (header height, because status bar will be solid color)
-        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.subMenuHeight*2)
+        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.Menu.height*2)
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
         // Set color progression for gradient, alphaComponent of zero important for color shifting to

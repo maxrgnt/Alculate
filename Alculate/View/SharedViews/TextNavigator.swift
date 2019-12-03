@@ -40,17 +40,17 @@ class TextNavigator: UIView {
             addSubview(button)
             button.backgroundColor = .clear
             button.setTitle(titles[i], for: .normal)
-            button.titleLabel?.font = UI.Font.cellHeaderFont
-            button.setTitleColor(UI.Color.fontWhite, for: .normal)
+            button.titleLabel?.font = UI.Font.TextEntry.navigator
+            button.setTitleColor(UI.Color.Font.standard, for: .normal)
             button.contentHorizontalAlignment = .center //alignments[i]
         }
         //
         addSubview(suggestion)
         suggestion.tag = 2
         suggestion.backgroundColor = .clear
-        suggestion.titleLabel?.font = UI.Font.cellHeaderFont
+        suggestion.titleLabel?.font = UI.Font.TextEntry.navigator
         suggestion.setTitle("Use 'Coors Light'", for: .normal)
-        suggestion.setTitleColor(UI.Color.fontWhite, for: .normal)
+        suggestion.setTitleColor(UI.Color.Font.standard, for: .normal)
         suggestion.contentHorizontalAlignment = .left
         
         // MARK: - NSLayoutConstraints
@@ -60,27 +60,27 @@ class TextNavigator: UIView {
         }
         forwardBottom = forward.bottomAnchor.constraint(equalTo: bottomAnchor)
         backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
-        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.textNavigatorHeight)
-        doneBottom = done.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.textNavigatorHeight)
+        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.TextEntry.Navigator.height)
+        doneBottom = done.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.TextEntry.Navigator.height)
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorWidth),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.width),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor, constant: UI.Sizing.objectPadding),
             forward.trailingAnchor.constraint(equalTo: trailingAnchor),
-            forward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
-            forward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            forward.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth),
+            forward.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height),
             forwardBottom,
             backward.centerXAnchor.constraint(equalTo: centerXAnchor),
-            backward.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
-            backward.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            backward.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth),
+            backward.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height),
             backwardBottom,
             suggestion.leadingAnchor.constraint(equalTo: leadingAnchor),
-            suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldWidth),
-            suggestion.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.width),
+            suggestion.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height),
             suggestionBottom,
             done.trailingAnchor.constraint(equalTo: trailingAnchor),
-            done.widthAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorButtonWidth),
-            done.heightAnchor.constraint(equalToConstant: UI.Sizing.textNavigatorHeight),
+            done.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth),
+            done.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height),
             doneBottom
             ])
     }

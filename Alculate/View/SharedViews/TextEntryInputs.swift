@@ -42,9 +42,9 @@ class TextEntryInputs: UIView {
             addSubview(field)
             field.setTitle(titles[i], for: .normal)
             field.backgroundColor = .clear
-            field.titleLabel?.font = UI.Font.cellHeaderFont
+            field.titleLabel?.font = UI.Font.TextEntry.field 
             field.contentHorizontalAlignment = (i<3||i>4) ? .left : .center
-            field.setTitleColor(UI.Color.fontWhite, for: .normal)
+            field.setTitleColor(UI.Color.Font.standard, for: .normal)
         }
         
         // MARK: - NSLayoutConstraints
@@ -60,23 +60,23 @@ class TextEntryInputs: UIView {
             ml.topAnchor.constraint(equalTo: size.topAnchor),
             price.topAnchor.constraint(equalTo: size.bottomAnchor),
             icon.bottomAnchor.constraint(equalTo: name.bottomAnchor),
-            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
-            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+            icon.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter),
+            icon.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter),
             icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding)
             ])
         for (i,obj) in [name,abv,size,price].enumerated() {
-            let widthConstant = (i==2) ? UI.Sizing.textEntryFieldWidthForSize : UI.Sizing.textEntryFieldWidth
+            let widthConstant = (i==2) ? UI.Sizing.TextEntry.Field.sizeWidth : UI.Sizing.TextEntry.Field.width
             NSLayoutConstraint.activate([
-                obj.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldHeight),
+                obj.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height),
                 obj.widthAnchor.constraint(equalToConstant: widthConstant),
                 obj.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding)
             ])
         }
         for (i,obj) in [oz,ml].enumerated() {
-            let leadingConstant = (i==0) ? 0 : UI.Sizing.textEntryIconDiameter
+            let leadingConstant = (i==0) ? 0 : UI.Sizing.TextEntry.Icon.diameter
             NSLayoutConstraint.activate([
-                obj.heightAnchor.constraint(equalToConstant: UI.Sizing.textEntryFieldHeight),
-                obj.widthAnchor.constraint(equalToConstant: UI.Sizing.textEntryIconDiameter),
+                obj.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height),
+                obj.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter),
                 obj.leadingAnchor.constraint(equalTo: size.trailingAnchor, constant: leadingConstant)
             ])
         }

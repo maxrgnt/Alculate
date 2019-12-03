@@ -64,7 +64,7 @@ class ContainerHeader: UIView {
         type.contentHorizontalAlignment = .left
         type.setTitle(typeFromID, for: .normal)
         type.titleLabel?.font = UI.Font.Comparison.type!
-        type.setTitleColor(UI.Color.fontWhite, for: .normal)
+        type.setTitleColor(UI.Color.Font.standard, for: .normal)
     }
     
     func addSettings(forType id: String) {
@@ -77,7 +77,7 @@ class ContainerHeader: UIView {
         add.contentHorizontalAlignment = .right
         add.setTitle("+", for: .normal)
         add.titleLabel?.font = UI.Font.Comparison.add!
-        add.setTitleColor(UI.Color.fontWhite, for: .normal)
+        add.setTitleColor(UI.Color.Font.standard, for: .normal)
     }
     
     //MARK: - Functions

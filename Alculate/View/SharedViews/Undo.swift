@@ -25,16 +25,16 @@ class Undo: UIView {
     func build() {
         // MARK: - View/Object Settings
         clipsToBounds = true
-        backgroundColor = UI.Color.undo
+        backgroundColor = UI.Color.Undo.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Radii.header)
         let buttonText = ["Undo", "X"]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {
             button.tag = i
             addSubview(button)
-            button.setTitleColor(UI.Color.fontWhite, for: .normal)
+            button.setTitleColor(UI.Color.Font.standard, for: .normal)
             button.setTitle(buttonText[i], for: .normal)
-            button.titleLabel?.font = UI.Font.cellHeaderFont
+            button.titleLabel?.font = UI.Font.Undo.button
             button.contentHorizontalAlignment = alignments[i]
         }
         cancel.backgroundColor = .clear //UI.Color.bgDark
@@ -49,18 +49,18 @@ class Undo: UIView {
         NSLayoutConstraint.activate([
             // View constraints
             widthAnchor.constraint(equalToConstant: UI.Sizing.width),
-            heightAnchor.constraint(equalToConstant: UI.Sizing.undoHeight+UI.Sizing.undoBounceBuffer),
+            heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.height),
             leadingAnchor.constraint(equalTo: ViewController.leadingAnchor),
             top,
             // Object constraints
-            confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.undoConfirmWidth),
+            confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.Undo.confirmWidth),
             confirm.centerXAnchor.constraint(equalTo: centerXAnchor),
-            confirm.heightAnchor.constraint(equalToConstant: UI.Sizing.undoConfirmHeight),
-            confirm.topAnchor.constraint(equalTo: topAnchor, constant: 0), //UI.Sizing.objectPadding),
-            cancel.widthAnchor.constraint(equalToConstant: UI.Sizing.undoCancelDiameter),
+            confirm.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.confirmHeight),
+            confirm.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            cancel.widthAnchor.constraint(equalToConstant: UI.Sizing.Undo.cancelDiameter),
             cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding),
-            cancel.heightAnchor.constraint(equalToConstant: UI.Sizing.undoCancelDiameter),
-            cancel.topAnchor.constraint(equalTo: topAnchor, constant: 0)//UI.Sizing.objectPadding)
+            cancel.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.cancelDiameter),
+            cancel.topAnchor.constraint(equalTo: topAnchor, constant: 0)
         ])
     }
     

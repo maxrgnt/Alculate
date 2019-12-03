@@ -50,7 +50,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         separatorColor = .lightGray
         alwaysBounceHorizontal = false
         showsVerticalScrollIndicator = false
-        sectionIndexColor = UI.Color.fontWhite
+        sectionIndexColor = UI.Color.Font.standard
         sectionIndexBackgroundColor = UIColor.clear
     
     }
@@ -93,7 +93,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UI.Sizing.savedABVrowHeight
+        return UI.Sizing.DrinkLibrary.Row.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

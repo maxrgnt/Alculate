@@ -93,13 +93,14 @@ struct UI {
                 static let heightFull = bounds.height-Menu.height-UI.Sizing.Header.height
             }
             struct Container {
-                static let height: CGFloat = 0.0
+                static let height: CGFloat = Header.height
             }
             struct Empty {
-                static let mainHeight = UI.Sizing.height
-                static let containerHeight = padding*3 - Container.height*3
+                static let mainHeight = bounds.height
+                static let containerHeight = padding*3 + Container.height*3
                 static let headerHeight = UI.Sizing.Header.height
                 static let menuHeight = UI.Sizing.Menu.height
+                static let totalHeight = Total.height + padding
                 static let height = mainHeight-containerHeight-headerHeight-menuHeight
             }
             struct Header {

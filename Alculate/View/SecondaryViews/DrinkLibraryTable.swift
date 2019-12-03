@@ -138,8 +138,8 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.customDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
-            isMoving = true
-            reloadSectionIndexTitles()
+//            isMoving = true
+//            reloadSectionIndexTitles()
             self.customDelegate.adjustHeaderConstant(to: contentOffset.y)
             scrollView.contentOffset.y = 0
         }

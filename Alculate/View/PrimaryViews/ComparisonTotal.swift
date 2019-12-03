@@ -17,6 +17,7 @@ class ComparisonTotal: UIView {
     // Objects
     let total = UILabel()
     let spent = UILabel()
+    let spentUnit = UILabel()
     let shots = UILabel()
     let shotUnit = UILabel()
     
@@ -39,7 +40,7 @@ class ComparisonTotal: UIView {
     
     //MARK: Add Objects
     func addObjectsToView() {
-        for obj in [total,spent,shots,shotUnit] {
+        for obj in [total,spent,spentUnit,shots,shotUnit] {
             addSubview(obj)
         }
     }
@@ -48,6 +49,7 @@ class ComparisonTotal: UIView {
     func constraints() {
         totalConstraints()
         spentConstraints()
+        spentUnitConstraints()
         shotsConstraints()
         shotUnitConstraints()
     }
@@ -56,6 +58,7 @@ class ComparisonTotal: UIView {
     func objectSettings() {
         totalSettings()
         spentSettings()
+        spentUnitSettings()
         shotsSettings()
         shotUnitSettings()
     }
@@ -69,14 +72,19 @@ class ComparisonTotal: UIView {
     
     func spentSettings() {
         spent.textAlignment = .right
-        spent.text = "$5.00"
         spent.font = UI.Font.Comparison.totalStat
         spent.textColor = UI.Color.Font.comparisonTotal
     }
     
+    func spentUnitSettings() {
+        spentUnit.textAlignment = .right
+        spentUnit.text = "spent"
+        spentUnit.font = UI.Font.Comparison.totalUnit
+        spentUnit.textColor = UI.Color.Font.comparisonTotal
+    }
+    
     func shotsSettings() {
         shots.textAlignment = .right
-        shots.text = "6.7"
         shots.font = UI.Font.Comparison.totalStat
         shots.textColor = UI.Color.Font.comparisonTotal
     }

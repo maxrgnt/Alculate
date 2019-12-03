@@ -45,7 +45,6 @@
 		66AF5844233A33E900502EEA /* Alculate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */; };
 		66AF5846233A33E900502EEA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5845233A33E900502EEA /* ContentView.swift */; };
 		66AF5848233A33EB00502EEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66AF5847233A33EB00502EEA /* Assets.xcassets */; };
-		66AF584B233A33EB00502EEA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66AF584A233A33EB00502EEA /* Preview Assets.xcassets */; };
 		66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */; };
 		66AF5859233A33EC00502EEA /* AlculateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5858233A33EC00502EEA /* AlculateTests.swift */; };
 		66AF5864233A33EC00502EEA /* AlculateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AF5863233A33EC00502EEA /* AlculateUITests.swift */; };
@@ -107,7 +106,6 @@
 		66AF5843233A33E900502EEA /* Alculate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Alculate.xcdatamodel; sourceTree = "<group>"; };
 		66AF5845233A33E900502EEA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		66AF5847233A33EB00502EEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		66AF584A233A33EB00502EEA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66AF584D233A33EB00502EEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		66AF584F233A33EB00502EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66AF5854233A33EB00502EEA /* AlculateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlculateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,17 +242,8 @@
 				66AF584C233A33EB00502EEA /* LaunchScreen.storyboard */,
 				66AF584F233A33EB00502EEA /* Info.plist */,
 				66AF5842233A33E900502EEA /* Alculate.xcdatamodeld */,
-				66AF5849233A33EB00502EEA /* Preview Content */,
 			);
 			path = Alculate;
-			sourceTree = "<group>";
-		};
-		66AF5849233A33EB00502EEA /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				66AF584A233A33EB00502EEA /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		66AF5857233A33EC00502EEA /* AlculateTests */ = {
@@ -405,7 +394,6 @@
 				666F49B22388C5E100BB3C75 /* RobotoSlab-Regular.ttf in Resources */,
 				66AF584E233A33EB00502EEA /* LaunchScreen.storyboard in Resources */,
 				666F49B42388C5E100BB3C75 /* RobotoSlab-Bold.ttf in Resources */,
-				66AF584B233A33EB00502EEA /* Preview Assets.xcassets in Resources */,
 				666F49B12388C5E100BB3C75 /* RobotoSlab-Light.ttf in Resources */,
 				666F49B32388C5E100BB3C75 /* RobotoSlab-Thin.ttf in Resources */,
 				666F49B52388C5E100BB3C75 /* RobotoSlab-SemiBold.ttf in Resources */,

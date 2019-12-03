@@ -91,7 +91,4 @@ class ComparisonTotal: UIView {
         shotUnit.textColor = UI.Color.Font.comparisonTotal
     }
     
-    //MARK: - Functions
-
-    
 }

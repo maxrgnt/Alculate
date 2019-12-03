@@ -93,15 +93,6 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
         self.customDelegate.editComparison(type: type, name: name, abv: abv, size: size, price: price)
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            let info = listForThisTable()[indexPath.row]
-//            Data.deleteFromList(type, wName: info.name, wABV: info.abv, wSize: info.size, wPrice: info.price)
-//            self.deleteRows(at: [indexPath], with: .fade)
-//            self.customDelegate.alculate()
-//        }
-//    }
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
             let info = self.listForThisTable()[indexPath.row]

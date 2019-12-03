@@ -161,13 +161,4 @@ class ComparisonScroll: UIScrollView {
                 })
     }
     
-    // MARK: - ScrollView Delegate
-    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    //        self.contentOffset.y += scrollView.contentOffset.y
-    //        self.savedABVTableDelegate.adjustHeaderBackground()
-    //        if scrollView.contentOffset.y <= 0 {
-    //            scrollView.contentOffset.y = 0
-    //        }
-    //    }
-    
 }

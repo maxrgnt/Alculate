@@ -59,11 +59,4 @@ class ComparisonContainer: UIScrollView {
         tableConstraints()
     }
     
-    //MARK: - Settings
-    
-    
-    
-    //MARK: - Functions
-
-    
 }

@@ -79,8 +79,5 @@ class ContainerHeader: UIView {
         add.titleLabel?.font = UI.Font.Comparison.add!
         add.setTitleColor(UI.Color.Font.standard, for: .normal)
     }
-    
-    //MARK: - Functions
-
-    
+ 
 }

@@ -95,8 +95,4 @@ class DrinkLibrary: UIView {
         self.layer.insertSublayer(gradient2, at: 0)
     }
     
-    
-    //MARK: - Animations
-
-    
 }

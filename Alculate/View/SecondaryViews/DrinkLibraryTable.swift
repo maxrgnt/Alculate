@@ -109,17 +109,6 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         return true
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 10
-//    }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let sectionHeader = ContactSection()
-//        sectionHeader.buildView(cointactsUI: cointactsUI)
-//        sectionHeader.label.text = data.headers[section]
-//        return sectionHeader
-//    }
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
             let headerLetter = Data.headers[indexPath.section]
@@ -175,22 +164,5 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         isMoving = false
         reloadSectionIndexTitles()
     }
-    
-    //MARK: Cell Delegate
-    func remove(cell: DrinkLibraryCell) {
-//        let indexPath = self.indexPath(for: cell)
-//        let headerLetter = Data.headers[indexPath!.section]
-//        let nameList = Data.matrix[headerLetter]
-//        let name = nameList![indexPath!.row]
-//        let abv = Data.masterList[name]!.abv
-//        let type = Data.masterList[name]!.type
-//        toBeDeleted.append((name: name, abv: abv, type: type))
-//        Data.isEditable = true // false
-//        // Checking for specific name / abv / type combo
-//        if Data.masterList[name]!.abv == abv && Data.masterList[name]!.type == type {
-//            Data.masterList[name] = nil
-//        }
-//        self.savedABVTableDelegate.reloadTable(table: Data.masterListID, realculate: false)
-//        self.savedABVTableDelegate.animateUndo(onScreen: true)
-    }
+
 }

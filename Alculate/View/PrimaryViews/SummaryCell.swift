@@ -150,10 +150,7 @@ class SummaryCell: UIView {
                     self.nameCenterX.constant = newCenter
                     self.layoutIfNeeded()
                 }), completion: { (completed) in
-//                    self.nameCenterX.constant = oldCenter
-//                    self.layoutIfNeeded()
-//                    self.nameAnimating = false
-//                    print("\(self.name.text!) has stopped animating")
+                    // pass
             })
         })
     }

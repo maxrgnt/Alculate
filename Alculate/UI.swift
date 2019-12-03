@@ -242,7 +242,7 @@ struct UI {
             }
             struct Navigator {
                 static let height = Field.height
-                static let width = padding
+                static let width = widthObjectPadding
                 static let buttonWidth = Icon.diameter
             }
         }
@@ -382,6 +382,10 @@ struct UI {
         }
         
         struct Secondary {
+            static let background = bgDarkest
+        }
+        
+        struct TextEntry {
             static let background = bgDarkest
         }
         

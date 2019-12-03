@@ -92,8 +92,9 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 //        }
         
 //        let background = DispatchQueue.global()
-        background.sync { self.handleInit() }
+        background.sync { self.handleOnboarding() }
         background.sync { self.build()      }
+        background.sync { self.handleKeyboard() }
         background.sync { self.primaryView.layoutIfNeeded()     }
 //        background.sync { self.alculate()   }
 //        background.sync { primaryView.comparison.updateHeight(for: Data.beerListID) }
@@ -139,9 +140,10 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         secondaryView.drinkLibrary.header.addGestureRecognizer(pan)
         secondaryView.drinkLibrary.header.isUserInteractionEnabled = true
         self.secondaryView.drinkLibrary.table.customDelegate = self
-                
+
         view.addSubview(undo)
-        undo.build()
+        undoConstraints()
+        undo.setup()
         undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
         undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
 
@@ -150,8 +152,9 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         tapDismiss.setup()
 
         view.addSubview(textEntry)
-        textEntry.build()
-        self.textEntry.textEntryDelegate = self
+        textEntryConstraints()
+        textEntry.setup()
+//        self.textEntry.textEntryDelegate = self
 
     }
     
@@ -194,18 +197,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         UserDefaults.standard.synchronize()
     }
     
-    func handleInit() {
-        // keyboard height
-        let keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
-        print("keyboardSet: \(keyboardSet)")
-        if UserDefaults.standard.bool(forKey: "keyboardSet") {
-            let keyboardHeight = UserDefaults.standard.double(forKey: "keyboard")
-            UI.Sizing.keyboard = CGFloat(keyboardHeight)
-            let keyboardDuration = UserDefaults.standard.double(forKey: "keyboardDuration")
-            UI.Keyboard.duration = keyboardDuration
-            let keyboardCurve = UserDefaults.standard.double(forKey: "keyboardCurve")
-            UI.Keyboard.curve = UInt(keyboardCurve)
-        }
+    func handleOnboarding() {
         // check onboarding
         let hasLaunched = UserDefaults.standard.bool(forKey: "hasLaunchedBefore")
         print("hasLaunchedBefore: \(hasLaunched)")
@@ -221,6 +213,20 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
                 Data.loadList(for: list)
             }
             sortByValue()
+        }
+    }
+    
+    func handleKeyboard() {
+        // keyboard height
+        let keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
+        print("keyboardSet: \(keyboardSet)")
+        if UserDefaults.standard.bool(forKey: "keyboardSet") {
+            let keyboardHeight = UserDefaults.standard.double(forKey: "keyboard")
+            UI.Sizing.keyboard = CGFloat(keyboardHeight)
+            let keyboardDuration = UserDefaults.standard.double(forKey: "keyboardDuration")
+            UI.Keyboard.duration = keyboardDuration
+            let keyboardCurve = UserDefaults.standard.double(forKey: "keyboardCurve")
+            UI.Keyboard.curve = UInt(keyboardCurve)
         }
     }
     
@@ -306,7 +312,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     @objc func navigateApp(sender: UIButton) {
 //        let hapticFeedback = UINotificationFeedbackGenerator()
 //        hapticFeedback.notificationOccurred(.warning)
-        makeDeletable(false, lists: "all")
         if sender.tag >= 20 {
             let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
             showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
@@ -616,21 +621,12 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     }
     
     func sortByEffect() {
-        Data.beerList = Data.beerList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+        for i in 0..<Data.lists.count {
+            Data.lists[i] = Data.lists[i].sorted { (drink1, drink2) -> Bool in
+                return calculateEffect(for: drink1) > calculateEffect(for: drink2)
+            }
+            reloadTable(table: Data.IDs[i], realculate: false)
         }
-        reloadTable(table: Data.beerListID, realculate: false)
-        //
-        Data.liquorList = Data.liquorList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
-        }
-        reloadTable(table: Data.liquorListID, realculate: false)
-        //
-        Data.wineList = Data.wineList.sorted { (drink1, drink2) -> Bool in
-            return calculateEffect(for: drink1) > calculateEffect(for: drink2)
-        }
-        reloadTable(table: Data.wineListID, realculate: false)
-        alculate()
     }
         
     // MARK: - Protocol Delegate Functions
@@ -766,21 +762,5 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         alculate()
     }
     
-    func makeDeletable(_ paramDeletable: Bool, lists: String) {
-//        var tables: [UITableView]! = []
-//        let possibleTables = [[comparison.beer.table],[comparison.liquor.table],[comparison.wine.table],
-//                              [comparison.beer.table,comparison.liquor.table,comparison.wine.table]]
-//        for (i, ID) in [Data.beerListID,Data.liquorListID,Data.wineListID,"all"].enumerated() {
-//            if lists == ID {
-//                tables = possibleTables[i]
-//            }
-//        }
-//        for table in tables as! [ComparisonTable] {
-//            for row in 0..<table.numberOfRows(inSection: 0) {
-//                let cell = table.cellForRow(at: IndexPath(row: row, section: 0)) as! ComparisonCell
-//                cell.stopAnimating(restartAnimations: paramDeletable)
-//            }
-//        }
-    }
 }
 

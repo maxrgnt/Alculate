@@ -35,6 +35,24 @@ extension ViewController {
         tapDismiss.trailingAnchor.constraint(equalTo: ViewController.trailingAnchor).isActive = true
     }
     
+    func textEntryConstraints() {
+        textEntry.translatesAutoresizingMaskIntoConstraints = false
+        textEntry.top = textEntry.topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        textEntry.top.isActive = true
+        textEntry.widthAnchor.constraint(equalToConstant: UI.Sizing.width).isActive = true
+        textEntry.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.height).isActive = true
+        textEntry.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive = true
+    }
+    
+    func undoConstraints() {
+        undo.translatesAutoresizingMaskIntoConstraints = false
+        undo.top = undo.topAnchor.constraint(equalTo: ViewController.bottomAnchor, constant: 0)
+        undo.top.isActive = true
+        undo.widthAnchor.constraint(equalToConstant: UI.Sizing.width).isActive = true
+        undo.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.height).isActive = true
+        undo.leadingAnchor.constraint(equalTo: ViewController.leadingAnchor).isActive = true
+    }
+    
 }
 
 //MARK: PrimaryView
@@ -372,6 +390,27 @@ extension DrinkLibrary {
     
 }
 
+//MARK: Undo
+extension Undo {
+    
+    func confirmConstraints() {
+        confirm.translatesAutoresizingMaskIntoConstraints = false
+        confirm.widthAnchor.constraint(equalToConstant: UI.Sizing.Undo.confirmWidth).isActive = true
+        confirm.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        confirm.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.confirmHeight).isActive = true
+        confirm.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+    }
+    
+    func cancelConstraints() {
+        cancel.translatesAutoresizingMaskIntoConstraints = false
+        cancel.widthAnchor.constraint(equalToConstant: UI.Sizing.Undo.cancelDiameter).isActive = true
+        cancel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding).isActive = true
+        cancel.heightAnchor.constraint(equalToConstant: UI.Sizing.Undo.cancelDiameter).isActive = true
+        cancel.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+    }
+    
+}
+
 //MARK: TapDismiss
 extension TapDismiss {
     
@@ -385,4 +424,145 @@ extension TapDismiss {
     
 }
 
+//MARK: TextEntry
+extension TextEntry {
+    
+    func inputConstraints() {
+        inputs.translatesAutoresizingMaskIntoConstraints = false
+        inputsHeight = inputs.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Input.height)
+        inputsHeight.isActive = true
+        inputs.widthAnchor.constraint(equalToConstant: UI.Sizing.width).isActive = true
+        inputs.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        inputs.topAnchor.constraint(equalTo: topAnchor).isActive = true
+    }
+    
+    func navigatorConstraints() {
+        navigator.translatesAutoresizingMaskIntoConstraints = false
+        TextNavigator.bottom = navigator.bottomAnchor.constraint(equalTo: bottomAnchor)
+        TextNavigator.bottom.isActive = true
+        navigator.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.width).isActive = true
+        navigator.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height).isActive = true
+        navigator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    }
+    
+    func blurEffectConstraints() {
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        blurEffectView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        blurEffectView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -20).isActive = true
+        blurEffectView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 20).isActive = true
+    }
+    
+    func vibrancyEffectConstraints() {
+        vibrancyView.translatesAutoresizingMaskIntoConstraints = false
+        vibrancyView.topAnchor.constraint(equalTo: blurEffectView.topAnchor).isActive = true
+        vibrancyView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor, constant: 0).isActive = true
+        vibrancyView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor, constant: -20).isActive = true
+        vibrancyView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor, constant: 20).isActive = true
+    }
+    
+}
+
+//MARK: TextEntryInputs
+extension TextEntryInputs {
+    
+    func nameConstraints() {
+        name.translatesAutoresizingMaskIntoConstraints = false
+        name.topAnchor.constraint(equalTo: topAnchor, constant: UI.Sizing.objectPadding).isActive = true
+        name.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        name.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.width).isActive = true
+        name.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding).isActive = true
+    }
+    
+    func abvConstraints() {
+        abv.translatesAutoresizingMaskIntoConstraints = false
+        abv.topAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
+        abv.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        abv.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.width).isActive = true
+        abv.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding).isActive = true
+    }
+    
+    func sizeConstraints() {
+        size.translatesAutoresizingMaskIntoConstraints = false
+        size.topAnchor.constraint(equalTo: abv.bottomAnchor).isActive = true
+        size.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        size.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.sizeWidth).isActive = true
+        size.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding).isActive = true
+    }
+    
+    func ozConstraints() {
+        oz.translatesAutoresizingMaskIntoConstraints = false
+        oz.topAnchor.constraint(equalTo: size.topAnchor).isActive = true
+        oz.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        oz.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter).isActive = true
+        oz.leadingAnchor.constraint(equalTo: size.trailingAnchor, constant: 0.0).isActive = true
+    }
+    
+    func mlConstraints() {
+        ml.translatesAutoresizingMaskIntoConstraints = false
+        ml.topAnchor.constraint(equalTo: size.topAnchor).isActive = true
+        ml.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        ml.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter).isActive = true
+        ml.leadingAnchor.constraint(equalTo: size.trailingAnchor, constant: UI.Sizing.TextEntry.Icon.diameter).isActive = true
+    }
+    
+    func priceConstraints() {
+        price.translatesAutoresizingMaskIntoConstraints = false
+        price.topAnchor.constraint(equalTo: size.bottomAnchor).isActive = true
+        price.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.height).isActive = true
+        price.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.width).isActive = true
+        price.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.objectPadding).isActive = true
+    }
+    
+    func iconConstraints() {
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Icon.diameter).isActive = true
+        icon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -UI.Sizing.objectPadding).isActive = true
+    }
+    
+}
+
+
+//MARK: TextNavigator
+extension TextNavigator {
+    
+    func forwardConstraints() {
+        forward.translatesAutoresizingMaskIntoConstraints = false
+        forward.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        forward.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth).isActive = true
+        forward.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height).isActive = true
+        forwardBottom = forward.bottomAnchor.constraint(equalTo: bottomAnchor)
+        forwardBottom.isActive = true
+    }
+    
+    func backwardConstraints() {
+        backward.translatesAutoresizingMaskIntoConstraints = false
+        backward.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        backward.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth).isActive = true
+        backward.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height).isActive = true
+        backwardBottom = backward.bottomAnchor.constraint(equalTo: bottomAnchor)
+        backwardBottom.isActive = true
+    }
+    
+    func doneConstraints() {
+        done.translatesAutoresizingMaskIntoConstraints = false
+        done.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        done.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.buttonWidth).isActive = true
+        done.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height).isActive = true
+        doneBottom = done.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.TextEntry.Navigator.height)
+        doneBottom.isActive = true
+    }
+    
+    func suggestionConstraints() {
+        suggestion.translatesAutoresizingMaskIntoConstraints = false
+        suggestion.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        suggestion.widthAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Field.width).isActive = true
+        suggestion.heightAnchor.constraint(equalToConstant: UI.Sizing.TextEntry.Navigator.height).isActive = true
+        suggestionBottom = suggestion.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UI.Sizing.TextEntry.Navigator.height)
+        suggestionBottom.isActive = true
+    }
+    
+}
 

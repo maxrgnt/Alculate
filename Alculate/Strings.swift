@@ -18,6 +18,10 @@ struct Strings {
     struct Key {
         static let userHasAgreed = "userAgreedToLegalAgreement"
         static let hasLaunchedBefore = "hasLaunchedBefore"
+        static let keyboardMetricSaved = "keyboardMetricSaved"
+        static let keyboardHeight = "keyboardHeight"
+        static let keyboardAnimateDuration = "keyboardAnimateDuration"
+        static let keyboardAnimateCurve = "keyboardAnimateCurve"
     }
     
 }

@@ -14,6 +14,9 @@ extension ViewController {
     // MARK: Setup
     func setup() {
         
+        // Setting protocol?
+        // Don't forget self.OBJECT.DELEGATE = self
+        
         view.backgroundColor = UI.Color.ViewController.background
         
         view.addSubview(primary)
@@ -73,18 +76,14 @@ extension ViewController {
         setKeyboardFromCoreData()
     }
 
-    //MARK: Setting Keyboard Height
+    //MARK: Keyboard Metrics
     func setKeyboardFromCoreData() {
         // keyboard height
-        let keyboardSet = UserDefaults.standard.bool(forKey: "keyboardSet")
-        print("keyboardSet: \(keyboardSet)")
-        if UserDefaults.standard.bool(forKey: "keyboardSet") {
-            let keyboardHeight = UserDefaults.standard.double(forKey: "keyboard")
-            UI.Sizing.keyboard = CGFloat(keyboardHeight)
-            let keyboardDuration = UserDefaults.standard.double(forKey: "keyboardDuration")
-            UI.Keyboard.duration = keyboardDuration
-            let keyboardCurve = UserDefaults.standard.double(forKey: "keyboardCurve")
-            UI.Keyboard.curve = UInt(keyboardCurve)
+        let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Strings.Key.keyboardMetricSaved)
+        if keyboardMetricSaved {
+            UI.Sizing.keyboard = CGFloat(UserDefaults.standard.double(forKey: Strings.Key.keyboardHeight))
+            UI.Keyboard.duration = UserDefaults.standard.double(forKey: Strings.Key.keyboardAnimateDuration)
+            UI.Keyboard.curve = UInt(UserDefaults.standard.double(forKey: Strings.Key.keyboardAnimateCurve))
         }
     }
 
@@ -112,26 +111,45 @@ extension ViewController {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
+        let animateDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        let animateCurve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             // keyboard is set with approximate height prior to running (using ratio of keyboard to screen height)
+            let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Strings.Key.keyboardMetricSaved)
             // if the keyboard has not been set, the exact height is found once keyboard is shown
-            if !UserDefaults.standard.bool(forKey: "keyboardSet") {
-                let keyboardRectangle = keyboardFrame.cgRectValue
-                UserDefaults.standard.set(keyboardRectangle.height, forKey: "keyboard")
-                UI.Sizing.keyboard = keyboardRectangle.height
-                UserDefaults.standard.set(duration, forKey: "keyboardDuration")
-                UI.Keyboard.duration = duration
-                UserDefaults.standard.set(curve, forKey: "keyboardCurve")
-                UI.Keyboard.curve = curve
-                UserDefaults.standard.set(true, forKey: "keyboardSet")
+            if !keyboardMetricSaved {
+                UserDefaults.standard.set(keyboardFrame.cgRectValue.height, forKey: Strings.Key.keyboardHeight)
+                UserDefaults.standard.set(animateDuration, forKey: Strings.Key.keyboardAnimateDuration)
+                UserDefaults.standard.set(animateCurve, forKey: Strings.Key.keyboardAnimateCurve)
+                UserDefaults.standard.set(true, forKey: Strings.Key.keyboardMetricSaved)
+                setKeyboardFromCoreData()
             }
         }
     }
 
+    // MARK: Handle Dark/Light Mode
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // If the user has not accepted agreement yet, proceed
+        if !UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed) {
+            alert.setValue(updatedAlertText(), forKey: "attributedMessage")
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        // App background color is dark, whether in light or dark mode make status bar light.
+        return .lightContent
+    }
+    
     //MARK: Legal Agreement
     func presentLegalAgreement(/*title: String, message: String*/) {
+        alert = UIAlertController(title: Strings.userAgreementTitle, message: "", preferredStyle: .alert)
+        alert.setValue(updatedAlertText(), forKey: "attributedMessage")
+        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
+        self.present(alert, animated: true)
+    }
+    
+    func updatedAlertText() -> NSAttributedString {
         let userInterfaceStyle = traitCollection.userInterfaceStyle
         // Either .unspecified, .light, or .dark
         let textColor: UIColor = (userInterfaceStyle == .dark) ? UI.Color.Font.standard : .black
@@ -145,10 +163,7 @@ extension ViewController {
                 NSAttributedString.Key.font : UI.Font.Comparison.row!
             ]
         )
-        alert = UIAlertController(title: Strings.userAgreementTitle, message: "", preferredStyle: .alert)
-        alert.setValue(messageText, forKey: "attributedMessage")
-        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
-        self.present(alert, animated: true)
+        return messageText
     }
 
     func userHasAgreed(action:UIAlertAction) {

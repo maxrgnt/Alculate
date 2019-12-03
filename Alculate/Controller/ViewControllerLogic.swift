@@ -292,10 +292,7 @@ extension ViewController {
     // MARK: Flip Alculate
     func flipAlculate() {
         // If sorting by effect, switch to value and vice versa
-//        (subMenu.sortMethod == "effect") ? sortByValue() : sortByEffect()
-//        subMenu.sortMethod = (subMenu.sortMethod == "effect") ? "value" : "effect"
         // update button title with new order by
-//        subMenu.sortDifferent.setTitle("Order by \(subMenu.sortMethod.capitalized)", for: .normal)
         // update top line
         alculate()
     }

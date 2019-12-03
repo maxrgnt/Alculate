@@ -9,9 +9,6 @@
 import UIKit
 import CoreData
 
-// Setting protocol?
-// Don't forget self.OBJECT.DELEGATE = self
-
 class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegate, DrinkLibraryTableDelegate {
     
     //MARK: Definitions
@@ -81,33 +78,6 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
             // Update the alculate header
             alculate()
         }
-    }
-    
-    // MARK: TraitCollection (Dark Mode)
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        let userInterfaceStyle = traitCollection.userInterfaceStyle
-        // Either .unspecified, .light, or .dark
-        let textColor: UIColor = (userInterfaceStyle == .dark) ? UI.Color.Font.standard : .black
-        // If the user has not accepted agreement yet, proceed
-        if !UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = .left
-            let messageText = NSAttributedString(
-                string: Strings.userAgreementMessage,
-                attributes: [
-                    NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                    NSAttributedString.Key.foregroundColor : textColor,
-                    NSAttributedString.Key.font : UI.Font.Comparison.row!
-                ]
-            )
-            alert.setValue(messageText, forKey: "attributedMessage")
-        }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        // App background color is dark, whether in light or dark mode make status bar light.
-        return .lightContent
     }
 }
 

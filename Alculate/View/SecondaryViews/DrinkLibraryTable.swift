@@ -19,7 +19,7 @@ protocol DrinkLibraryTableDelegate {
     func finishScrolling()
 }
 
-class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, DrinkLibraryCellDelegate {
+class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
         
     //MARK: - Definitions
     // Delegate object
@@ -58,7 +58,6 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: "DrinkLibraryCell") as! DrinkLibraryCell
-        cell.delegate = self
         cell.setLabels(forCellAt: indexPath)
         /*
          color = x * start_color + (x-1) * end_color

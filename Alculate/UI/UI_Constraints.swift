@@ -10,20 +10,20 @@
 extension ViewController {
     
     func primaryViewConstraints() {
-        primary.translatesAutoresizingMaskIntoConstraints                                                       = false
-        primary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                             = true
-        primary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                           = true
-        primary.topAnchor.constraint(equalTo: self.view.topAnchor).isActive                                     = true
-        primary.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive                     = true
+        primary.translatesAutoresizingMaskIntoConstraints                                                           = false
+        primary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                                 = true
+        primary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                               = true
+        primary.topAnchor.constraint(equalTo: self.view.topAnchor).isActive                                         = true
+        primary.heightAnchor.constraint(equalToConstant: UI.Sizing.Primary.height).isActive                         = true
     }
-    
+        
     func secondaryViewConstraints() {
         secondaryTop = secondary.topAnchor.constraint(equalTo: self.view.bottomAnchor)
-        secondary.translatesAutoresizingMaskIntoConstraints                                                     = false
-        secondary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                           = true
-        secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                         = true
-        secondaryTop.isActive                                                                                   = true
-        secondary.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive                 = true
+        secondary.translatesAutoresizingMaskIntoConstraints                                                         = false
+        secondary.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive                               = true
+        secondary.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive                             = true
+        secondaryTop.isActive                                                                                       = true
+        secondary.heightAnchor.constraint(equalToConstant: UI.Sizing.Secondary.height).isActive                     = true
     }
     
     func tapDismissConstraints() {
@@ -71,11 +71,11 @@ extension PrimaryView {
     func comparisonScrollConstraints() {
         let x = UI.Sizing.Comparison.Scroll.heightEmpty
         scroll.height = scroll.heightAnchor.constraint(equalToConstant: x)
-        scroll.translatesAutoresizingMaskIntoConstraints                                                        = false
-        scroll.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                        = true
-        scroll.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.width).isActive              = true
-        scroll.height.isActive                                                                                  = true
-        scroll.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                      = true
+        scroll.translatesAutoresizingMaskIntoConstraints                                                            = false
+        scroll.centerXAnchor.constraint(equalTo: centerXAnchor).isActive                                            = true
+        scroll.widthAnchor.constraint(equalToConstant: UI.Sizing.Comparison.Scroll.width).isActive                  = true
+        scroll.height.isActive                                                                                      = true
+        scroll.topAnchor.constraint(equalTo: header.bottomAnchor).isActive                                          = true
     }
     
     func menuConstraints() {

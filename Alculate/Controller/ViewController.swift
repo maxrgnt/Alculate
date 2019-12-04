@@ -30,15 +30,15 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
         // Syncronously setup the app, running next line only after previous completed
         let background = DispatchQueue.global()
         background.sync { self.setup()                          }
-        background.sync { self.determineIfFirstLaunch()         }
         background.sync { self.primary.layoutIfNeeded()         }
         background.sync { self.addNotificationCenterObservers() }
+        background.sync { self.determineIfFirstLaunch()         }
     }
     
     //MARK: ViewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         // Present user agreement if hasn't been agreed to yet
-        let userHasAgreed = UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed)
+        let userHasAgreed = UserDefaults.standard.bool(forKey: Constants.Key.userHasAgreed)
         userHasAgreed ? nil : presentLegalAgreement()
     }
         
@@ -63,12 +63,8 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
 
     @objc func willEnterForeground() {
         // If the app has launched before
-        let hasLaunched = UserDefaults.standard.bool(forKey: Strings.Key.hasLaunchedBefore)
-        if hasLaunched {
-            // Update tables to include saved drink data
-            for id in Data.IDs {
-                reloadTable(table: id, realculate: false)
-            }
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: Constants.Key.hasLaunchedBefore)
+        if hasLaunchedBefore {
             // Check if the tables have data in them
             primary.scroll.checkIfEmpty()
             // Set the scroll view content size to fit tables after adjusting height to fit rows

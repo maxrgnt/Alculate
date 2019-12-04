@@ -20,10 +20,10 @@ extension ViewController {
             // Stop long name animations
             nukePrimaryAnimations()
             // Hide the primary menu
-            primary.moveMenu(to: Strings.MoveTo.hidden)
+            primary.moveMenu(to: Constants.MoveTo.hidden)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 // Show the drink library after a delay
-                self.moveDrinkLibrary(to: Strings.MoveTo.visible)
+                self.moveDrinkLibrary(to: Constants.MoveTo.visible)
             }
         }
     }
@@ -39,16 +39,16 @@ extension ViewController {
     func moveDrinkLibrary(to state: String) {
         // if state is hidden then set constant as 0 (top to bottom)
         // if state is visible then set as -height of view (top to top)
-        let new: CGFloat = (state == Strings.MoveTo.hidden) ? 0.0 : -UI.Sizing.Secondary.height
+        let new: CGFloat = (state == Constants.MoveTo.hidden) ? 0.0 : -UI.Sizing.Secondary.height
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.secondaryTop.constant = new
                 self.view.layoutIfNeeded()
             }), completion: { (completed) in
                 // re animate long labels on primary when hiding secondary
-                (state == Strings.MoveTo.hidden)
-                    ? self.animateComparisonLabels(to: Strings.Animate.moving)
-                    : self.animateComparisonLabels(to: Strings.Animate.still)
+                (state == Constants.MoveTo.hidden)
+                    ? self.animateComparisonLabels(to: Constants.Animate.moving)
+                    : self.animateComparisonLabels(to: Constants.Animate.still)
         })
     }
     
@@ -76,8 +76,8 @@ extension ViewController {
             // "Ratio" meaning if more than 70% visible, keep on screen
             let dismissRatio: CGFloat = 0.7
             (currentRatio >= dismissRatio)
-                ? moveDrinkLibrary(to: Strings.MoveTo.visible)
-                : moveDrinkLibrary(to: Strings.MoveTo.hidden)
+                ? moveDrinkLibrary(to: Constants.MoveTo.visible)
+                : moveDrinkLibrary(to: Constants.MoveTo.hidden)
             (currentRatio >= dismissRatio)
                 ? nil
                 : primary.moveMenu(to: "visible")
@@ -90,9 +90,10 @@ extension ViewController {
     
     // MARK: Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool, forLevel level: Int? = 0) {
+        // bring dismissTop into view where 0 means top = top
          TapDismiss.dismissTop.constant = 0
         // set entry id
-        textEntry.entryID = id
+        textEntry.entryType = id
         // set max level
         textEntry.maxLevel = (fullView==true) ? 3 : 1
         // reset components for first level (name)
@@ -116,12 +117,6 @@ extension ViewController {
         // set top of text entry to whether full (compare) or partial (savedABV)
         let topConstant = (fullView==true) ? UI.Sizing.TextEntry.top : UI.Sizing.TextEntry.topPartial
         textEntry.animateTopAnchor(constant: topConstant)
-    }
-    
-    // MARK: Hide Text Entry
-    // Have to do as seperate function here because this called by UIButton, no parameters
-    @objc func hideTextEntry() {
-        // handle data here
     }
         
     // MARK: Undo Logic
@@ -227,7 +222,7 @@ extension ViewController {
                                    ind: listPiece.ind)
                 }
             }
-            for id in [Data.beerListID,Data.liquorListID,Data.wineListID] {
+            for id in Data.IDs {
                 reloadTable(table: id, realculate: false)
             }
             

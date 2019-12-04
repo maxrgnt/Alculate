@@ -94,8 +94,9 @@ extension ViewController {
             let tables = [primary.scroll.beer.table,primary.scroll.liquor.table,primary.scroll.wine.table]
             for (i, ID) in Data.IDs.enumerated() {
                 if table == ID {
-                    //tables[i].reloadData()
                     tables[i].reloadSections(sections as IndexSet, with: .automatic)
+                    // reset height of table after reloading
+                    primary.scroll.updateHeight(for: table)
                     //tables[i].updateTableContentInset()
                 }
             }

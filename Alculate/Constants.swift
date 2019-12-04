@@ -1,5 +1,5 @@
 //
-//  Identifiers.swift
+//  Constants.swift
 //  Alculate
 //
 //  Created by Max Sergent on 12/3/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Strings {
+struct Constants {
     
     static let userAgreementTitle   = "User Agreement"
     static let userAgreementMessage = """

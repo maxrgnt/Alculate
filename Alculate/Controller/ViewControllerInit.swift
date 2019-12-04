@@ -29,6 +29,7 @@ extension ViewController {
         self.primary.scroll.beer.table.customDelegate = self
         self.primary.scroll.liquor.table.customDelegate = self
         self.primary.scroll.wine.table.customDelegate = self
+        primary.layoutIfNeeded()
 
         view.addSubview(secondary)
         secondaryViewConstraints()
@@ -57,11 +58,11 @@ extension ViewController {
     //MARK: Onboarding
     func determineIfFirstLaunch() {
         // check if launched before
-        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: Strings.Key.hasLaunchedBefore)
+        let hasLaunchedBefore = UserDefaults.standard.bool(forKey: Constants.Key.hasLaunchedBefore)
         // if app has not launched before continue
         if !hasLaunchedBefore {
             // set to app has launched
-            UserDefaults.standard.set(true, forKey: Strings.Key.hasLaunchedBefore)
+            UserDefaults.standard.set(true, forKey: Constants.Key.hasLaunchedBefore)
             // load csv file of 300+ drinks into core data
             Data.txtFile()
             Data.loadList(for: Data.masterListID)
@@ -79,11 +80,11 @@ extension ViewController {
     //MARK: Keyboard Metrics
     func setKeyboardFromCoreData() {
         // keyboard height
-        let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Strings.Key.keyboardMetricSaved)
+        let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Constants.Key.keyboardMetricSaved)
         if keyboardMetricSaved {
-            UI.Sizing.keyboard = CGFloat(UserDefaults.standard.double(forKey: Strings.Key.keyboardHeight))
-            UI.Keyboard.duration = UserDefaults.standard.double(forKey: Strings.Key.keyboardAnimateDuration)
-            UI.Keyboard.curve = UInt(UserDefaults.standard.double(forKey: Strings.Key.keyboardAnimateCurve))
+            UI.Sizing.keyboard = CGFloat(UserDefaults.standard.double(forKey: Constants.Key.keyboardHeight))
+            UI.Keyboard.duration = UserDefaults.standard.double(forKey: Constants.Key.keyboardAnimateDuration)
+            UI.Keyboard.curve = UInt(UserDefaults.standard.double(forKey: Constants.Key.keyboardAnimateCurve))
         }
     }
 
@@ -115,13 +116,13 @@ extension ViewController {
         let animateCurve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             // keyboard is set with approximate height prior to running (using ratio of keyboard to screen height)
-            let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Strings.Key.keyboardMetricSaved)
+            let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Constants.Key.keyboardMetricSaved)
             // if the keyboard has not been set, the exact height is found once keyboard is shown
             if !keyboardMetricSaved {
-                UserDefaults.standard.set(keyboardFrame.cgRectValue.height, forKey: Strings.Key.keyboardHeight)
-                UserDefaults.standard.set(animateDuration, forKey: Strings.Key.keyboardAnimateDuration)
-                UserDefaults.standard.set(animateCurve, forKey: Strings.Key.keyboardAnimateCurve)
-                UserDefaults.standard.set(true, forKey: Strings.Key.keyboardMetricSaved)
+                UserDefaults.standard.set(keyboardFrame.cgRectValue.height, forKey: Constants.Key.keyboardHeight)
+                UserDefaults.standard.set(animateDuration, forKey: Constants.Key.keyboardAnimateDuration)
+                UserDefaults.standard.set(animateCurve, forKey: Constants.Key.keyboardAnimateCurve)
+                UserDefaults.standard.set(true, forKey: Constants.Key.keyboardMetricSaved)
                 setKeyboardFromCoreData()
             }
         }
@@ -131,7 +132,7 @@ extension ViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         // If the user has not accepted agreement yet, proceed
-        if !UserDefaults.standard.bool(forKey: Strings.Key.userHasAgreed) {
+        if !UserDefaults.standard.bool(forKey: Constants.Key.userHasAgreed) {
             alert.setValue(updatedAlertText(), forKey: "attributedMessage")
         }
     }
@@ -143,7 +144,7 @@ extension ViewController {
     
     //MARK: Legal Agreement
     func presentLegalAgreement(/*title: String, message: String*/) {
-        alert = UIAlertController(title: Strings.userAgreementTitle, message: "", preferredStyle: .alert)
+        alert = UIAlertController(title: Constants.userAgreementTitle, message: "", preferredStyle: .alert)
         alert.setValue(updatedAlertText(), forKey: "attributedMessage")
         alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
         self.present(alert, animated: true)
@@ -156,7 +157,7 @@ extension ViewController {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
-            string: Strings.userAgreementMessage,
+            string: Constants.userAgreementMessage,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                 NSAttributedString.Key.foregroundColor : textColor,
@@ -167,7 +168,7 @@ extension ViewController {
     }
 
     func userHasAgreed(action:UIAlertAction) {
-        UserDefaults.standard.set(true, forKey: Strings.Key.userHasAgreed)
+        UserDefaults.standard.set(true, forKey: Constants.Key.userHasAgreed)
     }
     
 }

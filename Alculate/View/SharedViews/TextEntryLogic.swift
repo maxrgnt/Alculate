@@ -27,9 +27,12 @@ extension TextEntry {
 //            (self.inputLevel > self.maxLevel) ? self.updateSavedABVTable() : nil
 //            (self.inputLevel > self.maxLevel) ? self.dismiss() : nil
 //        }
+        let hapticFeedback = UINotificationFeedbackGenerator()
+        (inputLevel > maxLevel) ? hapticFeedback.notificationOccurred(.success) : nil
         (inputLevel > maxLevel && maxLevel != 1) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
+        
         // set input for new level
         setComponents(forLevel: inputLevel)
     }
@@ -184,7 +187,7 @@ extension TextEntry {
     func checkSuggestions(for changedText: String) {
         var arrNames: [String] = []
         for key in Data.masterList.keys {
-            if entryID == Data.masterList[key]!.type {
+            if entryType == Data.masterList[key]!.type {
                 arrNames.append(key)
             }
         }
@@ -284,9 +287,6 @@ extension TextEntry {
         field.resignFirstResponder()
         //
         animateTopAnchor(constant: 0)
-        self.textEntryDelegate?.hideTextEntry()
-        let hapticFeedback = UINotificationFeedbackGenerator()
-        hapticFeedback.notificationOccurred(.success)
     }
     
     func updateComparisonTables() {
@@ -296,7 +296,7 @@ extension TextEntry {
             var noMatches = true
             let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
             for (i, dataList) in Data.lists.enumerated() {
-                if ids[i] == entryID {
+                if ids[i] == entryType {
                     for info in dataList {
                         if [info.name.lowercased(), info.abv, info.size, info.price] == output {
                             noMatches = false
@@ -311,7 +311,7 @@ extension TextEntry {
         }
         else {
             for id in Data.IDs {
-                if id == entryID {
+                if id == entryType {
                     let old = oldComparison
                     Data.deleteFromList(id, wName: old.name, wABV: old.abv, wSize: old.size, wPrice: old.price)
                     Data.saveToList(id, wName: output[0].lowercased(), wABV: output[1], wSize: output[2], wPrice: output[3])
@@ -329,14 +329,14 @@ extension TextEntry {
         if let info = Data.masterList[name] {
             let savedType = info.type
             let savedAbv = info.abv
-            if savedAbv != abv && savedType == entryID {
+            if savedAbv != abv && savedType == entryType {
                 let title = "Reset \(name)'s ABV?"
                 //let message = "\nfrom \(savedAbv)% to \(abv)%?"
                 let changeAbv = UIAlertController(title: title, message: nil, preferredStyle: .alert)
                 changeAbv.addAction(UIAlertAction(title: "Update to \(abv)%", style: .default, handler: { action in
-                    Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
+                    Data.saveToMaster(ofType: self.entryType, named: name, withABVof: abv)
                     self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: false)
-                    self.textEntryDelegate!.updateComparison(for: name, ofType: self.entryID, wABV: abv)
+                    self.textEntryDelegate!.updateComparison(for: name, ofType: self.entryType, wABV: abv)
                 }))
                 changeAbv.addAction(UIAlertAction(title: "Keep \(savedAbv)%", style: .cancel, handler: { action in
                     // pass
@@ -345,9 +345,9 @@ extension TextEntry {
             }
         }
         else {
-            Data.saveToMaster(ofType: self.entryID, named: name, withABVof: abv)
+            Data.saveToMaster(ofType: self.entryType, named: name, withABVof: abv)
             self.textEntryDelegate!.reloadTable(table: Data.masterListID, realculate: false)
-            self.textEntryDelegate!.updateComparison(for: name, ofType: entryID, wABV: abv)
+            self.textEntryDelegate!.updateComparison(for: name, ofType: entryType, wABV: abv)
         }
     }
 

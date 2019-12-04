@@ -10,7 +10,6 @@ import UIKit
 
 protocol TextEntryDelegate: AnyObject {
     func displayAlert(alert: UIAlertController)
-    func hideTextEntry()
     func reloadTable(table: String, realculate: Bool)
     func updateComparison(for: String, ofType: String, wABV: String)
     func insertRowFor(table: String)
@@ -51,7 +50,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     var defaults = ["begin typing a name..","abv","size","price"]
     var output: [String] = []
     var sizeUnit = "oz"
-    var entryID = ""
+    var entryType = ""
     var suggestedName = ""
     var oldComparison: (name: String, abv: String, size: String, price: String) = (name: "", abv: "", size: "", price: "")
     var outputSafe = true

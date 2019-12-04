@@ -61,8 +61,8 @@ struct UI {
         struct Header {
             static let radii = width/10
             static let width = UI.Sizing.width
-            static let height = Ratio.header*Sizing.height + StatusBar.height + Summary.height + radii/2
-            static let heightMinimized = Ratio.header*Sizing.height + StatusBar.height + radii/2
+            static let height = Ratio.header*Sizing.height + StatusBar.height + Summary.height + radii*(2/3)
+            static let heightMinimized = Ratio.header*Sizing.height + StatusBar.height + radii*(2/3)
             struct appName {
                 static let width = Header.width
                 static let height = Ratio.header*Sizing.height

@@ -13,63 +13,78 @@ extension ViewController {
     
     // MARK: Navigate App
     @objc func navigateApp(sender: UIButton) {
-//        let hapticFeedback = UINotificationFeedbackGenerator()
-//        hapticFeedback.notificationOccurred(.warning)
-        if sender.tag >= 20 {
-            let iconNames = [Data.beerListID,Data.liquorListID,Data.wineListID]
-            showTextEntry(forType: iconNames[sender.tag-20], fullView: true)
-        }
-        else if sender.tag == 0 {
-//            flipAlculate()
-        }
-        else if sender.tag == 1 {
-            didEnterBackground()
-            primary.moveMenu(to: "hidden")
+        // Buttons with Tag greater than 20 are for text entry
+        (sender.tag >= 20) ? showTextEntry(forType: Data.IDs[sender.tag-20], fullView: true) : nil
+        // Button tag == 1 for showing DrinkLibrary
+        if sender.tag == 1 {
+            // Stop long name animations
+            nukePrimaryAnimations()
+            // Hide the primary menu
+            primary.moveMenu(to: Strings.MoveTo.hidden)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.moveDrinkLibrary(to: "visible")
+                // Show the drink library after a delay
+                self.moveDrinkLibrary(to: Strings.MoveTo.visible)
             }
         }
     }
     
     //MARK: Animations
+    func nukePrimaryAnimations() {
+        // Stop long names from animating in primary view
+        primary.subviews.forEach({$0.layer.removeAllAnimations()})
+        primary.layer.removeAllAnimations()
+        primary.layoutIfNeeded()
+    }
+    
     func moveDrinkLibrary(to state: String) {
-        let new: CGFloat = (state == "hidden") ? 0.0 : -UI.Sizing.Secondary.height
-        secondaryTop.constant = new
+        // if state is hidden then set constant as 0 (top to bottom)
+        // if state is visible then set as -height of view (top to top)
+        let new: CGFloat = (state == Strings.MoveTo.hidden) ? 0.0 : -UI.Sizing.Secondary.height
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
+                self.secondaryTop.constant = new
                 self.view.layoutIfNeeded()
             }), completion: { (completed) in
-                // re animate long labels on primary view when hiding secondary
-                (state == "hidden") ? self.animateComparisonLabels(to: "moving") : self.animateComparisonLabels(to: "still")
+                // re animate long labels on primary when hiding secondary
+                (state == Strings.MoveTo.hidden)
+                    ? self.animateComparisonLabels(to: Strings.Animate.moving)
+                    : self.animateComparisonLabels(to: Strings.Animate.still)
         })
     }
     
     @objc func reactToPanGesture(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: self.view)
+        // Hide index titles while moving
         secondary.drinkLibrary.table.isMoving = true
         secondary.drinkLibrary.table.reloadSectionIndexTitles()
-        // Allow movement of contact card back/forth when not fully visible
+        // Move view up/down
+        let translation = sender.translation(in: self.view)
         secondaryTop.constant += translation.y
-        // If contact card is fully visible, don't allow movement further up
+        // If view is fully visible, don't allow movement further up
         let currentConstant = secondaryTop.constant
         let secondaryViewAtTop = -UI.Sizing.Secondary.height
         secondaryTop.constant = currentConstant < secondaryViewAtTop ? secondaryViewAtTop : currentConstant
-        // Set recognizer to start new drag gesture in future
+        // Set recognizer to start new drag gesture
         sender.setTranslation(CGPoint.zero, in: secondary.drinkLibrary.header)
-        // Handle auto-scroll in/out of frame depending on location of ending pan gesture
+        // Move view in/out of view once pan ended
         if sender.state == UIGestureRecognizer.State.ended {
-            
-            let dismissRatio: CGFloat = 0.7
-            let secondaryViewAtTop = -UI.Sizing.Secondary.height
-            let currentRatio: CGFloat = secondaryTop.constant / secondaryViewAtTop
-            (currentRatio >= dismissRatio) ? moveDrinkLibrary(to: "visible") : moveDrinkLibrary(to: "hidden")
-            (currentRatio >= dismissRatio) ? nil : primary.moveMenu(to: "visible")
-            
+            // Show index titles now that pan has stopped
             secondary.drinkLibrary.table.isMoving = false
             secondary.drinkLibrary.table.reloadSectionIndexTitles()
-        
-            // Auto-scroll left (in frame) if false, Auto-scroll right (out of frame) if true
-            (currentRatio >= dismissRatio) ? secondary.drinkLibrary.table.scrollToFirstRow() : nil
+            // Set temp variables for easier to read ternary operators
+            let secondaryAtTop = -UI.Sizing.Secondary.height
+            let currentRatio: CGFloat = secondaryTop.constant / secondaryAtTop
+            // "Ratio" meaning if more than 70% visible, keep on screen
+            let dismissRatio: CGFloat = 0.7
+            (currentRatio >= dismissRatio)
+                ? moveDrinkLibrary(to: Strings.MoveTo.visible)
+                : moveDrinkLibrary(to: Strings.MoveTo.hidden)
+            (currentRatio >= dismissRatio)
+                ? nil
+                : primary.moveMenu(to: "visible")
+            // If moving view off screen, scroll table back to top
+            (currentRatio >= dismissRatio)
+                ? nil
+                : secondary.drinkLibrary.table.scrollToFirstRow()
         }
     }
     

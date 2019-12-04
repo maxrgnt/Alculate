@@ -58,9 +58,7 @@ class ViewController: UIViewController, ContainerTableDelegate, TextEntryDelegat
     //MARK: Life Cycle
     @objc func didEnterBackground() {
         // Stop movement of long drink names when app enters background
-        primary.subviews.forEach({$0.layer.removeAllAnimations()})
-        primary.layer.removeAllAnimations()
-        primary.layoutIfNeeded()
+        nukePrimaryAnimations()
     }
 
     @objc func willEnterForeground() {

@@ -24,4 +24,14 @@ struct Strings {
         static let keyboardAnimateCurve = "keyboardAnimateCurve"
     }
     
+    struct MoveTo {
+        static let hidden = "hidden"
+        static let visible = "visible"
+    }
+    
+    struct Animate {
+        static let moving = "moving"
+        static let still = "still"
+    }
+    
 }

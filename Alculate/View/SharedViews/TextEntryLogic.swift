@@ -285,6 +285,8 @@ extension TextEntry {
         //
         animateTopAnchor(constant: 0)
         self.textEntryDelegate?.hideTextEntry()
+        let hapticFeedback = UINotificationFeedbackGenerator()
+        hapticFeedback.notificationOccurred(.success)
     }
     
     func updateComparisonTables() {

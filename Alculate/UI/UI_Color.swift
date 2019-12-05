@@ -86,6 +86,7 @@ extension UI {
         }
         
         struct Background {
+            static let drinkTypes = [beerHeader,liquorHeader,wineHeader]
             static let header = darkestAccent
             static let summary = darkestAccent
             static let comparison = darkestAccent

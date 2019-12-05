@@ -37,18 +37,22 @@ extension ViewController {
     }
     
     func moveDrinkLibrary(to state: String) {
-        // if state is hidden then set constant as 0 (top to bottom)
-        // if state is visible then set as -height of view (top to top)
-        let new: CGFloat = (state == Constants.MoveTo.hidden) ? 0.0 : -UI.Sizing.Secondary.height
+        // if state is hidden then set constant as 0 (top of drink library to bottom of screen)
+        // if state is visible then set as -height of view (top of drink library to top of screen)
+        let new: CGFloat = (state == Constants.MoveTo.hidden)
+            ? Constants.Constraint.secondaryHidden
+            : Constants.Constraint.secondaryVisible
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut
             , animations: ({
                 self.secondaryTop.constant = new
                 self.view.layoutIfNeeded()
             }), completion: { (completed) in
-                // re animate long labels on primary when hiding secondary
-                (state == Constants.MoveTo.hidden)
-                    ? self.animateComparisonLabels(to: Constants.Animate.moving)
-                    : self.animateComparisonLabels(to: Constants.Animate.still)
+                // if DrinkLibrary being hidden, animate the long drink names on primary view
+                // if DrinkLibrary being visible, stop animating long drink names on primary view
+                let animationType = (state == Constants.MoveTo.hidden)
+                    ? Constants.Animate.moving
+                    : Constants.Animate.still
+                self.animateLongDrinkNames(to: animationType)
         })
     }
     
@@ -88,6 +92,20 @@ extension ViewController {
         }
     }
     
+    @objc func animateUndo(onScreen: Bool = true) {
+        let constant = (onScreen == false)
+            ? Constants.Constraint.undoOffScreen
+            : Constants.Constraint.undoOnScreen
+        UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
+                       options: [.curveEaseInOut,.allowUserInteraction],
+                       animations: {
+                        self.undo.top.constant = constant
+                        self.view.layoutIfNeeded()
+        }, completion: {(value: Bool) in
+            // pass
+           })
+    }
+    
     // MARK: Show Text Entry
     func showTextEntry(forType id: String, fullView: Bool, forLevel level: Int? = 0) {
         // bring dismissTop into view where 0 means top = top
@@ -119,45 +137,59 @@ extension ViewController {
         textEntry.animateTopAnchor(constant: topConstant)
     }
         
-    // MARK: Undo Logic
+    //MARK: Confirm Undo (Don't Delete)
     @objc func confirmUndo() {
         let hapticFeedback = UINotificationFeedbackGenerator()
         hapticFeedback.notificationOccurred(.success)
-        // if toBeDeleted is not empty
-        if secondaryTop.constant != 0.0 {
-            if !secondary.drinkLibrary.table.toBeDeleted.isEmpty {
-                // for every object in toBeDeleted, add it back to the Data master list
-                for info in secondary.drinkLibrary.table.toBeDeleted {
-                    Data.masterList[info.name] = (type: info.type, abv: info.abv)
-                }
-                secondary.drinkLibrary.table.reloadData()
-            }
-        }
-        else {
-            let ids = [Data.beerListID,Data.liquorListID,Data.wineListID]
-            for (i,list) in Data.toBeDeleted.enumerated() {
-                if !list.isEmpty {
-                    for obj in list {
-                        Data.saveToList(ids[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
-                        insertRowFor(table: ids[i])
-                    }
-                }
-            }
-            Data.toBeDeleted = [[],[],[]]
-        }
+        // if secondary view is visible run undo for secondary
+        (secondaryTop.constant == Constants.Constraint.secondaryVisible)
+            ? undoForSecondary()
+            // otherwise run undo for primary
+            : undoForPrimary()
+        // move the undo button off screen
         animateUndo(onScreen: false)
     }
     
-    @objc func cancelUndo() {
-        (secondaryTop.constant != 0.0) ? removeABVfromCoreData() : clearDataToBeDeleted()
-        animateUndo(onScreen: false)
-    }
-    
-    func clearDataToBeDeleted() {
+    func undoForPrimary() {
+        // toBeDeleted array of arrays [[],[],[]]
+        for (i,list) in Data.toBeDeleted.enumerated() {
+            // if an array in toBeDeleted is not empty its respective position in Data.IDs is used to refill that table
+            if !list.isEmpty {
+                for obj in list {
+                    Data.saveToList(Data.IDs[i], wName: obj.name, wABV: obj.abv, wSize: obj.size, wPrice: obj.price)
+                    insertRowFor(table: Data.IDs[i])
+                }
+            }
+        }
+        // reset toBeDeleted
         Data.toBeDeleted = [[],[],[]]
     }
     
-    func removeABVfromCoreData() {
+    func undoForSecondary() {
+        // if the toBeDeleted array is not empty
+        if !secondary.drinkLibrary.table.toBeDeleted.isEmpty {
+            // for every object in toBeDeleted, add it back to the Data master list
+            for info in secondary.drinkLibrary.table.toBeDeleted {
+                Data.masterList[info.name] = (type: info.type, abv: info.abv)
+            }
+            secondary.drinkLibrary.table.reloadData()
+        }
+        // reset to be deleted
+        secondary.drinkLibrary.table.toBeDeleted = []
+    }
+    
+    //MARK: Cancel Undo (Do Delete)
+    @objc func cancelUndo() {
+        // if secondary visible, delete from master list
+        (secondaryTop.constant == Constants.Constraint.secondaryVisible)
+            ? removeDrinkFromLibrary()
+            // else delete from comparison tables
+            : clearTemporaryComparisonData()
+        // move the undo button off screen
+        animateUndo(onScreen: false)
+    }
+    
+    func removeDrinkFromLibrary() {
         // iterate over every object in the toBeDeleted table
         for info in secondary.drinkLibrary.table.toBeDeleted {
             // make the database editable
@@ -169,85 +201,89 @@ extension ViewController {
         }
     }
     
-    @objc func animateUndo(onScreen: Bool = true) {
-        let constant = (onScreen == false) ? 0 : -UI.Sizing.Menu.height
-        undo.top.constant = constant
-        UIView.animate(withDuration: 0.55, delay: 0.0,usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0,
-                       options: [.curveEaseInOut,.allowUserInteraction],
-                       animations: {
-                        self.view.layoutIfNeeded()
-        }, completion: {(value: Bool) in
-            // pass
-           })
+    func clearTemporaryComparisonData() {
+        Data.toBeDeleted = [[],[],[]]
     }
 
     //MARK: Alculate Logic
     func alculate() {
+        // check if comparison tables are empty
+        primary.scroll.checkIfEmpty()
         // create framework of array of lists that are not empty
-        var lists: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]! = []
-        // create framework of best alcohol of top items from each list
-        var bestPrice: (name: String, best: String, ind: Int)!
-        var bestRatio: (name: String, best: String, ind: Int)!
+        var topDrinks: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]! = []
         // iterate through each type list to see if empty
-        for (index, listPiece) in Data.lists.enumerated() {
-            // if the list is not empty, add the top item to lists to be compared (already sorted)
-            if !listPiece.isEmpty {
-                lists.append((arr: listPiece.first!, ind: index))
+        for (index, drinks) in Data.lists.enumerated() {
+            // if the list of drinks for a given type is not empty
+            // add the first drink to topDrinks to be compared (already sorted)
+            if !drinks.isEmpty {
+                topDrinks.append((arr: drinks.first!, ind: index))
             }
         }
-        // if list of top item from each type has items, compare those against themselves
-        if !lists.isEmpty {
-            primary.scroll.checkIfEmpty()
+        // if topDrinks is not empty, compare them against themselves
+        if !topDrinks.isEmpty {
+            // make the summary views visible
             primary.moveSummaryAnchor(to: "visible")
-            let info = lists.first!.arr
-            bestPrice = (name: info.name,
-                         best: String(format: "%.2f", calculateValue(for: info)),
-                         ind: lists.first!.ind)
-            for listPiece in lists {
-                let tryBest = calculateValue(for: listPiece.arr)
-                if tryBest < Double(bestPrice.best)! {
-                    bestPrice = (name: listPiece.arr.name,
-                                   best: String(format: "%.2f", tryBest),
-                                   ind: listPiece.ind)
-                }
-            }
-            bestRatio = (name: info.name,
-                           best: String(format: "%.1f", calculateEffect(for: info)),
-                           ind: lists.first!.ind)
-            for listPiece in lists {
-                let tryBest = calculateEffect(for: listPiece.arr)
-                if tryBest > Double(bestRatio.best)! {
-                    bestRatio = (name: listPiece.arr.name,
-                                   best: String(format: "%.1f", tryBest),
-                                   ind: listPiece.ind)
-                }
-            }
-            for id in Data.IDs {
-                reloadTable(table: id, realculate: false)
-            }
-            
-            let i = bestPrice.ind
-            let priceColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][i]
-            let j = bestRatio.ind
-            let effectColor = [UI.Color.Background.beerHeader, UI.Color.Background.liquorHeader, UI.Color.Background.wineHeader][j]
-            
-            primary.header.value.category.textColor = priceColor
-            primary.header.effect.category.textColor = effectColor
-            
-            primary.header.value.name.text = bestPrice.name.capitalized
-            primary.header.value.stat.text = "$"+bestPrice.best
-            primary.header.effect.name.text = bestRatio.name.capitalized
-            primary.header.effect.stat.text = bestRatio.best
-            calculateTotalSpent()
-            calculateTotalShots()
+            let best = determineBest(from: topDrinks)
+            updateSummary(value: best.value, effect: best.effect)
         }
         // if all lists are empty, dont alculate
         else {
-            primary.scroll.checkIfEmpty()
             primary.moveSummaryAnchor(to: "hidden")
         }
     }
     
+    //MARK: Determine Best Drink
+    func determineBest(from topDrinks: [(arr: (name: String, abv: String, size: String, price: String), ind: Int)]) ->
+        (value: (name: String, best: String, ind: Int), effect: (name: String, best: String, ind: Int)){
+        // create framework of best alcohol of top items from each list
+        var bestValue: (name: String, best: String, ind: Int)!
+        var bestEffect: (name: String, best: String, ind: Int)!
+        // start with first drink in array
+        let info = topDrinks.first!.arr
+        // determine of the topDrinks which is the best value
+        bestValue = (name: info.name,
+                     best: String(format: "%.2f", calculateValue(for: info)),
+                     ind:  topDrinks.first!.ind)
+        for drink in topDrinks {
+            let maybeBest = calculateValue(for: drink.arr)
+            if maybeBest < Double(bestValue.best)! {
+                bestValue = (name: drink.arr.name,
+                             best: String(format: "%.2f", maybeBest),
+                             ind:  drink.ind)
+            }
+        }
+        bestEffect = (name: info.name,
+                     best: String(format: "%.1f", calculateEffect(for: info)),
+                     ind:  topDrinks.first!.ind)
+        for drink in topDrinks {
+            let maybeBest = calculateEffect(for: drink.arr)
+            if maybeBest > Double(bestEffect.best)! {
+                bestEffect = (name: drink.arr.name,
+                              best: String(format: "%.1f", maybeBest),
+                              ind: drink.ind)
+            }
+        }
+        return (value: bestValue, effect: bestEffect)
+    }
+    
+    //MARK: Update Summary
+    func updateSummary(value: (name: String, best: String, ind: Int), effect: (name: String, best: String, ind: Int)) {
+        // update summary header text colors based on which type is best
+        let priceColor = UI.Color.Background.drinkTypes[value.ind]
+        let effectColor = UI.Color.Background.drinkTypes[effect.ind]
+        primary.header.value.category.textColor = priceColor
+        primary.header.effect.category.textColor = effectColor
+        // update the summary text itself
+        primary.header.value.name.text = value.name.capitalized
+        primary.header.value.stat.text = "$"+value.best
+        primary.header.effect.name.text = effect.name.capitalized
+        primary.header.effect.stat.text = effect.best
+        // update the total line
+        calculateTotalSpent()
+        calculateTotalShots()
+    }
+    
+    //MARK: Calculations for Alculate
     func calculateEffect(for info: (name: String, abv: String, size: String, price: String)) -> Double {
         let sizeUnit = info.size.dropFirst(info.size.count-2)
         var correctedSize = Double(info.size.dropLast(2))!
@@ -301,9 +337,7 @@ extension ViewController {
     
     // MARK: Flip Alculate
     func flipAlculate() {
-        // If sorting by effect, switch to value and vice versa
-        // update button title with new order by
-        // update top line
+        // code here the switch of sortByValue() vs sortByEffect()
         alculate()
     }
     

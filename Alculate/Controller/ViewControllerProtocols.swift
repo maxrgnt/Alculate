@@ -18,11 +18,11 @@ extension ViewController {
         primary.scroll.checkIfEmpty()
     }
     
-    func animateComparisonLabels(to state: String) {
-        (state == "moving") ? willEnterForeground() : nukeBothComparisonLabels()
+    func animateLongDrinkNames(to state: String) {
+        (state == "moving") ? willEnterForeground() : endLongDrinkNameAnimations()
     }
     
-    func nukeBothComparisonLabels() {
+    func endLongDrinkNameAnimations() {
         primary.header.value.nukeAllAnimations()
         primary.header.effect.nukeAllAnimations()
     }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
     
@@ -32,6 +33,14 @@ struct Constants {
     struct Animate {
         static let moving = "moving"
         static let still = "still"
+    }
+    
+    struct Constraint {
+        static let secondaryHidden: CGFloat = 0.0
+        static let secondaryVisible: CGFloat = -UI.Sizing.Secondary.height
+        static let undoOffScreen: CGFloat = 0.0
+        static let undoOnScreen: CGFloat = -UI.Sizing.Menu.height
+        
     }
     
 }

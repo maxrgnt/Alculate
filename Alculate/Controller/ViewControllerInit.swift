@@ -97,12 +97,14 @@ extension ViewController {
              name: UIResponder.keyboardWillShowNotification,
              object: nil
         )
+        // did enter background for when app closed out
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: nil
         )
+        // did enter foreground for when app opened (runs after viewDidLoad if opening cold)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.willEnterForeground),
@@ -112,12 +114,13 @@ extension ViewController {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
+        // keyboard metrics that are accesible once keyboard has shown
         let animateDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         let animateCurve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             // keyboard is set with approximate height prior to running (using ratio of keyboard to screen height)
             let keyboardMetricSaved = UserDefaults.standard.bool(forKey: Constants.Key.keyboardMetricSaved)
-            // if the keyboard has not been set, the exact height is found once keyboard is shown
+            // if the keyboard sizing variable has not been set, the exact height is found once keyboard is shown
             if !keyboardMetricSaved {
                 UserDefaults.standard.set(keyboardFrame.cgRectValue.height, forKey: Constants.Key.keyboardHeight)
                 UserDefaults.standard.set(animateDuration, forKey: Constants.Key.keyboardAnimateDuration)
@@ -143,20 +146,28 @@ extension ViewController {
     }
     
     //MARK: Legal Agreement
-    func presentLegalAgreement(/*title: String, message: String*/) {
+    func presentLegalAgreement() {
+        // update alert title and style
         alert = UIAlertController(title: Constants.userAgreementTitle, message: "", preferredStyle: .alert)
+        // update alert message, has to be done this way to change font color
         alert.setValue(updatedAlertText(), forKey: "attributedMessage")
+        // add the agree action that will stop agreement from showing once pressed
         alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
+        // present alert
         self.present(alert, animated: true)
     }
     
     func updatedAlertText() -> NSAttributedString {
+        // userInterfaceStyle can be either .unspecified .light or .dark
         let userInterfaceStyle = traitCollection.userInterfaceStyle
-        // Either .unspecified, .light, or .dark
+        // if the style is dark make the font color the same as font color used in app (lighter due to app background being dark)
+        // if the style is not dark make the font color black to stand out on white alert
         let textColor: UIColor = (userInterfaceStyle == .dark) ? UI.Color.Font.standard : .black
+        // set paragraph style to be left aligned instead of default centered 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
+            // set the string as the useragreement message
             string: Constants.userAgreementMessage,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
@@ -168,6 +179,7 @@ extension ViewController {
     }
 
     func userHasAgreed(action:UIAlertAction) {
+        // if the user agrees then the legal agreement will no longer show up
         UserDefaults.standard.set(true, forKey: Constants.Key.userHasAgreed)
     }
     

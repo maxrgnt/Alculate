@@ -278,7 +278,7 @@ extension TextEntry {
         TapDismiss.dismissTop.constant = UI.Sizing.bounds.height
         navigator.doneBottom.constant = UI.Sizing.Menu.height
         //
-        sizeUnit = "oz"
+        sizeUnit = Constants.TextEntry.defaultSizeUnit
         inputLevel = 0
         output = defaults
         setComponents(forLevel: inputLevel)

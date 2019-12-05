@@ -35,10 +35,7 @@ class TextEntryInputs: UIView {
     func setup() {
         clipsToBounds = true
         backgroundColor = .clear
-
         objectSettings()
-        
-        translatesAutoresizingMaskIntoConstraints = false
         constraints()
     }
     

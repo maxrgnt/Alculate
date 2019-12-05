@@ -32,9 +32,7 @@ class Undo: UIView {
         clipsToBounds = true
         backgroundColor = UI.Color.Undo.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Header.radii)
-    
         objectSettings()
-        
         constraints()
     }
     
@@ -50,7 +48,7 @@ class Undo: UIView {
             button.titleLabel?.font = UI.Font.Undo.button
             button.contentHorizontalAlignment = alignments[i]
         }
-        cancel.backgroundColor = .clear //UI.Color.bgDark
+        cancel.backgroundColor = .clear
     }
     
     //MARK: - Constraints

@@ -13,7 +13,6 @@ protocol DrinkLibraryTableDelegate {
     func animateUndo(onScreen: Bool)
     func reloadTable(table: String, realculate: Bool)
     func editDrinkLibrary(name: String, abv: String, type: String)
-    func adjustHeaderBackground()
     func adjustHeaderConstant(to: CGFloat)
     func resetHeader()
     func finishScrolling()
@@ -59,27 +58,20 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: "DrinkLibraryCell") as! DrinkLibraryCell
         cell.setLabels(forCellAt: indexPath)
-        /*
-         color = x * start_color + (x-1) * end_color
-         */
+        // color = x * start_color + (x-1) * end_color
         let totalSections: CGFloat = CGFloat(tableView.numberOfSections) // CGFloat(Data.masterList.count)
         let section: CGFloat = CGFloat(indexPath.section)
-//        let row: CGFloat = CGFloat(indexPath.row)
         let blah: CGFloat = section/totalSections // ((section*(section+1))/2)/totalSections
         let R: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[0]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[0]))
         let G: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[1]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[1]))
         let B: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[2])) + (blah * CGFloat(UI.Color.Gradient.darkRGB[2]))
-//        print("path: ",indexPath," old: ",1-blah," new: ",blah,"\n(R,G,B): (\(R),\(G),\(B))")
         cell.setBackgroundColor(R: R, G: G, B: B)
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
         return cell
     }
         
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        var indexTitles: [String]? = Data.headers
-        if isMoving {
-            indexTitles = nil
-        }
+        let indexTitles: [String]? = (isMoving) ? nil : Data.headers
         return indexTitles
     }
     
@@ -136,10 +128,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     // MARK: - ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.customDelegate.adjustHeaderBackground()
         if scrollView.contentOffset.y <= 0 {
-//            isMoving = true
-//            reloadSectionIndexTitles()
             self.customDelegate.adjustHeaderConstant(to: contentOffset.y)
             scrollView.contentOffset.y = 0
         }

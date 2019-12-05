@@ -37,9 +37,7 @@ class TextNavigator: UIView {
     func setup() {
         backgroundColor = .clear
         clipsToBounds = true
-        
         objectSettings()
-        
         constraints()
     }
     
@@ -60,7 +58,6 @@ class TextNavigator: UIView {
         suggestion.tag = 2
         suggestion.backgroundColor = .clear
         suggestion.titleLabel?.font = UI.Font.TextEntry.navigator
-        suggestion.setTitle("Use 'Coors Light'", for: .normal)
         suggestion.setTitleColor(UI.Color.Font.standard, for: .normal)
         suggestion.contentHorizontalAlignment = .left
     }

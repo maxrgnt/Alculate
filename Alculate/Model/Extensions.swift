@@ -159,3 +159,35 @@ func updateTableContentInset() {
 //DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
 //    background.sync { self.moveDrinkLibrary(to: "visible") }
 //}
+
+//    var gradient = CAGradientLayer()
+//    var gradient2 = CAGradientLayer()
+//    // MARK: Gradient Settings
+//    func buildGradient() {
+//        // Set origin of gradient (top left of screen)
+//        let gradientOrigin = CGPoint(x: 0,y: UI.Sizing.DrinkLibrary.Header.height)
+//        // Set frame of gradient (header height, because status bar will be solid color)
+//        let gradientSize = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Table.height)
+//        gradient.frame = CGRect(origin: gradientOrigin, size: gradientSize)
+//        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+//        gradient.colors = [UI.Color.Gradient.dark.withAlphaComponent(1.0).cgColor,
+//                           UI.Color.Gradient.light.withAlphaComponent(1.0).cgColor]
+//        // Set locations of where gradient will transition
+//        gradient.locations = [0.0,1.0]
+//        // Add gradient as bottom layer in sublayer array
+//        self.layer.insertSublayer(gradient, at: 0)
+//
+//        // Set origin of gradient (top left of screen)
+//        let gradientOrigin2 = CGPoint(x: 0,y: 0)
+//        // Set frame of gradient (header height, because status bar will be solid color)
+//        let gradientSize2 = CGSize(width: UI.Sizing.width, height: UI.Sizing.DrinkLibrary.Header.height)
+//        gradient2.frame = CGRect(origin: gradientOrigin2, size: gradientSize2)
+//        // Set color progression for gradient, alphaComponent of zero important for color shifting to
+//        gradient2.colors = [UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor,
+//                            UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor,
+//                           UI.Color.Gradient.darkest.withAlphaComponent(1.0).cgColor]
+//        // Set locations of where gradient will transition
+//        gradient2.locations = [0.0,0.1,1.0]
+//        // Add gradient as bottom layer in sublayer array
+//        self.layer.insertSublayer(gradient2, at: 0)
+//    }

@@ -35,7 +35,6 @@ class SecondaryView: UIView {
         clipsToBounds = true
         backgroundColor = UI.Color.Secondary.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.DrinkLibrary.radii)
-        
         addObjectsToView()
         constraints()
     }

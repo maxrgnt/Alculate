@@ -35,22 +35,11 @@ class ContainerCell: UITableViewCell {
     func setup() {
         selectionStyle = .none
         backgroundColor = .clear
-
-        let border = CALayer()
-        border.backgroundColor = UI.Color.Border.comparisonCell.cgColor
-        let borderHeight = UI.Sizing.Comparison.separator
-        let rowHeight = UI.Sizing.Comparison.Row.height
-        let rowWidth = UI.Sizing.Comparison.Scroll.width
-        let leadingAnchor = UI.Sizing.Comparison.border
-        border.frame = CGRect(x: leadingAnchor, y: rowHeight - borderHeight, width: rowWidth - leadingAnchor, height: borderHeight)
-        contentView.layer.addSublayer(border)
-        
+        borderSettings()
         nameSettings()
         valueEffectSettings()
         unitSettings()
-        
         addObjectsToView()
-        
         constraints()
     }
 
@@ -71,6 +60,17 @@ class ContainerCell: UITableViewCell {
     }
     
     //MARK: Settings
+    func borderSettings() {
+        let border = CALayer()
+        border.backgroundColor = UI.Color.Border.comparisonCell.cgColor
+        let borderHeight = UI.Sizing.Comparison.separator
+        let rowHeight = UI.Sizing.Comparison.Row.height
+        let rowWidth = UI.Sizing.Comparison.Scroll.width
+        let leadingAnchor = UI.Sizing.Comparison.border
+        border.frame = CGRect(x: leadingAnchor, y: rowHeight - borderHeight, width: rowWidth - leadingAnchor, height: borderHeight)
+        contentView.layer.addSublayer(border)
+    }
+    
     func nameSettings() {
         name.textColor = UI.Color.Font.comparisonCell
         name.textAlignment = .left
@@ -91,8 +91,8 @@ class ContainerCell: UITableViewCell {
             obj.textAlignment = .right
             obj.font = UI.Font.Comparison.rowUnit
         }
-        valueUnit.text = "per shot"
-        effectUnit.text = "shots"
+        valueUnit.text = Constants.valueUnit
+        effectUnit.text = Constants.effectUnit
     }
     
     // MARK: Label Setter
@@ -105,7 +105,7 @@ class ContainerCell: UITableViewCell {
         let size = info.size.dropLast(2)
         var correctedSize = Double(size)!
         // if unitForSize is ml, need to convert to oz for calculations
-        if sizeUnit == "ml" {
+        if sizeUnit == Constants.TextEntry.otherSizeUnit {
             // convert ml size to ounces using ratio of ml per oz
             correctedSize = correctedSize/29.5735296875
         }

@@ -32,12 +32,9 @@ class Menu: UIView {
         clipsToBounds = true
         backgroundColor = UI.Color.Menu.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Menu.radii)
-
         buttons = [showDrinkLibrary]
-        
         addObjectsToView()
         buttonSettings()
-        
         constraints()
     }
     
@@ -51,7 +48,7 @@ class Menu: UIView {
     //MARK: Object Settings
     func buttonSettings() {
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
-        let buttonText = ["Show Drink Library"]
+        let buttonText = [Constants.menuButton]
         for (i,button) in buttons.enumerated() {
             button.tag = 1
             addSubview(button)

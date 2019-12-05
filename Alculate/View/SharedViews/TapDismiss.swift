@@ -29,9 +29,7 @@ class TapDismiss: UIView {
     //MARK: - Setup
     func setup() {
         backgroundColor = .clear
-
         addSubview(TapDismiss.dismiss)
-
         constraints()
     }
     

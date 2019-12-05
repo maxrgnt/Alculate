@@ -47,9 +47,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
     // Variables
     var maxLevel = 0
     var inputLevel = 0
-    var defaults = ["begin typing a name..","abv","size","price"]
+    var defaults = Constants.TextEntry.defaults
     var output: [String] = []
-    var sizeUnit = "oz"
+    var sizeUnit = Constants.TextEntry.defaultSizeUnit
     var entryType = ""
     var suggestedName = ""
     var oldComparison: (name: String, abv: String, size: String, price: String) = (name: "", abv: "", size: "", price: "")
@@ -73,9 +73,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.TextEntry.radii)
         layer.borderWidth = UI.Sizing.TextEntry.border
         layer.borderColor = UI.Color.lightAccent.cgColor
-        
         objectSettings()
-
         constraints()
     }
     

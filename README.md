@@ -9,7 +9,7 @@ After months of developing a robust BAC% tracker it was determined Alculate's BA
 
 The final iteration of Alculate focuses on converting various forms of alcohol a user may encounter into digestible shot-based metrics by discerning the "Highest Value" and "Most Effective" forms of alcohol.
 
-App design / color scheme iterations developed with [Gianluca Capraro](https://github.com/gmcapra) through [Toggle](https://www.toggle.llc/)
+Layout / color scheme iterations developed with [Gianluca Capraro](https://github.com/gmcapra) through [Toggle](https://www.toggle.llc/)
 
 ## Seasons come and go.. Thankfully, so did previous designs
 ![DesignChanges](https://github.com/maxrgnt/Alculate/blob/master/DesignChanges.png)

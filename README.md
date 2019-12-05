@@ -7,7 +7,7 @@ Alculate started as a tool to determine and compare the various types of alcohol
 
 After months of developing a robust BAC% tracker it was determined Alculate's BAC% estimation feature lacked the appropriate validation associated with hardware-based medical analysis despite the use of Widmark's formula in forensic alcohol analysis.
 
-Thus, the final iteration of Alculate focuses on converting various forms of alcohol a user may encounter into digestible "shot" based metrics by discerning the "Highest Value" (per shot) and "Most Effective" (shots) forms of alcohol.
+The final iteration of Alculate focuses on converting various forms of alcohol a user may encounter into digestible shot-based metrics by discerning the "Highest Value" and "Most Effective" forms of alcohol.
 
 ## Seasons come and go.. Thankfully, so did previous designs
 ![DesignChanges](https://github.com/maxrgnt/Alculate/blob/master/DesignChanges.png)

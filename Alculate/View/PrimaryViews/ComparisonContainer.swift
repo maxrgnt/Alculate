@@ -39,9 +39,7 @@ class ComparisonContainer: UIScrollView {
         layer.borderColor = UI.Color.Comparison.border.cgColor
         layer.borderWidth = UI.Sizing.Comparison.border
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.Comparison.radii)
-        
         addObjectsToView()
-        
         constraints()
     }
     

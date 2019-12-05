@@ -58,7 +58,7 @@ class ComparisonScroll: UIScrollView {
         addSubview(empty)
         empty.backgroundColor = .clear
         empty.textColor = UI.Color.Comparison.border
-        empty.text = "Add a drink above!"
+        empty.text = Constants.Scroll.empty
         empty.font = UI.Font.Comparison.empty
         empty.textAlignment = .center
         

@@ -36,11 +36,11 @@ class Header: UIView {
         roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Header.radii)
         appNameSettings()
         value.setup(to: "left")
-        value.category.text = "Highest Value"
-        value.statUnit.text = "per shot"
+        value.category.text = Constants.Header.valueCategory
+        value.statUnit.text = Constants.Header.valueUnit
         effect.setup(to: "right")
-        effect.category.text = "Most Effective"
-        effect.statUnit.text = "shots"
+        effect.category.text = Constants.Header.effectCategory
+        effect.statUnit.text = Constants.Header.effectUnit
         constraints()
     }
     
@@ -62,7 +62,7 @@ class Header: UIView {
         appName.textColor = UI.Color.Header.font
         appName.font = UI.Font.Header.appName
         appName.textAlignment = .center
-        appName.text = "Alculate"
+        appName.text = Constants.Header.appName
     }
     
 }

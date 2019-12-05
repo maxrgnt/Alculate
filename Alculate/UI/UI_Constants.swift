@@ -20,6 +20,32 @@ struct Constants {
     static let valueUnit = "per shot"
     static let effectUnit = "shots"
     
+    static let drinkLibraryHeader = "Drink Library"
+    
+    struct Header {
+        static let appName = "Alculate"
+        static let valueCategory = "Highest Value"
+        static let valueUnit = "per shot"
+        static let effectCategory = "Most Effective"
+        static let effectUnit = "shots"
+    }
+    
+    struct Scroll {
+        static let empty = "Add a drink above!"
+    }
+    
+    struct Total {
+        static let main = "Total:"
+        static let spentUnit = "spent"
+        static let shotUnit = "shots"
+    }
+    
+    struct Container {
+        static let beerHeader = "Beer"
+        static let liquorHeader = "Liquor"
+        static let wineHeader = "Wine"
+    }
+    
     struct TextEntry {
         static let defaults = ["begin typing a name..","abv","size","price"]
         static let defaultSizeUnit = "oz"

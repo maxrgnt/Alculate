@@ -66,7 +66,7 @@ class ComparisonTotal: UIView {
     
     func totalSettings() {
         total.textAlignment = .left
-        total.text = "Total:"
+        total.text = Constants.Total.main
         total.font = UI.Font.Comparison.total
         total.textColor = UI.Color.Font.comparisonTotal
     }
@@ -79,7 +79,7 @@ class ComparisonTotal: UIView {
     
     func spentUnitSettings() {
         spentUnit.textAlignment = .right
-        spentUnit.text = "spent"
+        spentUnit.text = Constants.Total.spentUnit
         spentUnit.font = UI.Font.Comparison.totalUnit
         spentUnit.textColor = UI.Color.Font.comparisonTotal
     }
@@ -92,7 +92,7 @@ class ComparisonTotal: UIView {
     
     func shotUnitSettings() {
         shotUnit.textAlignment = .right
-        shotUnit.text = "shots"
+        shotUnit.text = Constants.Total.shotUnit
         shotUnit.font = UI.Font.Comparison.totalUnit
         shotUnit.textColor = UI.Color.Font.comparisonTotal
     }

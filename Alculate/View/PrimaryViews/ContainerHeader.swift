@@ -28,17 +28,13 @@ class ContainerHeader: UIView {
     
     //MARK: Setup
     func setup(forType id: String) {
-        
         var bgColor = (id == Data.beerListID) ? UI.Color.Background.beerHeader : nil
         bgColor = (id == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
         bgColor = (id == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
         backgroundColor = bgColor
-        
         typeSettings(forType: id)
         addSettings(forType: id)
-        
         addObjectsToView()
-        
         constraints()
     }
     
@@ -56,9 +52,9 @@ class ContainerHeader: UIView {
     
     //MARK: Settings
     func typeSettings(forType id: String) {
-        var typeFromID = (id == Data.beerListID) ? "Beer" : nil
-        typeFromID = (id == Data.liquorListID) ? "Liquor" : typeFromID
-        typeFromID = (id == Data.wineListID) ? "Wine" : typeFromID
+        var typeFromID = (id == Data.beerListID) ? Constants.Container.beerHeader : nil
+        typeFromID = (id == Data.liquorListID) ? Constants.Container.liquorHeader : typeFromID
+        typeFromID = (id == Data.wineListID) ? Constants.Container.wineHeader : typeFromID
         
         type.contentVerticalAlignment = .bottom
         type.contentHorizontalAlignment = .left

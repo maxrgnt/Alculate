@@ -36,6 +36,7 @@ struct Constants {
     }
     
     struct Constraint {
+        static let dismissSecondary: CGFloat = 0.7
         static let secondaryHidden: CGFloat = 0.0
         static let secondaryVisible: CGFloat = -UI.Sizing.Secondary.height
         static let undoOffScreen: CGFloat = 0.0

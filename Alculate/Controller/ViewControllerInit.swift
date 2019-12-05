@@ -177,6 +177,12 @@ extension ViewController {
         )
         return messageText
     }
+    
+    func displayAlert(alert : UIAlertController) {
+        // need to resign first responder for some reason to avoid keyboard from popping up
+        textEntry.field.resignFirstResponder()
+        present(alert, animated: true, completion: nil)
+    }
 
     func userHasAgreed(action:UIAlertAction) {
         // if the user agrees then the legal agreement will no longer show up

@@ -12,7 +12,7 @@ import UIKit
 protocol DrinkLibraryTableDelegate {
     func animateUndo(onScreen: Bool)
     func reloadTable(table: String, realculate: Bool)
-    func editSavedABV(name: String, abv: String, type: String)
+    func editDrinkLibrary(name: String, abv: String, type: String)
     func adjustHeaderBackground()
     func adjustHeaderConstant(to: CGFloat)
     func resetHeader()
@@ -101,7 +101,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         let name = nameList![indexPath.row]
         let abv = Data.masterList[name]!.abv
         let type = Data.masterList[name]!.type
-        self.customDelegate.editSavedABV(name: name, abv: abv, type: type)
+        self.customDelegate.editDrinkLibrary(name: name, abv: abv, type: type)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

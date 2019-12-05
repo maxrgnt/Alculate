@@ -22,17 +22,11 @@ extension TextEntry {
         // if not at end, hide done
         outputNotDefaults()
         // if at end finish
-//        DispatchQueue.main.async {
-//            (self.inputLevel > self.maxLevel && self.maxLevel != 1) ? self.updateComparisonTables() : nil
-//            (self.inputLevel > self.maxLevel) ? self.updateSavedABVTable() : nil
-//            (self.inputLevel > self.maxLevel) ? self.dismiss() : nil
-//        }
         let hapticFeedback = UINotificationFeedbackGenerator()
         (inputLevel > maxLevel) ? hapticFeedback.notificationOccurred(.success) : nil
         (inputLevel > maxLevel && maxLevel != 1) ? updateComparisonTables() : nil
         (inputLevel > maxLevel) ? updateSavedABVTable() : nil
         (inputLevel > maxLevel) ? dismiss() : nil
-        
         // set input for new level
         setComponents(forLevel: inputLevel)
     }
@@ -86,8 +80,8 @@ extension TextEntry {
         // if not at level 0 hide suggestion
         navigator.suggestionBottom.constant = UI.Sizing.Menu.height
         // if at level 2 (size) update the sizeUnits
-        inputs.oz.alpha = (sizeUnit=="oz"&&level==2) ? 1.0 : 0.5
-        inputs.ml.alpha = (sizeUnit=="ml"&&level==2) ? 1.0 : 0.5
+        inputs.oz.alpha = (sizeUnit == Constants.TextEntry.defaultSizeUnit && level == 2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit == Constants.TextEntry.otherSizeUnit && level == 2) ? 1.0 : 0.5
         for unit in [inputs.oz,inputs.ml] {
             unit.isHidden = (level != 2) ? true : false
         }
@@ -109,9 +103,9 @@ extension TextEntry {
     }
     
     @objc func setSizeUnit(sender: UIButton) {
-        sizeUnit = (sender.tag==3) ? "oz" : "ml"
-        inputs.oz.alpha = (sizeUnit=="oz"&&inputLevel==2) ? 1.0 : 0.5
-        inputs.ml.alpha = (sizeUnit=="ml"&&inputLevel==2) ? 1.0 : 0.5
+        sizeUnit = (sender.tag==3) ? Constants.TextEntry.defaultSizeUnit : Constants.TextEntry.otherSizeUnit
+        inputs.oz.alpha = (sizeUnit == Constants.TextEntry.defaultSizeUnit && inputLevel == 2) ? 1.0 : 0.5
+        inputs.ml.alpha = (sizeUnit == Constants.TextEntry.otherSizeUnit && inputLevel == 2) ? 1.0 : 0.5
     }
 
     func formatOutput(with changedText: String, atLevel level: Int) -> String {

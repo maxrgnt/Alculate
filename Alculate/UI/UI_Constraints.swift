@@ -404,6 +404,35 @@ extension DrinkLibrary {
     
 }
 
+extension DrinkLibraryCell {
+        
+    func iconConstraints() {
+        icon.translatesAutoresizingMaskIntoConstraints                                                              = false
+        icon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Sizing.DrinkLibrary.padding).isActive    = true
+        icon.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Icon.diameter).isActive                = true
+        icon.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Icon.diameter).isActive                 = true
+        icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive                                              = true
+    }
+    
+    func drinkNameConstraints() {
+        let x = UI.Sizing.DrinkLibrary.padding
+        drinkName.translatesAutoresizingMaskIntoConstraints                                                         = false
+        drinkName.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: x).isActive                      = true
+        drinkName.topAnchor.constraint(equalTo: topAnchor).isActive                                                 = true
+        drinkName.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.contentWidth).isActive         = true
+        drinkName.heightAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.headerHeight).isActive        = true
+    }
+    
+    func drinkInfoConstraints() {
+        let x = UI.Sizing.DrinkLibrary.padding
+        drinkInfo.translatesAutoresizingMaskIntoConstraints                                                         = false
+        drinkInfo.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: x).isActive                      = true
+        drinkInfo.topAnchor.constraint(equalTo: drinkName.bottomAnchor).isActive                                    = true
+        drinkInfo.widthAnchor.constraint(equalToConstant: UI.Sizing.DrinkLibrary.Row.contentWidth).isActive         = true
+        //drinkInfo.heightAnchor.constraint(equalToConstant: UI.Sizing.savedABVsubLineHeight)
+    }
+}
+
 //MARK: Undo
 extension Undo {
     

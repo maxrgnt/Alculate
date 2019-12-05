@@ -147,6 +147,7 @@ struct UI {
             static let height = bounds.height
             static let width = UI.Sizing.width
             static let radii = width/20
+            static let padding = objectPadding/2
             struct Header {
                 static let height = DrinkLibrary.height - statusBar.height - Table.height
                 static let width = widthObjectPadding

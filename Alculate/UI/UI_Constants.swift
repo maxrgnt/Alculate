@@ -14,7 +14,6 @@ struct Constants {
     static let menuButton = "Show Drink Library"
     static let valueUnit = "per shot"
     static let effectUnit = "shots"
-    
     static let drinkLibraryHeader = "Drink Library"
     
     struct UserAgreement {

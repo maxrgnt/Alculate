@@ -1,5 +1,5 @@
 # Alculate
-## Alculate is the only iOS app that helps you buzz smarter.
+## The only iOS app that helps you buzz smarter.
 
 ## Origin
 Alculate started as an to determine and compare the various types of alcohol types/sizes found in stores and restaurants. From there a BAC estimator tool was developed using the [Widmark formula](https://www.google.com/search?q=widmark+formula&oq=widmark+formula&aqs=chrome.0.0l8.3298j0j7&sourceid=chrome&ie=UTF-8).

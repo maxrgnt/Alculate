@@ -12,4 +12,4 @@ The final iteration of Alculate focuses on converting various forms of alcohol a
 ## Seasons come and go.. Thankfully, so did previous designs
 ![DesignChanges](https://github.com/maxrgnt/Alculate/blob/master/DesignChanges.png)
 
-App design / color schemes iterated over in conjunction with [Gianluca Capraro](https://github.com/gmcapra) through [Toggle](https://www.toggle.llc/)
+App design / color schemes iterated over with [Gianluca Capraro](https://github.com/gmcapra) through [Toggle](https://www.toggle.llc/)

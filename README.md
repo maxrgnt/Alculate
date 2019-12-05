@@ -7,5 +7,4 @@ After months of developing a robust BAC% tracker it was determined Alculate's BA
 Thus, the final iteration of Alculate focuses on converting various forms of alcohol a user may encounter into digestible "shot" based metrics by discerning the "Highest Value" (per shot) and "Most Effective" (shots) forms of alcohol.
 
 ## Seasons come and go.. Thankfull so did previous designs
-Design
 ![DesignChanges](https://github.com/maxrgnt/Alculate/blob/master/DesignChanges.png)

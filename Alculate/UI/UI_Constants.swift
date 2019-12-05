@@ -11,16 +11,19 @@ import UIKit
 
 struct Constants {
     
-    static let userAgreementTitle   = "User Agreement"
-    static let userAgreementMessage = """
-                                    \nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.
-                                    """
-    
     static let menuButton = "Show Drink Library"
     static let valueUnit = "per shot"
     static let effectUnit = "shots"
     
     static let drinkLibraryHeader = "Drink Library"
+    
+    struct UserAgreement {
+        static let title = "User Agreement"
+        static let message = """
+                             \nBy using Alculate the user certifies they are of legal drinking age and will consume alcohol responsibly.\n\nThe user certifies they will never drink and drive or use the alcohol effect metric (converting drinks into shots) to determine one's ability to drive.\n\nAlculate will never save any information stored within the app. Data is stored locally on this device.
+                             """
+        static let action = "Agree"
+    }
     
     struct Header {
         static let appName = "Alculate"
@@ -41,15 +44,23 @@ struct Constants {
     }
     
     struct Container {
+        static let add = "+"
         static let beerHeader = "Beer"
         static let liquorHeader = "Liquor"
         static let wineHeader = "Wine"
     }
     
     struct TextEntry {
+        static let titles = ["begin typing a name..","abv","size","oz","ml","price"]
         static let defaults = ["begin typing a name..","abv","size","price"]
         static let defaultSizeUnit = "oz"
         static let otherSizeUnit = "ml"
+        static let navigators = ["back","next","done"]
+    }
+    
+    struct Undo {
+        static let confirm = "Undo"
+        static let cancel = "X"
     }
     
     struct Key {
@@ -59,6 +70,12 @@ struct Constants {
         static let keyboardHeight = "keyboardHeight"
         static let keyboardAnimateDuration = "keyboardAnimateDuration"
         static let keyboardAnimateCurve = "keyboardAnimateCurve"
+        static let attributedMessage = "attributedMessage"
+    }
+    
+    struct CellIdentifiers {
+        static let drinkLibraryCell = "DrinkLibraryCell"
+        static let containerCell = "ContainerCell"
     }
     
     struct MoveTo {

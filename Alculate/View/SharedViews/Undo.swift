@@ -15,7 +15,7 @@ class Undo: UIView {
     var top: NSLayoutConstraint!
     // Objects
     let confirm = UIButton()
-    let cancel = UIButton()
+    let cancel  = UIButton()
         
     //MARK: Initialization
     init() {
@@ -29,7 +29,7 @@ class Undo: UIView {
     
     //MARK: Setup
     func setup() {
-        clipsToBounds = true
+        clipsToBounds   = true
         backgroundColor = UI.Color.Undo.background
         roundCorners(corners: [.topLeft,.topRight], radius: UI.Sizing.Header.radii)
         objectSettings()
@@ -38,7 +38,7 @@ class Undo: UIView {
     
     //MARK: Object Settings
     func objectSettings() {
-        let buttonText = ["Undo", "X"]
+        let buttonText = [Constants.Undo.confirm, Constants.Undo.cancel]
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center, .center]
         for (i,button) in [confirm,cancel].enumerated() {
             button.tag = i

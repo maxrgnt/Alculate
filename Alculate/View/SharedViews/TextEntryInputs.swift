@@ -12,12 +12,12 @@ class TextEntryInputs: UIView {
 
     //MARK: Definitions
     // Objects
-    let icon = UIImageView()
-    let name = UIButton()
-    let abv = UIButton()
-    let size = UIButton()
-    let oz = UIButton()
-    let ml = UIButton()
+    let icon  = UIImageView()
+    let name  = UIButton()
+    let abv   = UIButton()
+    let size  = UIButton()
+    let oz    = UIButton()
+    let ml    = UIButton()
     let price = UIButton()
     var fields: [UIButton] = []
 
@@ -42,15 +42,15 @@ class TextEntryInputs: UIView {
     //MARK: Object Settings
     func objectSettings() {
         addSubview(icon)
-        let titles = ["begin typing a name","abv","size","oz","ml","price"]
+        let titles = Constants.TextEntry.titles
         for (i,field) in [name,abv,size,oz,ml,price].enumerated() {
-            field.tag = (i>4) ? i-2 : i
-            field.alpha = 0.5
+            field.tag      = (i>4) ? i-2 : i
+            field.alpha    = 0.5
             field.isHidden = (i>2&&i<5) ? true : false
             (i<3||i>4) ? fields.append(field) : nil
             addSubview(field)
             field.setTitle(titles[i], for: .normal)
-            field.backgroundColor = .clear
+            field.backgroundColor  = .clear
             field.titleLabel?.font = UI.Font.TextEntry.field
             field.contentHorizontalAlignment = (i<3||i>4) ? .left : .center
             field.setTitleColor(UI.Color.Font.standard, for: .normal)

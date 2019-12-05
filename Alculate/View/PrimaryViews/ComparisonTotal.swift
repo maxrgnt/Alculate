@@ -15,11 +15,11 @@ class ComparisonTotal: UIView {
     // Constraints
     var height: NSLayoutConstraint!
     // Objects
-    let total = UILabel()
-    let spent = UILabel()
+    let total     = UILabel()
+    let spent     = UILabel()
     let spentUnit = UILabel()
-    let shots = UILabel()
-    let shotUnit = UILabel()
+    let shots     = UILabel()
+    let shotUnit  = UILabel()
     
     //MARK: Initialization
     init() {
@@ -66,35 +66,35 @@ class ComparisonTotal: UIView {
     
     func totalSettings() {
         total.textAlignment = .left
-        total.text = Constants.Total.main
-        total.font = UI.Font.Comparison.total
-        total.textColor = UI.Color.Font.comparisonTotal
+        total.text          = Constants.Total.main
+        total.font          = UI.Font.Comparison.total
+        total.textColor     = UI.Color.Font.comparisonTotal
     }
     
     func spentSettings() {
         spent.textAlignment = .right
-        spent.font = UI.Font.Comparison.totalStat
-        spent.textColor = UI.Color.Font.comparisonTotal
+        spent.font          = UI.Font.Comparison.totalStat
+        spent.textColor     = UI.Color.Font.comparisonTotal
     }
     
     func spentUnitSettings() {
         spentUnit.textAlignment = .right
-        spentUnit.text = Constants.Total.spentUnit
-        spentUnit.font = UI.Font.Comparison.totalUnit
-        spentUnit.textColor = UI.Color.Font.comparisonTotal
+        spentUnit.text          = Constants.Total.spentUnit
+        spentUnit.font          = UI.Font.Comparison.totalUnit
+        spentUnit.textColor     = UI.Color.Font.comparisonTotal
     }
     
     func shotsSettings() {
         shots.textAlignment = .right
-        shots.font = UI.Font.Comparison.totalStat
-        shots.textColor = UI.Color.Font.comparisonTotal
+        shots.font          = UI.Font.Comparison.totalStat
+        shots.textColor     = UI.Color.Font.comparisonTotal
     }
     
     func shotUnitSettings() {
         shotUnit.textAlignment = .right
-        shotUnit.text = Constants.Total.shotUnit
-        shotUnit.font = UI.Font.Comparison.totalUnit
-        shotUnit.textColor = UI.Color.Font.comparisonTotal
+        shotUnit.text          = Constants.Total.shotUnit
+        shotUnit.font          = UI.Font.Comparison.totalUnit
+        shotUnit.textColor     = UI.Color.Font.comparisonTotal
     }
     
 }

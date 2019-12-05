@@ -14,10 +14,10 @@ class ComparisonContainer: UIScrollView {
     //MARK: Definitions
     // Constraints
     var height: NSLayoutConstraint!
-    var top: NSLayoutConstraint!
+    var top:    NSLayoutConstraint!
     // Objects
     let header = ContainerHeader()
-    let table = ContainerTable()
+    let table  = ContainerTable()
     // Variables
     var type = ""
     
@@ -33,9 +33,9 @@ class ComparisonContainer: UIScrollView {
     
     //MARK: Setup
     func setup(forType id: String) {
-        type = id
-        clipsToBounds = true
-        backgroundColor = UI.Color.Comparison.background
+        type              = id
+        clipsToBounds     = true
+        backgroundColor   = UI.Color.Comparison.background
         layer.borderColor = UI.Color.Comparison.border.cgColor
         layer.borderWidth = UI.Sizing.Comparison.border
         roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: UI.Sizing.Comparison.radii)

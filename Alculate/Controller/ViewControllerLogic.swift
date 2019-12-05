@@ -77,14 +77,14 @@ extension ViewController {
             // Set temp variables for easier to read ternary operators
             let secondaryAtTop = -UI.Sizing.Secondary.height
             let currentRatio: CGFloat = secondaryTop.constant / secondaryAtTop
-            // "Ratio" meaning if more than 70% visible, keep on screen
-            let dismissRatio: CGFloat = 0.7
+            // "Ratio" meaning if more than 70% visible (dismissSecondary), keep on screen
+            let dismissRatio = Constants.Constraint.dismissSecondary
             (currentRatio >= dismissRatio)
                 ? moveDrinkLibrary(to: Constants.MoveTo.visible)
                 : moveDrinkLibrary(to: Constants.MoveTo.hidden)
             (currentRatio >= dismissRatio)
                 ? nil
-                : primary.moveMenu(to: "visible")
+                : primary.moveMenu(to: Constants.MoveTo.visible)
             // If moving view off screen, scroll table back to top
             (currentRatio >= dismissRatio)
                 ? nil
@@ -222,13 +222,13 @@ extension ViewController {
         // if topDrinks is not empty, compare them against themselves
         if !topDrinks.isEmpty {
             // make the summary views visible
-            primary.moveSummaryAnchor(to: "visible")
+            primary.moveSummaryAnchor(to: Constants.MoveTo.visible)
             let best = determineBest(from: topDrinks)
             updateSummary(value: best.value, effect: best.effect)
         }
         // if all lists are empty, dont alculate
         else {
-            primary.moveSummaryAnchor(to: "hidden")
+            primary.moveSummaryAnchor(to: Constants.MoveTo.hidden)
         }
     }
     
@@ -287,14 +287,14 @@ extension ViewController {
     func calculateEffect(for info: (name: String, abv: String, size: String, price: String)) -> Double {
         let sizeUnit = info.size.dropFirst(info.size.count-2)
         var correctedSize = Double(info.size.dropLast(2))!
-        correctedSize = sizeUnit == "ml" ? correctedSize/29.5735296875 : correctedSize
+        correctedSize = sizeUnit == Constants.TextEntry.otherSizeUnit ? correctedSize/29.5735296875 : correctedSize
         return ((Double(info.abv)!*0.01)*correctedSize)/0.6
     }
     
     func calculateValue(for info: (name: String, abv: String, size: String, price: String)) -> Double {
         let sizeUnit = info.size.dropFirst(info.size.count-2)
         var correctedSize = Double(info.size.dropLast(2))!
-        correctedSize = sizeUnit == "ml" ? correctedSize/29.5735296875 : correctedSize
+        correctedSize = sizeUnit == Constants.TextEntry.otherSizeUnit ? correctedSize/29.5735296875 : correctedSize
         let price = Double(info.price)! >= 0 ? Double(info.price)! : 1
         return price/(((Double(info.abv)!*0.01)*correctedSize)/0.6)
     }
@@ -321,7 +321,7 @@ extension ViewController {
                 let size = info.size.dropLast(2)
                 var correctedSize = Double(size)!
                 // if unitForSize is ml, need to convert to oz for calculations
-                if sizeUnit == "ml" {
+                if sizeUnit == Constants.TextEntry.otherSizeUnit {
                     // convert ml size to ounces using ratio of ml per oz
                     correctedSize = correctedSize/29.5735296875
                 }

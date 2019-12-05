@@ -429,11 +429,11 @@ extension Undo {
 extension TapDismiss {
     
     func tapDismissConstraints() {
-        TapDismiss.dismiss.translatesAutoresizingMaskIntoConstraints                                                = false
-        TapDismiss.dismiss.widthAnchor.constraint(equalTo: widthAnchor).isActive                                    = true
-        TapDismiss.dismiss.heightAnchor.constraint(equalTo: heightAnchor).isActive                                  = true
-        TapDismiss.dismiss.leadingAnchor.constraint(equalTo: leadingAnchor).isActive                                = true
-        TapDismiss.dismiss.topAnchor.constraint(equalTo: topAnchor).isActive                                        = true
+        TapDismiss.daniela.translatesAutoresizingMaskIntoConstraints                                                = false
+        TapDismiss.daniela.widthAnchor.constraint(equalTo: widthAnchor).isActive                                    = true
+        TapDismiss.daniela.heightAnchor.constraint(equalTo: heightAnchor).isActive                                  = true
+        TapDismiss.daniela.leadingAnchor.constraint(equalTo: leadingAnchor).isActive                                = true
+        TapDismiss.daniela.topAnchor.constraint(equalTo: topAnchor).isActive                                        = true
     }
     
 }

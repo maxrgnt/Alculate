@@ -15,17 +15,22 @@ import UIKit
 
 extension UI {
     
-    //MARK: Color
     struct Color {
-        
-        // Update these variables with new color variables
+    
+        //MARK: Update Here
+        /****************************************************************/
+        // Update these variables with new color variables to alter UI
         static let darkestAccent = cello
         static let darkestAccentRGB = [61,75,96] // RGB for darkestAccent
         static let darkAccent = blackCoral
         static let darkAccentRGB = [79,98,114] // RGB for darkAccent
         static let lightAccent = cadetGrey
         static let fontColor = whiteSmoke
+        static let undoBg = begonia
+        /****************************************************************/
         
+        
+        //MARK: Previously Used Colors
         // #0D1F2D
         static let darkGunmetal = UIColor(displayP3Red: 13/255, green: 31/255, blue: 45/255, alpha: 1.0)
         // #404E5C
@@ -70,7 +75,8 @@ extension UI {
         static let cello = UIColor(displayP3Red: 61/255, green: 75/255, blue: 96/255, alpha: 1.0)
         // #f4f4f4
         static let whiteSmoke = UIColor(displayP3Red: 244/255, green: 244/255, blue: 244/255, alpha: 1.0)
-                
+               
+        //MARK: Defined Colors Set here
         struct Border {
             static let comparison = darkestAccent
             static let comparisonCell = darkAccent
@@ -131,7 +137,7 @@ extension UI {
         }
         
         struct Undo {
-            static let background = begonia
+            static let background = undoBg
         }
         
     }

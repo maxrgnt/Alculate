@@ -12,10 +12,10 @@ class ContainerCell: UITableViewCell {
   
     //MARK: Definitions
     // Objects
-    let name = UILabel()
-    let value = UILabel()
-    let valueUnit = UILabel()
-    let effect = UILabel()
+    let name       = UILabel()
+    let value      = UILabel()
+    let valueUnit  = UILabel()
+    let effect     = UILabel()
     let effectUnit = UILabel()
     // Variables
     var needsConstraints = true
@@ -23,7 +23,7 @@ class ContainerCell: UITableViewCell {
     //MARK: Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // Initialize views frame prior to setting constraints
-        super.init(style: style, reuseIdentifier: "ContainerCell")
+        super.init(style: style, reuseIdentifier: Constants.CellIdentifiers.containerCell)
         setup()
     }
     
@@ -33,7 +33,7 @@ class ContainerCell: UITableViewCell {
     
     //MARK: Setup
     func setup() {
-        selectionStyle = .none
+        selectionStyle  = .none
         backgroundColor = .clear
         borderSettings()
         nameSettings()
@@ -61,37 +61,37 @@ class ContainerCell: UITableViewCell {
     
     //MARK: Settings
     func borderSettings() {
-        let border = CALayer()
+        let border             = CALayer()
         border.backgroundColor = UI.Color.Border.comparisonCell.cgColor
-        let borderHeight = UI.Sizing.Comparison.separator
-        let rowHeight = UI.Sizing.Comparison.Row.height
-        let rowWidth = UI.Sizing.Comparison.Scroll.width
-        let leadingAnchor = UI.Sizing.Comparison.border
+        let borderHeight       = UI.Sizing.Comparison.separator
+        let rowHeight          = UI.Sizing.Comparison.Row.height
+        let rowWidth           = UI.Sizing.Comparison.Scroll.width
+        let leadingAnchor      = UI.Sizing.Comparison.border
         border.frame = CGRect(x: leadingAnchor, y: rowHeight - borderHeight, width: rowWidth - leadingAnchor, height: borderHeight)
         contentView.layer.addSublayer(border)
     }
     
     func nameSettings() {
-        name.textColor = UI.Color.Font.comparisonCell
+        name.textColor     = UI.Color.Font.comparisonCell
         name.textAlignment = .left
-        name.font = UI.Font.Comparison.row
+        name.font          = UI.Font.Comparison.row
     }
     
     func valueEffectSettings() {
         for obj in [value,effect] {
-            obj.textColor = UI.Color.Font.comparisonCell
+            obj.textColor     = UI.Color.Font.comparisonCell
             obj.textAlignment = .right
-            obj.font = UI.Font.Comparison.row
+            obj.font          = UI.Font.Comparison.row
         }
     }
     
     func unitSettings() {
         for obj in [valueUnit,effectUnit] {
-            obj.textColor = UI.Color.Font.comparisonCell
+            obj.textColor     = UI.Color.Font.comparisonCell
             obj.textAlignment = .right
-            obj.font = UI.Font.Comparison.rowUnit
+            obj.font          = UI.Font.Comparison.rowUnit
         }
-        valueUnit.text = Constants.valueUnit
+        valueUnit.text  = Constants.valueUnit
         effectUnit.text = Constants.effectUnit
     }
     
@@ -112,11 +112,11 @@ class ContainerCell: UITableViewCell {
         // calculate the effectiveness
         let abvAsDecimal = (0.01)*Double(info.abv)!
         let standardShot = (0.4 /*ABV*/ * 1.5 /*oz*/) // = 0.6
-        let calcEffect = (abvAsDecimal*correctedSize)/standardShot
+        let calcEffect   = (abvAsDecimal*correctedSize)/standardShot
         // calculate the value
         let calcValue = Double(info.price)!/calcEffect
-        value.text = "$"+String(format: "%.2f", calcValue)
-        effect.text = String(format: "%.1f", calcEffect)
+        value.text    = "$"+String(format: "%.2f", calcValue)
+        effect.text   = String(format: "%.1f", calcEffect)
     }
         
 }

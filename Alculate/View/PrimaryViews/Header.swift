@@ -15,9 +15,9 @@ class Header: UIView {
     var height: NSLayoutConstraint!
     // Objects
     let statusBar = StatusBar()
-    let appName = UILabel()
-    let value = SummaryCell()
-    let effect = SummaryCell()
+    let appName   = UILabel()
+    let value     = SummaryCell()
+    let effect    = SummaryCell()
     
     //MARK: Initialization
     init() {
@@ -36,9 +36,9 @@ class Header: UIView {
         roundCorners(corners: [.bottomLeft,.bottomRight], radius: UI.Sizing.Header.radii)
         appNameSettings()
         value.setup(to: "left")
-        value.category.text = Constants.Header.valueCategory
-        value.statUnit.text = Constants.Header.valueUnit
         effect.setup(to: "right")
+        value.category.text  = Constants.Header.valueCategory
+        value.statUnit.text  = Constants.Header.valueUnit
         effect.category.text = Constants.Header.effectCategory
         effect.statUnit.text = Constants.Header.effectUnit
         constraints()
@@ -59,10 +59,10 @@ class Header: UIView {
     
     func appNameSettings() {
         appName.backgroundColor = backgroundColor
-        appName.textColor = UI.Color.Header.font
-        appName.font = UI.Font.Header.appName
-        appName.textAlignment = .center
-        appName.text = Constants.Header.appName
+        appName.textColor       = UI.Color.Header.font
+        appName.font            = UI.Font.Header.appName
+        appName.textAlignment   = .center
+        appName.text            = Constants.Header.appName
     }
     
 }

@@ -14,7 +14,7 @@ class TapDismiss: UIView {
     // Constraints
     static var dismissTop: NSLayoutConstraint!
     // Objects
-    static let dismiss = UIButton()
+    static let daniela = UIButton()
     
     //MARK: - Initialization
     init() {
@@ -29,7 +29,7 @@ class TapDismiss: UIView {
     //MARK: - Setup
     func setup() {
         backgroundColor = .clear
-        addSubview(TapDismiss.dismiss)
+        addSubview(TapDismiss.daniela)
         constraints()
     }
     

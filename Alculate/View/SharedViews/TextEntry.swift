@@ -98,9 +98,9 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         vibrancyView.contentView.addSubview(navigator)
         navigator.setup()
         navigator.suggestion.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
-        navigator.backward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
-        navigator.forward.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
-        navigator.done.addTarget(self, action: #selector(changeInputLevel), for: .touchUpInside)
+        navigator.backward.addTarget(  self, action: #selector(changeInputLevel), for: .touchUpInside)
+        navigator.forward.addTarget(   self, action: #selector(changeInputLevel), for: .touchUpInside)
+        navigator.done.addTarget(      self, action: #selector(changeInputLevel), for: .touchUpInside)
         addSubview(inputs)
         for fields in [inputs.name, inputs.abv, inputs.size, inputs.price] {
             fields.addTarget(self, action: #selector(jumpToLevel), for: .touchUpInside)
@@ -108,7 +108,7 @@ class TextEntry: UIView, UITextFieldDelegate, TextFieldDelegate {
         inputs.oz.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.ml.addTarget(self, action: #selector(setSizeUnit), for: .touchUpInside)
         inputs.setup()
-        TapDismiss.dismiss.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        TapDismiss.daniela.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
     }
     
     //MARK: Constraints

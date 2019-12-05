@@ -19,7 +19,7 @@ class DrinkLibraryCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         // MARK: - View/Object Settings
         // Initialize views frame prior to setting constraints
-        super.init(style: style, reuseIdentifier: "DrinkLibraryCell")
+        super.init(style: style, reuseIdentifier: Constants.CellIdentifiers.drinkLibraryCell)
         // Miscelaneous view settings
         selectionStyle = .none
         backgroundColor = .clear

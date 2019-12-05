@@ -20,7 +20,7 @@ extension ViewController {
     
     //MARK: Long Drink Name Logic
     func animateLongDrinkNames(to state: String) {
-        (state == "moving") ? willEnterForeground() : endLongDrinkNameAnimations()
+        (state == Constants.Animate.moving) ? willEnterForeground() : endLongDrinkNameAnimations()
     }
     
     func endLongDrinkNameAnimations() {

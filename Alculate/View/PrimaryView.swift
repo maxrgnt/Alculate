@@ -50,8 +50,8 @@ class PrimaryView: UIView {
     
     //MARK: Animations
     func moveSummaryAnchor (to state: String) {
-        let headerHeight: CGFloat = (state == "hidden") ? UI.Sizing.Header.heightMinimized : UI.Sizing.Header.height
-        let summaryTop: CGFloat = (state == "hidden") ? -UI.Sizing.Summary.height : 0.0
+        let headerHeight: CGFloat = (state == Constants.MoveTo.hidden) ? UI.Sizing.Header.heightMinimized : UI.Sizing.Header.height
+        let summaryTop: CGFloat = (state == Constants.MoveTo.hidden) ? -UI.Sizing.Summary.height : 0.0
         if header.height != nil {
             UIView.animate(withDuration: 1.0, delay: 0, options: .curveEaseInOut
                 , animations: ({
@@ -60,7 +60,7 @@ class PrimaryView: UIView {
                     self.header.effect.top.constant = summaryTop
                     self.layoutIfNeeded()
                 }), completion: { (completed) in
-                    if state == "visible" {
+                    if state == Constants.MoveTo.visible {
                         self.header.value.calculateNameWidth()
                         self.header.effect.calculateNameWidth()
                     }
@@ -70,7 +70,7 @@ class PrimaryView: UIView {
     }
     
     func moveMenu (to state: String) {
-        let newBottom: CGFloat = (state == "hidden") ? UI.Sizing.Menu.height : 0.0
+        let newBottom: CGFloat = (state == Constants.MoveTo.hidden) ? UI.Sizing.Menu.height : 0.0
         if menu.bottom != nil {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut
                 , animations: ({

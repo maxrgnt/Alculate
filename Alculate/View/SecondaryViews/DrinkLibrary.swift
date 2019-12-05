@@ -19,7 +19,7 @@ class DrinkLibrary: UIView {
     var delegate : DrinkLibraryDelegate!
     // Objects
     let header = UILabel()
-    var table = DrinkLibraryTable()
+    var table  = DrinkLibraryTable()
     
     //MARK: Initialization
     init() {
@@ -33,7 +33,7 @@ class DrinkLibrary: UIView {
     
     //MARK: - Setup
     func setup() {
-        clipsToBounds = true
+        clipsToBounds   = true
         backgroundColor = .clear
         headerSettings()
         addObjectsToView()
@@ -42,11 +42,11 @@ class DrinkLibrary: UIView {
     
     func headerSettings() {
         addSubview(header)
-        header.backgroundColor = backgroundColor
-        header.font = UI.Font.DrinkLibrary.header
-        header.textColor = UI.Color.Font.standard
-        header.textAlignment = .left
-        header.text = Constants.drinkLibraryHeader
+        header.backgroundColor          = backgroundColor
+        header.font                     = UI.Font.DrinkLibrary.header
+        header.textColor                = UI.Color.Font.standard
+        header.textAlignment            = .left
+        header.text                     = Constants.drinkLibraryHeader
         header.isUserInteractionEnabled = true
     }
     

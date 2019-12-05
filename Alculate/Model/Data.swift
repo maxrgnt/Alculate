@@ -85,7 +85,7 @@ struct Data {
     }
     
     //MARK: Text File
-    static func txtFile() {
+    static func pullCSVfileIntoCoreData() {
         let path = Bundle.main.path(forResource: "alcohol", ofType: "csv")
         let filemgr = FileManager.default
         if filemgr.fileExists(atPath: path!) {
@@ -93,7 +93,7 @@ struct Data {
                 let fullText = try String(contentsOfFile: path!, encoding: .ascii)
                 let readings = fullText.components(separatedBy: "\n") as [String]
                 let size = readings.count
-                print("- trying to pull .txt -")
+                print("- trying to pull .csv -")
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
                 let managedContext = appDelegate.persistentContainer.viewContext
                 let entity = NSEntityDescription.entity(forEntityName: "Alcohol", in: managedContext)!

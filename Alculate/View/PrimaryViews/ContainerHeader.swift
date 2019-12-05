@@ -28,9 +28,9 @@ class ContainerHeader: UIView {
     
     //MARK: Setup
     func setup(forType id: String) {
-        var bgColor = (id == Data.beerListID) ? UI.Color.Background.beerHeader : nil
-        bgColor = (id == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
-        bgColor = (id == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
+        var bgColor = (id == Data.beerListID)   ? UI.Color.Background.beerHeader   : nil
+        bgColor     = (id == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
+        bgColor     = (id == Data.wineListID)   ? UI.Color.Background.wineHeader   : bgColor
         backgroundColor = bgColor
         typeSettings(forType: id)
         addSettings(forType: id)
@@ -52,11 +52,11 @@ class ContainerHeader: UIView {
     
     //MARK: Settings
     func typeSettings(forType id: String) {
-        var typeFromID = (id == Data.beerListID) ? Constants.Container.beerHeader : nil
-        typeFromID = (id == Data.liquorListID) ? Constants.Container.liquorHeader : typeFromID
-        typeFromID = (id == Data.wineListID) ? Constants.Container.wineHeader : typeFromID
+        var typeFromID = (id == Data.beerListID)   ? Constants.Container.beerHeader   : nil
+        typeFromID     = (id == Data.liquorListID) ? Constants.Container.liquorHeader : typeFromID
+        typeFromID     = (id == Data.wineListID)   ? Constants.Container.wineHeader   : typeFromID
         
-        type.contentVerticalAlignment = .bottom
+        type.contentVerticalAlignment   = .bottom
         type.contentHorizontalAlignment = .left
         type.setTitle(typeFromID, for: .normal)
         type.titleLabel?.font = UI.Font.Comparison.type!
@@ -64,14 +64,14 @@ class ContainerHeader: UIView {
     }
     
     func addSettings(forType id: String) {
-        var tagFromID = (id == Data.beerListID) ? 20 : nil
-        tagFromID = (id == Data.liquorListID) ? 21 : tagFromID
-        tagFromID = (id == Data.wineListID) ? 22 : tagFromID
+        var tagFromID = (id == Data.beerListID)   ? 20 : nil
+        tagFromID     = (id == Data.liquorListID) ? 21 : tagFromID
+        tagFromID     = (id == Data.wineListID)   ? 22 : tagFromID
         
-        add.tag = tagFromID!
-        add.contentVerticalAlignment = .center
+        add.tag                        = tagFromID!
+        add.contentVerticalAlignment   = .center
         add.contentHorizontalAlignment = .right
-        add.setTitle("+", for: .normal)
+        add.setTitle(Constants.Container.add, for: .normal)
         add.titleLabel?.font = UI.Font.Comparison.add!
         add.setTitleColor(UI.Color.Font.standard, for: .normal)
     }

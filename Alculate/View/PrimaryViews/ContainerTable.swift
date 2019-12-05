@@ -25,7 +25,7 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     var height: NSLayoutConstraint!
     // Variables
     var toBeDeleted: [(name: String, abv: String, size: String, price: String)] = []
-    var type = ""
+    var type       = ""
     var willDelete = false
     
     //MARK: Initialization
@@ -40,27 +40,25 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: Setup
     func setup(forType id: String) {
-        
-        type = id
-        backgroundColor = .clear
-        register(ContainerCell.self, forCellReuseIdentifier: "ContainerCell")
-        delegate = self
-        dataSource = self
-        tableHeaderView = nil
-        separatorStyle = .none
-        isScrollEnabled = false
+        register(ContainerCell.self, forCellReuseIdentifier: Constants.CellIdentifiers.containerCell)
+        type                         = id
+        backgroundColor              = .clear
+        delegate                     = self
+        dataSource                   = self
+        tableHeaderView              = nil
+        separatorStyle               = .none
+        isScrollEnabled              = false
         showsVerticalScrollIndicator = false
-    
     }
     
     // MARK: TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ContainerCell = tableView.dequeueReusableCell(withIdentifier: "ContainerCell") as! ContainerCell
+        let cell: ContainerCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifiers.containerCell) as! ContainerCell
         if listForThisTable().count == 0 {
-//            cell.name.text = "Add a drink!"
-//            for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
-//                obj.isHidden = true
-//            }
+            //cell.name.text = "Add a drink!"
+            //for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
+            //    obj.isHidden = true
+            //}
         }
         else {
             for obj in [cell.effect,cell.effectUnit,cell.value,cell.valueUnit] {
@@ -75,8 +73,8 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if listForThisTable().count == 0 {return 1}
-//        else {return listForThisTable().count}
+        //if listForThisTable().count == 0 {return 1}
+        //else {return listForThisTable().count}
         return listForThisTable().count
     }
     
@@ -85,10 +83,10 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let list = listForThisTable()
-        let name = list[indexPath.row].name
-        let abv = list[indexPath.row].abv
-        let size = list[indexPath.row].size
+        let list  = listForThisTable()
+        let name  = list[indexPath.row].name
+        let abv   = list[indexPath.row].abv
+        let size  = list[indexPath.row].size
         let price = list[indexPath.row].price
         self.customDelegate.editComparison(type: type, name: name, abv: abv, size: size, price: price)
     }
@@ -107,9 +105,9 @@ class ContainerTable: UITableView, UITableViewDelegate, UITableViewDataSource {
             self.customDelegate.resetHeight(for: self.type)
         })
         
-        var bgColor = (type == Data.beerListID) ? UI.Color.Background.beerHeader : nil
-        bgColor = (type == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
-        bgColor = (type == Data.wineListID) ? UI.Color.Background.wineHeader : bgColor
+        var bgColor = (type == Data.beerListID)   ? UI.Color.Background.beerHeader   : nil
+        bgColor     = (type == Data.liquorListID) ? UI.Color.Background.liquorHeader : bgColor
+        bgColor     = (type == Data.wineListID)   ? UI.Color.Background.wineHeader   : bgColor
         
         DeleteAction.backgroundColor = bgColor
         return UISwipeActionsConfiguration(actions: [DeleteAction])

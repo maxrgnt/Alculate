@@ -25,7 +25,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     var customDelegate : DrinkLibraryTableDelegate!
     // Variables
     var toBeDeleted: [(name: String, abv: String, type: String)] = []
-    var isMoving = false
+    var isMoving   = false
     
     //MARK: - Initialization
     override init (frame: CGRect, style: UITableView.Style) {
@@ -41,22 +41,22 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     func setup() {
         
         backgroundColor = .clear //UI.Color.alculatePurpleLite
-        register(DrinkLibraryCell.self, forCellReuseIdentifier: "DrinkLibraryCell")
-        delegate = self
-        dataSource = self
-        tableHeaderView = nil
-        separatorStyle = .singleLine
-        separatorColor = .lightGray
-        alwaysBounceHorizontal = false
+        register(DrinkLibraryCell.self, forCellReuseIdentifier: Constants.CellIdentifiers.drinkLibraryCell)
+        delegate                     = self
+        dataSource                   = self
+        tableHeaderView              = nil
+        separatorStyle               = .singleLine
+        separatorColor               = .lightGray
+        alwaysBounceHorizontal       = false
         showsVerticalScrollIndicator = false
-        sectionIndexColor = UI.Color.Font.standard
-        sectionIndexBackgroundColor = UIColor.clear
+        sectionIndexColor            = UI.Color.Font.standard
+        sectionIndexBackgroundColor  = UIColor.clear
     
     }
     
     // MARK: TableView Delegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: "DrinkLibraryCell") as! DrinkLibraryCell
+        let cell: DrinkLibraryCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifiers.drinkLibraryCell) as! DrinkLibraryCell
         cell.setLabels(forCellAt: indexPath)
         // color = x * start_color + (x-1) * end_color
         let totalSections: CGFloat = CGFloat(tableView.numberOfSections) // CGFloat(Data.masterList.count)
@@ -64,7 +64,7 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
         let blah: CGFloat = section/totalSections // ((section*(section+1))/2)/totalSections
         let R: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[0]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[0]))
         let G: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[1]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[1]))
-        let B: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[2])) + (blah * CGFloat(UI.Color.Gradient.darkRGB[2]))
+        let B: CGFloat = ((1-blah) * CGFloat(UI.Color.Gradient.darkestRGB[2]))  + (blah * CGFloat(UI.Color.Gradient.darkRGB[2]))
         cell.setBackgroundColor(R: R, G: G, B: B)
         backgroundColor = UIColor(displayP3Red: R/255, green: G/255, blue: B/255, alpha: 1.0)
         return cell
@@ -89,10 +89,10 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let headerLetter = Data.headers[indexPath.section]
-        let nameList = Data.matrix[headerLetter]
-        let name = nameList![indexPath.row]
-        let abv = Data.masterList[name]!.abv
-        let type = Data.masterList[name]!.type
+        let nameList     = Data.matrix[headerLetter]
+        let name         = nameList![indexPath.row]
+        let abv          = Data.masterList[name]!.abv
+        let type         = Data.masterList[name]!.type
         self.customDelegate.editDrinkLibrary(name: name, abv: abv, type: type)
     }
     
@@ -103,10 +103,10 @@ class DrinkLibraryTable: UITableView, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let DeleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, success) in
             let headerLetter = Data.headers[indexPath.section]
-            let nameList = Data.matrix[headerLetter]
-            let name = nameList![indexPath.row]
-            let abv = Data.masterList[name]!.abv
-            let type = Data.masterList[name]!.type
+            let nameList     = Data.matrix[headerLetter]
+            let name         = nameList![indexPath.row]
+            let abv          = Data.masterList[name]!.abv
+            let type         = Data.masterList[name]!.type
             self.toBeDeleted.append((name: name, abv: abv, type: type))
             Data.isEditable = true // false
             // Checking for specific name / abv / type combo

@@ -12,20 +12,20 @@ class SummaryCell: UIView {
     
     //MARK: Definitions
     // Constraints
-    var top: NSLayoutConstraint!
-    var nameWidth: NSLayoutConstraint!
+    var top:         NSLayoutConstraint!
+    var nameWidth:   NSLayoutConstraint!
     var nameCenterX: NSLayoutConstraint!
     // Objects
     let category = UILabel()
-    let name = UILabel()
-    let stat = UILabel()
+    let name     = UILabel()
+    let stat     = UILabel()
     let statUnit = UILabel()
     var objects: [UILabel] = []
     // Variables
-    var centerOffset: CGFloat!
-    var calcFontWidth: CGFloat!
+    var centerOffset:   CGFloat!
+    var calcFontWidth:  CGFloat!
     var nameAnimating = false
-    var side: String!
+    var side:           String!
     
     //MARK: Initialization
     init() {
@@ -39,8 +39,8 @@ class SummaryCell: UIView {
     
     //MARK: Setup
     func setup(to side: String) {
-        self.side = side
-        objects = [category,name,stat,statUnit]
+        self.side     = side
+        objects       = [category,name,stat,statUnit]
         clipsToBounds = true
         
         addObjectsToView()
@@ -68,14 +68,14 @@ class SummaryCell: UIView {
     //MARK: Settings
     func objectSettings() {
         for label in objects {
-            label.alpha = 1.0
-            label.textColor = UI.Color.Header.font
+            label.alpha         = 1.0
+            label.textColor     = UI.Color.Header.font
             label.textAlignment = (side == "left") ? .left : .right
         }
-        category.font = UI.Font.Summary.category
-        name.font = UI.Font.Summary.name
-        stat.font = UI.Font.Summary.stat
-        statUnit.font = UI.Font.Summary.statUnit
+        category.font  = UI.Font.Summary.category
+        name.font      = UI.Font.Summary.name
+        stat.font      = UI.Font.Summary.stat
+        statUnit.font  = UI.Font.Summary.statUnit
         statUnit.alpha = 0.7
     }
     

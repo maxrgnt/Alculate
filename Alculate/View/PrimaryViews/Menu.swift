@@ -14,7 +14,7 @@ class Menu: UIView {
     // Constraints
     var bottom: NSLayoutConstraint!
     // Objects
-    let showDrinkLibrary = UIButton()
+    let showDrinkLibrary    = UIButton()
     var buttons: [UIButton] = []
     
     //MARK: - Initialization
@@ -50,11 +50,11 @@ class Menu: UIView {
         let alignments: [UIControl.ContentHorizontalAlignment] = [.center]
         let buttonText = [Constants.menuButton]
         for (i,button) in buttons.enumerated() {
-            button.tag = 1
             addSubview(button)
-            button.alpha = 0.7
-            button.backgroundColor = .clear
-            button.contentVerticalAlignment = .center
+            button.tag                        = i+1
+            button.alpha                      = 0.7
+            button.backgroundColor            = .clear
+            button.contentVerticalAlignment   = .center
             button.contentHorizontalAlignment = alignments[i]
             button.setTitle(buttonText[i], for: .normal)
             button.titleLabel?.font = UI.Font.Menu.button

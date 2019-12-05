@@ -22,10 +22,10 @@ extension ViewController {
         view.addSubview(primary)
         primaryViewConstraints()
         primary.setup()
-        primary.scroll.beer.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        primary.scroll.liquor.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        primary.scroll.wine.header.add.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
-        primary.menu.showDrinkLibrary.addTarget(self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.scroll.beer.header.add.addTarget(   self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.scroll.liquor.header.add.addTarget( self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.scroll.wine.header.add.addTarget(   self, action: #selector(navigateApp), for: .touchUpInside)
+        primary.menu.showDrinkLibrary.addTarget(    self, action: #selector(navigateApp), for: .touchUpInside)
         self.primary.scroll.beer.table.customDelegate = self
         self.primary.scroll.liquor.table.customDelegate = self
         self.primary.scroll.wine.table.customDelegate = self
@@ -41,8 +41,8 @@ extension ViewController {
         view.addSubview(undo)
         undoConstraints()
         undo.setup()
-        undo.confirm.addTarget(self, action: #selector(confirmUndo), for: .touchUpInside)
-        undo.cancel.addTarget(self, action: #selector(cancelUndo), for: .touchUpInside)
+        undo.confirm.addTarget( self, action: #selector(confirmUndo), for: .touchUpInside)
+        undo.cancel.addTarget(  self, action: #selector(cancelUndo), for: .touchUpInside)
 
         view.addSubview(tapDismiss)
         tapDismissConstraints()
@@ -64,7 +64,7 @@ extension ViewController {
             // set to app has launched
             UserDefaults.standard.set(true, forKey: Constants.Key.hasLaunchedBefore)
             // load csv file of 300+ drinks into core data
-            Data.txtFile()
+            Data.pullCSVfileIntoCoreData()
             Data.loadList(for: Data.masterListID)
         }
         else {
@@ -136,7 +136,7 @@ extension ViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         // If the user has not accepted agreement yet, proceed
         if !UserDefaults.standard.bool(forKey: Constants.Key.userHasAgreed) {
-            alert.setValue(updatedAlertText(), forKey: "attributedMessage")
+            alert.setValue(updatedAlertText(), forKey: Constants.Key.attributedMessage)
         }
     }
     
@@ -148,11 +148,11 @@ extension ViewController {
     //MARK: Legal Agreement
     func presentLegalAgreement() {
         // update alert title and style
-        alert = UIAlertController(title: Constants.userAgreementTitle, message: "", preferredStyle: .alert)
+        alert = UIAlertController(title: Constants.UserAgreement.title, message: "", preferredStyle: .alert)
         // update alert message, has to be done this way to change font color
-        alert.setValue(updatedAlertText(), forKey: "attributedMessage")
+        alert.setValue(updatedAlertText(), forKey: Constants.Key.attributedMessage)
         // add the agree action that will stop agreement from showing once pressed
-        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: userHasAgreed))
+        alert.addAction(UIAlertAction(title: Constants.UserAgreement.action, style: .default, handler: userHasAgreed))
         // present alert
         self.present(alert, animated: true)
     }
@@ -168,7 +168,7 @@ extension ViewController {
         paragraphStyle.alignment = .left
         let messageText = NSAttributedString(
             // set the string as the useragreement message
-            string: Constants.userAgreementMessage,
+            string: Constants.UserAgreement.message,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                 NSAttributedString.Key.foregroundColor : textColor,

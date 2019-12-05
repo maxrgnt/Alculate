@@ -12,16 +12,16 @@ class TextNavigator: UIView {
          
     //MARK: Definitions
     // Constraints
-    static var bottom: NSLayoutConstraint!
-    var forwardBottom: NSLayoutConstraint!
-    var backwardBottom: NSLayoutConstraint!
+    static var bottom:    NSLayoutConstraint!
+    var forwardBottom:    NSLayoutConstraint!
+    var backwardBottom:   NSLayoutConstraint!
     var suggestionBottom: NSLayoutConstraint!
-    var doneBottom: NSLayoutConstraint!
+    var doneBottom:       NSLayoutConstraint!
     // Objects
     let suggestion = UIButton()
-    let backward = UIButton()
-    let forward = UIButton()
-    let done = UIButton()
+    let backward   = UIButton()
+    let forward    = UIButton()
+    let done       = UIButton()
     
     //MARK: Initialization
     init() {
@@ -43,7 +43,7 @@ class TextNavigator: UIView {
     
     //MARK: Object Settings
     func objectSettings() {
-        let titles = ["back","next","done"]
+        let titles = Constants.TextEntry.navigators
 //        let alignments: [UIControl.ContentHorizontalAlignment] = [.center,.center,.center]
         for (i, button) in [backward,forward,done].enumerated() {
             button.tag = (i==0) ? -1 : 1
@@ -55,8 +55,8 @@ class TextNavigator: UIView {
             button.contentHorizontalAlignment = .center //alignments[i]
         }
         addSubview(suggestion)
-        suggestion.tag = 2
-        suggestion.backgroundColor = .clear
+        suggestion.tag              = 2
+        suggestion.backgroundColor  = .clear
         suggestion.titleLabel?.font = UI.Font.TextEntry.navigator
         suggestion.setTitleColor(UI.Color.Font.standard, for: .normal)
         suggestion.contentHorizontalAlignment = .left

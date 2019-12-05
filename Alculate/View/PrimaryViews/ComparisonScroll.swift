@@ -13,15 +13,15 @@ class ComparisonScroll: UIScrollView {
     
     //MARK: Definitions
     // Constraints
-    var height: NSLayoutConstraint!
+    var height:   NSLayoutConstraint!
     var emptyTop: NSLayoutConstraint!
     // Objects
-    let beer = ComparisonContainer()
-    let liquor = ComparisonContainer()
-    let wine = ComparisonContainer()
+    let beer       = ComparisonContainer()
+    let liquor     = ComparisonContainer()
+    let wine       = ComparisonContainer()
     var containers: [ComparisonContainer] = []
-    let total = ComparisonTotal()
-    let empty = UILabel()
+    let total      = ComparisonTotal()
+    let empty      = UILabel()
     
     //MARK: Initialization
     init() {
@@ -35,12 +35,12 @@ class ComparisonScroll: UIScrollView {
     
     //MARK: Setup
     func setup() {
-        containers = [beer,liquor,wine]
-        isScrollEnabled = true
-        alwaysBounceVertical = true
-        alwaysBounceHorizontal = false
+        containers                   = [beer,liquor,wine]
+        isScrollEnabled              = true
+        alwaysBounceVertical         = true
+        alwaysBounceHorizontal       = false
         showsVerticalScrollIndicator = false
-        contentSize.height = UI.Sizing.Comparison.Scroll.heightEmpty
+        contentSize.height           = UI.Sizing.Comparison.Scroll.heightEmpty
         addObjectsToView()
         constraints()
     }
@@ -50,17 +50,16 @@ class ComparisonScroll: UIScrollView {
         for (i, obj) in containers.enumerated() {
             addSubview(obj)
             obj.setup(forType: Data.IDs[i])
-//            obj.header.add.tag = 20 + i
         }
         addSubview(total)
         total.setup()
         
         addSubview(empty)
         empty.backgroundColor = .clear
-        empty.textColor = UI.Color.Comparison.border
-        empty.text = Constants.Scroll.empty
-        empty.font = UI.Font.Comparison.empty
-        empty.textAlignment = .center
+        empty.textColor       = UI.Color.Comparison.border
+        empty.text            = Constants.Scroll.empty
+        empty.font            = UI.Font.Comparison.empty
+        empty.textAlignment   = .center
         
     }
 
@@ -74,17 +73,6 @@ class ComparisonScroll: UIScrollView {
         }
         totalConstraints()
         emptyConstraints()
-    }
-    
-    //MARK: Settings
-    func printConstraintConstants(for view: UIView) {
-        for constraint in view.constraints {
-            print(constraint)
-        }
-
-        for subview in view.subviews {
-            printConstraintConstants(for: subview)
-        }
     }
     
     //MARK: Functions
